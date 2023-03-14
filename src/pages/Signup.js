@@ -1,9 +1,10 @@
 import React from 'react';
+import UserHeader from '../components/UserHeader';
 
 const Signup = () => {
   return (
     <div>
-      <h1>Signup</h1>
+      <UserHeader />
     </div>
   );
 };
