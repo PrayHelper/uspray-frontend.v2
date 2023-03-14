@@ -5,6 +5,7 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  height: 50px;
   margin-top: 20px;
 `
 
