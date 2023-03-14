@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Reset } from "styled-reset";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+import NotFound from "./pages/NotFound";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Main from "./pages/Main";
+
+const Container = styled.div`
+  max-width: 540px;
+  height: 100vh;
+  margin: 0 auto;
+`
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Reset />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" index element={<Login />}></Route>
+            <Route path="/main" element={<Main />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        </BrowserRouter>
+    </Container>
   );
-}
+};
 
 export default App;
