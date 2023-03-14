@@ -8,8 +8,8 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 
 const Container = styled.div`
-  max-width: 540px;
-  height: 100vh;
+  max-width: 430px;
+  height: 932px;
   margin: 0 auto;
 `
 
