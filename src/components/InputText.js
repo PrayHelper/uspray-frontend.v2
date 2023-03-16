@@ -22,10 +22,10 @@ const CustomInputText = styled(TextField)({
   },
 });
 
-const InputText = ({ label, type }) => {
+const InputText = ({ label, type, id }) => {
   return (
     <CustomInputText
-      id="outlined-basic"
+      id={ id ? id : "outlined-basic"}
       label={label}
       InputProps={{
         style: { borderRadius: '16px', color: "#7BAB6E", fontWeight: 'lighter' },
