@@ -1,0 +1,18 @@
+.Template{
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+input{
+    width: 85%;
+    height: 20px;
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+
+.btn_send{
+    height: 25px;
+    margin-right: auto;
+}
+
+

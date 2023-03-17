@@ -1,10 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Prayer_list from '../Main_component/Prayer_list';
+import Template_main from '../Main_component/Template_main';
+
+
 
 const Main = () => {
+  const [prayer_content, setPrayer_content] = useState([
+    {
+      dday:3,
+      text:"안녕할수있도록",
+      checked: true
+    },
+    {
+      dday:2,
+      text:"안녕할수있도록",
+      checked: true
+    },
+    {
+      dday:1,
+      text:"안녕할수있도록",
+      checked: true
+    },
+    {
+      dday:3,
+      text:"안녕할수있도록",
+      checked: true
+    },
+    
+  ])
+
+  const [prayer_more_content , setPrayer_more_content] = useState([
+    {
+      dday:3,
+      text:"화이팅할수있도록",
+      checked: true
+    },
+    {
+      dday:2,
+      text:"화이팅할수있도록",
+      checked: true
+    },
+    {
+      dday:1,
+      text:"화이팅할수있도록",
+      checked: true
+    },
+    {
+      dday:3,
+      text:"화이팅할수있도록",
+      checked: true
+    },
+  ])
   return (
-    <div>
-      <h1>Main</h1>
-    </div>
+    <Template_main>
+      <Prayer_list prayer_content_={prayer_content} prayer_more_content_ = {prayer_more_content} />
+    </Template_main>
   );
 };
 

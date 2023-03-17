@@ -1,0 +1,26 @@
+.content{
+    display: flex;
+    color: #5AA08D;
+    margin-left: 20px;
+    margin-top: 1vh;
+    border: 1px solid gainsboro;
+    border-radius: 10px;
+    width: 25vw;
+    height: 5vh;
+}
+
+.text{
+    margin-right: 10vw;
+    margin-top: 0.5vh;
+    padding: 0.5vw;
+    font-size: 10px;
+}
+
+.dday{
+    padding-top:0.5vh;
+    margin-right: 2vw;
+}
+
+.image{
+    padding-top: 1vh;   
+}

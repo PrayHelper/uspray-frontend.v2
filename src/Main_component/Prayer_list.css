@@ -1,0 +1,102 @@
+.background{
+    /* margin-left: auto;
+    margin-right: auto; */
+    background-color: #e5ffdd;
+    height: 90vh;
+}
+
+
+.Top_content{
+    display: flex;
+    padding-top: 3vh;
+    padding-bottom: 1vh;
+}
+
+.bottom_content{
+    display: flex;
+    padding-top: 3vh;
+    padding-bottom: 1vh;
+}
+
+.Today_prayer{
+    /* font-family: Georgia, "Times New Roman", serif; */
+    padding-top: 1vh;
+    margin-left: 20px;
+    font-size: 10px;
+    margin-right:15vw;
+}
+
+.Today_prayer_onemore{
+    /* font-family: Georgia, "Times New Roman", serif; */
+    padding-top: 1vh;
+    margin-left: 20px;
+    font-size: 10px;
+    margin-right:15vw;
+}
+
+.btn_set{
+    background-color: #A8C879;
+    display: flex; 
+    width: 10vw;
+    height: 5vh;
+}
+
+.btn_set_onemore{
+    background-color: #A8C879;
+    display: flex; 
+    width: 10vw;
+    height: 5vh;
+}
+
+.btn_day_today{
+    border: none;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    margin-left: 1vw;   
+    margin-right: 1vw;   
+    border-radius: 5px;
+    height: 1.5rem;
+    font-size: 0.5rem;
+}
+
+.btn_prayer_today{
+    border: none;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    border-radius: 5px;
+    height: 1.5rem;
+    font-size: 0.5rem;
+}
+
+.btn_day_onemore{
+    border: none;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    margin-left: 1vw;   
+    margin-right: 1vw;  
+    border-radius: 5px;
+    height: 1.5rem;
+    font-size: 0.5rem;
+}
+
+.btn_prayer_onemore{
+    border: none;
+    /* font-family: Georgia, "Times New Roman", serif; */
+    border-radius: 5px; 
+    height: 1.5rem;
+    font-size: 0.5rem;
+}
+
+.Prayer_content{
+    background-color: white;
+    height: 25vh;
+    width : 30vw;
+    margin-left: 2vw;
+    margin-right: 5vw;
+    margin-bottom: 10vw;
+}
+
+.One_More_Prayer_content{
+    background-color: #A8C879;
+    height: 25vh;
+    width : 30vw;
+    margin-left: 2vw;
+    margin-right: 5vw;
+}
