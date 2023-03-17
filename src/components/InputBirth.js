@@ -20,7 +20,6 @@ const InputBirthStyle = styled.input`
   max-width: 20px;
   color: #7BAB6E;
   font-size: 16px;
-  font-weight: lighter;
   margin-right: 5px;
 `
 
@@ -30,17 +29,17 @@ const InputBirth = () => {
       <InputContainerStyle>
         <span style={{zIndex: "1", backgroundColor: "white", fontSize: "12px", color: "#7BAB6E", position: "absolute", top: "0", transform: "translate(-5px, -5px)", padding: "0 5px" }}>생년월일</span>
         <div style={{display: "flex", width: "100%", justifyContent:"space-evenly", fontWeight: "lighter", alignItems: "center"}}>
-          <div>
+          <div style={{color: "#5C6E56"}}>
             <InputBirthStyle style={{maxWidth: "38px"}} type="number"/>
             년
           </div>
           <div style={{width: "16px", transform: "rotate(90deg)", borderBottom: "1px solid #7BAB6E"}}></div>
-          <div>
+          <div style={{color: "#5C6E56"}}>
             <InputBirthStyle type="number"/>
             월
           </div>
           <div style={{width: "16px", transform: "rotate(90deg)", borderBottom: "1px solid #7BAB6E"}}></div>
-          <div>
+          <div style={{color: "#5C6E56"}}>
             <InputBirthStyle type="number"/>
             일
           </div>

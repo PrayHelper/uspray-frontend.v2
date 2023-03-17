@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import InputText from "../components/InputText";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
+import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 
 const Signup = () => {
   const [gender, setGender] = useState("");
@@ -45,6 +46,7 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth />
+        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>비활성화 버튼</Button>
       </div>
     </div>
   );
