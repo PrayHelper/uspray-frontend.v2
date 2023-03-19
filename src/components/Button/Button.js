@@ -5,6 +5,8 @@ import { ReactComponent as NextArrow} from "../../images/next_arrow.svg";
 const NextArrowStyle = styled.div`
   display: ${props => (props.buttonSize == ButtonSize.LARGE) ? "block" : "none"};
   marign-right: 10px;
+  display: flex;
+  justify-content: center;
 `
 
 export const ButtonSize = {
