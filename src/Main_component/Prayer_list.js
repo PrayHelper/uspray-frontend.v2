@@ -1,18 +1,17 @@
 import React from "react";
 import Prayer_content from "./Prayer_content";
 import styled from 'styled-components';
-
+import Share from "./Share";
 const Background =  styled.div`
-    padding-top: 20px;
-    background: #D0E8CB;
     height : 773px;
     width  : 430px; 
+    background-color: #D0E8CB;
 `
 
 const Top_content = styled.div`
     display: flex;
     margin-left : 32px;
-    margin-top : 43px;
+    padding-top : 44px;
 `;
 
 const Today_prayer = styled.div`
@@ -89,6 +88,7 @@ function Prayer_list({prayer_content_, prayer_more_content_}){
                             <Prayer_content content = {content}/>
                         ))}
                 </Prayer_content_style>
+                <Share></Share>
             </Background>
         </div>
     )

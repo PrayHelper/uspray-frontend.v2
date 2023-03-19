@@ -3,6 +3,8 @@ import { MdAddCircle } from "react-icons/md";
 import {GiPlantSeed} from 'react-icons/gi'; 
 import styled from "styled-components";
 import { style } from "@mui/system";
+import Rectangle_img from "../images/Rectangle_img.svg"
+import Logo from "./Logo";
 
 
 const Main_Content = styled.div`
@@ -40,7 +42,8 @@ const Dday_content = styled.div`
     font-size : 10px;
     heigth : 20px;
     margin-right : 4px;
-`
+`;
+const Click_img = styled(Logo)``;
 
 function Prayer_content({content}){
     const {dday,text,checked, name} = content;
@@ -49,7 +52,7 @@ function Prayer_content({content}){
             <Name_content>{name}</Name_content>
             <Text_content>{text}</Text_content>
             <Dday_content>{"D-"+ dday}</Dday_content>
-            <div className="image"><GiPlantSeed/></div>
+            <div className="image"><Click_img src={Rectangle_img}/></div>
         </Main_Content>
     )
 }
