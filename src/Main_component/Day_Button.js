@@ -1,4 +1,3 @@
-import { ClassNames } from "@emotion/react";
 import React, {useRef, useState} from "react";
 import styled from "styled-components";
 
@@ -15,34 +14,34 @@ const Day_btn = styled.button`
     margin-right : 8px;
 `
 const Day_Button = ({day_info}) =>{
-    const color_handle = useRef(null);
     const [color_three ,setColor_three] = useState('white');
     const [color_seven ,setColor_seven] = useState('white');
     const [color_thirty ,setColor_thirty] = useState('white');
     const [color_hundred ,setColor_hundred] = useState('white');
     const color_change = (e) =>{
-        if(e.target.className == "sc-dKfzgJ hZzJci three"){ 
+        console.log(e.target.className);
+        if(e.target.className == "sc-ivnCJf krzKlK three"){ 
             setColor_three('#75BD62');
             setColor_seven('white');
             setColor_thirty('white');
             setColor_hundred('white');
             day_info(3);
         }   
-        else if(e.target.className == "sc-dKfzgJ hZzJci seven"){ 
+        else if(e.target.className == "sc-ivnCJf krzKlK seven"){ 
             setColor_three('white');
             setColor_seven('#75BD62');
             setColor_thirty('white');
             setColor_hundred('white');
             day_info(7);
         }   
-        else if(e.target.className == "sc-dKfzgJ hZzJci thirty"){ 
+        else if(e.target.className == "sc-ivnCJf krzKlK thirty"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('#75BD62');
             setColor_hundred('white');
             day_info(30);
         }   
-        else if(e.target.className == "sc-dKfzgJ hZzJci hundred"){ 
+        else if(e.target.className == "sc-ivnCJf krzKlK hundred"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('white');

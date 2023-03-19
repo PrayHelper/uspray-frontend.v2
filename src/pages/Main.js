@@ -3,8 +3,6 @@ import Prayer_list from '../Main_component/Prayer_list';
 import Share from '../Main_component/Share';
 import Template_main from '../Main_component/Template_main';
 
-let nextId = 4;
-
 const Main = () => {
   const [prayer_content, setPrayer_content] = useState([
     {

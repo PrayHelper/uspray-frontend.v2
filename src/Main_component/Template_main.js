@@ -1,10 +1,8 @@
 import React,{useRef, useState} from "react";
-import { MdAddCircle } from "react-icons/md";
 import styled from "styled-components";
 import { fontFamily, fontSize, style, width } from "@mui/system";
 import click_search from '../images/click_search.svg';
 import Logo from "./Logo";
-import shadows from "@mui/material/styles/shadows";
 import Day_Button from "./Day_Button";
 
 const BackGround = styled.div`
@@ -50,6 +48,8 @@ const Template_main = ({ children, onInsert}) =>{
         setValue(e.target.value);
     }
     const Submit = () =>{
+        setVisible(!visible);
+        setValue("");
         onInsert(day, value);
     }
     return(
