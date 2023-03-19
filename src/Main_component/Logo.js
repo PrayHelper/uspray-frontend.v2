@@ -6,4 +6,5 @@ const Logo = styled.img`
     height: 20px;
 `;
 
+
 export default Logo;
