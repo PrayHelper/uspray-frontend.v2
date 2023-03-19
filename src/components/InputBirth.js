@@ -28,7 +28,7 @@ const InputBirth = () => {
     <div style={{ position: "relative", display: "flex", flexDirection: "column", verticalAlign: "top: 0", height: "56px"}}>
       <InputContainerStyle>
         <span style={{zIndex: "1", backgroundColor: "white", fontSize: "12px", color: "#7BAB6E", position: "absolute", top: "0", transform: "translate(-5px, -5px)", padding: "0 5px" }}>생년월일</span>
-        <div style={{display: "flex", width: "100%", justifyContent:"space-evenly", fontWeight: "lighter", alignItems: "center"}}>
+        <div style={{display: "flex", width: "100%", justifyContent:"space-evenly", alignItems: "center"}}>
           <div style={{color: "#5C6E56"}}>
             <InputBirthStyle style={{maxWidth: "38px"}} type="number"/>
             년
