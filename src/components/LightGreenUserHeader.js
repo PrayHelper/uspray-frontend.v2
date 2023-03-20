@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const BackgroundStyle = styled.body`
+  background-color: #d0e8cb;
+  margin: 0;
+  padding: 0;
+`;
+
 const StyledHeader = styled.div`
     display: flex;
     align-items: center;
@@ -16,13 +22,15 @@ const Title = styled.div`
   font-weight: bold;
 `
 
-
 const LightGreenUserHeader = () => {
-  return (
-    <StyledHeader>
-      <Title>보관함</Title>
-    </StyledHeader>
-  );
-};
+    return (
+      <>
+        <BackgroundStyle />
+        <StyledHeader>
+          <Title>보관함</Title>
+        </StyledHeader>
+      </>
+    );
+  };
 
 export default LightGreenUserHeader;
