@@ -28,7 +28,7 @@ const InputText = ({ label, type, id }) => {
       id={ id ? id : "outlined-basic"}
       label={label}
       InputProps={{
-        style: { borderRadius: '16px', color: "#7BAB6E", fontWeight: 'lighter' },
+        style: { borderRadius: '16px', color: "#7BAB6E" },
       }}
       InputLabelProps={{
         style: { color: "#7BAB6E" },
