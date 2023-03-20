@@ -13,9 +13,10 @@ const BackGround = styled.div`
 const Background_input = styled.div`
     display : flex;
     width: 430px;
-    height: 120px;
+    height: 80px;
     margin-left : auto;
     margin-right : auto;
+    margin-bottom: 12px;
 `;
 const Btn_send = styled.button`
     marginTop:'65px';
@@ -34,7 +35,7 @@ const Template_main = ({ children, onInsert}) =>{
     const [value , setValue] = useState("");
     const [day , setDay] = useState(0);
     const Width_change = () =>{
-        input_handle.current.style.height = '159px';
+        input_handle.current.style.height = '100px';
         setVisible(!visible);
     }
     const day_info = (e) =>{
@@ -49,8 +50,10 @@ const Template_main = ({ children, onInsert}) =>{
     }
     const Submit = () =>{
         setVisible(!visible);
+        input_handle.current.style.height = '80px';
         setValue("");
         onInsert(day, value);
+        setDay(0);
     }
     return(
         <div>

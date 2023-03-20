@@ -16,7 +16,7 @@ function Share(){
     return(
         <div>
             <div className="share_img" style={{height:"48px", width:"48px", marginLeft:"350px",
-            marginTop:"35px", borderRadius:"50%", border:"solid", backgroundColor:"white"}}
+            marginTop:"35px", borderRadius:"50%", border:"none", backgroundColor:"white"}}
             onClick={() => onMove()}><Share_img src={share_img}/></div>
             {share_toggle && <Share_mode onMove={onMove}/>}
         </div>

@@ -13,7 +13,7 @@ const Main_Content = styled.div`
     height: 30px;
     margin-left : 16px;
     margin-right : 16px;
-    margin-top : 22px;
+    margin-top : 22px; 
 `
 
 const Name_content = styled.div`
@@ -38,21 +38,21 @@ const Text_content = styled.div`
 `;
 
 const Dday_content = styled.div`
-    width : 20px;
+    width : 30px;
     font-size : 10px;
     heigth : 20px;
-    margin-right : 4px;
+    margin-right : 20px;
 `;
 const Click_img = styled(Logo)``;
 
-function Prayer_content({content}){
-    const {dday,text,checked, name} = content;
+function Prayer_content({content, day_toggle}){
+    const {dday,text,checked, name, count} = content;
 
     return(
         <Main_Content>
             <Name_content>{name}</Name_content>
             <Text_content>{text}</Text_content>
-            <Dday_content>{"D-"+ dday}</Dday_content>
+            {day_toggle ? <Dday_content>{"D-"+ dday}</Dday_content> : <Dday_content>{count + "회"}</Dday_content>}
             <div className="image"><Click_img src={Rectangle_img}/></div>
         </Main_Content>
     )

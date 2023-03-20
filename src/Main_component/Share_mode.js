@@ -13,6 +13,7 @@ const Box_container = styled.div`
     justify-content : center;
     align-items : center;
     border : 1px solid #7BAB6E;
+    border-radius: 16px;
 `;
 
 const Share_click_logo = styled(MoveLogo)``;
@@ -31,8 +32,8 @@ const Share_mode = ({onMove}) =>{
         
     }
     return(
-        cancel_toggle && <div style={{display: "flex", width:"425px", height:"90px", border:"none", position: "absolute" 
-        ,left:'191px', bottom: "-292px", backgroundColor:"white", borderRadius:"24px 24px 0px 0px"}}>
+        cancel_toggle && <div style={{display: "flex", width:"430px", height:"90px", border:"none", position: "absolute" 
+        , bottom: "-292px", backgroundColor:"white", borderRadius:"24px 24px 0px 0px"}}>
             <Box_container onClick={() => onCancle()}>취소하기<Share_click_logo style={{marginLeft: '20px'}} src={share_move}/></Box_container>
             <Box_container onClick={() => onShare()}>공유하기<Share_click_logo style={{marginLeft: '20px'}}src={share_cancel}/></Box_container>
         </div>
