@@ -46,7 +46,7 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth />
-        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>활성화 버튼</Button>
+        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>회원가입</Button>
       </div>
     </div>
   );
