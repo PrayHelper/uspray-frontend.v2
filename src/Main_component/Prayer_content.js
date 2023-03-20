@@ -1,11 +1,7 @@
 import React, { useRef, useState } from "react";
-import { MdAddCircle } from "react-icons/md";
-import {GiPlantSeed} from 'react-icons/gi'; 
 import styled from "styled-components";
-import { style } from "@mui/system";
 import Rectangle_img from "../images/Rectangle_img.svg"
 import Logo from "./Logo";
-import Share_mode from "./Share_mode";
 
 const Main_Content = styled.div`
     display: flex;

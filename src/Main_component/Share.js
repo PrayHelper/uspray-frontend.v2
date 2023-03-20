@@ -11,7 +11,6 @@ const Share_img = styled(Share_Logo)``;
 function Share(){
     const [share_toggle, setshare_toggle] = useState(false);
     const onMove = () =>{
-        console.log("asdasd");
         setshare_toggle(!share_toggle);
     }
     return(
