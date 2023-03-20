@@ -1,12 +1,16 @@
-import ToggleButton from "../components/ToggleButton";
 import React, { useEffect, useState } from "react";
 import LockerUserHeader from "../Locker_components/LockerUserHeader";
-import CheckButton, { ButtonSize, ButtonTheme } from "../Locker_components/CheckButton/CheckButton";
+
+import PrayChecker from "../Locker_components/L_PrayChecker";
 
 
 const Locker = () => {
-  return (
-    <div style={{ backgroundColor: "#d0e8cb" }}>
+    return (
+    <div 
+    style={{ 
+        backgroundColor: "#d0e8cb",
+        width : "430px"
+        }}>
       <LockerUserHeader />
       <div
         style={{
@@ -16,7 +20,17 @@ const Locker = () => {
           padding: "20px 27px",
         }}
       >
-        <CheckButton buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>비활성화 버튼</CheckButton>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
+        <PrayChecker name='김동하' prayer='hello' dday='D-7'/>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import Day_Button from "./Day_Button";
 
 const BackGround = styled.div`
-    width: 100ww;
+    width: 100vw;
     height : 832px;
     background-color: 'white';
 `

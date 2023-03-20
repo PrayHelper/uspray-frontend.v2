@@ -5,15 +5,22 @@ const StyledHeader = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 50px;
+    height: 65px;
 
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
     `
 
 const Title = styled.div`
-  margin: 0 auto;
-  font-weight: bold;
+
+  margin-left: 16px;
+
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 29px;
+  text-align: center;
 `
 
 const LockerUserHeader = () => {
