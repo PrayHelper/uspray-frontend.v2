@@ -1,7 +1,7 @@
 import ToggleButton from "../components/ToggleButton";
 import React, { useEffect, useState } from "react";
-import LockerUserHeader from "../components/LockerUserHeader";
-import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
+import LockerUserHeader from "../Locker_components/LockerUserHeader";
+import CheckButton, { ButtonSize, ButtonTheme } from "../Locker_components/CheckButton/CheckButton";
 
 
 const Locker = () => {
@@ -16,7 +16,7 @@ const Locker = () => {
           padding: "20px 27px",
         }}
       >
-        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>비활성화 버튼</Button>
+        <CheckButton buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>비활성화 버튼</CheckButton>
       </div>
     </div>
   );

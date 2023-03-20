@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CheckButton, { ButtonSize, ButtonTheme } from './/CheckButton';
+import CheckButton, { ButtonSize, ButtonTheme } from './CheckButton';
 
 export const BaseButtonStyle = styled.button`
   width: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "55px" : "100%"};
