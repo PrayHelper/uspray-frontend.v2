@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
+import Locker from "./pages/Locker";
 
 const Container = styled.div`
   max-width: 430px;
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" index element={<Login />}></Route>
             <Route path="/main" element={<Main />}></Route>
             <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/Locker" element={<Locker />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>
