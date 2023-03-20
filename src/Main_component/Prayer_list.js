@@ -59,29 +59,33 @@ const Prayer_content_style = styled.div`
     overflow : auto;
 `
 
-function Prayer_list({prayer_content_, prayer_more_content_}){
+function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
     const [day_toggle_bottom_prayer , setDay_toggle_bottom_prayer] = useState(false);
-    const [color_first, setColor_first] = useState('#EBF6E8');
-    const [color_second, setColor_second] = useState('#FFFFFF');
+    const [color_first_top, setColor_first_top] = useState('#EBF6E8');
+    const [color_second_top, setColor_second_top] = useState('#FFFFFF');
+    const [color_first_bottom, setColor_first_bottom] = useState('#EBF6E8');
+    const [color_second_bottom, setColor_second_bottom] = useState('#FFFFFF');
+    const [bottom , setBottom] = useState(true);
+
 
 
     const day_fuc_top_day = (e) =>{
         if(!day_toggle_top_day){
             setDay_toggle_top_day(!day_toggle_top_day);
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
-            setColor_second('#EBF6E8');
-            setColor_first('#FFFFFF');
+            setColor_second_top('#FFFFFF');
+            setColor_first_top('#EBF6E8');
         }
     }
     const day_fuc_top_prayer = () =>{
         if(!day_toggle_top_prayer){
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setDay_toggle_top_day(!day_toggle_top_day);
-            setColor_first('#EBF6E8');
-            setColor_second('#FFFFFF');
+            setColor_first_top('#FFFFFF');
+            setColor_second_top('#EBF6E8');
         }
     }
 
@@ -89,40 +93,45 @@ function Prayer_list({prayer_content_, prayer_more_content_}){
         if(!day_toggle_bottom_day){
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
+            setColor_second_bottom('#FFFFFF');
+            setColor_first_bottom('#EBF6E8');
         }
     }
     const day_fuc_bottom_prayer = () =>{
         if(!day_toggle_bottom_prayer){
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
+            setColor_first_bottom('#FFFFFF');
+            setColor_second_bottom('#EBF6E8');
         }
     }
+
     return(
         <div>
             <Background>
                 <Top_content>
                     <Today_prayer>기도할게요</Today_prayer>
                     <Btn_set>
-                        <Btn_element_day onClick={day_fuc_top_day} style={{backgroundColor: color_first}}>날짜순</Btn_element_day>
-                        <Btn_element_prayer onClick={day_fuc_top_prayer} style={{backgroundColor : color_second}} >기도순</Btn_element_prayer>
+                        <Btn_element_day onClick={day_fuc_top_day} style={{backgroundColor: color_first_top}}>날짜순</Btn_element_day>
+                        <Btn_element_prayer onClick={day_fuc_top_prayer} style={{backgroundColor : color_second_top}} >기도순</Btn_element_prayer>
                     </Btn_set>
                 </Top_content>
                 <Prayer_content_style>
                     {prayer_content_.map(content =>(
-                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day}/>
+                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day} count_update = {count_update}/>
                     ))}
                 </Prayer_content_style>
 
                 <Top_content>
                     <Today_prayer>기도했어요</Today_prayer>
                     <Btn_set>
-                        <Btn_element_day onClick={day_fuc_bottom_day}>날짜순</Btn_element_day>
-                        <Btn_element_prayer onClick={day_fuc_bottom_prayer}>기도순</Btn_element_prayer>
+                        <Btn_element_day onClick={day_fuc_bottom_day} style={{backgroundColor: color_first_bottom}}>날짜순</Btn_element_day>
+                        <Btn_element_prayer onClick={day_fuc_bottom_prayer} style={{backgroundColor: color_second_bottom}}>기도순</Btn_element_prayer>
                     </Btn_set>
                 </Top_content>
                 <Prayer_content_style> 
                         {prayer_more_content_.map(content =>(
-                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day}/>
+                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day} bottom = {true}/>
                         ))}
                 </Prayer_content_style>
                 <Share></Share>

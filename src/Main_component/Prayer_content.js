@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { MdAddCircle } from "react-icons/md";
 import {GiPlantSeed} from 'react-icons/gi'; 
 import styled from "styled-components";
@@ -45,15 +45,15 @@ const Dday_content = styled.div`
 `;
 const Click_img = styled(Logo)``;
 
-function Prayer_content({content, day_toggle}){
-    const {dday,text,checked, name, count} = content;
-
+function Prayer_content({content, day_toggle , count_update, bottom}){
+    const {id, dday,text,checked, name, count} = content;
+    const image_ref = useRef(null);
     return(
         <Main_Content>
             <Name_content>{name}</Name_content>
             <Text_content>{text}</Text_content>
             {day_toggle ? <Dday_content>{"D-"+ dday}</Dday_content> : <Dday_content>{count + "회"}</Dday_content>}
-            <div className="image"><Click_img src={Rectangle_img}/></div>
+            {!bottom && <div className="image"><Click_img src={Rectangle_img} onClick={() => count_update(id)}/></div>}
         </Main_Content>
     )
 }
