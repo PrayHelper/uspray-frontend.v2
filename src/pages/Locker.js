@@ -1,13 +1,13 @@
 import ToggleButton from "../components/ToggleButton";
 import React, { useEffect, useState } from "react";
-import LightGreenUserHeader from "../components/LightGreenUserHeader";
+import LockerUserHeader from "../components/LockerUserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 
 
 const Locker = () => {
   return (
     <div style={{ backgroundColor: "#d0e8cb" }}>
-      <LightGreenUserHeader />
+      <LockerUserHeader />
       <div
         style={{
           display: "flex",
