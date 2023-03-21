@@ -4,9 +4,19 @@ import InputText from "../components/InputText";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
+import Input from "../components/Input/Input";
 
 const Signup = () => {
+  const [userInfo, setUserInfo] = useState({
+    'id': '',
+    'pwd': '',
+    'name': ''
+  });
   const [gender, setGender] = useState("");
+
+  const idChangeHandler = (e) => {
+    setUserInfo({...userInfo, id: e.target.value});
+  }
 
   return (
     <div>
@@ -47,6 +57,8 @@ const Signup = () => {
         </div>
         <InputBirth />
         <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY}>회원가입</Button>
+        <Input label="아이디" onChangeHandler={idChangeHandler} value={userInfo.id} isError={false}
+        description="사용 가능한 아이디입니다." />
       </div>
     </div>
   );
