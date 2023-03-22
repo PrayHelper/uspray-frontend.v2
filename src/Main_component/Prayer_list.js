@@ -3,6 +3,7 @@ import Prayer_content from "./Prayer_content";
 import styled from 'styled-components';
 import Bottom_menu from "./Bottom_menu";
 import Share from "./Share";
+import Modify_bar from "./Modify_bar";
 const Background =  styled.div`
     margin-top : 24px;
     height : 773px;
@@ -60,8 +61,9 @@ const Prayer_content_style = styled.div`
     overflow : auto;
 `
 
-function Prayer_list({prayer_content_, prayer_more_content_, count_update, Complete_btn_click, 
-    Modify_btn_click, Delete_btn_click, isChecked, click_id, Content_click}){
+function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Complete_btn_click, 
+    Modify_btn_click, Delete_btn_click, isChecked, click_id, Content_click, isModify,
+    value_Change}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
@@ -119,7 +121,7 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update, Compl
                 </Top_content>
                 <Prayer_content_style>
                     {prayer_content_.map(content =>(
-                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day} count_update = {count_update} Content_click = {Content_click} />
+                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day} Count_update = {Count_update} Content_click = {Content_click} />
                     ))}
                 </Prayer_content_style>
 
@@ -132,12 +134,13 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update, Compl
                 </Top_content>
                 <Prayer_content_style> 
                         {prayer_more_content_.map(content =>(
-                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day} count_update = {count_update} bottom = {true}/>
+                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day} Count_update = {Count_update} bottom = {true}/>
                         ))}
                 </Prayer_content_style>
-                <Share></Share>
+                {!isModify && <Share></Share>}
                 {isChecked && <Bottom_menu Complete_btn_click = {Complete_btn_click} Modify_btn_click = {Modify_btn_click} 
                 Delete_btn_click = {Delete_btn_click} click_id = {click_id}></Bottom_menu>}
+                {isModify  &&  <Modify_bar id ={click_id} value_Change = {value_Change}></Modify_bar>}
             </Background>
         </div>
     )

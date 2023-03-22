@@ -20,28 +20,28 @@ const Day_Button = ({day_info}) =>{
     const [color_hundred ,setColor_hundred] = useState('white');
     const color_change = (e) =>{
         console.log(e.target.className);
-        if(e.target.className == "sc-iKGpAt hOpVuE three"){ 
+        if(e.target.className == "sc-gjTGSA jaOyYQ three"){ 
         setColor_three('#75BD62');
             setColor_seven('white');
             setColor_thirty('white');
             setColor_hundred('white');
             day_info(3);
         }   
-        else if(e.target.className == "sc-iKGpAt hOpVuE seven"){ 
+        else if(e.target.className == "sc-gjTGSA jaOyYQ seven"){ 
             setColor_three('white');
             setColor_seven('#75BD62');
             setColor_thirty('white');
             setColor_hundred('white');
             day_info(7);
         }   
-        else if(e.target.className == "sc-iKGpAt hOpVuE thirty"){ 
+        else if(e.target.className == "sc-gjTGSA jaOyYQ thirty"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('#75BD62');
             setColor_hundred('white');
             day_info(30);
         }   
-        else if(e.target.className == "sc-iKGpAt hOpVuE hundred"){ 
+        else if(e.target.className == "sc-gjTGSA jaOyYQ hundred"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('white');
