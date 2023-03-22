@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Prayer_content from "./Prayer_content";
 import styled from 'styled-components';
+import Bottom_menu from "./Bottom_menu";
 import Share from "./Share";
 const Background =  styled.div`
     margin-top : 24px;
@@ -59,7 +60,8 @@ const Prayer_content_style = styled.div`
     overflow : auto;
 `
 
-function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
+function Prayer_list({prayer_content_, prayer_more_content_, count_update, Complete_btn_click, 
+    Modify_btn_click, Delete_btn_click, isChecked, click_id, Content_click}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
@@ -68,8 +70,6 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
     const [color_second_top, setColor_second_top] = useState('#FFFFFF');
     const [color_first_bottom, setColor_first_bottom] = useState('#EBF6E8');
     const [color_second_bottom, setColor_second_bottom] = useState('#FFFFFF');
-    const [bottom , setBottom] = useState(true);
-
 
 
     const day_fuc_top_day = (e) =>{
@@ -106,6 +106,7 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
         }
     }
 
+
     return(
         <div>
             <Background>
@@ -118,7 +119,7 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
                 </Top_content>
                 <Prayer_content_style>
                     {prayer_content_.map(content =>(
-                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day} count_update = {count_update}/>
+                        <Prayer_content content = {content} day_toggle ={day_toggle_top_day} count_update = {count_update} Content_click = {Content_click} />
                     ))}
                 </Prayer_content_style>
 
@@ -131,10 +132,12 @@ function Prayer_list({prayer_content_, prayer_more_content_, count_update}){
                 </Top_content>
                 <Prayer_content_style> 
                         {prayer_more_content_.map(content =>(
-                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day} bottom = {true}/>
+                            <Prayer_content content = {content} day_toggle ={day_toggle_bottom_day} count_update = {count_update} bottom = {true}/>
                         ))}
                 </Prayer_content_style>
                 <Share></Share>
+                {isChecked && <Bottom_menu Complete_btn_click = {Complete_btn_click} Modify_btn_click = {Modify_btn_click} 
+                Delete_btn_click = {Delete_btn_click} click_id = {click_id}></Bottom_menu>}
             </Background>
         </div>
     )
