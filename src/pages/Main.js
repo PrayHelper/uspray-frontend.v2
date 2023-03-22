@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Prayer_content from '../Main_component/Prayer_content';
 import Prayer_list from '../Main_component/Prayer_list';
 import Template_main from '../Main_component/Template_main';
 
@@ -103,16 +104,20 @@ const Content_click  = (e) =>{
   }
 
   const Complete_btn_click = (id) =>{
+    const find_id = Object.keys(prayer_content).find(key => prayer_content[key].id === id);
     setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
-    setIsChecked(!isChecked);
-}
+    const prayer = prayer_content[find_id];
+    setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
+
+  }
 
 const Modify_btn_click = (id) =>{
     console.log(id);
 }
 
 const Delete_btn_click = (id) =>{
-    console.log(id);
+  setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
+  setIsChecked(!isChecked);
 } 
 
   return (
