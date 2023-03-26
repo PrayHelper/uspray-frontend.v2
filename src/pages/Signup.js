@@ -19,13 +19,38 @@ const Signup = () => {
     'certificateNumber': '',
   });
   const [gender, setGender] = useState("");
+  const [invalidIdInfo, setInvalidIdInfo] = useState("");
+  const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
+
+  const idRegEx = /^[a-z0-9]{6,15}$/;
+  const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
+
+  const idCheck = (userInfo) => {
+    return idRegEx.test(userInfo);
+  }
+
+  const pwdCheck = (userInfo) => {
+    return pwdRegEx.test(userInfo);
+  }
 
   const idChangeHandler = (e) => {
     setUserInfo({...userInfo, id: e.target.value});
+    if (!idCheck(e.target.value)) {
+      setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
+      return;
+    }
+    setInvalidIdInfo("");
   }
 
   const pwdChangeHandler = (e) => {
     setUserInfo({...userInfo, pwd: e.target.value});
+    console.log(e.target.value);
+    console.log(pwdCheck(e.target.value));
+    if (!pwdCheck(e.target.value)) {
+      setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
+      return;
+    }
+    setInvalidPwdInfo("");
   }
 
   const matchingPwdChangeHandler = (e) => {
@@ -68,10 +93,10 @@ const Signup = () => {
           padding: "20px 27px",
         }}
       >
-        <Input label="아이디" onChangeHandler={idChangeHandler} value={userInfo.id} isError={false}
-        description=""/>
-        <Input label="비밀번호" type="password" onChangeHandler={pwdChangeHandler} value={userInfo.pwd} isError={false}
-        description=""/>
+        <Input label="아이디" onChangeHandler={idChangeHandler} value={userInfo.id} isError={!!invalidIdInfo}
+        description={invalidIdInfo}/>
+        <Input label="비밀번호" type="password" onChangeHandler={pwdChangeHandler} value={userInfo.pwd} isError={!!invalidPwdInfo}
+        description={invalidPwdInfo}/>
         <Input label="비밀번호 확인" type="password" onChangeHandler={matchingPwdChangeHandler} value={userInfo.matchingPwd} isError={false}
         description=""/>
         <Input label="이름" onChangeHandler={nameChangeHandler} value={userInfo.name} isError={false}
