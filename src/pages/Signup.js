@@ -21,6 +21,7 @@ const Signup = () => {
   const [gender, setGender] = useState("");
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
+  const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
@@ -44,17 +45,27 @@ const Signup = () => {
 
   const pwdChangeHandler = (e) => {
     setUserInfo({...userInfo, pwd: e.target.value});
-    console.log(e.target.value);
-    console.log(pwdCheck(e.target.value));
     if (!pwdCheck(e.target.value)) {
       setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
       return;
+    }
+    if (userInfo.matchingPwd || invalidMatchingPwdInfo) {
+      if (e.target.value !== userInfo.matchingPwd) {
+        setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
+      } else {
+        setInvalidMatchingPwdInfo("");
+      }
     }
     setInvalidPwdInfo("");
   }
 
   const matchingPwdChangeHandler = (e) => {
     setUserInfo({...userInfo, matchingPwd: e.target.value});
+    if (userInfo.pwd !== e.target.value) {
+      setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
+      return;
+    }
+    setInvalidMatchingPwdInfo("");
   }
 
   const nameChangeHandler = (e) => {
@@ -97,8 +108,8 @@ const Signup = () => {
         description={invalidIdInfo}/>
         <Input label="비밀번호" type="password" onChangeHandler={pwdChangeHandler} value={userInfo.pwd} isError={!!invalidPwdInfo}
         description={invalidPwdInfo}/>
-        <Input label="비밀번호 확인" type="password" onChangeHandler={matchingPwdChangeHandler} value={userInfo.matchingPwd} isError={false}
-        description=""/>
+        <Input label="비밀번호 확인" type="password" onChangeHandler={matchingPwdChangeHandler} value={userInfo.matchingPwd} isError={!!invalidMatchingPwdInfo}
+        description={invalidMatchingPwdInfo}/>
         <Input label="이름" onChangeHandler={nameChangeHandler} value={userInfo.name} isError={false}
         description=""/>
         <div style={{ position: "relative" }}>
