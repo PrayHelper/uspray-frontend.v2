@@ -5,6 +5,48 @@ import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
+import styled from 'styled-components';
+
+let init = 0;
+
+const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+`;
+
+const ModalContent = styled.div`
+  max-width: 342px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 16px;
+  gap: 8px;
+  border-radius: 16px;
+  color: #7BAB6E;
+`;
+
+const ModalButton = styled.button`
+  width: 100%;
+  height: 66px;
+  background-color: #7BAB6E;
+  border-style: none;
+  border-radius: 16px;
+  padding: 20px 0;
+  color: #FFFFFF;
+  font-size: 18px;
+`;
+
 
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
@@ -22,9 +64,21 @@ const Signup = () => {
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  
 
+  
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
+  
+  const handleModalButtonClick = () => {
+    console.log("clicked");
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
@@ -71,6 +125,13 @@ const Signup = () => {
   const nameChangeHandler = (e) => {
     setUserInfo({...userInfo, name: e.target.value});
   }
+
+  const nameFocusHandler = () => {
+    if (init == 0){
+      setShowModal(true);
+      init = 1;
+    }
+  }
   
   const yearChangeHandler = (e) => {
     setUserInfo({...userInfo, year: e.target.value});
@@ -96,6 +157,23 @@ const Signup = () => {
   return (
     <div>
       <UserHeader />
+      {showModal && (
+          <ModalWrapper onClick={handleCloseModal}>
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <img src='images/notice_icon.svg' alt='notice_icon' />
+              <div style={{
+                fontSize: "20px",
+                color: "#7BAB6E",
+                fontWeight: "700",
+                paddingBottom: "2px",
+              }}>이름은 실명으로 설정해주세요!</div>
+              <div style={{
+                marginBottom: "28px",
+              }}>기도제목 공유 시 이름으로 전달됩니다.</div>
+              <ModalButton onClick={handleCloseModal}>네, 그렇게 할게요.</ModalButton>
+            </ModalContent>
+          </ModalWrapper>
+        )}
       <div
         style={{
           display: "flex",
@@ -111,7 +189,7 @@ const Signup = () => {
         <Input label="비밀번호 확인" type="password" onChangeHandler={matchingPwdChangeHandler} value={userInfo.matchingPwd} isError={!!invalidMatchingPwdInfo}
         description={invalidMatchingPwdInfo}/>
         <Input label="이름" onChangeHandler={nameChangeHandler} value={userInfo.name} isError={false}
-        description=""/>
+        description="" onFocusHandler={nameFocusHandler}/>
         <div style={{ position: "relative" }}>
           <div
             style={{
@@ -140,6 +218,7 @@ const Signup = () => {
         <Input label="인증번호" onChangeHandler={certificateNumberChangeHandler} value={userInfo.certificateNumber} isError={false}
         description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={userInfo.certificateNumber == "" ? ButtonTheme.GRAY : ButtonTheme.GREEN} disabled={false} handler={() => {console.log('인증번호 클릭')}}>확인</Button>} />
         <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY} handler={() => {console.log(userInfo)}}>회원가입</Button>
+        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN} handler={handleModalButtonClick} >모달 창 열기</Button>
       </div>
     </div>
   );
