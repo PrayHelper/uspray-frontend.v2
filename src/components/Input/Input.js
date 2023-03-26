@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DescriptionStyle, InputStyle, LabelStyle, WrapperStyle } from "./style"
 
-const Input = ({type, label, description, isError, onChangeHandler, onFocusHandler, value}) =>{
+const Input = ({type, label, placeholder, description, isError, onChangeHandler, onFocusHandler, value}) =>{
     if (!type) type="text";
     if (!label) label="";
     if (!onFocusHandler) onFocusHandler= () => {console.log("focused")};
@@ -10,7 +10,7 @@ const Input = ({type, label, description, isError, onChangeHandler, onFocusHandl
     return(
         <WrapperStyle isFocused={isFocused} isError={isError}>
             <LabelStyle isFocused={isFocused || value} isError={isError}>{label}</LabelStyle>
-            <InputStyle type={type} value={value} isError={isError} 
+            <InputStyle type={type} value={value} placeholder={isFocused ? placeholder : ""} isError={isError} 
             onChange={onChangeHandler} onFocus={()=>{setIsFocused(true); onFocusHandler();}} onBlur={()=>{setIsFocused(false)}}/>
             {
                 description &&

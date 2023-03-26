@@ -66,15 +66,10 @@ const Signup = () => {
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
   
-
   
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
-  
-  const handleModalButtonClick = () => {
-    console.log("clicked");
-    setShowModal(true);
-  };
+  const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -86,6 +81,12 @@ const Signup = () => {
 
   const pwdCheck = (userInfo) => {
     return pwdRegEx.test(userInfo);
+  }
+
+  const phoneNumberCheck = (userInfo) => {
+    console.log(userInfo);
+    console.log(phoneNumberRegEx.test(userInfo));
+    return phoneNumberRegEx.test(userInfo);
   }
 
   const idChangeHandler = (e) => {
@@ -213,12 +214,11 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth yearChangeHandler={yearChangeHandler} monthChangeHandler={monthChangeHandler} dayChangeHandler={dayChangeHandler}/>
-        <Input label="전화번호" onChangeHandler={phoneNumberChangeHandler} value={userInfo.phoneNumber} isError={false}
-        description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={userInfo.phoneNumber == "" ? ButtonTheme.GRAY : ButtonTheme.GREEN} disabled={false} handler={() => {console.log('전화번호 클릭')}}>전송</Button>} />
+        <Input label="전화번호" placeholder="010-1234-1234형식으로 입력해주세요." onChangeHandler={phoneNumberChangeHandler} value={userInfo.phoneNumber} isError={false}
+        description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={phoneNumberCheck(userInfo.phoneNumber) ? ButtonTheme.GREEN : ButtonTheme.GRAY} disabled={false} handler={() => {console.log('전화번호 클릭')}}>전송</Button>} />
         <Input label="인증번호" onChangeHandler={certificateNumberChangeHandler} value={userInfo.certificateNumber} isError={false}
         description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={userInfo.certificateNumber == "" ? ButtonTheme.GRAY : ButtonTheme.GREEN} disabled={false} handler={() => {console.log('인증번호 클릭')}}>확인</Button>} />
         <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY} handler={() => {console.log(userInfo)}}>회원가입</Button>
-        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN} handler={handleModalButtonClick} >모달 창 열기</Button>
       </div>
     </div>
   );
