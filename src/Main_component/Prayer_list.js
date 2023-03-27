@@ -33,7 +33,8 @@ const Btn_set = styled.div`
     height: 26px;
     margin-bottom: 8px;
     margin-top : 40px;
-    background-color:#7BAB6E;
+    background-color:#7BAB6E; 
+    border : none;
 `;
 
 const Btn_element_day = styled.button`
@@ -60,12 +61,13 @@ const Prayer_content_style = styled.div`
     margin-left : 24px;
     border-radius: 16px;
     border: 1px solid #7BAB6F;
-    margin-top: 22px;
     margin-right: 16px;
     margin-left: 16px;
+    overflow: scroll;
 `
 
-function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Complete_btn_click, 
+
+function Prayer_list({prayer_content, prayer_more_content, Count_update, Complete_btn_click, 
     Modify_btn_click, Delete_btn_click, isChecked, click_id, Content_click, isModify,
     value_Change,change_Check}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
@@ -116,11 +118,11 @@ function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Compl
 
     const onShare = () =>{
         if(Share_list.length === 0){
-            for(let i=0;i<prayer_content_.length;i++){
-                prayer_content_[i].checked = false;
+            for(let i=0;i<prayer_content.length;i++){
+                prayer_content[i].checked = false;
             }
-            for(let i=0;i<prayer_more_content_.length;i++){
-                prayer_more_content_[i].checked = false;
+            for(let i=0;i<prayer_more_content.length;i++){
+                prayer_more_content[i].checked = false;
             }
             console.log("여기 입장");
         }
@@ -134,8 +136,8 @@ function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Compl
         else{
             console.log(Share_list);
         }
-        console.log(prayer_content_);
-        console.log(prayer_more_content_);
+        console.log(prayer_content);
+        console.log(prayer_more_content);
     }
 
     const onCheck = () =>{
@@ -149,23 +151,25 @@ function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Compl
         if(check_box){
             setShare_list([...Share_list,id]);
             if(id < 1000){
-                prayer_content_[Number(id)-1].checked = check_box;
+                prayer_content[Number(id)-1].checked = check_box;
             }
             else{
-                prayer_more_content_[Number(id)-1001].checked = check_box;
+                prayer_more_content[Number(id)-1001].checked = check_box;
             }
         }
         else{
             setShare_list(Share_list.filter(list => (list !== id)));
             if(id < 1000){
-                prayer_content_[Number(id)-1].checked = check_box;
+                prayer_content[Number(id)-1].checked = check_box;
             }
             else{
-                prayer_more_content_[Number(id)-1001].checked = check_box;
+                prayer_more_content[Number(id)-1001].checked = check_box;
             }
         }
         check_box = !check_box;
     }
+
+    // console.log(prayer_more_content);
 
     return(
         <div>
@@ -178,9 +182,9 @@ function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Compl
                     </Btn_set>
                 </Top_content>
                 <Prayer_content_style>
-                    {prayer_content_.map((content,index) =>(
+                    {prayer_content.map((content,index) =>(
                         <Prayer_content key={index} content = {content} day_toggle ={day_toggle_top_day} Count_update = {Count_update} Content_click = {Content_click} 
-                        isShare={isShare} shareList={shareList}/>
+                        isShare={isShare} shareList={shareList} bottom={false}/>
                     ))}
                 </Prayer_content_style>
 
@@ -191,10 +195,10 @@ function Prayer_list({prayer_content_, prayer_more_content_, Count_update, Compl
                         <Btn_element_prayer onClick={day_fuc_bottom_prayer} style={{backgroundColor: color_second_bottom}}>기도순</Btn_element_prayer>
                     </Btn_set>
                 </Top_content>
-                <Prayer_content_style style={{marginTop:'0px'}}> 
-                        {prayer_more_content_.map((content,index) =>(
+                <Prayer_content_style style={{marginTop:'0px', background:'#7BAB6E'}}> 
+                        {prayer_more_content.map((content,index) =>(
                             <Prayer_content key={index} content = {content} day_toggle ={day_toggle_bottom_day} Count_update = {Count_update}
-                            isShare = {isShare} shareList={shareList} bottom = {true}/>
+                            isShare = {isShare} shareList={shareList} bottom = {true} prayer_more_content={prayer_more_content}/>
                         ))}
                 </Prayer_content_style>
                 {!isModify && <Share onShare={onShare} onMove={onMove} share_toggle={share_toggle} onCheck={onCheck} isShare={isShare}></Share>}

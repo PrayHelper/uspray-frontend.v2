@@ -20,18 +20,22 @@ const Background_input = styled.div`
     margin-right : auto;
 `;
 const Btn_send = styled.button`
-    marginTop:'65px';
-    width:"31px";
-    font-size:"1px";
+    marginTop: 65px;
+    width: 31px;
+    height : 31px;
+    font-size: 1px;
+    border: 1px solid #EBF7E8;
 `;
 
-const Send_img = styled(Logo)``;
+const Send_img = styled(Logo)`
+    width: 16.21px;
+    height: 16.94px;
+`;
 
 
 const Template_main = ({ children, onInsert}) =>{
     const text = "김정묵"
     const input_handle = useRef(null);
-    // const Back_handle = useRef(null);
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(0);
@@ -67,7 +71,7 @@ const Template_main = ({ children, onInsert}) =>{
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(day == 0) ? ()=> Width_change() : onSubmit}></input>
                 <div style={{width:'31px', height:'31px', marginTop:'72.03px'}}>
-                    <Btn_send style={{backgroundColor:'white', border:'none'}} onClick={() => Submit()}><Send_img src={click_search}/></Btn_send>
+                    <Btn_send style={{backgroundColor:'white'}} onClick={() => Submit()}><Send_img src={click_search}/></Btn_send>
                 </div>
             </Background_input>
             {visible && <Day_Button day_info = {day_info}/>}

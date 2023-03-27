@@ -92,17 +92,15 @@ const Main = () => {
   }
   
   const Count_update = (id) =>{
-      setPrayer_content(prayer_content => prayer_content.map(Prayer_content => (Prayer_content.id === id ? {...Prayer_content, count: Prayer_content.count + 1} : Prayer_content)));
-      // prayer_content.sort(function(a,b){
-      //   if(a.count < b.count) return 1;
-      //   if(a.count >= b.count) return -1;
-      // });
+      console.log(id);
+      // setPrayer_content(prayer_content => prayer_content.map(Prayer_content => (Prayer_content.id === id ? {...Prayer_content, count: Prayer_content.count + 1} : Prayer_content)));
       const find_id = Object.keys(prayer_content).find(key => prayer_content[key].id === id);
       setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
       prayer_content.map(prayer =>  prayer.id > id ? prayer.id -= 1 : prayer.id);
       console.log(prayer_content);
+      prayer_content[find_id].count += 1;
       const prayer = prayer_content[find_id];
-      prayer.id = bottomId;
+      prayer.id = bottomId; 
       console.log(prayer);
       bottomId += 1;
       setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
@@ -127,13 +125,15 @@ const Content_click  = (e) =>{
   const Complete_btn_click = (id) =>{
     const find_id = Object.keys(prayer_content).find(key => prayer_content[key].id === id);
     setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
-    prayer_content.map(prayer =>  prayer.id > id ? prayer.id -= 1 : prayer.id);
-    console.log(prayer_content);
-    const prayer = prayer_content[find_id];
-    prayer.id = bottomId;
-    bottomId += 1;
-    setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
-    setIsChecked(!isChecked);
+    // prayer_content.map(prayer =>  prayer.id > id ? prayer.id -= 1 : prayer.id);
+    // console.log(prayer_content);
+    // const prayer = prayer_content[find_id];
+    // prayer.id = bottomId;
+    // bottomId += 1;
+    // setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
+    // setIsChecked(!isChecked);
+    prayer_content[find_id].dday = -1;
+    change_Check();
   }
 
 const Modify_btn_click = (id) =>{
@@ -156,7 +156,6 @@ const value_Change = (id, value) =>{
 
 
 useEffect(()=>{
-  console.log(prayer_more_content);
   prayer_more_content.sort(function(a,b){
     if(a.count < b.count) return 1;
     if(a.count >= b.count) return -1;
@@ -167,7 +166,7 @@ useEffect(()=>{
 
   return (
     <Template_main onInsert = {onInsert} change_Check={change_Check}>
-      <Prayer_list prayer_content_={prayer_content} prayer_more_content_ = {prayer_more_content}  Count_update = {Count_update} 
+      <Prayer_list prayer_content={prayer_content} prayer_more_content = {prayer_more_content}  Count_update = {Count_update} 
       Complete_btn_click = {Complete_btn_click} Modify_btn_click = {Modify_btn_click} Delete_btn_click = {Delete_btn_click}
       Content_click = {Content_click} click_id = {click_id} isChecked = {isChecked} isModify = {isModify}
       value_Change = {value_Change} change_Check = {change_Check}/>
