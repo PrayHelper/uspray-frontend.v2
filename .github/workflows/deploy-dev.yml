@@ -17,11 +17,12 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.PORT }}
           source: |
             package.json
             package-lock.json
-            src
-            public
+            src/
+            public/
           target: "/home/prayhelper/prayhelper-frontend"
 
       - name: Run
