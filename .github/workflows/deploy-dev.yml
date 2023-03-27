@@ -2,7 +2,7 @@ name: Deploy Frontend on Dev Server
 on:
   push:
     branches:
-      - main
+      - feature/cd
 
 jobs:
   deploy:
@@ -30,7 +30,11 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          source: "build/"
+          source: |
+            package.json
+            package-lock.json
+            src
+            public
           target: "/home/prayhelper/prayhelper-frontend"
 
       - name: Run
