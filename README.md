@@ -1,4 +1,4 @@
-<br /><br />
+<br />
 ## ❗️ 변수명 작성 방법
 컴포넌트의 경우 파스칼 표기법을 따른다.
 > ex) ToggleButton, PascalCaseNamingConvention
