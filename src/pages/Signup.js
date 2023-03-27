@@ -6,6 +6,7 @@ import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from 'styled-components';
+import axios from 'axios';
 
 let init = 0;
 
@@ -61,6 +62,7 @@ const Signup = () => {
     'certificateNumber': '',
   });
   const [gender, setGender] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
@@ -75,6 +77,11 @@ const Signup = () => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const makeBirthDateString = () => {
+    //TODO: signup 버튼 눌렀을 때 연결해서 보내는걸로 수정하기
+    setBirthDate(userInfo.year + "-" +userInfo.month + "-" + userInfo.day);
+  }
 
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
@@ -94,10 +101,30 @@ const Signup = () => {
     return certificateNumberRegEx.test(userInfo);
   }
 
-  const idChangeHandler = (e) => {
+  const isIdDuplicated= async (uid) => {
+    // cors설정 이후에는 이걸로
+    // const api = `${process.env.REACT_APP_API_ORIGIN}/api/user/dup_check/${uid}`;
+    // proxy 설정일 경우
+    const api = `api/user/dup_check/${uid}`;
+    try {
+      const res = await axios.get(api);
+      if (res.status == 200) {
+        console.log("dup: ", res.data.dup);
+        return res.data.dup;
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  const idChangeHandler = async (e) => {
     setUserInfo({...userInfo, id: e.target.value});
     if (!idCheck(e.target.value)) {
       setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
+      return;
+    }
+    if (await isIdDuplicated(e.target.value)) {
+      setInvalidIdInfo("아이디가 중복되었습니다.");
       return;
     }
     setInvalidIdInfo("");
