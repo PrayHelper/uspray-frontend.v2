@@ -19,10 +19,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           source: |
-            package.json
-            package-lock.json
-            src/
-            public/
+            ./package.json
+            ./package-lock.json
+            ./src/
+            ./public/
           target: "/home/prayhelper/prayhelper-frontend"
           args: -r
 
