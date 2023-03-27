@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 
-const Day_btn_set = styled.div`
+const DayBtnSet = styled.div`
     display: flex;
     height: 42px;
     background-color: white;
@@ -9,7 +9,7 @@ const Day_btn_set = styled.div`
     position: absolute;
     width: 100vw;
 `
-const Day_btn = styled.button`
+const DayBtn = styled.button`
     width : 48px;
     height : 25px;
     font-size: 10px;
@@ -17,7 +17,7 @@ const Day_btn = styled.button`
     border: 1px solid #75BD62;
     border-radius: 8px;
 `
-const Day_Button = ({day_info}) =>{
+const Day_Button = ({DayInfo}) =>{
     const [color_three ,setColor_three] = useState('white');
     const [color_seven ,setColor_seven] = useState('white');
     const [color_thirty ,setColor_thirty] = useState('white');
@@ -26,7 +26,7 @@ const Day_Button = ({day_info}) =>{
     const [font_seven ,setFont_seven] = useState('#75BD62');
     const [font_thirty ,setFont_thirty] = useState('#75BD62');
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
-    const color_change = (e) =>{
+    const ColorChange = (e) =>{
         console.log(e.target.className);
         if(e.target.className === "sc-gjTGSA hcKcOW three"){ 
             setColor_three('#75BD62');
@@ -37,7 +37,7 @@ const Day_Button = ({day_info}) =>{
             setFont_seven('#75BD62');
             setFont_thirty('#75BD62');
             setFont_hundred('#75BD62');
-            day_info(3);
+            DayInfo(3);
         }   
         else if(e.target.className === "sc-gjTGSA hcKcOW seven"){ 
             setColor_three('white');
@@ -48,7 +48,7 @@ const Day_Button = ({day_info}) =>{
             setFont_seven('white');
             setFont_thirty('#75BD62');
             setFont_hundred('#75BD62');
-            day_info(7);
+            DayInfo(7);
         }   
         else if(e.target.className === "sc-gjTGSA hcKcOW thirty"){ 
             setColor_three('white');
@@ -59,7 +59,7 @@ const Day_Button = ({day_info}) =>{
             setFont_three('#75BD62');
             setFont_thirty('white');
             setFont_hundred('#75BD62');
-            day_info(30);
+            DayInfo(30);
         }   
         else if(e.target.className === "sc-gjTGSA hcKcOW hundred"){ 
             setColor_three('white');
@@ -70,16 +70,16 @@ const Day_Button = ({day_info}) =>{
             setFont_thirty('#75BD62');
             setFont_three('#75BD62');
             setFont_hundred('white');
-            day_info(100);
+            DayInfo(100);
         }   
     }
     return(
-        <Day_btn_set>
-            <Day_btn className="three" onClick={color_change} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</Day_btn>
-            <Day_btn className="seven" onClick={color_change} style={{backgroundColor: color_seven, color:  font_seven}}>7일</Day_btn>
-            <Day_btn className="thirty" onClick={color_change} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</Day_btn>
-            <Day_btn className="hundred" onClick={color_change} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</Day_btn>
-        </Day_btn_set>
+        <DayBtnSet>
+            <DayBtn className="three" onClick={ColorChange} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</DayBtn>
+            <DayBtn className="seven" onClick={ColorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
+            <DayBtn className="thirty" onClick={ColorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
+            <DayBtn className="hundred" onClick={ColorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
+        </DayBtnSet>
     )
 }
 

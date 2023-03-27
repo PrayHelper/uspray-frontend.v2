@@ -1,22 +1,23 @@
-import React, {useState, useEffect} from "react";
-import Prayer_content from "./Prayer_content";
+import React, {useState} from "react";
+import PrayerContent from "./PrayerContent";
 import styled from 'styled-components';
-import Bottom_menu from "./Bottom_menu";
+import BottomMenu from "./BottomMenu";
 import Share from "./Share";
-import Modify_bar from "./Modify_bar";
-import Background_bright from "./Background_bright";
+import ModifyBar from "./ModifyBar";
+import BackgroundBright from "./BackgroundBright";
+
 const Background =  styled.div`
     height : 882px;
     width  : 430px; 
     background-color: #D0E8CB;
 `
 
-const Top_content = styled.div`
+const TopContent = styled.div`
     display: flex;
     margin-left : 32px;
 `;
 
-const Today_prayer = styled.div`
+const TodayPrayer = styled.div`
     width : 65px;
     height : 17px;
     font-size: 12px;
@@ -25,7 +26,7 @@ const Today_prayer = styled.div`
     margin-right : 220px;
     color: #7BAB6E;
 `;
-const Btn_set = styled.div`
+const BtnSet = styled.div`
     display: flex;
     justify-content: center;
     align-items:center;
@@ -37,7 +38,7 @@ const Btn_set = styled.div`
     border : none;
 `;
 
-const Btn_element_day = styled.button`
+const BtnElementDay = styled.button`
     width: 38px;
     height: 18px;
     font-size: 10px;
@@ -45,7 +46,7 @@ const Btn_element_day = styled.button`
     border: none;
 `;
 
-const Btn_element_prayer = styled.button`
+const BtnElementPrayer = styled.button`
     width: 38px;
     height: 18px;
     font-size: 10px;
@@ -53,7 +54,7 @@ const Btn_element_prayer = styled.button`
     border: none;
 `;
 
-const Prayer_content_style = styled.div`
+const PrayerContentStyle = styled.div`
     width: 382px;
     height : 257px;
     background-color: #FFFFFF;
@@ -67,9 +68,9 @@ const Prayer_content_style = styled.div`
 `
 
 
-function Prayer_list({prayer_content, prayer_more_content, Count_update, Complete_btn_click, 
-    Modify_btn_click, Delete_btn_click, isChecked, click_id, Content_click, isModify,
-    value_Change,change_Check}){
+function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteBtnClick, 
+    ModifyBtnClick, DeleteBtnClick, isChecked, click_id, ContentClick, isModify,
+    ValueChange,ChangeCheck}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
@@ -82,7 +83,7 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
     const [Share_list, setShare_list] = useState([]);
     const [share_toggle, setshare_toggle] = useState(false);
 
-    const day_fuc_top_day = (e) =>{
+    const DayFucTopDay = (e) =>{
         if(!day_toggle_top_day){
             setDay_toggle_top_day(!day_toggle_top_day);
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
@@ -90,7 +91,7 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
             setColor_first_top('#EBF6E8');
         }
     }
-    const day_fuc_top_prayer = () =>{
+    const DayFucTopPrayer = () =>{
         if(!day_toggle_top_prayer){
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setDay_toggle_top_day(!day_toggle_top_day);
@@ -99,7 +100,7 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
         }
     }
 
-    const day_fuc_bottom_day = () =>{
+    const DayFucBottomDay = () =>{
         if(!day_toggle_bottom_day){
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
@@ -107,7 +108,7 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
             setColor_first_bottom('#EBF6E8');
         }
     }
-    const day_fuc_bottom_prayer = () =>{
+    const DayFucBottomPrayer = () =>{
         if(!day_toggle_bottom_prayer){
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
@@ -147,7 +148,7 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
         setshare_toggle(!share_toggle);
     }
 
-    const shareList = (id, check_box) =>{
+    const ShareList = (id, check_box) =>{
         if(check_box){
             setShare_list([...Share_list,id]);
             if(id < 1000){
@@ -174,42 +175,42 @@ function Prayer_list({prayer_content, prayer_more_content, Count_update, Complet
     return(
         <div>
             <Background>
-                <Top_content>
-                    <Today_prayer>기도할게요</Today_prayer>
-                    <Btn_set>
-                        <Btn_element_day onClick={day_fuc_top_day} style={{backgroundColor: color_first_top}}>날짜순</Btn_element_day>
-                        <Btn_element_prayer onClick={day_fuc_top_prayer} style={{backgroundColor : color_second_top}} >기도순</Btn_element_prayer>
-                    </Btn_set>
-                </Top_content>
-                <Prayer_content_style>
+                <TopContent>
+                    <TodayPrayer>기도할게요</TodayPrayer>
+                    <BtnSet>
+                        <BtnElementDay onClick={DayFucTopDay} style={{backgroundColor: color_first_top}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={DayFucTopPrayer} style={{backgroundColor : color_second_top}} >기도순</BtnElementPrayer>
+                    </BtnSet>
+                </TopContent>
+                <PrayerContentStyle>
                     {prayer_content.map((content,index) =>(
-                        <Prayer_content key={index} content = {content} day_toggle ={day_toggle_top_day} Count_update = {Count_update} Content_click = {Content_click} 
-                        isShare={isShare} shareList={shareList} bottom={false}/>
+                        <PrayerContent key={index} content = {content} day_toggle ={day_toggle_top_day} CountUpdate = {CountUpdate} ContentClick = {ContentClick} 
+                        isShare={isShare} ShareList={ShareList} bottom={false}/>
                     ))}
-                </Prayer_content_style>
+                </PrayerContentStyle>
 
-                <Top_content>
-                    <Today_prayer style={{marginTop:'46px'}}>기도했어요</Today_prayer>
-                    <Btn_set>
-                        <Btn_element_day onClick={day_fuc_bottom_day} style={{backgroundColor: color_first_bottom}}>날짜순</Btn_element_day>
-                        <Btn_element_prayer onClick={day_fuc_bottom_prayer} style={{backgroundColor: color_second_bottom}}>기도순</Btn_element_prayer>
-                    </Btn_set>
-                </Top_content>
-                <Prayer_content_style style={{marginTop:'0px', background:'#7BAB6E'}}> 
+                <TopContent>
+                    <TodayPrayer style={{marginTop:'46px'}}>기도했어요</TodayPrayer>
+                    <BtnSet>
+                        <BtnElementDay onClick={DayFucBottomDay} style={{backgroundColor: color_first_bottom}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={DayFucBottomPrayer} style={{backgroundColor: color_second_bottom}}>기도순</BtnElementPrayer>
+                    </BtnSet>
+                </TopContent>
+                <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
                         {prayer_more_content.map((content,index) =>(
-                            <Prayer_content key={index} content = {content} day_toggle ={day_toggle_bottom_day} Count_update = {Count_update}
-                            isShare = {isShare} shareList={shareList} bottom = {true} prayer_more_content={prayer_more_content}/>
+                            <PrayerContent key={index} content = {content} day_toggle ={day_toggle_bottom_day} CountUpdate = {CountUpdate}
+                            isShare = {isShare} ShareList={ShareList} bottom = {true} prayer_more_content={prayer_more_content}/>
                         ))}
-                </Prayer_content_style>
+                </PrayerContentStyle>
                 {!isModify && <Share onShare={onShare} onMove={onMove} share_toggle={share_toggle} onCheck={onCheck} isShare={isShare}></Share>}
-                {isChecked && <Bottom_menu Complete_btn_click = {Complete_btn_click} Modify_btn_click = {Modify_btn_click} 
-                Delete_btn_click = {Delete_btn_click} click_id = {click_id}></Bottom_menu>}
-                {isChecked && <Background_bright style={{height:'779px', top:'30px'}} onClick={change_Check}></Background_bright>}
-                {isModify  &&  <Modify_bar id ={click_id} value_Change = {value_Change}></Modify_bar>}
+                {isChecked && <BottomMenu CompleteBtnClick = {CompleteBtnClick} ModifyBtnClick = {ModifyBtnClick} 
+                DeleteBtnClick = {DeleteBtnClick} click_id = {click_id}></BottomMenu>}
+                {isChecked && <BackgroundBright style={{height:'779px', top:'30px'}} onClick={ChangeCheck}></BackgroundBright>}
+                {isModify  &&  <ModifyBar id ={click_id} ValueChange = {ValueChange}></ModifyBar>}
             </Background>
         </div>
     )
 }
 
 
-export default Prayer_list; 
+export default PrayerList; 

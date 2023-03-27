@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Background_bright = styled.div`
+const BackgroundBright = styled.div`
     position: absolute;
     width: 430px;
     top: 155px;
@@ -8,4 +8,4 @@ const Background_bright = styled.div`
     background: rgba(0, 0, 0, 0.5);
 `
 
-export default Background_bright;
+export default BackgroundBright;

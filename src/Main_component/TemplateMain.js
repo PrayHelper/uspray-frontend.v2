@@ -2,8 +2,8 @@ import React,{useRef, useState} from "react";
 import styled from "styled-components";
 import click_search from '../images/click_search.svg';
 import Logo from "./Logo";
-import Day_Button from "./Day_Button";
-import Background_bright from "./Background_bright";
+import DayButton from "./DayButton";
+import BackgroundBright from "./BackgroundBright";
 
 
 const BackGround = styled.div`
@@ -12,14 +12,14 @@ const BackGround = styled.div`
     background-color: 'white';
 `;
 
-const Background_input = styled.div`
+const BackgroundInput = styled.div`
     display : flex;
     width: 430px;
     height: 120px;
     margin-left : auto;
     margin-right : auto;
 `;
-const Btn_send = styled.button`
+const BtnSend = styled.button`
     marginTop: 65px;
     width: 31px;
     height : 31px;
@@ -27,22 +27,22 @@ const Btn_send = styled.button`
     border: 1px solid #EBF7E8;
 `;
 
-const Send_img = styled(Logo)`
+const SendImg = styled(Logo)`
     width: 16.21px;
     height: 16.94px;
 `;
 
 
-const Template_main = ({ children, onInsert}) =>{
+const TemplateMain = ({ children, onInsert}) =>{
     const text = "김정묵"
     const input_handle = useRef(null);
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(0);
-    const Width_change = () =>{
+    const WidthChange = () =>{
         setVisible(!visible);
     }
-    const day_info = (e) =>{
+    const DayInfo = (e) =>{
         setDay(e);
     }
 
@@ -58,27 +58,27 @@ const Template_main = ({ children, onInsert}) =>{
         onInsert(day, value);
         setDay(0);
     }
-    const change_Check_top = () =>{
+    const ChangeCheckTop = () =>{
         setVisible(!visible);
     }
     return(
         <div>
-            <Background_input ref={input_handle}>
+            <BackgroundInput ref={input_handle}>
                 <div style={{width: '67px', height:'23px', marginLeft:'24px',marginTop:'72px', padding:'0px'}}>
                     <div style={{display:"grid", placeItems:"center", width: '67px', height: '23px', fontSize:'16px',fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62"}}>{text}</div>
                 </div>
                 <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'72px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#B7CEB0'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(day == 0) ? ()=> Width_change() : onSubmit}></input>
+                onClick={(day == 0) ? ()=> WidthChange() : onSubmit}></input>
                 <div style={{width:'31px', height:'31px', marginTop:'72.03px'}}>
-                    <Btn_send style={{backgroundColor:'white'}} onClick={() => Submit()}><Send_img src={click_search}/></Btn_send>
+                    <BtnSend style={{backgroundColor:'white'}} onClick={() => Submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
-            </Background_input>
-            {visible && <Day_Button day_info = {day_info}/>}
-            {visible && <Background_bright onClick={change_Check_top}/>}
+            </BackgroundInput>
+            {visible && <DayButton DayInfo = {DayInfo}/>}
+            {visible && <BackgroundBright onClick={ChangeCheckTop}/>}
             <BackGround>{children}</BackGround>
         </div>
     )
 }
 
-export default Template_main;
+export default TemplateMain;

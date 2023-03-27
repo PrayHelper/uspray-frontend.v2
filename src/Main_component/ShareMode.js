@@ -4,7 +4,7 @@ import share_cancel from "../images/share_cancel.svg";
 import share_move from "../images/share_move.svg"
 import MoveLogo from "./MoveLogo";
 
-const Box_container = styled.div`
+const BoxContainer = styled.div`
     margin-left : 24px;
     margin-top: 20px;
     width: 184px;
@@ -16,10 +16,10 @@ const Box_container = styled.div`
     border-radius: 16px;
 `;
 
-const Share_click_logo = styled(MoveLogo)``;
+const ShareClickLogo = styled(MoveLogo)``;
 
 
-const Share_mode = ({onMove, onShare, onCheck ,isShare}) =>{
+const ShareMode = ({onMove, onShare, onCheck ,isShare}) =>{
     const [cancel_toggle, setCancle_toggle] = useState(true);
 
     const onCancle = () =>{
@@ -33,10 +33,10 @@ const Share_mode = ({onMove, onShare, onCheck ,isShare}) =>{
     return(
         cancel_toggle && <div style={{display: "flex", width:"430px", height:"153px", border:"none", position: "absolute" 
         , bottom: '-168px', backgroundColor:"white", borderRadius:"24px 24px 0px 0px"}}>
-            <Box_container onClick={() => onCancle()}>취소하기<Share_click_logo style={{marginLeft: '20px'}} src={share_cancel}/></Box_container>
-            <Box_container onClick={() => onShare()}>공유하기<Share_click_logo style={{marginLeft: '20px'}}src={share_move}/></Box_container>
+            <BoxContainer onClick={() => onCancle()}>취소하기<ShareClickLogo style={{marginLeft: '20px'}} src={share_cancel}/></BoxContainer>
+            <BoxContainer onClick={() => onShare()}>공유하기<ShareClickLogo style={{marginLeft: '20px'}}src={share_move}/></BoxContainer>
         </div>
     )
 }
 
-export default Share_mode;
+export default ShareMode;

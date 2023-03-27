@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Prayer_list from '../Main_component/Prayer_list';
-import Template_main from '../Main_component/Template_main';
-import Data from "../ object/data.json";
+import PrayerList from '../Main_component/PrayerList';
+import TemplateMain from '../Main_component/TemplateMain';
+// import Data from "../ object/data.json";
 
 let nextId = 4;
 let bottomId = 1004;
@@ -87,27 +87,23 @@ const Main = () => {
     }
   }
 
-  const change_Check = () =>{
+  const ChangeCheck = () =>{
     setIsChecked(!isChecked);      
   }
   
-  const Count_update = (id) =>{
-      console.log(id);
-      // setPrayer_content(prayer_content => prayer_content.map(Prayer_content => (Prayer_content.id === id ? {...Prayer_content, count: Prayer_content.count + 1} : Prayer_content)));
+  const CountUpdate = (id) =>{
       const find_id = Object.keys(prayer_content).find(key => prayer_content[key].id === id);
       setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
       prayer_content.map(prayer =>  prayer.id > id ? prayer.id -= 1 : prayer.id);
-      console.log(prayer_content);
       prayer_content[find_id].count += 1;
       const prayer = prayer_content[find_id];
       prayer.id = bottomId; 
-      console.log(prayer);
       bottomId += 1;
       setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
   }
 
 
-const Content_click  = (e) =>{
+const ContentClick  = (e) =>{
     if(isChecked === isModify){
       setIsChecked(!isChecked);
     }
@@ -122,33 +118,26 @@ const Content_click  = (e) =>{
     setClick_id(e);
   }
 
-  const Complete_btn_click = (id) =>{
+  const CompleteBtnClick = (id) =>{
     const find_id = Object.keys(prayer_content).find(key => prayer_content[key].id === id);
     setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
-    // prayer_content.map(prayer =>  prayer.id > id ? prayer.id -= 1 : prayer.id);
-    // console.log(prayer_content);
-    // const prayer = prayer_content[find_id];
-    // prayer.id = bottomId;
-    // bottomId += 1;
-    // setPrayer_more_content(prayer_more_content => prayer_more_content.concat(prayer));
-    // setIsChecked(!isChecked);
     prayer_content[find_id].dday = -1;
-    change_Check();
+    ChangeCheck();
   }
 
-const Modify_btn_click = (id) =>{
+const ModifyBtnClick = (id) =>{
     console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
 }
 
-const Delete_btn_click = (id) =>{
+const DeleteBtnClick = (id) =>{
   setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
   prayer_content.map(prayer => prayer.id > id ? prayer.id -=1 : prayer.id);
   setIsChecked(!isChecked);
   console.log(prayer_content);
 } 
-const value_Change = (id, value) =>{
+const ValueChange = (id, value) =>{
   setPrayer_content(prayer_content => prayer_content.map(Prayer_content => 
     (Prayer_content.id === id ? {...Prayer_content, text: value} : Prayer_content)));
   setIsModify(!isModify);
@@ -165,12 +154,12 @@ useEffect(()=>{
 
 
   return (
-    <Template_main onInsert = {onInsert} change_Check={change_Check}>
-      <Prayer_list prayer_content={prayer_content} prayer_more_content = {prayer_more_content}  Count_update = {Count_update} 
-      Complete_btn_click = {Complete_btn_click} Modify_btn_click = {Modify_btn_click} Delete_btn_click = {Delete_btn_click}
-      Content_click = {Content_click} click_id = {click_id} isChecked = {isChecked} isModify = {isModify}
-      value_Change = {value_Change} change_Check = {change_Check}/>
-    </Template_main>
+    <TemplateMain onInsert = {onInsert}>
+      <PrayerList prayer_content={prayer_content} prayer_more_content = {prayer_more_content}  CountUpdate = {CountUpdate} 
+      CompleteBtnClick = {CompleteBtnClick} ModifyBtnClick = {ModifyBtnClick} DeleteBtnClick = {DeleteBtnClick}
+      ContentClick = {ContentClick} click_id = {click_id} isChecked = {isChecked} isModify = {isModify}
+      ValueChange = {ValueChange} ChangeCheck = {ChangeCheck}/>
+    </TemplateMain>
   );
 };
 
