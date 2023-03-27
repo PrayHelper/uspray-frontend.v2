@@ -1,22 +1,23 @@
 import React,{useRef, useState} from "react";
 import styled from "styled-components";
-import { fontFamily, fontSize, style, width } from "@mui/system";
 import click_search from '../images/click_search.svg';
 import Logo from "./Logo";
 import Day_Button from "./Day_Button";
+import Background_bright from "./Background_bright";
+
 
 const BackGround = styled.div`
     width: 100ww;
-    height : 832px;
+    height : 822px;
     background-color: 'white';
-`
+`;
+
 const Background_input = styled.div`
     display : flex;
     width: 430px;
-    height: 80px;
+    height: 120px;
     margin-left : auto;
     margin-right : auto;
-    margin-bottom: 12px;
 `;
 const Btn_send = styled.button`
     marginTop:'65px';
@@ -30,12 +31,11 @@ const Send_img = styled(Logo)``;
 const Template_main = ({ children, onInsert}) =>{
     const text = "김정묵"
     const input_handle = useRef(null);
-    const Back_handle = useRef(null);
+    // const Back_handle = useRef(null);
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(0);
     const Width_change = () =>{
-        input_handle.current.style.height = '100px';
         setVisible(!visible);
     }
     const day_info = (e) =>{
@@ -50,10 +50,12 @@ const Template_main = ({ children, onInsert}) =>{
     }
     const Submit = () =>{
         setVisible(!visible);
-        input_handle.current.style.height = '80px';
         setValue("");
         onInsert(day, value);
         setDay(0);
+    }
+    const change_Check_top = () =>{
+        setVisible(!visible);
     }
     return(
         <div>
@@ -69,7 +71,8 @@ const Template_main = ({ children, onInsert}) =>{
                 </div>
             </Background_input>
             {visible && <Day_Button day_info = {day_info}/>}
-            <BackGround ref={Back_handle}>{children}</BackGround>
+            {visible && <Background_bright onClick={change_Check_top}/>}
+            <BackGround>{children}</BackGround>
         </div>
     )
 }

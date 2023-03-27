@@ -1,10 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Rectangle_img from "../images/Rectangle_img.svg"
 import Logo from "./Logo";
-
-const Check_content = styled.div`
-`
+import Empty_Box from '../images/empty_box.svg';
+import Check_Box from '../images/check_box.svg';
 
 
 
@@ -40,23 +39,36 @@ const Text_content = styled.div`
 `;
 
 const Dday_content = styled.div`
-    width : 30px;
+    width : 34px;
     font-size : 10px;
-    heigth : 20px;
-    margin-right : 20px;
+    heigth : 17px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 17px;
+    margin-right: 4px;
 `;
 const Click_img = styled(Logo)``;
 
-function Prayer_content({content, day_toggle , Count_update, bottom, Content_click}){
+function Prayer_content({content, day_toggle , Count_update, bottom, Content_click, isShare, shareList}){
     const {id, dday,text,checked, name, count} = content;
+    const check_BoxClick = (id) =>{
+        return shareList(id, !checked);
+    }
+
     return(
         <Main_Content>
-            <Name_content>{name}</Name_content>
+            {isShare && <Click_img src={checked ? Check_Box : Empty_Box}style={{marginRight: '20px'}} 
+            onClick={() => check_BoxClick(id)}/> }
+            <Name_content style={{marginLeft : isShare ? '30px' : '0px'}}>{name}</Name_content>
             <Text_content onClick={() => Content_click(id)}>{text}</Text_content>
             {day_toggle ? <Dday_content>{"D-"+ dday}</Dday_content> : <Dday_content>{count + "회"}</Dday_content>}
-            {!bottom && <div className="image"><Click_img src={Rectangle_img} onClick={() => Count_update(id)}/></div>}
+            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><Click_img src={Rectangle_img} onClick={() => Count_update(id)}/></div>}
         </Main_Content>
     )
 }
 
 export default Prayer_content;
+
+

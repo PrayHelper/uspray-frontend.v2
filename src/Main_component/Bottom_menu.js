@@ -15,7 +15,7 @@ const Box_container = styled.div`
     height: 75px;
     border : 1px solid gray;
     border-radius: 16px;
-    backgroundColor : 'F8F8F8';
+    background-color: #FFFFFF;
 
 `;
 
@@ -24,7 +24,7 @@ const Img_container = styled(Logo)`
 
 const Bottom_menu = ({Complete_btn_click, Modify_btn_click,Delete_btn_click, click_id}) =>{
     return(
-        <div style={{display:'flex',  bottom:'-80px',width:"430px", height:"100px", position:'absolute',
+        <div style={{display:'flex',  bottom:'-89px',width:"430px", height:"100px", position:'absolute',
          backgroundColor:'white', borderRadius:"24px 24px 0px 0px"}}>
             <div style={{width:"140px", height:"75px"}} onClick = {() => Complete_btn_click(click_id)}><Box_container style={{color: '#27CD2F'}}><Img_container src ={check_img} style={{marginLeft: '50px'}}/><div style={{marginTop: '10px', marginLeft: '30px'}}> 완료하기</div></Box_container></div>
             <div style={{width:"140px", height:"75px"}} onClick = {() => Modify_btn_click(click_id)}><Box_container style={{color: '#408CFF'}}><Img_container src={modify_img} style={{marginLeft: '50px'}}/><div style={{marginTop: '10px' , marginLeft: '30px'}}>수정하기</div></Box_container></div>
