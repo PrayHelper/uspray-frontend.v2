@@ -179,7 +179,9 @@ const Signup = () => {
   }
   
   const phoneNumberChangeHandler = (e) => {
-    setUserInfo({...userInfo, phoneNumber: e.target.value});
+    setUserInfo({...userInfo, phoneNumber: e.target.value.replace(/[^0-9]/g, '')
+    .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)});
+    
   }
 
   const certificateNumberChangeHandler = (e) => {
@@ -246,7 +248,7 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth yearChangeHandler={yearChangeHandler} monthChangeHandler={monthChangeHandler} dayChangeHandler={dayChangeHandler}/>
-        <Input label="전화번호" placeholder="010-1234-1234형식으로 입력해주세요." onChangeHandler={phoneNumberChangeHandler} value={userInfo.phoneNumber} isError={false}
+        <Input label="전화번호" onChangeHandler={phoneNumberChangeHandler} value={userInfo.phoneNumber} isError={false}
         description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={phoneNumberCheck(userInfo.phoneNumber) ? ButtonTheme.GREEN : ButtonTheme.GRAY} disabled={false} handler={() => {console.log('전화번호 클릭')}}>전송</Button>} />
         <Input label="인증번호" onChangeHandler={certificateNumberChangeHandler} value={userInfo.certificateNumber} isError={false}
         description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={certificateNumberCheck(userInfo.certificateNumber) ? ButtonTheme.GREEN : ButtonTheme.GRAY} disabled={false} handler={() => {console.log('인증번호 클릭')}}>확인</Button>} />
