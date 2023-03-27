@@ -5,8 +5,6 @@ import { ReactComponent as NextArrow} from "../../images/next_arrow.svg";
 const NextArrowStyle = styled.div`
   display: ${props => (props.buttonSize == ButtonSize.LARGE) ? "block" : "none"};
   marign-right: 10px;
-  display: flex;
-  justify-content: center;
 `
 
 export const ButtonSize = {
@@ -21,15 +19,15 @@ export const ButtonTheme = {
 
 Object.freeze(ButtonSize, ButtonTheme);
 
-const Button = ({buttonSize, buttonTheme, children}) =>{
+const Button = ({buttonSize, buttonTheme, disabled, handler ,children}) =>{
   if (!buttonSize) {
     buttonSize = ButtonSize.NORMAL;
   }
   if (!buttonTheme) {
     buttonTheme = ButtonTheme.GREEN;
   }
-  console.log(buttonSize, buttonTheme);
-  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme}>
+
+  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme} disabled={disabled} onClick={handler}>
     {children}
     <NextArrowStyle buttonSize={buttonSize} buttonTheme={buttonTheme}>
       <NextArrow fill={buttonTheme == ButtonTheme.GREEN ? "#FFFFFF" : "#A0A0A0"} />

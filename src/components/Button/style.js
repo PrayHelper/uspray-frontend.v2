@@ -15,5 +15,4 @@ export const BaseButtonStyle = styled.button`
   background-color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? "#7BAB6E" : "#EEEEEE"};
   color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? "#FFFFFF" : "#A0A0A0"};
   line-height: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "17px" : "23px"};
-  font-weight: 700;
 `
