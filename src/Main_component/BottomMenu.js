@@ -10,9 +10,9 @@ import modify_img from '../images/modify_img.svg';
 const BoxContainer = styled.div`
     width: 115px;
     height: 75px;
-    border : 1px solid gray;
+    border : 1px;
     border-radius: 16px;
-    background-color: #FFFFFF;
+    background-color: #F8F8F8;
     margin-left : 18px;
     margin-bottom: 4px;
 `;
