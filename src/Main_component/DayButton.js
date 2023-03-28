@@ -28,7 +28,7 @@ const Day_Button = ({DayInfo}) =>{
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
     const colorChange = (e) =>{
         console.log(e.target.className);
-        if(e.target.className === "sc-gjTGSA hcKcOW three"){ 
+        if(e.target.className === "sc-eACynP dDpegK three"){ 
             setColor_three('#75BD62');
             setColor_seven('white');
             setColor_thirty('white');
@@ -39,7 +39,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(3);
         }   
-        else if(e.target.className === "sc-gjTGSA hcKcOW seven"){ 
+        else if(e.target.className === "sc-eACynP dDpegK seven"){ 
             setColor_three('white');
             setColor_seven('#75BD62');
             setColor_thirty('white');
@@ -50,7 +50,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(7);
         }   
-        else if(e.target.className === "sc-gjTGSA hcKcOW thirty"){ 
+        else if(e.target.className === "sc-eACynP dDpegK thirty"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('#75BD62');
@@ -61,7 +61,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(30);
         }   
-        else if(e.target.className === "sc-gjTGSA hcKcOW hundred"){ 
+        else if(e.target.className === "sc-eACynP dDpegK hundred"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('white');
