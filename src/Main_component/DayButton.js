@@ -26,7 +26,7 @@ const Day_Button = ({DayInfo}) =>{
     const [font_seven ,setFont_seven] = useState('#75BD62');
     const [font_thirty ,setFont_thirty] = useState('#75BD62');
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
-    const ColorChange = (e) =>{
+    const colorChange = (e) =>{
         console.log(e.target.className);
         if(e.target.className === "sc-gjTGSA hcKcOW three"){ 
             setColor_three('#75BD62');
@@ -75,10 +75,10 @@ const Day_Button = ({DayInfo}) =>{
     }
     return(
         <DayBtnSet>
-            <DayBtn className="three" onClick={ColorChange} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</DayBtn>
-            <DayBtn className="seven" onClick={ColorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
-            <DayBtn className="thirty" onClick={ColorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
-            <DayBtn className="hundred" onClick={ColorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
+            <DayBtn className="three" onClick={colorChange} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</DayBtn>
+            <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
+            <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
+            <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
         </DayBtnSet>
     )
 }

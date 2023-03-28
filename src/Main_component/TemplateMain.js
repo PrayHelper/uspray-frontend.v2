@@ -58,7 +58,7 @@ const TemplateMain = ({ children, onInsert}) =>{
         onInsert(day, value);
         setDay(0);
     }
-    const ChangeCheckTop = () =>{
+    const changeCheckTop = () =>{
         setVisible(!visible);
     }
     return(
@@ -69,13 +69,13 @@ const TemplateMain = ({ children, onInsert}) =>{
                 </div>
                 <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'72px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#B7CEB0'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(day == 0) ? ()=> WidthChange() : onSubmit}></input>
+                onClick={(day === 0) ? ()=> WidthChange() : onSubmit}></input>
                 <div style={{width:'31px', height:'31px', marginTop:'72.03px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => Submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
             {visible && <DayButton DayInfo = {DayInfo}/>}
-            {visible && <BackgroundBright onClick={ChangeCheckTop}/>}
+            {visible && <BackgroundBright onClick={changeCheckTop}/>}
             <BackGround>{children}</BackGround>
         </div>
     )

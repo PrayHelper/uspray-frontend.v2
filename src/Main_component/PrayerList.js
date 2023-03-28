@@ -83,7 +83,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
     const [Share_list, setShare_list] = useState([]);
     const [share_toggle, setshare_toggle] = useState(false);
 
-    const DayFucTopDay = (e) =>{
+    const dayFucTopDay = (e) =>{
         if(!day_toggle_top_day){
             setDay_toggle_top_day(!day_toggle_top_day);
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
@@ -91,7 +91,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
             setColor_first_top('#EBF6E8');
         }
     }
-    const DayFucTopPrayer = () =>{
+    const dayFucTopPrayer = () =>{
         if(!day_toggle_top_prayer){
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setDay_toggle_top_day(!day_toggle_top_day);
@@ -100,7 +100,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
         }
     }
 
-    const DayFucBottomDay = () =>{
+    const dayFucBottomDay = () =>{
         if(!day_toggle_bottom_day){
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
@@ -108,7 +108,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
             setColor_first_bottom('#EBF6E8');
         }
     }
-    const DayFucBottomPrayer = () =>{
+    const dayFucBottomPrayer = () =>{
         if(!day_toggle_bottom_prayer){
             setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
             setDay_toggle_bottom_day(!day_toggle_bottom_day);
@@ -178,8 +178,8 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
                 <TopContent>
                     <TodayPrayer>기도할게요</TodayPrayer>
                     <BtnSet>
-                        <BtnElementDay onClick={DayFucTopDay} style={{backgroundColor: color_first_top}}>날짜순</BtnElementDay>
-                        <BtnElementPrayer onClick={DayFucTopPrayer} style={{backgroundColor : color_second_top}} >기도순</BtnElementPrayer>
+                        <BtnElementDay onClick={dayFucTopDay} style={{backgroundColor: color_first_top}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={dayFucTopPrayer} style={{backgroundColor : color_second_top}} >기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle>
@@ -192,8 +192,8 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
                 <TopContent>
                     <TodayPrayer style={{marginTop:'46px'}}>기도했어요</TodayPrayer>
                     <BtnSet>
-                        <BtnElementDay onClick={DayFucBottomDay} style={{backgroundColor: color_first_bottom}}>날짜순</BtnElementDay>
-                        <BtnElementPrayer onClick={DayFucBottomPrayer} style={{backgroundColor: color_second_bottom}}>기도순</BtnElementPrayer>
+                        <BtnElementDay onClick={dayFucBottomDay} style={{backgroundColor: color_first_bottom}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={dayFucBottomPrayer} style={{backgroundColor: color_second_bottom}}>기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 

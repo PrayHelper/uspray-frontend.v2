@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Rectangle_img from "../images/Rectangle_img.svg"
 import Logo from "./Logo";
@@ -55,13 +55,13 @@ const ClickImg = styled(Logo)``;
 
 function PrayerContent({content, day_toggle , CountUpdate, bottom, ContentClick, isShare, ShareList}){
     const {id, dday,text,checked, name, count} = content;
-    const CheckBoxClick = (id) =>{
+    const checkBoxClick = (id) =>{
         return ShareList(id, !checked);
     }
     return(
         <MainContent>
             {isShare && <ClickImg src={checked ? Check_Box : Empty_Box}style={{marginRight: '20px'}} 
-            onClick={() => CheckBoxClick(id)}/> }
+            onClick={() => checkBoxClick(id)}/> }
             <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <Bar></Bar>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => ContentClick(id)}>{text}</TextContent>
