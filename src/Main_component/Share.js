@@ -9,9 +9,9 @@ const ShareImg = styled(Share_Logo)``;
 function Share({onShare, onMove , share_toggle, onCheck, isShare}){
     return(
         <div>
-            <div className="share_img" style={{height:"56px", width:"56px", marginLeft:"350px",
+            {!share_toggle && <div className="share_img" style={{height:"56px", width:"56px", marginLeft:"350px",
             marginTop:"35px",marginBottom:"72px", borderRadius:"50%", border:"none", backgroundColor:"white"}}
-            onClick={() => onMove()}><ShareImg src={share_img}/></div>
+            onClick={() => onMove()}><ShareImg src={share_img}/></div>}
             {share_toggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}/>}
         </div>
     )

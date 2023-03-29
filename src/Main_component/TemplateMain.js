@@ -67,7 +67,7 @@ const TemplateMain = ({ children, onInsert}) =>{
                 <div style={{width: '67px', height:'23px', marginLeft:'24px',marginTop:'72px', padding:'0px'}}>
                     <div style={{display:"grid", placeItems:"center", width: '67px', height: '23px', fontSize:'16px',fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62"}}>{text}</div>
                 </div>
-                <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'72px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#B7CEB0'}}
+                <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'72px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#A0A0A0'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(day === 0) ? ()=> WidthChange() : onSubmit}></input>
                 <div style={{width:'31px', height:'31px', marginTop:'72.03px'}}>

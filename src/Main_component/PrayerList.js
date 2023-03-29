@@ -5,6 +5,7 @@ import BottomMenu from "./BottomMenu";
 import Share from "./Share";
 import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
+import EmptySpace from "./EmptySpace";
 
 const Background =  styled.div`
     height : 882px;
@@ -56,14 +57,12 @@ const BtnElementPrayer = styled.button`
 
 const PrayerContentStyle = styled.div`
     width: 382px;
-    height : 257px;
+    height : 244px;
     background-color: #FFFFFF;
     margin-right : 24px;
     margin-left : 24px;
     border-radius: 16px;
     border: 1px solid #7BAB6F;
-    margin-right: 16px;
-    margin-left: 16px;
     overflow: scroll;
 `
 
@@ -183,7 +182,8 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle>
-                    {prayer_content.map((content,index) =>(
+                    {(prayer_content.length === 0) ? <EmptySpace color={true}/> : 
+                    prayer_content.map((content,index) =>(
                         <PrayerContent key={index} content = {content} day_toggle ={day_toggle_top_day} CountUpdate = {CountUpdate} ContentClick = {ContentClick} 
                         isShare={isShare} ShareList={ShareList} bottom={false}/>
                     ))}
@@ -197,7 +197,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
-                        {prayer_more_content.map((content,index) =>(
+                        {(prayer_more_content.length === 0) ? <EmptySpace color={false}/> : prayer_more_content.map((content,index) =>(
                             <PrayerContent key={index} content = {content} day_toggle ={day_toggle_bottom_day} CountUpdate = {CountUpdate}
                             isShare = {isShare} ShareList={ShareList} bottom = {true} prayer_more_content={prayer_more_content}/>
                         ))}
