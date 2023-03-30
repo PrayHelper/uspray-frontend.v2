@@ -1,9 +1,9 @@
 import { ToggleButtonStyle } from "./style";
 
-const ToggleButton = ({contents, item, setter}) => {
+const ToggleButton = ({isErrored, contents, item, setter}) => {
 
   return (
-    <ToggleButtonStyle isClicked={item == contents} onClick={() => {setter(contents)}}>
+    <ToggleButtonStyle isErrored={isErrored} isClicked={item == contents} onClick={() => {setter(contents)}}>
       {contents}
     </ToggleButtonStyle>
   );
