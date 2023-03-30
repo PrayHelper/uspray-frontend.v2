@@ -1,5 +1,5 @@
 import ToggleButton from "../components/ToggleButton";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InputText from "../components/InputText";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
@@ -67,6 +67,7 @@ const Signup = () => {
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
+  const [time, setTime] = useState("");
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
@@ -194,38 +195,47 @@ const Signup = () => {
     setUserInfo({ ...userInfo, day: e.target.value });
   };
 
-  // const phoneNumberChangeHandler = (e) => {
-  //   setUserInfo({
-  //     ...userInfo,
-  //     phoneNumber: e.target.value
-  //       .replace(/[^0-9]/g, "")
-  //       .replace(/^(\d{3})(\d{4})(\d{4})$/, `$1-$2-$3`),
-  //   });
-  // };
-
   const phoneNumberChangeHandler = (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-    let formattedValue = '';
-    
+    const value = e.target.value.replace(/[^0-9]/g, ""); // 숫자 이외의 문자 제거
+    let formattedValue = "";
+
     if (value.length > 3) {
-      formattedValue += value.substring(0, 3) + '-';
+      formattedValue += value.substring(0, 3) + "-";
     }
-    
+
     if (value.length > 7) {
-      formattedValue += value.substring(3, 7) + '-';
+      formattedValue += value.substring(3, 7) + "-";
       formattedValue += value.substring(7, 11);
     } else if (value.length > 3) {
       formattedValue += value.substring(3, 7);
     } else {
       formattedValue += value;
     }
-    
-    setUserInfo({...userInfo, phoneNumber: formattedValue});
-  }
+
+    setUserInfo({ ...userInfo, phoneNumber: formattedValue });
+  };
 
   const certificateNumberChangeHandler = (e) => {
     setUserInfo({ ...userInfo, certificateNumber: e.target.value });
   };
+
+  const isCertificationNumberValid = (certificateNumber) => {
+    if (verficationNumber == certificateNumber) return true;
+    else return false;
+  };
+
+  const changeTimeFormat = (time) => {
+    return `0${parseInt(time/60)}:${time%60 < 10 ? "0"+time%60 : time%60}`;
+  };
+
+  useEffect(() => {
+    const id = setInterval(()=> {
+    	setTime(time => time-1) //클로저 역할을 해주는 
+    }, 1000);
+    if (time == 0)
+      clearInterval(id);
+    return () => clearInterval(id);
+  }, [time]);
 
   return (
     <div>
@@ -300,7 +310,7 @@ const Signup = () => {
           <div
             style={{
               fontSize: "12px",
-              color: !gender ? "#FF6B6B" : "#7BAB6E",
+              color: "#7BAB6E",
               paddingLeft: "16px",
               position: "absolute",
               top: "-14px",
@@ -315,13 +325,11 @@ const Signup = () => {
             }}
           >
             <ToggleButton
-              isErrored={!gender}
               contents="남자"
               item={gender}
               setter={setGender}
             />
             <ToggleButton
-              isErrored={!gender}
               contents="여자"
               item={gender}
               setter={setGender}
@@ -339,18 +347,21 @@ const Signup = () => {
           value={userInfo.phoneNumber}
           isError={false}
           description={
-            <Button
-              buttonSize={ButtonSize.NORMAL}
-              buttonTheme={
-                phoneNumberCheck(userInfo.phoneNumber)
-                  ? ButtonTheme.GREEN
-                  : ButtonTheme.GRAY
-              }
-              disabled={false}
-              handler={() => {phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""))}}
-            >
-              전송
-            </Button>
+              <Button
+                buttonSize={ButtonSize.NORMAL}
+                buttonTheme={
+                  phoneNumberCheck(userInfo.phoneNumber)
+                    ? ButtonTheme.GREEN
+                    : ButtonTheme.GRAY
+                }
+                disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
+                handler={() => {
+                  phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
+                  setTime("180");
+                }}
+              >
+                {time ? "진행 중" : "전송"}
+              </Button>
           }
         />
         <Input
@@ -359,20 +370,25 @@ const Signup = () => {
           value={userInfo.certificateNumber}
           isError={false}
           description={
-            <Button
-              buttonSize={ButtonSize.NORMAL}
-              buttonTheme={
-                certificateNumberCheck(userInfo.certificateNumber)
-                  ? ButtonTheme.GREEN
-                  : ButtonTheme.GRAY
-              }
-              disabled={false}
-              handler={() => {
-                console.log("인증번호 클릭");
-              }}
-            >
-              확인
-            </Button>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              {time && <span>{changeTimeFormat(time)}</span>}
+              <Button
+                buttonSize={ButtonSize.NORMAL}
+                buttonTheme={
+                  certificateNumberCheck(userInfo.certificateNumber)
+                    ? ButtonTheme.GREEN
+                    : ButtonTheme.GRAY
+                }
+                disabled={false}
+                handler={() => {
+                  if (isCertificationNumberValid)
+                    alert("인증에 성공하였습니다.");
+                  else alert("인증에 실패하였습니다.");
+                }}
+              >
+                확인
+              </Button>
+            </div>
           }
         />
         <Button
