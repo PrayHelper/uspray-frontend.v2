@@ -194,14 +194,34 @@ const Signup = () => {
     setUserInfo({ ...userInfo, day: e.target.value });
   };
 
+  // const phoneNumberChangeHandler = (e) => {
+  //   setUserInfo({
+  //     ...userInfo,
+  //     phoneNumber: e.target.value
+  //       .replace(/[^0-9]/g, "")
+  //       .replace(/^(\d{3})(\d{4})(\d{4})$/, `$1-$2-$3`),
+  //   });
+  // };
+
   const phoneNumberChangeHandler = (e) => {
-    setUserInfo({
-      ...userInfo,
-      phoneNumber: e.target.value
-        .replace(/[^0-9]/g, "")
-        .replace(/^(\d{3})(\d{4})(\d{4})$/, `$1-$2-$3`),
-    });
-  };
+    const value = e.target.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+    let formattedValue = '';
+    
+    if (value.length > 3) {
+      formattedValue += value.substring(0, 3) + '-';
+    }
+    
+    if (value.length > 7) {
+      formattedValue += value.substring(3, 7) + '-';
+      formattedValue += value.substring(7, 11);
+    } else if (value.length > 3) {
+      formattedValue += value.substring(3, 7);
+    } else {
+      formattedValue += value;
+    }
+    
+    setUserInfo({...userInfo, phoneNumber: formattedValue});
+  }
 
   const certificateNumberChangeHandler = (e) => {
     setUserInfo({ ...userInfo, certificateNumber: e.target.value });
