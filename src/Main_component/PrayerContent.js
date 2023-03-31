@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Rectangle_img from "../images/Rectangle_img.svg"
 import Logo from "./Logo";
-import Empty_Box from '../images/empty_box.svg';
-import Check_Box from '../images/check_box.svg';
+import Empty_Box_top from '../images/empty_box.svg';
 import Bar from "./Bar";
-
+import Download_img from "../images/Click_img.svg";
+import Empty_Box_btm from "../images/empty_box_bt.svg";
+import Check_Box_btm from "../images/check_box_bt.svg";
+import Check_Box_top from "../images/check_box_top.svg";
 
 
 const MainContent = styled.div`
@@ -41,15 +42,17 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
-    width : 34px;
+    width : 33px;
     font-size : 10px;
     heigth : 17px;
+    text-align : center;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
     line-height: 17px;
     margin-right: 4px;
+    margin-top : 4px;
 `;
 const ClickImg = styled(Logo)``;
 
@@ -60,13 +63,13 @@ function PrayerContent({content, day_toggle , CountUpdate, bottom, ContentClick,
     }
     return(
         <MainContent>
-            {isShare && <ClickImg src={checked ? Check_Box : Empty_Box}style={{marginRight: '20px'}} 
+            {isShare && <ClickImg src={bottom ? (checked ? Check_Box_btm : Empty_Box_btm) : (checked ? Check_Box_top : Empty_Box_top)} style={{marginRight: '20px'}} 
             onClick={() => checkBoxClick(id)}/> }
             <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <Bar></Bar>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => ContentClick(id)}>{text}</TextContent>
             {day_toggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{"D-"+ dday}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Rectangle_img} onClick={() => CountUpdate(id)}/></div>}
+            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => CountUpdate(id)}/></div>}
         </MainContent>
     )
 }
