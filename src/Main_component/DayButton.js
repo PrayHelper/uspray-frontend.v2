@@ -35,7 +35,10 @@ const Day_Button = ({DayInfo}) =>{
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
     const colorChange = (e) =>{
         console.log(e.target.className);
-        if(e.target.className === "sc-kMrHXl gchicm three"){ 
+        var sliceString_five = e.target.className.slice(-5);
+        var sliceString_six = e.target.className.slice(-6);
+        var sliceString_seven = e.target.className.slice(-7);
+        if(sliceString_five === "three"){ 
             setColor_three('#75BD62');
             setColor_seven('white');
             setColor_thirty('white');
@@ -46,7 +49,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(3);
         }   
-        else if(e.target.className === "sc-kMrHXl gchicm seven"){ 
+        else if(sliceString_five === "seven"){ 
             setColor_three('white');
             setColor_seven('#75BD62');
             setColor_thirty('white');
@@ -57,7 +60,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(7);
         }   
-        else if(e.target.className === "sc-kMrHXl gchicm thirty"){ 
+        else if(sliceString_six === "thirty"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('#75BD62');
@@ -68,7 +71,7 @@ const Day_Button = ({DayInfo}) =>{
             setFont_hundred('#75BD62');
             DayInfo(30);
         }   
-        else if(e.target.className === "sc-kMrHXl gchicm hundred"){ 
+        else if(sliceString_seven === "hundred"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('white');

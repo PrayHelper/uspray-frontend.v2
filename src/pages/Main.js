@@ -10,59 +10,59 @@ const Main = () => {
   const [isChecked , setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [prayer_content, setPrayer_content] = useState([
-    // {
-    //   id : 1, 
-    //   name: '김정묵',
-    //   dday:3,
-    //   text:"안녕하세요",
-    //   checked: false,
-    //   count : 11
-    // },
-    // {
-    //   id : 2,
-    //   name: '김정묵',
-    //   dday:2,
-    //   text:"안녕할수있도록",
-    //   checked: false,
-    //   count : 10
-    // },
-    // {
-    //   id : 3,
-    //   name: '김정묵',
-    //   dday:1,
-    //   text:"안녕할까요?",
-    //   checked: false,
-    //   count : 10
-    // },
+    {
+      id : 1, 
+      name: '김정묵',
+      dday:3,
+      text:"안녕하세요",
+      checked: false,
+      count : 11
+    },
+    {
+      id : 2,
+      name: '김정묵',
+      dday:2,
+      text:"안녕할수있도록",
+      checked: false,
+      count : 10
+    },
+    {
+      id : 3,
+      name: '김정묵',
+      dday:1,
+      text:"안녕할까요?",
+      checked: false,
+      count : 10
+    },
     
   ])
 
   const [prayer_more_content , setPrayer_more_content] = useState([
-    // {
-    //   id : 1001, 
-    //   dday:3,
-    //   name: '김정묵',
-    //   text:"화이팅할수있도록",
-    //   checked: false,
-    //   count : 5
-    // },
-    // {
-    //   id : 1002,
-    //   dday:2,
-    //   name: '김정묵',
-    //   text:"화이팅할수있도록",
-    //   checked: false,
-    //   count : 5
+    {
+      id : 1001, 
+      dday:3,
+      name: '김정묵',
+      text:"화이팅할수있도록",
+      checked: false,
+      count : 5
+    },
+    {
+      id : 1002,
+      dday:2,
+      name: '김정묵',
+      text:"화이팅할수있도록",
+      checked: false,
+      count : 5
 
-    // },
-    // {
-    //   id : 1003,
-    //   dday:1,
-    //   name: '김정묵',
-    //   text:"화이팅할수있도록",
-    //   checked: false,
-    //   count : 5
-    // },
+    },
+    {
+      id : 1003,
+      dday:1,
+      name: '김정묵',
+      text:"화이팅할수있도록",
+      checked: false,
+      count : 5
+    },
   ])
 
 
