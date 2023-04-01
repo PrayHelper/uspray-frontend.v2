@@ -5,7 +5,7 @@ import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 let init = 0;
 
@@ -33,40 +33,38 @@ const ModalContent = styled.div`
   padding: 16px;
   gap: 8px;
   border-radius: 16px;
-  color: #7BAB6E;
+  color: #7bab6e;
 `;
 
 const ModalButton = styled.button`
   width: 100%;
   height: 66px;
-  background-color: #7BAB6E;
+  background-color: #7bab6e;
   border-style: none;
   border-radius: 16px;
   padding: 20px 0;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 18px;
 `;
 
-
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
-    'id': '',
-    'pwd': '',
-    'matchingPwd': '',
-    'name': '',
-    'year': '',
-    'month': '',
-    'day': '',
-    'phoneNumber': '',
-    'certificateNumber': '',
+    id: "",
+    pwd: "",
+    matchingPwd: "",
+    name: "",
+    year: "",
+    month: "",
+    day: "",
+    phoneNumber: "",
+    certificateNumber: "",
   });
   const [gender, setGender] = useState("");
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
-  
-  
+
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -78,33 +76,33 @@ const Signup = () => {
 
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
-  }
+  };
 
   const pwdCheck = (userInfo) => {
     return pwdRegEx.test(userInfo);
-  }
+  };
 
   const phoneNumberCheck = (userInfo) => {
     console.log(userInfo);
     console.log(phoneNumberRegEx.test(userInfo));
     return phoneNumberRegEx.test(userInfo);
-  }
+  };
 
   const certificateNumberCheck = (userInfo) => {
     return certificateNumberRegEx.test(userInfo);
-  }
+  };
 
   const idChangeHandler = (e) => {
-    setUserInfo({...userInfo, id: e.target.value});
+    setUserInfo({ ...userInfo, id: e.target.value });
     if (!idCheck(e.target.value)) {
       setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
       return;
     }
     setInvalidIdInfo("");
-  }
+  };
 
   const pwdChangeHandler = (e) => {
-    setUserInfo({...userInfo, pwd: e.target.value});
+    setUserInfo({ ...userInfo, pwd: e.target.value });
     if (!pwdCheck(e.target.value)) {
       setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
       return;
@@ -117,69 +115,78 @@ const Signup = () => {
       }
     }
     setInvalidPwdInfo("");
-  }
+  };
 
   const matchingPwdChangeHandler = (e) => {
-    setUserInfo({...userInfo, matchingPwd: e.target.value});
+    setUserInfo({ ...userInfo, matchingPwd: e.target.value });
     if (userInfo.pwd !== e.target.value) {
       setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
       return;
     }
     setInvalidMatchingPwdInfo("");
-  }
+  };
 
   const nameChangeHandler = (e) => {
-    setUserInfo({...userInfo, name: e.target.value});
-  }
+    setUserInfo({ ...userInfo, name: e.target.value });
+  };
 
   const nameFocusHandler = () => {
-    if (init == 0){
+    if (init == 0) {
       setShowModal(true);
       init = 1;
     }
-  }
-  
+  };
+
   const yearChangeHandler = (e) => {
-    setUserInfo({...userInfo, year: e.target.value});
-  }
-  
+    setUserInfo({ ...userInfo, year: e.target.value });
+  };
+
   const monthChangeHandler = (e) => {
-    setUserInfo({...userInfo, month: e.target.value});
-  }
-  
+    setUserInfo({ ...userInfo, month: e.target.value });
+  };
+
   const dayChangeHandler = (e) => {
-    setUserInfo({...userInfo, day: e.target.value});
-  }
-  
+    setUserInfo({ ...userInfo, day: e.target.value });
+  };
+
   const phoneNumberChangeHandler = (e) => {
-    setUserInfo({...userInfo, phoneNumber: e.target.value});
-  }
+    setUserInfo({ ...userInfo, phoneNumber: e.target.value });
+  };
 
   const certificateNumberChangeHandler = (e) => {
-    setUserInfo({...userInfo, certificateNumber: e.target.value});
-  }
-  
+    setUserInfo({ ...userInfo, certificateNumber: e.target.value });
+  };
 
   return (
     <div>
       <UserHeader />
       {showModal && (
-          <ModalWrapper onClick={handleCloseModal}>
-            <ModalContent onClick={(e) => e.stopPropagation()}>
-              <img src='images/notice_icon.svg' alt='notice_icon' />
-              <div style={{
+        <ModalWrapper onClick={handleCloseModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <img src="images/notice_icon.svg" alt="notice_icon" />
+            <div
+              style={{
                 fontSize: "20px",
                 color: "#7BAB6E",
                 fontWeight: "700",
                 paddingBottom: "2px",
-              }}>이름은 실명으로 설정해주세요!</div>
-              <div style={{
+              }}
+            >
+              이름은 실명으로 설정해주세요!
+            </div>
+            <div
+              style={{
                 marginBottom: "28px",
-              }}>기도제목 공유 시 이름으로 전달됩니다.</div>
-              <ModalButton onClick={handleCloseModal}>네, 그렇게 할게요.</ModalButton>
-            </ModalContent>
-          </ModalWrapper>
-        )}
+              }}
+            >
+              기도제목 공유 시 이름으로 전달됩니다.
+            </div>
+            <ModalButton onClick={handleCloseModal}>
+              네, 그렇게 할게요.
+            </ModalButton>
+          </ModalContent>
+        </ModalWrapper>
+      )}
       <div
         style={{
           display: "flex",
@@ -188,14 +195,37 @@ const Signup = () => {
           padding: "20px 27px",
         }}
       >
-        <Input label="아이디" onChangeHandler={idChangeHandler} value={userInfo.id} isError={!!invalidIdInfo}
-        description={invalidIdInfo}/>
-        <Input label="비밀번호" type="password" onChangeHandler={pwdChangeHandler} value={userInfo.pwd} isError={!!invalidPwdInfo}
-        description={invalidPwdInfo}/>
-        <Input label="비밀번호 확인" type="password" onChangeHandler={matchingPwdChangeHandler} value={userInfo.matchingPwd} isError={!!invalidMatchingPwdInfo}
-        description={invalidMatchingPwdInfo}/>
-        <Input label="이름" onChangeHandler={nameChangeHandler} value={userInfo.name} isError={false}
-        description="" onFocusHandler={nameFocusHandler}/>
+        <Input
+          label="아이디"
+          onChangeHandler={idChangeHandler}
+          value={userInfo.id}
+          isError={!!invalidIdInfo}
+          description={invalidIdInfo}
+        />
+        <Input
+          label="비밀번호"
+          type="password"
+          onChangeHandler={pwdChangeHandler}
+          value={userInfo.pwd}
+          isError={!!invalidPwdInfo}
+          description={invalidPwdInfo}
+        />
+        <Input
+          label="비밀번호 확인"
+          type="password"
+          onChangeHandler={matchingPwdChangeHandler}
+          value={userInfo.matchingPwd}
+          isError={!!invalidMatchingPwdInfo}
+          description={invalidMatchingPwdInfo}
+        />
+        <Input
+          label="이름"
+          onChangeHandler={nameChangeHandler}
+          value={userInfo.name}
+          isError={false}
+          description=""
+          onFocusHandler={nameFocusHandler}
+        />
         <div style={{ position: "relative" }}>
           <div
             style={{
@@ -218,12 +248,65 @@ const Signup = () => {
             <ToggleButton contents="여자" item={gender} setter={setGender} />
           </div>
         </div>
-        <InputBirth yearChangeHandler={yearChangeHandler} monthChangeHandler={monthChangeHandler} dayChangeHandler={dayChangeHandler}/>
-        <Input label="전화번호" placeholder="010-1234-1234형식으로 입력해주세요." onChangeHandler={phoneNumberChangeHandler} value={userInfo.phoneNumber} isError={false}
-        description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={phoneNumberCheck(userInfo.phoneNumber) ? ButtonTheme.GREEN : ButtonTheme.GRAY} disabled={false} handler={() => {console.log('전화번호 클릭')}}>전송</Button>} />
-        <Input label="인증번호" onChangeHandler={certificateNumberChangeHandler} value={userInfo.certificateNumber} isError={false}
-        description={<Button buttonSize={ButtonSize.NORMAL} buttonTheme={certificateNumberCheck(userInfo.certificateNumber) ? ButtonTheme.GREEN : ButtonTheme.GRAY} disabled={false} handler={() => {console.log('인증번호 클릭')}}>확인</Button>} />
-        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GRAY} handler={() => {console.log(userInfo)}}>회원가입</Button>
+        <InputBirth
+          yearChangeHandler={yearChangeHandler}
+          monthChangeHandler={monthChangeHandler}
+          dayChangeHandler={dayChangeHandler}
+        />
+        <Input
+          label="전화번호"
+          placeholder="010-1234-1234형식으로 입력해주세요."
+          onChangeHandler={phoneNumberChangeHandler}
+          value={userInfo.phoneNumber}
+          isError={false}
+          description={
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              buttonTheme={
+                phoneNumberCheck(userInfo.phoneNumber)
+                  ? ButtonTheme.GREEN
+                  : ButtonTheme.GRAY
+              }
+              disabled={false}
+              handler={() => {
+                console.log("전화번호 클릭");
+              }}
+            >
+              전송
+            </Button>
+          }
+        />
+        <Input
+          label="인증번호"
+          onChangeHandler={certificateNumberChangeHandler}
+          value={userInfo.certificateNumber}
+          isError={false}
+          description={
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              buttonTheme={
+                certificateNumberCheck(userInfo.certificateNumber)
+                  ? ButtonTheme.GREEN
+                  : ButtonTheme.GRAY
+              }
+              disabled={false}
+              handler={() => {
+                console.log("인증번호 클릭");
+              }}
+            >
+              확인
+            </Button>
+          }
+        />
+        <Button
+          buttonSize={ButtonSize.LARGE}
+          buttonTheme={ButtonTheme.GRAY}
+          handler={() => {
+            console.log(userInfo);
+          }}
+        >
+          회원가입
+        </Button>
       </div>
     </div>
   );
