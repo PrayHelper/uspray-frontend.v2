@@ -54,7 +54,10 @@ const DdayContent = styled.div`
     margin-right: 4px;
     margin-top : 4px;
 `;
-const ClickImg = styled(Logo)``;
+const ClickImg = styled(Logo)`
+    width: 16px;
+    height: 16px;
+`;
 
 function PrayerContent({content, day_toggle , CountUpdate, bottom, ContentClick, isShare, ShareList}){
     const {id, dday,text,checked, name, count} = content;
@@ -69,7 +72,7 @@ function PrayerContent({content, day_toggle , CountUpdate, bottom, ContentClick,
             <Bar></Bar>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => ContentClick(id)}>{text}</TextContent>
             {day_toggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{"D-"+ dday}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => CountUpdate(id)}/></div>}
+            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => CountUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )
 }
