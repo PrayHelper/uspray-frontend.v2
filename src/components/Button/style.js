@@ -12,7 +12,7 @@ export const BaseButtonStyle = styled.button`
   font-size: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "12px": "16px"};
   border-radius: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "4px": "16px"};
   border-style: none;
-  background-color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? props.disabled ? "#D0E8CB" : "#7BAB6E" : "#EEEEEE"};
-  color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? "#FFFFFF" : "#A0A0A0"};
+  background-color: ${(props) => props.buttonTheme === ButtonTheme.GREEN ? (props.disabled ? "#D0E8CB" : "#7BAB6E") : (props.buttonTheme === ButtonTheme.RED ? "#FF6B6B" : "#EEEEEE")};
+  color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? "#FFFFFF" : (props.buttonTheme === ButtonTheme.RED ? "white" : "#A0A0A0")};
   line-height: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "17px" : "23px"};
 `

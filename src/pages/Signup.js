@@ -411,7 +411,7 @@ const Signup = () => {
         >
           회원가입
         </Button>
-        {1 && (
+        {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>
             인증번호가 일치하지 않습니다
           </Toast>
