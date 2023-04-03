@@ -225,15 +225,28 @@ const Signup = () => {
   };
 
   const changeTimeFormat = (time) => {
-    return `0${parseInt(time/60)}:${time%60 < 10 ? "0"+time%60 : time%60}`;
+    console.log("timeFormat: ", time, "typeOfTime: ", typeof(time));
+    let minutes = parseInt(time/60);
+    let seconds = time%60;
+    let result;
+    if (parseInt(minutes / 10) === 0)
+      minutes = `0${minutes}`;
+    if (parseInt(seconds / 10) === 0)
+      seconds = `0${seconds}`;
+    result = `${minutes}:${seconds}`;
+    return result;
   };
 
   useEffect(() => {
+    if (time === "")
+      return;
+    if (time === 0){
+      setTime(0);
+      return;
+    }
     const id = setInterval(()=> {
-    	setTime(time => time-1) //클로저 역할을 해주는 
+      setTime(time => time-1) //클로저 역할을 해주는 
     }, 1000);
-    if (time == 0)
-      clearInterval(id);
     return () => clearInterval(id);
   }, [time]);
 
@@ -357,7 +370,7 @@ const Signup = () => {
                 disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
                 handler={() => {
                   phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
-                  setTime("180");
+                  setTime("10");
                 }}
               >
                 {time ? "진행 중" : "전송"}
@@ -371,7 +384,7 @@ const Signup = () => {
           isError={false}
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              {time && <span>{changeTimeFormat(time)}</span>}
+              {time!="" && <span>{changeTimeFormat(time)}</span>}
               <Button
                 buttonSize={ButtonSize.NORMAL}
                 buttonTheme={
