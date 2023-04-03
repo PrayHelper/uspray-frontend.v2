@@ -130,6 +130,7 @@ const Signup = () => {
         alert("인증번호가 전송되었습니다.");
         console.log(res);
         setVerficationNumber(res.data);
+        setTime("10");
       }
     } catch (e) {
       alert("error occured");
@@ -368,7 +369,7 @@ const Signup = () => {
               disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
               handler={() => {
                 phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
-                setTime("10");
+                
               }}
             >
               {time ? "진행 중" : "전송"}
