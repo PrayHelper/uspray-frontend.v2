@@ -7,6 +7,7 @@ import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from "styled-components";
 import axios from "axios";
+import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 let init = 0;
 
@@ -68,6 +69,7 @@ const Signup = () => {
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
+  const [showToast, setShowToast] = useState(true);
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
@@ -225,30 +227,34 @@ const Signup = () => {
   };
 
   const changeTimeFormat = (time) => {
-    console.log("timeFormat: ", time, "typeOfTime: ", typeof(time));
-    let minutes = parseInt(time/60);
-    let seconds = time%60;
+    console.log("timeFormat: ", time, "typeOfTime: ", typeof time);
+    let minutes = parseInt(time / 60);
+    let seconds = time % 60;
     let result;
-    if (parseInt(minutes / 10) === 0)
-      minutes = `0${minutes}`;
-    if (parseInt(seconds / 10) === 0)
-      seconds = `0${seconds}`;
+    if (parseInt(minutes / 10) === 0) minutes = `0${minutes}`;
+    if (parseInt(seconds / 10) === 0) seconds = `0${seconds}`;
     result = `${minutes}:${seconds}`;
     return result;
   };
 
   useEffect(() => {
-    if (time === "")
-      return;
-    if (time === 0){
+    if (time === "") return;
+    if (time === 0) {
       setTime(0);
       return;
     }
-    const id = setInterval(()=> {
-      setTime(time => time-1) //클로저 역할을 해주는 
+    const id = setInterval(() => {
+      setTime((time) => time - 1); //클로저 역할을 해주는
     }, 1000);
     return () => clearInterval(id);
   }, [time]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowToast(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div>
@@ -337,16 +343,8 @@ const Signup = () => {
               textAlign: "center",
             }}
           >
-            <ToggleButton
-              contents="남자"
-              item={gender}
-              setter={setGender}
-            />
-            <ToggleButton
-              contents="여자"
-              item={gender}
-              setter={setGender}
-            />
+            <ToggleButton contents="남자" item={gender} setter={setGender} />
+            <ToggleButton contents="여자" item={gender} setter={setGender} />
           </div>
         </div>
         <InputBirth
@@ -360,21 +358,21 @@ const Signup = () => {
           value={userInfo.phoneNumber}
           isError={false}
           description={
-              <Button
-                buttonSize={ButtonSize.NORMAL}
-                buttonTheme={
-                  phoneNumberCheck(userInfo.phoneNumber)
-                    ? ButtonTheme.GREEN
-                    : ButtonTheme.GRAY
-                }
-                disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
-                handler={() => {
-                  phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
-                  setTime("10");
-                }}
-              >
-                {time ? "진행 중" : "전송"}
-              </Button>
+            <Button
+              buttonSize={ButtonSize.NORMAL}
+              buttonTheme={
+                phoneNumberCheck(userInfo.phoneNumber)
+                  ? ButtonTheme.GREEN
+                  : ButtonTheme.GRAY
+              }
+              disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
+              handler={() => {
+                phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
+                setTime("10");
+              }}
+            >
+              {time ? "진행 중" : "전송"}
+            </Button>
           }
         />
         <Input
@@ -384,7 +382,7 @@ const Signup = () => {
           isError={false}
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              {time!="" && <span>{changeTimeFormat(time)}</span>}
+              {time != "" && <span>{changeTimeFormat(time)}</span>}
               <Button
                 buttonSize={ButtonSize.NORMAL}
                 buttonTheme={
@@ -413,6 +411,11 @@ const Signup = () => {
         >
           회원가입
         </Button>
+        {1 && (
+          <Toast toastTheme={ToastTheme.ERROR}>
+            인증번호가 일치하지 않습니다
+          </Toast>
+        )}
       </div>
     </div>
   );
