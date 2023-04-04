@@ -8,6 +8,7 @@ import Input from "../components/Input/Input";
 import styled from "styled-components";
 import axios from "axios";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
+import Checkbox from "../components/Checkbox/Checkbox";
 
 let init = 0;
 
@@ -422,6 +423,11 @@ const Signup = () => {
             </div>
           }
         />
+        <div>
+          <Checkbox id="tos1" label={"만 14세 이상입니다."} />
+          <Checkbox id="tos2" label={"이용약관을 모두 확인하였으며 이에 동의합니다."} />
+          <Checkbox id="tos3" label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."} />
+        </div>
         <Button
           buttonSize={ButtonSize.LARGE}
           buttonTheme={ButtonTheme.GRAY}
