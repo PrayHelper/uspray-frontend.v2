@@ -69,7 +69,11 @@ const Signup = () => {
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
-  const [showToast, setShowToast] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [isCetrificated, setIsCertificated] = useState(false);
+  const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
+    useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
@@ -94,8 +98,6 @@ const Signup = () => {
   };
 
   const phoneNumberCheck = (userInfo) => {
-    console.log(userInfo);
-    console.log(phoneNumberRegEx.test(userInfo));
     return phoneNumberRegEx.test(userInfo);
   };
 
@@ -128,8 +130,8 @@ const Signup = () => {
       const res = await axios.post(api, data);
       if (res.status == 200) {
         alert("인증번호가 전송되었습니다.");
-        console.log(res);
-        setVerficationNumber(res.data);
+        console.log(res.data.code);
+        setVerficationNumber(res.data.code);
         setTime("10");
       }
     } catch (e) {
@@ -223,12 +225,16 @@ const Signup = () => {
   };
 
   const isCertificationNumberValid = (certificateNumber) => {
-    if (verficationNumber == certificateNumber) return true;
-    else return false;
+    if (verficationNumber == certificateNumber) {
+      setIsCertificated(true);
+      return true;
+    } else {
+      setIsCertificated(false);
+      return false;
+    }
   };
 
   const changeTimeFormat = (time) => {
-    console.log("timeFormat: ", time, "typeOfTime: ", typeof time);
     let minutes = parseInt(time / 60);
     let seconds = time % 60;
     let result;
@@ -240,22 +246,24 @@ const Signup = () => {
 
   useEffect(() => {
     if (time === "") return;
-    if (time === 0) {
-      setTime(0);
+    if (isCetrificated && isCertificateButtonClicked){
+      setTime("");
       return;
     }
     const id = setInterval(() => {
-      setTime((time) => time - 1); //클로저 역할을 해주는
+      if (time > 0) setTime((time) => time - 1);
     }, 1000);
     return () => clearInterval(id);
   }, [time]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (showToast){
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <div>
@@ -263,7 +271,7 @@ const Signup = () => {
       {showModal && (
         <ModalWrapper onClick={handleCloseModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <img src="images/notice_icon.svg" alt="notice_icon" />
+            <img src="images/icon_notice.svg" alt="icon_notice" />
             <div
               style={{
                 fontSize: "20px",
@@ -369,7 +377,9 @@ const Signup = () => {
               disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
               handler={() => {
                 phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
-                
+                setIsCertificated(false);
+                setIsCertificateButtonClicked(false);
+                setUserInfo({...userInfo, certificateNumber: ""});
               }}
             >
               {time ? "진행 중" : "전송"}
@@ -379,26 +389,35 @@ const Signup = () => {
         <Input
           label="인증번호"
           onChangeHandler={certificateNumberChangeHandler}
-          value={userInfo.certificateNumber}
-          isError={false}
+          value={
+            isCetrificated && isCertificateButtonClicked
+              ? "인증에 성공하였습니다."
+              : (time===0) ? "인증번호가 만료되었습니다." : userInfo.certificateNumber
+          }
+          isError={(!isCetrificated && isCertificateButtonClicked) || time===0}
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              {time != "" && <span>{changeTimeFormat(time)}</span>}
+              {time !== "" && <span>{changeTimeFormat(time)}</span>}
               <Button
                 buttonSize={ButtonSize.NORMAL}
                 buttonTheme={
                   certificateNumberCheck(userInfo.certificateNumber)
-                    ? ButtonTheme.GREEN
+                    ? (!isCetrificated && isCertificateButtonClicked) ? ((time===0) ? ButtonTheme.GRAY : ButtonTheme.RED) : (time===0) ? ButtonTheme.GRAY  : ButtonTheme.GREEN 
                     : ButtonTheme.GRAY
                 }
-                disabled={false}
+                disabled={(isCetrificated && isCertificateButtonClicked) || time===0}
                 handler={() => {
-                  if (isCertificationNumberValid)
+                  setIsCertificateButtonClicked(true);
+                  if (isCertificationNumberValid(userInfo.certificateNumber)) {
                     alert("인증에 성공하였습니다.");
-                  else alert("인증에 실패하였습니다.");
+                  } else {
+                    setToastMessage("인증번호가 일치하지 않습니다.");
+                    setShowToast(true);
+                    alert("인증에 실패하였습니다.");
+                  }
                 }}
               >
-                확인
+                {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
               </Button>
             </div>
           }
@@ -414,7 +433,7 @@ const Signup = () => {
         </Button>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>
-            인증번호가 일치하지 않습니다
+            {toastMessage}
           </Toast>
         )}
       </div>
