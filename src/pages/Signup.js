@@ -100,7 +100,6 @@ const Signup = () => {
   };
 
   const makeBirthDateString = () => {
-    //TODO: signup 버튼 눌렀을 때 연결해서 보내는걸로 수정하기
     setBirthDate(userInfo.year + "-" + userInfo.month + "-" + userInfo.day);
   };
 
@@ -151,6 +150,26 @@ const Signup = () => {
       }
     } catch (e) {
       alert("error occured");
+    }
+  };
+
+  const signup = async () => {
+    const api = "api/user/signup";
+    const data = {
+      id : userInfo.id,
+      password : userInfo.pwd,
+      name : userInfo.name,
+      gender : gender,
+      birth : birthDate,
+      phone : userInfo.phoneNumber.replace(/-/g, "")
+    };
+    try {
+      const res = await axios.post(api, data);
+      if (res.status == 200) {
+        
+      }
+    } catch (e) {
+
     }
   };
 
@@ -459,6 +478,7 @@ const Signup = () => {
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
+            makeBirthDateString();
             console.log(userInfo);
           }}
         >
