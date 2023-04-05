@@ -75,16 +75,19 @@ const Signup = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [tos1Checked, setTos1Checked] = useState(false);
+  const [tos2Checked, setTos2Checked] = useState(false);
+  const [tos3Checked, setTos3Checked] = useState(false);
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ''
   );
 
-  //TODO:체크박스 검사, 인증 완료됐는지 검사
   const isAllValid =
     !invalidIdInfo &&
     !invalidPwdInfo &&
     !invalidMatchingPwdInfo &&
-    !isCetrificated &&
+    (isCetrificated && isCertificateButtonClicked) &&
+    (tos1Checked && tos2Checked && tos3Checked) &&
     !checkEmptyUserInfoValue;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
@@ -144,7 +147,7 @@ const Signup = () => {
         alert("인증번호가 전송되었습니다.");
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
-        setTime("10");
+        setTime("180");
       }
     } catch (e) {
       alert("error occured");
@@ -276,6 +279,18 @@ const Signup = () => {
       return () => clearTimeout(timer);
     }
   }, [showToast]);
+
+  function handleTos1Change(event) {
+    setTos1Checked(event.target.checked);
+  }
+
+  function handleTos2Change(event) {
+    setTos2Checked(event.target.checked);
+  }
+
+  function handleTos3Change(event) {
+    setTos3Checked(event.target.checked);
+  }
 
   return (
     <div>
@@ -435,13 +450,14 @@ const Signup = () => {
           }
         />
         <div>
-          <Checkbox id="tos1" label={"만 14세 이상입니다."} />
-          <Checkbox id="tos2" label={"이용약관을 모두 확인하였으며 이에 동의합니다."} />
-          <Checkbox id="tos3" label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."} />
+          <Checkbox id="tos1" label={"만 14세 이상입니다."} checked={tos1Checked} handler={handleTos1Change}/>
+          <Checkbox id="tos2" label={"이용약관을 모두 확인하였으며 이에 동의합니다."} checked={tos2Checked} handler={handleTos2Change}/>
+          <Checkbox id="tos3" label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."} checked={tos3Checked} handler={handleTos3Change}/>
         </div>
         <Button
+          disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
-          buttonTheme={ButtonTheme.GRAY}
+          buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
             console.log(userInfo);
           }}
