@@ -75,6 +75,17 @@ const Signup = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const checkEmptyUserInfoValue = Object.values(userInfo).some(
+    (data) => data === ''
+  );
+
+  //TODO:체크박스 검사, 인증 완료됐는지 검사
+  const isAllValid =
+    !invalidIdInfo &&
+    !invalidPwdInfo &&
+    !invalidMatchingPwdInfo &&
+    !isCetrificated &&
+    !checkEmptyUserInfoValue;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
