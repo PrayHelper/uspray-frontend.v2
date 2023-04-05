@@ -1,11 +1,11 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../components/Login/Button/Button";
-import { Link } from "react-router-dom";
-import Input from "../components/Login/Input/Input";
-// import Input from "../components/Login/Input/Input";
+import Input from "../../Input/Input";
+import CheckId from "./CheckId";
+import CheckPwd from "./CheckPwd";
 
-const Login = () => {
+const LoginPage = () => {
   return (
     <LoginWrapper>
       <LogoWrapper>
@@ -14,29 +14,16 @@ const Login = () => {
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
       <BottomBtnWrapper>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button
-            backgrond={"#7bab6e"}
-            context={"로그인하기"}
-            color={"#ffffff"}
-            arrowColor={"#ffffff"}
-          />
-        </Link>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button
-            backgrond={"#ffffff"}
-            context={"회원가입하기"}
-            color={"#7bab6e"}
-            borderColor={"#7bab6e"}
-            arrowColor={"#7bab6e"}
-          />
-        </Link>
+        <Routes>
+          <Route path="/" element={<CheckId />}></Route>
+          <Route path="/pwd" element={<CheckPwd />}></Route>
+        </Routes>
       </BottomBtnWrapper>
     </LoginWrapper>
   );
 };
 
-export default Login;
+export default LoginPage;
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -73,5 +60,5 @@ const LogoSubTitle = styled.div`
 
 const BottomBtnWrapper = styled.div`
   width: 100%;
-  padding: 8px 0px;
+  padding: 20px 0px;
 `;
