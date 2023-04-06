@@ -15,6 +15,7 @@ export const ButtonSize = {
 export const ButtonTheme = {
   GREEN: 0,
   GRAY: 1,
+  RED: 2,
 };
 
 Object.freeze(ButtonSize, ButtonTheme);
