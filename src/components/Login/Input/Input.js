@@ -18,7 +18,12 @@ const Input = (props) => {
     <Wrapper>
       <WrapperStyle isFocused={isFocused}>
         <LabelStyle isFocused={isFocused}>{props.labelName}</LabelStyle>
-        <InputStyle onFocus={onFocusInput} type="text" onBlur={onBlurInput} />
+        <InputStyle
+          onChange={props.onChangeId}
+          onFocus={onFocusInput}
+          type="text"
+          onBlur={onBlurInput}
+        />
       </WrapperStyle>
       <Link to={props.nextRouter}>
         <SubmitInputBtn isFocused={isFocused}>

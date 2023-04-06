@@ -7,6 +7,8 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import LoginPage from "./components/Login/Page/LoginPage/LoginPage";
+import FindId from "./pages/FindId";
+import FindPwd from "./pages/FindPwd";
 
 const Container = styled.div`
   max-width: 430px;
@@ -22,6 +24,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/login/*" element={<LoginPage />}></Route>
+          <Route path="/findId" element={<FindId />}></Route>
+          <Route path="/findPwd" element={<FindPwd />}></Route>
           <Route path="/main" element={<Main />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="*" element={<NotFound />}></Route>

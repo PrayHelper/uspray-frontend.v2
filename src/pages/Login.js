@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Button from "../components/Login/Button/Button";
 import { Link } from "react-router-dom";
-import Input from "../components/Login/Input/Input";
-// import Input from "../components/Login/Input/Input";
 
 const Login = () => {
   return (

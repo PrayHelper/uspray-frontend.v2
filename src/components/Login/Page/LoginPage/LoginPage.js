@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import Input from "../../Input/Input";
 import CheckId from "./CheckId";
 import CheckPwd from "./CheckPwd";
 
 const LoginPage = () => {
+  const [idValue, setIdValue] = useState("");
+
+  const onChangeId = (event) => {
+    setIdValue(event.target.value);
+  };
+
   return (
     <LoginWrapper>
       <LogoWrapper>
@@ -15,8 +20,8 @@ const LoginPage = () => {
       </LogoWrapper>
       <BottomBtnWrapper>
         <Routes>
-          <Route path="/" element={<CheckId />}></Route>
-          <Route path="/pwd" element={<CheckPwd />}></Route>
+          <Route path="/" element={<CheckId onChangeId={onChangeId} />}></Route>
+          <Route path="/pwd" element={<CheckPwd idValue={idValue} />}></Route>
         </Routes>
       </BottomBtnWrapper>
     </LoginWrapper>

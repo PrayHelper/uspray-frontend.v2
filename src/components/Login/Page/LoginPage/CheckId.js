@@ -1,12 +1,16 @@
 import styled from "styled-components";
 import Input from "../../Input/Input";
 
-const CheckId = () => {
+const CheckId = (props) => {
   return (
     <div style={{ textAlign: "center" }}>
-      <Input labelName={"아이디"} nextRouter={"pwd"} />
+      <Input
+        labelName={"아이디"}
+        nextRouter={"pwd"}
+        onChangeId={props.onChangeId}
+      />
       <div style={{ marginTop: "16px", marginBottom: "52px" }}>
-        <SubLink>아이디를 잊으셨나요?</SubLink>
+        <SubLink href="/findId">아이디를 잊으셨나요?</SubLink>
       </div>
     </div>
   );
