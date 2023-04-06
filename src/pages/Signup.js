@@ -79,15 +79,18 @@ const Signup = () => {
   const [tos2Checked, setTos2Checked] = useState(false);
   const [tos3Checked, setTos3Checked] = useState(false);
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
-    (data) => data === ''
+    (data) => data === ""
   );
 
   const isAllValid =
     !invalidIdInfo &&
     !invalidPwdInfo &&
     !invalidMatchingPwdInfo &&
-    (isCetrificated && isCertificateButtonClicked) &&
-    (tos1Checked && tos2Checked && tos3Checked) &&
+    isCetrificated &&
+    isCertificateButtonClicked &&
+    tos1Checked &&
+    tos2Checked &&
+    tos3Checked &&
     gender &&
     !checkEmptyUserInfoValue;
 
@@ -157,12 +160,12 @@ const Signup = () => {
   const signup = async () => {
     const api = "api/user/signup";
     const data = {
-      id : userInfo.id,
-      password : userInfo.pwd,
-      name : userInfo.name,
-      gender : gender,
-      birth : birthDate,
-      phone : userInfo.phoneNumber.replace(/-/g, "")
+      id: userInfo.id,
+      password: userInfo.pwd,
+      name: userInfo.name,
+      gender: gender,
+      birth: birthDate,
+      phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
       const res = await axios.post(api, data);
@@ -281,7 +284,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (time === "") return;
-    if (isCetrificated && isCertificateButtonClicked){
+    if (isCetrificated && isCertificateButtonClicked) {
       setTime("");
       return;
     }
@@ -292,7 +295,7 @@ const Signup = () => {
   }, [time]);
 
   useEffect(() => {
-    if (showToast){
+    if (showToast) {
       const timer = setTimeout(() => {
         setShowToast(false);
       }, 3000);
@@ -426,7 +429,7 @@ const Signup = () => {
                 phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
-                setUserInfo({...userInfo, certificateNumber: ""});
+                setUserInfo({ ...userInfo, certificateNumber: "" });
               }}
             >
               {time ? "진행 중" : "전송"}
@@ -439,9 +442,13 @@ const Signup = () => {
           value={
             isCetrificated && isCertificateButtonClicked
               ? "인증에 성공하였습니다."
-              : (time===0) ? "인증번호가 만료되었습니다." : userInfo.certificateNumber
+              : time === 0
+              ? "인증번호가 만료되었습니다."
+              : userInfo.certificateNumber
           }
-          isError={(!isCetrificated && isCertificateButtonClicked) || time===0}
+          isError={
+            (!isCetrificated && isCertificateButtonClicked) || time === 0
+          }
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               {time !== "" && <span>{changeTimeFormat(time)}</span>}
@@ -449,10 +456,18 @@ const Signup = () => {
                 buttonSize={ButtonSize.NORMAL}
                 buttonTheme={
                   certificateNumberCheck(userInfo.certificateNumber)
-                    ? (!isCetrificated && isCertificateButtonClicked) ? ((time===0) ? ButtonTheme.GRAY : ButtonTheme.RED) : (time===0) ? ButtonTheme.GRAY  : ButtonTheme.GREEN 
+                    ? !isCetrificated && isCertificateButtonClicked
+                      ? time === 0
+                        ? ButtonTheme.GRAY
+                        : ButtonTheme.RED
+                      : time === 0
+                      ? ButtonTheme.GRAY
+                      : ButtonTheme.GREEN
                     : ButtonTheme.GRAY
                 }
-                disabled={(isCetrificated && isCertificateButtonClicked) || time===0}
+                disabled={
+                  (isCetrificated && isCertificateButtonClicked) || time === 0
+                }
                 handler={() => {
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
@@ -470,9 +485,24 @@ const Signup = () => {
           }
         />
         <div>
-          <Checkbox id="tos1" label={"만 14세 이상입니다."} checked={tos1Checked} handler={handleTos1Change}/>
-          <Checkbox id="tos2" label={"이용약관을 모두 확인하였으며 이에 동의합니다."} checked={tos2Checked} handler={handleTos2Change}/>
-          <Checkbox id="tos3" label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."} checked={tos3Checked} handler={handleTos3Change}/>
+          <Checkbox
+            id="tos1"
+            label={"만 14세 이상입니다."}
+            checked={tos1Checked}
+            handler={handleTos1Change}
+          />
+          <Checkbox
+            id="tos2"
+            label={"이용약관을 모두 확인하였으며 이에 동의합니다."}
+            checked={tos2Checked}
+            handler={handleTos2Change}
+          />
+          <Checkbox
+            id="tos3"
+            label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."}
+            checked={tos3Checked}
+            handler={handleTos3Change}
+          />
         </div>
         <Button
           disabled={!isAllValid}
@@ -487,9 +517,7 @@ const Signup = () => {
           회원가입
         </Button>
         {showToast && (
-          <Toast toastTheme={ToastTheme.ERROR}>
-            {toastMessage}
-          </Toast>
+          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
       </div>
     </div>
