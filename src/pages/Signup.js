@@ -88,6 +88,7 @@ const Signup = () => {
     !invalidMatchingPwdInfo &&
     (isCetrificated && isCertificateButtonClicked) &&
     (tos1Checked && tos2Checked && tos3Checked) &&
+    gender &&
     !checkEmptyUserInfoValue;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
@@ -166,10 +167,10 @@ const Signup = () => {
     try {
       const res = await axios.post(api, data);
       if (res.status == 200) {
-        
+        alert("회원가입이 완료되었습니다.");
       }
     } catch (e) {
-
+      alert("error occured");
     }
   };
 
@@ -480,6 +481,7 @@ const Signup = () => {
           handler={() => {
             makeBirthDateString();
             console.log(userInfo);
+            signup();
           }}
         >
           회원가입
