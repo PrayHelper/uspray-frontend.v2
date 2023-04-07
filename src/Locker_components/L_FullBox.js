@@ -1,4 +1,4 @@
-import { ReactComponent as LockerFullBoxSvg } from '../../images/Locker_FullBox.svg';
+import { ReactComponent as LockerFullBoxSvg } from '../images/Locker_FullBox.svg';
 import styled from 'styled-components';
 
 const StyledLockerFullBox = styled(LockerFullBoxSvg)`

@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import StyledLockerNullBox from "./L_NullBox";
-import StyledLockerFullBox from "./L_FullBox";
+import ImageSwitcher from "./L_ImageSwitcher";
 
 const BackGroundBox = styled.div`
 
@@ -15,9 +14,8 @@ const BackGroundBox = styled.div`
     border-radius: 24px;
 `
 const NameTag = styled.div`
-    
+    margin-left: 16px;
     margin-top: 16px;
-    margin-left: 56px;
     margin-bottom: 36px;
 
     font-family: 'Noto Sans KR';
@@ -43,26 +41,29 @@ const PrayerTag = styled.div`
 const DdayTag = styled.div`
     
     margin: 16px;
-    float: right;
     
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    text-align: right;
 
     color: #A0A0A0;
 `
-const Checkbox = styled.button`
-
+const Checkbox = styled.div`
+    margin-left: 16px;
+    margin-top: 25px;
 `
+const imageUrls = [
+    '/images/Locker_NullBox.svg',
+    '/images/Locker_FullBox.svg',
+  ];
 
 const PrayChecker = ({name, prayer, dday}) => {
     return (
         <BackGroundBox>
-            <StyledLockerNullBox>
-                <Checkbox/>
-            </StyledLockerNullBox>
+            <Checkbox>
+                <ImageSwitcher images={imageUrls}/>
+            </Checkbox>
             <NameTag>{name}</NameTag>
             <PrayerTag>{prayer}</PrayerTag>
             <DdayTag>{dday}</DdayTag>

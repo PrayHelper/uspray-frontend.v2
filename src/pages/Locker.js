@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import LockerUserHeader from "../Locker_components/LockerUserHeader";
-
+import LockerHeader from "../Locker_components/L_Header";
 import PrayChecker from "../Locker_components/L_PrayChecker";
 
 
@@ -11,7 +10,7 @@ const Locker = () => {
         backgroundColor: "#d0e8cb",
         width : "430px"
         }}>
-      <LockerUserHeader />
+      <LockerHeader />
       <div
         style={{
           display: "flex",
