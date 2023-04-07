@@ -7,9 +7,6 @@ import Input from "../components/Input/Input";
 import styled from "styled-components";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
-import serverapi from "../api/serverapi";
-import BottomNav from "../components/BottomNav/BottomNav";
-
 
 let init = 0;
 
@@ -125,8 +122,8 @@ const Signup = () => {
   const isIdDuplicated = async (uid) => {
     const api = `/user/dup_check/${uid}`;
     try {
-      const res = await serverapi.get(api);
-      if (res.status === 200) {
+      const res = await axios.get(api);
+      if (res.status == 200) {
         return res.data.dup;
       }
     } catch (e) {
@@ -140,8 +137,8 @@ const Signup = () => {
       phone: phoneNumber,
     };
     try {
-      const res = await serverapi.post(api, data);
-      if (res.status === 200) {
+      const res = await axios.post(api, data);
+      if (res.status == 200) {
         alert("인증번호가 전송되었습니다.");
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
@@ -163,8 +160,8 @@ const Signup = () => {
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
-      const res = await serverapi.post(api, data);
-      if (res.status === 200) {
+      const res = await axios.post(api, data);
+      if (res.status == 200) {
         alert("회원가입이 완료되었습니다.");
       }
     } catch (e) {
