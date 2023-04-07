@@ -1,6 +1,5 @@
 import ToggleButton from "../components/ToggleButton";
 import React, { useEffect, useRef, useState } from "react";
-import InputText from "../components/InputText";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
@@ -63,7 +62,6 @@ const Signup = () => {
     certificateNumber: "",
   });
   const [gender, setGender] = useState("");
-  const [birthDate, setBirthDate] = useState("");
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
@@ -103,9 +101,6 @@ const Signup = () => {
     setShowModal(false);
   };
 
-  const makeBirthDateString = () => {
-    setBirthDate(userInfo.year + "-" + userInfo.month + "-" + userInfo.day);
-  };
 
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
@@ -164,7 +159,7 @@ const Signup = () => {
       password: userInfo.pwd,
       name: userInfo.name,
       gender: gender,
-      birth: birthDate,
+      birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
@@ -509,8 +504,6 @@ const Signup = () => {
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
-            makeBirthDateString();
-            console.log(userInfo);
             signup();
           }}
         >
