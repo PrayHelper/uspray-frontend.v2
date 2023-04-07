@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import Day_Calender from '../images/day_calender.svg';
 // import DatePicker from "react-datepicker";
-
 const DayBtnSet = styled.div`
     display: flex;
     height: 42px;
@@ -20,6 +19,10 @@ const DayBtn = styled.button`
     border: 1px solid #75BD62;
     border-radius: 8px;
 `
+const title = "지금부터 이런 데이터....";
+const dead = "2024-08-01";
+
+
 
 const DayCalender = styled(Logo)`
 `;

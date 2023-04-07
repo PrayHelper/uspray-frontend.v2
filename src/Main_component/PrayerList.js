@@ -6,9 +6,9 @@ import Share from "./Share";
 import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
+import serverapi from "../api/serverapi";
 
 const Background =  styled.div`
-    height : 882px;
     width  : 430px; 
     background-color: #D0E8CB;
     max-height: 10000px;
@@ -72,9 +72,9 @@ const PrayerContentStyle = styled.div`
 `;
 
 
-function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteBtnClick, 
+function PrayerList({prayer_content, setPrayer_content, prayer_more_content, CountUpdate, CompleteBtnClick, 
     ModifyBtnClick, DeleteBtnClick, isChecked, click_id, ContentClick, isModify,
-    ValueChange,ChangeCheck}){
+    ValueChange,ChangeCheck, ddayCaculate}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
@@ -86,9 +86,37 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
     const [isShare, setIsShare] = useState(false);
     const [Share_list, setShare_list] = useState([]);
     const [share_toggle, setshare_toggle] = useState(false);
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE0VDEzOjE5OjAwLjg0MjQ0NyJ9.YcfoQUR4Dau12MJBeL5NmuDUF1xcFQD2qSQiEYpnKeg";
+
+    const getPrayList = async (query) => {
+        const api = "/pray?sort_by=" + query;
+        try {
+          const res= await serverapi.get(api, { headers: {
+            'Authorization': `${accessToken}`}});
+          if (res.status === 200) {
+            var prayer_content_ = [];
+            for(var i = 0;i<Object.keys(res.data).length;i++){
+              var result = ddayCaculate(res.data[i].deadline);
+                prayer_content_[i] = {
+                  id : res.data[i].id,
+                  name: '김정묵',
+                  dday: result,
+                  text: res.data[i].title,
+                  checked : true,
+                  count : res.data[i].pray_cnt
+                };
+              }
+            setPrayer_content(prayer_content_);
+            }
+          } catch (e){
+          alert("error occured");
+          console.log(e);
+        }
+    }
 
     const dayFucTopDay = (e) =>{
         if(!day_toggle_top_day){
+            getPrayList("date");
             setDay_toggle_top_day(!day_toggle_top_day);
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setColor_second_top('#7BAB6E');
@@ -97,6 +125,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
     }
     const dayFucTopPrayer = () =>{
         if(!day_toggle_top_prayer){
+            getPrayList("cnt");
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setDay_toggle_top_day(!day_toggle_top_day);
             setColor_first_top('#7BAB6E');

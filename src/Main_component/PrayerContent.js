@@ -50,7 +50,7 @@ const DdayContent = styled.div`
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 17px;
     margin-right: 4px;
     margin-top : 4px;

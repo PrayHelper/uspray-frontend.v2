@@ -18,7 +18,8 @@ export const ButtonTheme = {
   RED: 2,
 };
 
-Object.freeze(ButtonSize, ButtonTheme);
+Object.freeze(ButtonSize);
+Object.freeze(ButtonTheme);
 
 const Button = ({buttonSize, buttonTheme, disabled, handler ,children}) =>{
   if (!buttonSize) {
