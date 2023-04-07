@@ -5,14 +5,13 @@ import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from "styled-components";
-import axios from "axios";
+import axios from "../api/axios";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 
 let init = 0;
 
 const ModalWrapper = styled.div`
-  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
@@ -122,11 +121,11 @@ const Signup = () => {
     // cors설정 이후에는 이걸로
     // const api = `${process.env.REACT_APP_API_ORIGIN}/api/user/dup_check/${uid}`;
     // proxy 설정일 경우
-    const api = `api/user/dup_check/${uid}`;
+    const api = `/user/dup_check/${uid}`;
+    console.log(process.env.REACT_APP_API_ORIGIN);
     try {
       const res = await axios.get(api);
       if (res.status == 200) {
-        console.log("dup: ", res.data.dup);
         return res.data.dup;
       }
     } catch (e) {
@@ -135,7 +134,7 @@ const Signup = () => {
   };
 
   const phoneNumVerfication = async (phoneNumber) => {
-    const api = "api/admin/sms";
+    const api = "/api/admin/sms";
     const data = {
       phone: phoneNumber,
     };
@@ -153,7 +152,7 @@ const Signup = () => {
   };
 
   const signup = async () => {
-    const api = "api/user/signup";
+    const api = "/api/user/signup";
     const data = {
       id: userInfo.id,
       password: userInfo.pwd,
