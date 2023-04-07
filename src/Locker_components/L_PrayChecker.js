@@ -58,12 +58,12 @@ const imageUrls = [
     '/images/Locker_FullBox.svg',
   ];
 
-const PrayChecker = ({name, prayer, dday}) => {
+const PrayChecker = ({id, checked, name, prayer, dday}) => {
     return (
         <BackGroundBox>
             <Checkbox>
                 <ImageSwitcher images={imageUrls}/>
-            </Checkbox>
+            </Checkbox> 
             <NameTag>{name}</NameTag>
             <PrayerTag>{prayer}</PrayerTag>
             <DdayTag>{dday}</DdayTag>

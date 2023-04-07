@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ReactComponent as GrayCheck } from '../images/Locker_GrayCheck.svg';
 
 const StyledHeader = styled.div`
     display: flex;
@@ -30,6 +31,7 @@ const LockerHeader = () => {
     return (
         <StyledHeader>
           <Title>보관함</Title>
+          <GrayCheck/>
           <SelectorAll>전체선택</SelectorAll>
         </StyledHeader>
     );
