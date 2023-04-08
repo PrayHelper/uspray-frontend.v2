@@ -8,6 +8,7 @@ const BackGroundBox = styled.div`
     position: relative;
     width: 382px;
     height: 75px;
+    margin-bottom: 10px;
 
     background: #FFFFFF;
     box-shadow: 0px 2px 8px rgba(49, 65, 44, 0.25);
