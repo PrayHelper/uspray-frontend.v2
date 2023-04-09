@@ -220,21 +220,15 @@ const Signup = () => {
   };
 
   const yearChangeHandler = (e) => {
-    if (e.target.value.length > 4)
-        e.target.value = e.target.value.slice(0, 4);
-    setUserInfo({ ...userInfo, year: e.target.value});
+    setUserInfo({ ...userInfo, year: e.target.value.slice(0, 4) });
   };
 
   const monthChangeHandler = (e) => {
-    if (e.target.value.length > 2)
-        e.target.value = e.target.value.slice(0, 2);
-    setUserInfo({ ...userInfo, month: e.target.value });
+    setUserInfo({ ...userInfo, month: e.target.value.slice(0, 2) });
   };
 
   const dayChangeHandler = (e) => {
-    if (e.target.value.length > 2)
-        e.target.value = e.target.value.slice(0, 2);
-    setUserInfo({ ...userInfo, day: e.target.value });
+    setUserInfo({ ...userInfo, day: e.target.value.slice(0, 2) });
   };
 
   const phoneNumberChangeHandler = (e) => {
@@ -406,6 +400,9 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth
+          yearValue={userInfo.year}
+          monthValue={userInfo.month}
+          dayValue={userInfo.day}
           yearChangeHandler={yearChangeHandler}
           monthChangeHandler={monthChangeHandler}
           dayChangeHandler={dayChangeHandler}
