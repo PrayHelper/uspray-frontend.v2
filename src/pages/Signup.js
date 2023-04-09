@@ -97,6 +97,7 @@ const Signup = () => {
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
 
+
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -118,11 +119,12 @@ const Signup = () => {
     return certificateNumberRegEx.test(userInfo);
   };
 
+
   const isIdDuplicated = async (uid) => {
     const api = `/user/dup_check/${uid}`;
     try {
       const res = await serverapi.get(api);
-      if (res.status == 200) {
+      if (res.status === 200) {
         return res.data.dup;
       }
     } catch (e) {
@@ -137,7 +139,7 @@ const Signup = () => {
     };
     try {
       const res = await serverapi.post(api, data);
-      if (res.status == 200) {
+      if (res.status === 200) {
         alert("인증번호가 전송되었습니다.");
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
@@ -160,7 +162,7 @@ const Signup = () => {
     };
     try {
       const res = await serverapi.post(api, data);
-      if (res.status == 200) {
+      if (res.status === 200) {
         alert("회원가입이 완료되었습니다.");
       }
     } catch (e) {
@@ -211,21 +213,27 @@ const Signup = () => {
   };
 
   const nameFocusHandler = () => {
-    if (init == 0) {
+    if (init === 0) {
       setShowModal(true);
       init = 1;
     }
   };
 
   const yearChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, year: e.target.value });
+    if (e.target.value.length > 4)
+        e.target.value = e.target.value.slice(0, 4);
+    setUserInfo({ ...userInfo, year: e.target.value});
   };
 
   const monthChangeHandler = (e) => {
+    if (e.target.value.length > 2)
+        e.target.value = e.target.value.slice(0, 2);
     setUserInfo({ ...userInfo, month: e.target.value });
   };
 
   const dayChangeHandler = (e) => {
+    if (e.target.value.length > 2)
+        e.target.value = e.target.value.slice(0, 2);
     setUserInfo({ ...userInfo, day: e.target.value });
   };
 
@@ -254,7 +262,7 @@ const Signup = () => {
   };
 
   const isCertificationNumberValid = (certificateNumber) => {
-    if (verficationNumber == certificateNumber) {
+    if (verficationNumber === certificateNumber) {
       setIsCertificated(true);
       return true;
     } else {
