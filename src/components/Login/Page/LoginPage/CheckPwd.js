@@ -10,7 +10,14 @@ const CheckPwd = (props) => {
         nextRouter={"test"}
         idValue={props.idValue}
       />
-      <Input labelName={"비밀번호"} nextRouter={"test"} />
+      <Input
+        labelName={"비밀번호"}
+        nextRouter={"test"}
+        onChange={props.onChangePwd}
+        onClickLinkBtn={props.onClickLinkBtn}
+        pwdValue={props.pwdValue}
+        idValue={props.idValue}
+      />
       <div style={{ marginTop: "16px", marginBottom: "52px" }}>
         <SubLink href="/findPwd">비밀번호를 잊으셨나요?</SubLink>
       </div>

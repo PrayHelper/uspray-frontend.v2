@@ -5,9 +5,11 @@ const CheckId = (props) => {
   return (
     <div style={{ textAlign: "center" }}>
       <Input
+        onClickLinkBtn={props.onClickLinkBtn}
         labelName={"아이디"}
         nextRouter={"pwd"}
-        onChangeId={props.onChangeId}
+        onChange={props.onChangeId}
+        idValue={props.idValue}
       />
       <div style={{ marginTop: "16px", marginBottom: "52px" }}>
         <SubLink href="/findId">아이디를 잊으셨나요?</SubLink>
