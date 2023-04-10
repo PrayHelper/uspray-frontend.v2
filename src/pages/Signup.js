@@ -21,6 +21,7 @@ const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: fixed;
   z-index: 999;
 `;
 
@@ -337,7 +338,7 @@ const Signup = () => {
             </ModalButton>
           </ModalContent>
         </ModalWrapper>
-      )}
+        )}
       <div
         style={{
           display: "flex",
