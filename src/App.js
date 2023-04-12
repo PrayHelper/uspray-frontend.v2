@@ -9,6 +9,9 @@ import Main from "./pages/Main";
 import LoginPage from "./components/Login/Page/LoginPage/LoginPage";
 import FindId from "./pages/FindId";
 import FindPwd from "./pages/FindPwd";
+import Settings from "./pages/Settings";
+import History from "./pages/History";
+import Bottombar from "./components/Bottombar/Bottombar";
 
 const Container = styled.div`
   max-width: 430px;
@@ -28,9 +31,12 @@ function App() {
           <Route path="/findPwd" element={<FindPwd />}></Route>
           <Route path="/main" element={<Main />}></Route>
           <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/settings" element={<Settings />}></Route>
+          <Route path="/history" element={<History />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
+      <Bottombar></Bottombar>
     </Container>
   );
 }
