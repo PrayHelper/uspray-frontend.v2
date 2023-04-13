@@ -11,12 +11,17 @@ import FindId from "./pages/FindId";
 import FindPwd from "./pages/FindPwd";
 import Settings from "./pages/Settings";
 import History from "./pages/History";
-import Bottombar from "./components/Bottombar/Bottombar";
+import BottomNav from "./components/BottomNav/BottomNav";
 
 const Container = styled.div`
-  max-width: 430px;
-  height: 932px;
-  margin: 0 auto;
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  margin-bottom: 48px;
 `;
 
 function App() {
@@ -36,7 +41,7 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
-      <Bottombar></Bottombar>
+      <BottomNav></BottomNav>
     </Container>
   );
 }
