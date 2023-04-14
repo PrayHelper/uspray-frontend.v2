@@ -14,14 +14,10 @@ import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 
 const Container = styled.div`
-  position: relative;
-  width: 100%;
+  max-width: 430px;
+  height: 932px;
+  margin: 0 auto;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px;
-  margin-bottom: 48px;
 `;
 
 function App() {
