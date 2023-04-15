@@ -6,6 +6,12 @@ export const BottomNavStyle = styled.div`
   width: 100%;
   height: 48px;
   position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   bottom: 0px;
-  background-color: black;
+  background-color: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  filter: drop-shadow(0px -1px 4px rgba(0, 0, 0, 0.25));
 `

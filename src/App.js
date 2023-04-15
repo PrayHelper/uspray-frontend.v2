@@ -21,7 +21,6 @@ const Container = styled.div`
   align-items: center;
   padding: 0px;
   margin-bottom: 48px;
-
 `;
 
 function App() {
