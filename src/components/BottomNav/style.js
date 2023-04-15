@@ -7,11 +7,11 @@ export const BottomNavStyle = styled.div`
   height: 48px;
   position: fixed;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   bottom: 0px;
   background-color: white;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  filter: drop-shadow(0px -1px 4px rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0px -4px 16px rgba(96, 96, 96, 0.25)));
 `
