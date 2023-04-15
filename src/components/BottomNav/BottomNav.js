@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BottomNavStyle } from "./style";
 
+
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(1);
   const location = useLocation();
