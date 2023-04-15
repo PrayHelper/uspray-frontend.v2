@@ -13,5 +13,5 @@ export const BottomNavStyle = styled.div`
   background-color: white;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  filter: drop-shadow(0px -4px 16px rgba(96, 96, 96, 0.25)));
+  filter: drop-shadow(0px -4px 16px rgba(96, 96, 96, 0.25));
 `

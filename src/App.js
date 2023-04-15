@@ -14,6 +14,11 @@ import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import Locker from "./pages/Locker";
 
+const ContainerWrapper = styled.div`
+  max-width: 430px;
+  margin: 0 auto;
+`;
+
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -26,24 +31,26 @@ const Container = styled.div`
 
 function App() {
   return (
-    <Container>
-      <Reset />
-      <BrowserRouter>
-        <BottomNav></BottomNav>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/login/*" element={<LoginPage />}></Route>
-          <Route path="/findId" element={<FindId />}></Route>
-          <Route path="/findPwd" element={<FindPwd />}></Route>
-          <Route path="/main" element={<Main />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-          <Route path="/settings" element={<Settings />}></Route>
-          <Route path="/history" element={<History />}></Route>
-          <Route path="/locker" element={<Locker />}></Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </Container>
+    <ContainerWrapper>
+      <Container>
+        <Reset />
+        <BrowserRouter>
+          <BottomNav></BottomNav>
+          <Routes>
+            <Route path="/" element={<Login />}></Route>
+            <Route path="/login/*" element={<LoginPage />}></Route>
+            <Route path="/findId" element={<FindId />}></Route>
+            <Route path="/findPwd" element={<FindPwd />}></Route>
+            <Route path="/main" element={<Main />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/settings" element={<Settings />}></Route>
+            <Route path="/history" element={<History />}></Route>
+            <Route path="/locker" element={<Locker />}></Route>
+            <Route path="*" element={<NotFound />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </Container>
+    </ContainerWrapper>
   );
 }
 
