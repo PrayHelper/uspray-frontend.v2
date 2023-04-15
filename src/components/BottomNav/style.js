@@ -7,7 +7,7 @@ export const BottomNavStyle = styled.div`
   height: 48px;
   position: fixed;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   bottom: 0px;
   background-color: white;

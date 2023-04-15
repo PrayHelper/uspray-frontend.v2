@@ -12,6 +12,7 @@ import FindPwd from "./pages/FindPwd";
 import Settings from "./pages/Settings";
 import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
+import Locker from "./pages/Locker";
 
 const Container = styled.div`
   position: relative;
@@ -28,6 +29,7 @@ function App() {
     <Container>
       <Reset />
       <BrowserRouter>
+        <BottomNav></BottomNav>
         <Routes>
           <Route path="/" element={<Login />}></Route>
           <Route path="/login/*" element={<LoginPage />}></Route>
@@ -37,10 +39,10 @@ function App() {
           <Route path="/signup" element={<Signup />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/history" element={<History />}></Route>
+          <Route path="/locker" element={<Locker />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
-      <BottomNav></BottomNav>
     </Container>
   );
 }

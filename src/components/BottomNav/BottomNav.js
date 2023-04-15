@@ -2,48 +2,46 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BottomNavStyle } from "./style";
 
-
 const BottomNav = () => {
-  const [currentImage, setCurrentImage] = useState(0);
-
-  const handleClick = (index) => {
-    setCurrentImage(index);
-  };
-
-  const images = [
-    {
-      id: 0,
-      src: '../public/images/ic_home.svg',
-      alt: 'home_icon',
-    },
-    {
-      id: 1,
-      src: '../public/images/ic_home_filled.svg',
-      alt: 'filled_home_icon',
-      add: 'locker'
-    },
-    {
-      id: 2,
-      src: '../public/images/ic_locker.svg',
-      alt: 'locker_icon',
-    },
-  ];
+  const [activeNav, setActiveNav] = useState(1);
 
   return (
     <BottomNavStyle>
       <div>
-        <div>
-          {images.map((image, index) => (
-            <img
-              key={image.id}
-              src={image.src}
-              alt={image.alt}
-              className={currentImage === index ? index+1 : ''}
-              onClick={() => handleClick(index)}
-            />
-          ))}
-        </div>
-        <Link to={`/${currentImage}`}></Link>
+        <Link to="/main" onClick={() => setActiveNav(1)}>
+            {activeNav === 1 ? (
+              <img src="images/ic_main_filled.svg" alt="filled_main_icon" />
+            ) : (
+              <img src="images/ic_main.svg" alt="main_icon" />
+            )}
+        </Link>
+      </div>
+      <div>
+        <Link to="/locker" onClick={() => setActiveNav(2)}>
+          {activeNav === 2 ? (
+            <img src="images/ic_locker_filled.svg" alt="filled_locker_icon" />
+          ) : (
+            <img src="images/ic_locker.svg" alt="locker_icon" />
+          )}
+        </Link>
+      </div>
+      <div>
+        <Link to="/history" onClick={() => setActiveNav(3)}>
+          {activeNav === 3 ? (
+            <img src="images/ic_history_filled.svg" alt="filled_history_icon" />
+          ) : (
+            <img src="images/ic_history.svg" alt="history_icon" />
+          )}
+        </Link>
+      </div>
+      <div>
+        <Link to="/settings" onClick={() => setActiveNav(4)}>
+          {activeNav === 4 ? (
+            <img src="images/ic_setting_filled.svg" alt="filled_setting_icon" />
+          ) : (
+            <img src="images/ic_setting.svg" alt="setting_icon" />
+          )}
+        </Link>
       </div>
     </BottomNavStyle>
   );
