@@ -1,9 +1,32 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { BottomNavStyle } from "./style";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(1);
+  let active_url;
+  const location = useLocation();
+
+  useEffect(()=>{
+    active_url = location.pathname;
+
+    switch(active_url) {
+      case '/main':
+        setActiveNav(1);
+        break;
+      case '/locker':
+        setActiveNav(2);
+        break;
+      case '/history':
+        setActiveNav(3);
+        break;
+      case '/settings':
+        setActiveNav(4);
+        break;
+      default:
+        setActiveNav(1);
+    }
+  },[]);
 
   return (
     <BottomNavStyle>
