@@ -4,11 +4,10 @@ import { BottomNavStyle } from "./style";
 
 const BottomNav = () => {
   const [activeNav, setActiveNav] = useState(1);
-  let active_url;
   const location = useLocation();
 
   useEffect(()=>{
-    active_url = location.pathname;
+    let active_url = location.pathname;
 
     switch(active_url) {
       case '/main':
