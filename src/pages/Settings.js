@@ -1,8 +1,11 @@
+import Header from "../components/Header/Header";
+
+
 const Settings = () => {
   return(
-    <div>
-      <h1>설정</h1>
-    </div>
+    <>
+      <Header>설정</Header>
+    </>
   );
 };
 
