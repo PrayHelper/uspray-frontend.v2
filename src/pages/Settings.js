@@ -107,6 +107,7 @@ const StyledLink = styled(Link)`
   color: inherit;
 `;
 
+
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
