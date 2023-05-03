@@ -101,6 +101,12 @@ const ModalButton2 = styled.button`
 `;
 
 
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);

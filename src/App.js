@@ -21,15 +21,6 @@ const ContainerWrapper = styled.div`
   margin: 0 auto;
 `;
 
-const ContainerWrapper = styled.div`
-  max-width: 430px;
-  margin: 0 auto;
-`;
-
-const ContainerWrapper = styled.div`
-  max-width: 430px;
-  margin: 0 auto;
-`;
 
 const Container = styled.div`
   position: relative;
@@ -58,6 +49,7 @@ function App() {
             <Route path="/settings" element={<Settings />}></Route>
             <Route path="/history" element={<History />}></Route>
             <Route path="/locker" element={<Locker />}></Route>
+            <Route path="/checkInfo" element={<CheckInfo />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>
