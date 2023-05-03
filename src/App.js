@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import Locker from "./pages/Locker";
+import CheckInfo from "./pages/CheckInfo";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -46,6 +47,7 @@ function App() {
             <Route path="/settings" element={<Settings />}></Route>
             <Route path="/history" element={<History />}></Route>
             <Route path="/locker" element={<Locker />}></Route>
+            <Route path="/checkInfo" element={<CheckInfo />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>
