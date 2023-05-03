@@ -17,7 +17,7 @@ const Locker = () => {
       backgroundColor: "#d0e8cb",
       width : "430px"
       }}>
-    <LockerHeader />
+    <LockerHeader/>
     <div
       style={{
         display: "flex",
