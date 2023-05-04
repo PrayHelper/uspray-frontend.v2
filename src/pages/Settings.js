@@ -2,6 +2,7 @@ import Header from "../components/Header/Header";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import SettingToggle from "../components/SettingToggle/SettingToggle";
 
 const Container = styled.div`
   width: 100%;
@@ -156,10 +157,22 @@ const Settings = () => {
         </WhiteBox>
         <WhiteBox>
           <SubTitle>알림</SubTitle>
-          <div>공지사항</div>
-          <div>기도 시간(오전 8시)</div>
-          <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
-          <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
+          <StyledItem>
+            <div>공지사항</div>
+            <SettingToggle></SettingToggle>
+          </StyledItem>
+          <StyledItem>
+            <div>기도 시간(오전 8시)</div>
+            <SettingToggle></SettingToggle>
+          </StyledItem>
+          <StyledItem>
+            <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
+            <SettingToggle></SettingToggle>
+          </StyledItem>
+          <StyledItem>
+            <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
+            <SettingToggle></SettingToggle>
+          </StyledItem>
         </WhiteBox>
         <WhiteBox>
           <SubTitle>문의</SubTitle>
