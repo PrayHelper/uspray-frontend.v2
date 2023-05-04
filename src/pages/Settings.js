@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 const WhiteBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 24px 16px;
+  padding: 24px 0;
   color: #A0A0A0;
   background-color: white;
 `;  
@@ -31,6 +31,7 @@ const SubTitle = styled.div`
   font-size: 18px;
   font-weight: 500;
   margin-bottom: 24px;
+  padding-left: 16px;
   color: #333333;
 `;
 
@@ -39,7 +40,12 @@ const StyledItem = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 8px 16px;
+
+  &:active{
+    background-color: #EEEEEE;
+    border-radius: 8px;
+  }
 `;
 
 const ModalWrapper = styled.div`
@@ -108,11 +114,27 @@ const Settings = () => {
 
   const movePageHandler = () => {
     window.location.href= '/checkInfo';
-  }
+  };
 
   const logout = () => {
     console.log('로그아웃 기능 구현해라~');
-  }
+  };
+
+  const moveToKakao = () => {
+    console.log('카카오톡 계정으로 연결하는 기능 구현해라~');
+  };
+
+  const moveToInsta = () => {
+    window.open('https://www.instagram.com/_uspray/');
+  };
+
+  const moveToPrayerLetter = () => {
+    console.log('기도편지로 연결하는 기능 구현해라~');
+  };
+
+  const moveToToS = () => {
+    console.log('이용약관 표시해라');
+  };
 
   return(
     <Container>
@@ -176,12 +198,26 @@ const Settings = () => {
         </WhiteBox>
         <WhiteBox>
           <SubTitle>문의</SubTitle>
-          <div>카카오톡으로 문의</div>
-          <div>인스타그램으로 문의</div>
+          <StyledItem onClick={moveToKakao}>
+            <div>카카오톡으로 문의</div>
+            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
+          </StyledItem>
+          <StyledItem onClick={moveToInsta}>
+            <div>인스타그램으로 문의</div>
+            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
+          </StyledItem> 
+          <StyledItem onClick={moveToPrayerLetter}>
+            <div>공지사항 Uspray의 5월 기도 편지</div>
+            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
+          </StyledItem>       
         </WhiteBox>
         <WhiteBox>
           <SubTitle>서비스 정보</SubTitle>
-          <div>이용 약관 및 정책</div>
+          <StyledItem onClick={moveToToS}>
+            <div>이용 약관 및 정책</div>
+            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
+          </StyledItem>  
+          
           <div>개인정보 처리 방침</div>
           <div>현재 서비스 버전 확인</div>
         </WhiteBox>
