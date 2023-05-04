@@ -41,10 +41,11 @@ const StyledItem = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-
   &:active{
-    background-color: #EEEEEE;
+    background-color: white;
+    filter: brightness(0.9);
     border-radius: 8px;
+    transform: scale(0.98);
   }
 `;
 
@@ -128,12 +129,12 @@ const Settings = () => {
     window.open('https://www.instagram.com/_uspray/');
   };
 
-  const moveToPrayerLetter = () => {
-    console.log('기도편지로 연결하는 기능 구현해라~');
-  };
-
   const moveToToS = () => {
     console.log('이용약관 표시해라');
+  };
+
+  const moveToPrivacyPolicy = () => {
+    console.log('개인정보 처리방침 표시해라');
   };
 
   return(
@@ -205,11 +206,7 @@ const Settings = () => {
           <StyledItem onClick={moveToInsta}>
             <div>인스타그램으로 문의</div>
             <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
-          </StyledItem> 
-          <StyledItem onClick={moveToPrayerLetter}>
-            <div>공지사항 Uspray의 5월 기도 편지</div>
-            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
-          </StyledItem>       
+          </StyledItem>      
         </WhiteBox>
         <WhiteBox>
           <SubTitle>서비스 정보</SubTitle>
@@ -217,9 +214,14 @@ const Settings = () => {
             <div>이용 약관 및 정책</div>
             <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
           </StyledItem>  
-          
-          <div>개인정보 처리 방침</div>
-          <div>현재 서비스 버전 확인</div>
+          <StyledItem onClick={moveToPrivacyPolicy}>
+            <div>개인정보 처리 방침</div>
+            <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
+          </StyledItem>  
+          <StyledItem>
+            <div>현재 서비스 버전 확인</div>
+            <div style={{color: "#7BAB6E", fontWeight: "700", fontSize: "15px"}}>0.1.2</div>
+          </StyledItem>  
         </WhiteBox>
       </Wrapper>
     </Container>
