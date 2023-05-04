@@ -144,6 +144,8 @@ const Settings = () => {
     console.log('개인정보 처리방침 표시해라');
   };
 
+
+
   return(
     <Container>
       {showModal && (
