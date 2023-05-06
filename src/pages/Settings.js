@@ -130,7 +130,7 @@ const Settings = () => {
   };
 
   const moveToToS = () => {
-    console.log('이용약관 표시해라');
+    window.location.href= '/ToS';
   };
 
   const moveToPrivacyPolicy = () => {
