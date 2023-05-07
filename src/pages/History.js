@@ -1,8 +1,10 @@
+import Header from "../components/Header/Header";
+
 const History = () => {
   return(
-    <div>
-      <h1>히스토리</h1>
-    </div>
+    <>
+      <Header>히스토리</Header>
+    </>
   );
 };
 
