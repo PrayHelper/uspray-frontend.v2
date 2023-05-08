@@ -29,5 +29,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd ${{ secrets.PATH }}
+            cd ${{ secrets.DEV_PATH }}
             ./run.sh
