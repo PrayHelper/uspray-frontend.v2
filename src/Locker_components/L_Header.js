@@ -23,17 +23,17 @@ const Title = styled.div`
   line-height: 29px;
   text-align: center;
 `
-const SelectorAll = styled.div`
-  color: #A0A0A0;
+const SelectorAll = styled.div`  
+color: #A0A0A0;
 `
 
 const LockerHeader = () => {
     return (
         <StyledHeader>
           <Title>보관함</Title>
-          <div>
+          {/* <div>
             <button><GrayCheck/><SelectorAll>전체선택</SelectorAll></button>
-          </div>
+          </div> */}
         </StyledHeader>
     );
   };
