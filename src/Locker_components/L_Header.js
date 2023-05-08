@@ -31,8 +31,9 @@ const LockerHeader = () => {
     return (
         <StyledHeader>
           <Title>보관함</Title>
-          <GrayCheck/>
-          <SelectorAll>전체선택</SelectorAll>
+          <div>
+            <button><GrayCheck/><SelectorAll>전체선택</SelectorAll></button>
+          </div>
         </StyledHeader>
     );
   };

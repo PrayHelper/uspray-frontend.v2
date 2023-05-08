@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LockerHeader from "../Locker_components/L_Header";
 import PrayChecker from "../Locker_components/L_PrayChecker";
+import Sample from "../Locker_components/L_AllSelector";
 
 const data = [
   {id:1, checked: "unchecked", name: "김동하", prayer: 'hello', dday: 'd-7'},
@@ -18,6 +19,7 @@ const Locker = () => {
       width : "430px"
       }}>
     <LockerHeader/>
+    <Sample/>
     <div
       style={{
         display: "flex",
