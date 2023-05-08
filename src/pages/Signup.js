@@ -258,7 +258,7 @@ const Signup = () => {
   };
 
   const isCertificationNumberValid = (certificateNumber) => {
-    if (verficationNumber === certificateNumber) {
+    if (verficationNumber == certificateNumber) {
       setIsCertificated(true);
       return true;
     } else {
