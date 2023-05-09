@@ -32,4 +32,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.PROD_PATH }}
-            ./run.sh
+            make build-prod
