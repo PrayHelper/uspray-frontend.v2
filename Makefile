@@ -1,7 +1,7 @@
 build-dev:
-	docker compose down -f ./deploy/docker-compose.dev.yml
-	docker compose up -f ./deploy/docker-compose.dev.yml --build -d
+	docker compose -f ./deploy/docker-compose.dev.yml down
+	docker compose -f ./deploy/docker-compose.dev.yml up --build -d
 
 build-prod:
-	docker compose down -f ./deploy/docker-compose.prod.yml
-	docker compose up -f ./deploy/docker-compose.prod.yml --build -d
+	docker compose -f ./deploy/docker-compose.prod.yml down
+	docker compose -f ./deploy/docker-compose.prod.yml up --build -d
