@@ -1,4 +1,4 @@
-name: Deploy Frontend on Development Server
+name: Deploy Frontend on Product Server
 on:
   push:
     branches:
