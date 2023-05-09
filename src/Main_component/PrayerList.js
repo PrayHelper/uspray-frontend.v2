@@ -6,13 +6,13 @@ import Share from "./Share";
 import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
+import serverapi from "../api/serverapi";
 
 const Background =  styled.div`
-    height : 882px;
     width  : 430px; 
     background-color: #D0E8CB;
     max-height: 10000px;
-`
+`// 여기서 height에 10000px로 설정해둔것이 문제임.
 
 const TopContent = styled.div`
     display: flex;
@@ -72,9 +72,9 @@ const PrayerContentStyle = styled.div`
 `;
 
 
-function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteBtnClick, 
-    ModifyBtnClick, DeleteBtnClick, isChecked, click_id, ContentClick, isModify,
-    ValueChange,ChangeCheck}){
+function PrayerList({prayer_content, setPrayer_content, prayer_more_content, CountUpdate, CompleteBtnClick, 
+    ModifyBtnClick, DeleteBtnClick, isChecked, click_id, ContentClick, isModify, onModify,
+    ValueChange,ChangeCheck, ddayCaculate}){
     const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
     const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
     const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
@@ -86,9 +86,38 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
     const [isShare, setIsShare] = useState(false);
     const [Share_list, setShare_list] = useState([]);
     const [share_toggle, setshare_toggle] = useState(false);
+    const padding = isChecked ? "0px" : "24px";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE2VDA0OjAyOjIzLjA2NjAxMyJ9.kWhL0E7FC56dCLaY5PKijEKLxPUkzgOjV8DNEm97cIE";
+
+    const getPrayList = async (query) => {
+        const api = "/pray?sort_by=" + query;
+        try {
+          const res= await serverapi.get(api, { headers: {
+            'Authorization': `${accessToken}`}});
+          if (res.status === 200) {
+            var prayer_content_ = [];
+            for(var i = 0;i<Object.keys(res.data).length;i++){
+              var result = ddayCaculate(res.data[i].deadline);
+                prayer_content_[i] = {
+                  id : res.data[i].id,
+                  name: '김정묵',
+                  dday: result,
+                  text: res.data[i].title,
+                  checked : true,
+                  count : res.data[i].pray_cnt
+                };
+              }
+            setPrayer_content(prayer_content_);
+            }
+          } catch (e){
+          alert("error occured");
+          console.log(e);
+        }
+    }
 
     const dayFucTopDay = (e) =>{
         if(!day_toggle_top_day){
+            getPrayList("date");
             setDay_toggle_top_day(!day_toggle_top_day);
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setColor_second_top('#7BAB6E');
@@ -97,6 +126,7 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
     }
     const dayFucTopPrayer = () =>{
         if(!day_toggle_top_prayer){
+            getPrayList("cnt");
             setDay_toggle_top_prayer(!day_toggle_top_prayer);
             setDay_toggle_top_day(!day_toggle_top_day);
             setColor_first_top('#7BAB6E');
@@ -174,8 +204,8 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
         check_box = !check_box;
     }
     return(
-        <div>
-            <Background>
+        <div> 
+            <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>
                         기도할게요
@@ -206,11 +236,12 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
                             isShare = {isShare} ShareList={ShareList} bottom = {true} prayer_more_content={prayer_more_content}/>
                         ))}
                 </PrayerContentStyle>
-                {!isModify && <Share onShare={onShare} onMove={onMove} share_toggle={share_toggle} onCheck={onCheck} isShare={isShare}></Share>}
+                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} share_toggle={share_toggle} onCheck={onCheck} isShare={isShare}></Share>}
                 {isChecked && <BottomMenu CompleteBtnClick = {CompleteBtnClick} ModifyBtnClick = {ModifyBtnClick} 
                 DeleteBtnClick = {DeleteBtnClick} click_id = {click_id}></BottomMenu>}
-                {isChecked && <BackgroundBright style={{height:'779px', top:'30px'}} onClick={ChangeCheck}></BackgroundBright>}
-                {isModify  &&  <ModifyBar id ={click_id} ValueChange = {ValueChange}></ModifyBar>}
+                {isChecked && <BackgroundBright style={{top:'0px', bottom:'153px'}} onClick={ChangeCheck}></BackgroundBright>}
+                {isModify && <BackgroundBright style={{top:'0px', bottom:'148px'}}onClick={onModify}></BackgroundBright>}
+                {isModify  &&  <ModifyBar id ={click_id} ValueChange = {ValueChange}/>}
             </Background>
         </div>
     )

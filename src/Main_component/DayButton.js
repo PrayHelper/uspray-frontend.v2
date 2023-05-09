@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import Day_Calender from '../images/day_calender.svg';
 // import DatePicker from "react-datepicker";
-
 const DayBtnSet = styled.div`
     display: flex;
     height: 42px;
@@ -34,7 +33,6 @@ const Day_Button = ({DayInfo}) =>{
     const [font_thirty ,setFont_thirty] = useState('#75BD62');
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
     const colorChange = (e) =>{
-        console.log(e.target.className);
         var sliceString_five = e.target.className.slice(-5);
         var sliceString_six = e.target.className.slice(-6);
         var sliceString_seven = e.target.className.slice(-7);
