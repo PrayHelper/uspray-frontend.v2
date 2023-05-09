@@ -2,7 +2,7 @@ services:
   api:
     container_name: prayhelper-client-dev
     build:
-      context: ../dev
+      context: ../
       dockerfile: ./deploy/Dockerfile
     image: prayhelper-client-dev
     ports:
