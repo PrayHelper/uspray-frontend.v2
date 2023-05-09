@@ -19,10 +19,6 @@ const DayBtn = styled.button`
     border: 1px solid #75BD62;
     border-radius: 8px;
 `
-const title = "지금부터 이런 데이터....";
-const dead = "2024-08-01";
-
-
 
 const DayCalender = styled(Logo)`
 `;
@@ -37,7 +33,6 @@ const Day_Button = ({DayInfo}) =>{
     const [font_thirty ,setFont_thirty] = useState('#75BD62');
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
     const colorChange = (e) =>{
-        console.log(e.target.className);
         var sliceString_five = e.target.className.slice(-5);
         var sliceString_six = e.target.className.slice(-6);
         var sliceString_seven = e.target.className.slice(-7);

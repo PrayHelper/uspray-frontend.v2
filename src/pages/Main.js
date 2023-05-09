@@ -12,7 +12,6 @@ const Main = () => {
   const [prayer_content, setPrayer_content] = useState([]);
   const [prayer_more_content , setPrayer_more_content] = useState([
   ])
-
   const onInsert = async (Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
@@ -35,7 +34,35 @@ const Main = () => {
         count : 0
       };
       // setPrayer_content(prayer_content => prayer_content.concat(prayer));
-      setPrayer_content([...prayer_content, prayer]);
+      // setPrayer_content([...prayer_content, prayer]);
+      const getPrayList = async () => {
+        const api = "/pray?sort_by=date";
+        try {
+          const res= await serverapi.get(api, { headers: {
+            'Authorization': `${accessToken}`}});
+          if (res.status === 200) {
+            console.log(res.data);
+            var prayer_content_ = [];
+            for(var i = 0;i<Object.keys(res.data).length;i++){
+              var result = ddayCaculate(res.data[i].deadline);
+                prayer_content_[i] = {
+                  id : res.data[i].id,
+                  name: '김정묵',
+                  dday: result,
+                  text: res.data[i].title,
+                  checked : true,
+                  count : res.data[i].pray_cnt
+                };
+              }
+            setPrayer_content(prayer_content_);
+            }
+          } catch (e){
+          alert("error occured");
+          console.log(e);
+        }
+      };
+      setTimeout(getPrayList, 50); // 이부분은 조금 고민을 해봐야할듯합니다. 눈에 보이는지 나중에 체크 한번 해봐야할듯
+      console.log(prayer_content);
     }
   }
   const addDay = (today, Dday) =>{
@@ -94,12 +121,27 @@ const ModifyBtnClick = (id) =>{ // 수정하기 관련 코드
     setIsModify(!isModify);
     setIsChecked(!isChecked);
 }
-
-const DeleteBtnClick = (id) =>{ // 삭제하기 관련 코드
-  setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
-  prayer_content.map(prayer => prayer.id > id ? prayer.id -=1 : prayer.id);
+const onModify = () =>{
+    setIsModify(!isModify);
+}
+const DeleteBtnClick = async(id) =>{ // 삭제하기 관련 코드
   setIsChecked(!isChecked);
-  console.log(prayer_content);
+  // console.log(prayer_content);
+  const api = "/pray/"+ id;
+    console.log(id);
+    try {
+      const res= await serverapi.delete(api,{ headers: {
+        'Authorization': `${accessToken}`}});
+      if (res.status === 200) {
+        // console.log(res.data);
+        setPrayer_content(prayer_content.filter(prayer => prayer.id !== id));
+        console.log(prayer_content);
+      }
+      } catch (e){
+      alert("error occured");
+      console.log(e);
+    }
+
 } 
 const ValueChange = async(id, value) =>{ // 수정하기 관련 코드
   const api = "/pray/my/" + id;
@@ -122,7 +164,7 @@ const ValueChange = async(id, value) =>{ // 수정하기 관련 코드
   setIsModify(!isModify);
 }
 
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE0VDEzOjE5OjAwLjg0MjQ0NyJ9.YcfoQUR4Dau12MJBeL5NmuDUF1xcFQD2qSQiEYpnKeg";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE2VDA0OjAyOjIzLjA2NjAxMyJ9.kWhL0E7FC56dCLaY5PKijEKLxPUkzgOjV8DNEm97cIE";
 
 const ddayCaculate = (res_data) =>{
   var today = new Date();
@@ -171,6 +213,7 @@ useEffect(()=>{
             };
           }
         setPrayer_content(prayer_content_);
+        console.log()
         }
       } catch (e){
       alert("error occured");
@@ -185,7 +228,7 @@ useEffect(()=>{
     <TemplateMain onInsert = {onInsert}>
       <PrayerList prayer_content={prayer_content} setPrayer_content = {setPrayer_content} prayer_more_content = {prayer_more_content}  CountUpdate = {CountUpdate} 
       CompleteBtnClick = {CompleteBtnClick} ModifyBtnClick = {ModifyBtnClick} DeleteBtnClick = {DeleteBtnClick}
-      ContentClick = {ContentClick} click_id = {click_id} isChecked = {isChecked} isModify = {isModify}
+      ContentClick = {ContentClick} click_id = {click_id} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
       ValueChange = {ValueChange} ChangeCheck = {ChangeCheck} ddayCaculate = {ddayCaculate}/>
     </TemplateMain>
   );
