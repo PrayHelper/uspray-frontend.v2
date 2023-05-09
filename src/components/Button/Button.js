@@ -15,19 +15,20 @@ export const ButtonSize = {
 export const ButtonTheme = {
   GREEN: 0,
   GRAY: 1,
+  RED: 2,
 };
 
 Object.freeze(ButtonSize, ButtonTheme);
 
-const Button = ({buttonSize, buttonTheme, children}) =>{
+const Button = ({buttonSize, buttonTheme, disabled, handler ,children}) =>{
   if (!buttonSize) {
     buttonSize = ButtonSize.NORMAL;
   }
   if (!buttonTheme) {
     buttonTheme = ButtonTheme.GREEN;
   }
-  console.log(buttonSize, buttonTheme);
-  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme}>
+
+  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme} disabled={disabled} onClick={handler}>
     {children}
     <NextArrowStyle buttonSize={buttonSize} buttonTheme={buttonTheme}>
       <NextArrow fill={buttonTheme == ButtonTheme.GREEN ? "#FFFFFF" : "#A0A0A0"} />
