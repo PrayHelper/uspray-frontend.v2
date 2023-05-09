@@ -4,10 +4,9 @@ import click_search from '../images/click_search.svg';
 import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
-
 const BackGround = styled.div`
     width: 100ww;
-    height : 822px;
+    min-height: 822px;
     background-color: 'white';
 `;
 
@@ -59,7 +58,10 @@ const TemplateMain = ({ children, onInsert}) =>{
     }
 
     const onSubmit = () =>{
-        console.log("hi");
+        if(day === 0){
+            setVisible(!visible);
+        }
+        
     }
     const onChange = (e) =>{
         setValue(e.target.value);
@@ -71,7 +73,7 @@ const TemplateMain = ({ children, onInsert}) =>{
         setDay(0);
     }
     const changeCheckTop = () =>{
-        setVisible(!visible);
+        setVisible(false);
     }
     return(
         <div>
@@ -84,7 +86,7 @@ const TemplateMain = ({ children, onInsert}) =>{
                 <div>
                 <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'70px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#A0A0A0'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(day === 0) ? ()=> WidthChange() : onSubmit}></input>
+                onClick={(!visible) ? ()=> WidthChange() : onSubmit}></input>
                 <BarHeight style={{width: '256px', marginLeft:'3px'}}></BarHeight>
                 </div>
                 <div style={{width:'31px', height:'31px', marginTop:'65px'}}>

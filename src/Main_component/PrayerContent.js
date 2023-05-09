@@ -15,7 +15,8 @@ const MainContent = styled.div`
     height: 30px;
     margin-left : 16px;
     margin-right : 16px;
-    margin-top : 22px; 
+    margin-top : 22px;
+    margin-bottom: 20px;
     border-bottom : solid;
     border-bottom-color: #CECECE;
 `
