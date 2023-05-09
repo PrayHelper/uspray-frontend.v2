@@ -30,4 +30,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.DEV_PATH }}
-            ./run.sh
+            make build-dev

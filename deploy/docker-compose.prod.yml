@@ -1,10 +1,10 @@
 services:
   api:
-    container_name: prayhelper-client
+    container_name: prayhelper-client-prod
     build:
       context: .
       dockerfile: Dockerfile
-    image: prayhelper-client
+    image: prayhelper-client-prod
     ports:
-      - "4001:3000"
+      - "4003:3000"
     command: ["serve", "-s", "build"]
