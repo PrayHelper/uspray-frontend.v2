@@ -11,6 +11,7 @@ const Background =  styled.div`
     height : 882px;
     width  : 430px; 
     background-color: #D0E8CB;
+    max-height: 10000px;
 `
 
 const TopContent = styled.div`
@@ -61,13 +62,13 @@ const BtnElementPrayer = styled.button`
 
 const PrayerContentStyle = styled.div`
     width: 382px;
-    height : 244px;
     background-color: #FFFFFF;
     margin-right : 24px;
     margin-left : 24px;
+    margin-bottom: 8px;
     border-radius: 16px;
     border: 1px solid #7BAB6F;
-    overflow: scroll;
+    min-height: 244px;
 `;
 
 
@@ -172,9 +173,6 @@ function PrayerList({prayer_content, prayer_more_content, CountUpdate, CompleteB
         }
         check_box = !check_box;
     }
-
-    // console.log(prayer_more_content);
-
     return(
         <div>
             <Background>

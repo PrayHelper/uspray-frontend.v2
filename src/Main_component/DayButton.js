@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import Day_Calender from '../images/day_calender.svg';
-
+// import DatePicker from "react-datepicker";
 
 const DayBtnSet = styled.div`
     display: flex;
@@ -83,14 +83,16 @@ const Day_Button = ({DayInfo}) =>{
             DayInfo(100);
         }   
     }
-
+    const DatePickerComponent = () =>{
+        console.log("날짜 입력하는데로 슝")
+    }
     return(
         <DayBtnSet>
             <DayBtn className="three" onClick={colorChange} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
-            <DayCalender src={Day_Calender}></DayCalender> 
+            <DayCalender src={Day_Calender} onClick={() => DatePickerComponent()}></DayCalender> 
         </DayBtnSet>
     )
 }

@@ -1,19 +1,10 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import PrayerList from '../Main_component/PrayerList';
 import TemplateMain from '../Main_component/TemplateMain';
 // import Data from "../ object/data.json";
-
+import axios from "axios";
 let nextId = 4;
 let bottomId = 1004;
-=======
-import React, { useState } from 'react';
-import Prayer_list from '../Main_component/Prayer_list';
-import Template_main from '../Main_component/Template_main';
-
-
-let nextId = 4;
->>>>>>> 1aea316 (Main_component 수정)
 const Main = () => {
   const [click_id , setClick_id] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
@@ -32,13 +23,8 @@ const Main = () => {
       name: '김정묵',
       dday:2,
       text:"안녕할수있도록",
-<<<<<<< HEAD
       checked: false,
       count : 10
-=======
-      checked: true,
-      count : 11
->>>>>>> 1aea316 (Main_component 수정)
     },
     {
       id : 3,
@@ -53,11 +39,7 @@ const Main = () => {
 
   const [prayer_more_content , setPrayer_more_content] = useState([
     {
-<<<<<<< HEAD
       id : 1001, 
-=======
-      id : 1, 
->>>>>>> 1aea316 (Main_component 수정)
       dday:3,
       name: '김정묵',
       text:"화이팅할수있도록",
@@ -65,11 +47,7 @@ const Main = () => {
       count : 5
     },
     {
-<<<<<<< HEAD
       id : 1002,
-=======
-      id : 2,
->>>>>>> 1aea316 (Main_component 수정)
       dday:2,
       name: '김정묵',
       text:"화이팅할수있도록",
@@ -78,11 +56,7 @@ const Main = () => {
 
     },
     {
-<<<<<<< HEAD
       id : 1003,
-=======
-      id : 3,
->>>>>>> 1aea316 (Main_component 수정)
       dday:1,
       name: '김정묵',
       text:"화이팅할수있도록",
@@ -91,10 +65,6 @@ const Main = () => {
     },
   ])
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1aea316 (Main_component 수정)
   const onInsert = (Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
@@ -105,10 +75,6 @@ const Main = () => {
     else{
       const prayer = {
         id : nextId,
-<<<<<<< HEAD
-=======
-        dday: Dday,
->>>>>>> 1aea316 (Main_component 수정)
         name: '김정묵',
         dday: Dday,
         text: text,
@@ -120,7 +86,6 @@ const Main = () => {
     }
   }
 
-<<<<<<< HEAD
   const ChangeCheck = () =>{
     setIsChecked(!isChecked);      
   }
@@ -194,17 +159,6 @@ useEffect(()=>{
       ContentClick = {ContentClick} click_id = {click_id} isChecked = {isChecked} isModify = {isModify}
       ValueChange = {ValueChange} ChangeCheck = {ChangeCheck}/>
     </TemplateMain>
-=======
-
-  const count_update = (id) =>{
-      setPrayer_content(prayer_content => prayer_content.map(Prayer_content => (Prayer_content.id === id ? {...Prayer_content, count: Prayer_content.count + 1} : Prayer_content)))
-  }
-
-  return (
-    <Template_main onInsert = {onInsert}>
-      <Prayer_list prayer_content_={prayer_content} prayer_more_content_ = {prayer_more_content}  count_update = {count_update} />
-    </Template_main>
->>>>>>> 1aea316 (Main_component 수정)
   );
 };
 
