@@ -20,11 +20,11 @@ const Title = styled.div`
 `
 
 
-const UserHeader = () => {
+const UserHeader = ({children}) => {
   return (
     <StyledHeader>
       <BackButton src='images/back_button.svg' alt='back_button' />
-      <Title>회원가입</Title>
+      <Title>{children}</Title>
     </StyledHeader>
   );
 };

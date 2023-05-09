@@ -1,10 +1,8 @@
-name: Deploy Frontend on Development Server
+name: Deploy Frontend on Product Server
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - '*'
+  release:
+    types:
+      - published
 
 jobs:
   deploy:
@@ -21,7 +19,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           source: "."
-          target: ${{ secrets.PATH }}
+          target: ${{ secrets.PROD_PATH }}
 
       - name: Deploy
         uses: appleboy/ssh-action@master
