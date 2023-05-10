@@ -15,6 +15,7 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import Locker from "./pages/Locker";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -50,6 +51,7 @@ function App() {
             <Route path="/locker" element={<Locker />}></Route>
             <Route path="/checkInfo" element={<CheckInfo />}></Route>
             <Route path="/tos" element={<ToS />}></Route>
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </BrowserRouter>
