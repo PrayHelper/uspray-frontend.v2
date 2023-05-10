@@ -35,16 +35,24 @@ const SubTitle = styled.div`
 `;
 
 const StyledItem = styled.div`
+  transition: all 0.3s;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
+  border-radius: 8px;
+  background-color: white;
+
   &:active{
-    background-color: white;
-    filter: brightness(0.9);
-    border-radius: 8px;
-    transform: scale(0.98);
+    transition: all 0.2s; 
+    ${props => props.noActive ?
+      `filter: brightness(1);
+        transform: scale(1);`
+      :
+      `filter: brightness(0.95);
+        transform: scale(0.98);`
+    }
   }
 `;
 
@@ -186,19 +194,19 @@ const Settings = () => {
         </WhiteBox>
         <WhiteBox>
           <SubTitle>알림</SubTitle>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>공지사항</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>기도 시간(오전 8시)</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
@@ -224,7 +232,7 @@ const Settings = () => {
             <div>개인정보 처리 방침</div>
             <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
           </StyledItem>  
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>현재 서비스 버전 확인</div>
             <div style={{color: "#7BAB6E", fontWeight: "700", fontSize: "15px"}}>0.1.2</div>
           </StyledItem>  
