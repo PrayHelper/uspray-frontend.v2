@@ -1,6 +1,5 @@
 import Header from "../components/Header/Header";
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
 
@@ -80,11 +79,11 @@ const ModalButton1 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
   height: 66px;
-  background-color: #7bab6e;
+  background-color: #F0F0F0;
   border-style: none;
   border-radius: 16px;
-  padding: 20px 0;
-  color: #ffffff;
+  padding: 16px 0;
+  color: #808080;
   font-size: 18px;
 `;
 
@@ -92,11 +91,11 @@ const ModalButton2 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
   height: 66px;
-  background-color: #D0E8CB;
+  background-color: #7BAB6E;
   border-style: none;
   border-radius: 16px;
-  padding: 20px 0;
-  color: #7BAB6E;
+  padding: 16px 0;
+  color: #FFFFFF;
   font-size: 18px;
 `;
 
@@ -148,11 +147,18 @@ const Settings = () => {
                 fontSize: "20px",
                 color: "#7BAB6E",
                 fontWeight: "700",
-                marginTop: "8px",
-                marginBottom: "40px",
+                paddingBottom: "2px",
               }}
             >
               로그아웃 하시겠습니까?
+            </div>
+            <div
+              style={{
+                marginTop: "2px",
+                marginBottom: "28px",
+              }}
+            >
+              보다 안전하게 로그아웃을 진행해 드릴게요.
             </div>
             <div style={{display: "flex", flexDirection: "row", width: "100%", gap: "8px"}}>
               <ModalButton1 onClick={handleCloseModal}>
