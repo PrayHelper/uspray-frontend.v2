@@ -144,6 +144,22 @@ const ValueChange = (id, value) =>{
 
 
 useEffect(()=>{
+  const Data = async () => {
+    const api = `/user/dup_check/${"wjdanr08691"}`;
+    // const api = `https://api.dev.uspray.kr/user/dup_check/${"wjdanr08691"}`
+    try{
+      // const res = await axios.get(api);
+      const res = await serverapi.get(api);
+      console.log(res);
+      if(res.status === 200){
+        console.log(res.data);
+      }
+    }catch(e){
+      console.log(e.response);
+    }
+  }
+  Data();
+
   prayer_more_content.sort(function(a,b){
     if(a.count < b.count) return 1;
     if(a.count >= b.count) return -1;
