@@ -10,6 +10,6 @@ export const BlackScreenStyle = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-  z-index: 100;
+  z-index: 200;
   opacity: ${props => props.isModalOn ? '1' :'0'};
 `;
