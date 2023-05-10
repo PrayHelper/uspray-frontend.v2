@@ -122,7 +122,7 @@ const Settings = () => {
   };
 
   const moveToKakao = () => {
-    console.log('카카오톡 계정으로 연결하는 기능 구현해라~');
+    window.open('https://pf.kakao.com/_UgxhYxj');
   };
 
   const moveToInsta = () => {
