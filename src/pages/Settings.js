@@ -2,6 +2,7 @@ import Header from "../components/Header/Header";
 import styled from 'styled-components';
 import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
+import BlackScreen from "../components/BlackScreen/BlackScreen";
 
 const Container = styled.div`
   width: 100%;
@@ -56,37 +57,28 @@ const StyledItem = styled.div`
   }
 `;
 
-const ModalWrapper = styled.div`
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 999;
-`;
-
 const ModalContent = styled.div`
-  max-width: 342px;
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 16px;
   gap: 8px;
   border-radius: 16px;
+  padding: 16px;
   color: #7bab6e;
+  z-index: 500;
 `;
 
 const ModalButton1 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
-  height: 66px;
   background-color: #F0F0F0;
   border-style: none;
   border-radius: 16px;
@@ -98,7 +90,6 @@ const ModalButton1 = styled.button`
 const ModalButton2 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
-  height: 66px;
   background-color: #7BAB6E;
   border-style: none;
   border-radius: 16px;
@@ -147,7 +138,8 @@ const Settings = () => {
   return(
     <Container>
       {showModal && (
-        <ModalWrapper onClick={handleCloseModal}>
+        <>
+          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <img src="images/ic_logout.svg" alt="icon_logout" style={{marginTop: "8px"}}/>
             <div
@@ -177,7 +169,7 @@ const Settings = () => {
               </ModalButton2>
             </div>
           </ModalContent>
-        </ModalWrapper>
+        </>
         )}
       <Header>설정</Header>
       <Wrapper style={{marginTop: "10px"}}>
