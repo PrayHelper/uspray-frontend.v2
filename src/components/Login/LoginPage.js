@@ -44,10 +44,11 @@ const LoginPage = () => {
               context={"로그인하기"}
               color={"#ffffff"}
               arrowColor={"#ffffff"}
+              margin={"0px 24px 12px 24px"}
             />
           </Link>
-          <div style={{ marginTop: "16px", marginBottom: "46px" }}>
-            <SubLink href="/findPwd">
+          <div style={{ marginTop: "16px", marginBottom: "45px" }}>
+            <SubLink href="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
