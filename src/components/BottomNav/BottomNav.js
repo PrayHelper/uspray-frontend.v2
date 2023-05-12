@@ -33,41 +33,32 @@ const BottomNav = () => {
     <>
       <BottomNavStyle>
         <Link to="/main" onClick={() => setActiveNav(1)}>
-          <div style={{ padding: "20px" }}>
-            {activeNav === 1 ? (
-              <img src="images/ic_main_filled.svg" alt="filled_main_icon" />
-            ) : (
-              <img src="images/ic_main.svg" alt="main_icon" />
-            )}
-          </div>
+          {activeNav === 1 ? (
+            <img src="images/ic_main_filled.svg" alt="filled_main_icon" />
+          ) : (
+            <img src="images/ic_main.svg" alt="main_icon" />
+          )}
         </Link>
         <Link to="/locker" onClick={() => setActiveNav(2)}>
-          <div style={{ padding: "20px" }}>
-            {activeNav === 2 ? (
-              <img src="images/ic_locker_filled.svg" alt="filled_locker_icon" />
-            ) : (
-              <img src="images/ic_locker.svg" alt="locker_icon" />
-            )}
-          </div>
+          {activeNav === 2 ? (
+            <img src="images/ic_locker_filled.svg" alt="filled_locker_icon" />
+          ) : (
+            <img src="images/ic_locker.svg" alt="locker_icon" />
+          )}
         </Link>
         <Link to="/history" onClick={() => setActiveNav(3)}>
-          <div style={{ padding: "20px" }}>
-            {activeNav === 3 ? (
-              <img src="images/ic_history_filled.svg" alt="filled_history_icon" />
-            ) : (
-              <img src="images/ic_history.svg" alt="history_icon" />
-            )}
-          </div>
+          {activeNav === 3 ? (
+            <img src="images/ic_history_filled.svg" alt="filled_history_icon" />
+          ) : (
+            <img src="images/ic_history.svg" alt="history_icon" />
+          )}
         </Link>
         <Link to="/settings" onClick={() => setActiveNav(4)}>
-          <div style={{ padding: "20px" }}>
-            {activeNav === 4 ? (
-              <img src="images/ic_setting_filled.svg" alt="filled_setting_icon" />
-            ) : (
-              <img src={process.env.PUBLIC_URL + 'images/ic_setting.svg'} alt="setting_icon" />
-            )}
-            
-          </div>
+          {activeNav === 4 ? (
+            <img src="images/ic_setting_filled.svg" alt="filled_setting_icon" />
+          ) : (
+            <img src={process.env.PUBLIC_URL + 'images/ic_setting.svg'} alt="setting_icon" />
+          )}
         </Link>
       </BottomNavStyle>
       <Outlet />
