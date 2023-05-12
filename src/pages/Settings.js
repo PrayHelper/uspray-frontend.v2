@@ -187,11 +187,7 @@ const Settings = () => {
         <WhiteBox>
           <SubTitle>알림</SubTitle>
           <StyledItem noActive={true}>
-            <div>공지사항</div>
-            <SettingToggle></SettingToggle>
-          </StyledItem>
-          <StyledItem noActive={true}>
-            <div>기도 시간(오전 8시)</div>
+            <div>기도 시간 - 오전 8시</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
           <StyledItem noActive={true}>
