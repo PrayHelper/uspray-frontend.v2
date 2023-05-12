@@ -1,6 +1,6 @@
 import "./App.css";
 import { Reset } from "styled-reset";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Router } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
@@ -15,6 +15,7 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import Locker from "./pages/Locker";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -30,31 +31,39 @@ const Container = styled.div`
   padding: 0px;
   margin-bottom: 48px;
 `;
+function MainApp() {
 
-function App() {
   return (
     <ContainerWrapper>
       <Container>
         <Reset />
-        <BrowserRouter>
-          <BottomNav></BottomNav>
-          <Routes>
-            <Route path="/" element={<Login />}></Route>
-            <Route path="/login/*" element={<LoginPage />}></Route>
-            <Route path="/findId" element={<FindId />}></Route>
-            <Route path="/findPwd" element={<FindPwd />}></Route>
-            <Route path="/main" element={<Main />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/settings" element={<Settings />}></Route>
-            <Route path="/history" element={<History />}></Route>
-            <Route path="/locker" element={<Locker />}></Route>
-            <Route path="/checkInfo" element={<CheckInfo />}></Route>
-            <Route path="/tos" element={<ToS />}></Route>
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route element={<BottomNav />}>
+            <Route path="/main" element={<Main />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/locker" element={<Locker />} />
+            <Route path="/settings" element={<Settings />} />
+          </Route>
+          <Route path="/" element={<Login />} />
+          <Route path="/login/*" element={<LoginPage />} />
+          <Route path="/findId" element={<FindId />} />
+          <Route path="/findPwd" element={<FindPwd />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/checkInfo" element={<CheckInfo />} />
+          <Route path="/tos" element={<ToS />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </Container>
     </ContainerWrapper>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <MainApp />
+    </BrowserRouter>
   );
 }
 
