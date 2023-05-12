@@ -22,7 +22,7 @@ const BottomBtn = styled.div`
   border-radius: 16px;
   background-color: ${(props) => props.backgrond};
   padding: 0 16px;
-  margin-bottom: 12px;
+  margin: 0px 24px 12px 24px;
   border: ${(props) => `1px solid ${props.borderColor}` || "none"};
   cursor: pointer;
 `;

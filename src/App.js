@@ -6,7 +6,7 @@ import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import LoginPage from "./components/Login/Page/LoginPage/LoginPage";
+import LoginPage from "./components/Login/LoginPage";
 import FindId from "./pages/FindId";
 import FindPwd from "./pages/FindPwd";
 import Settings from "./pages/Settings";
@@ -40,7 +40,7 @@ function App() {
           <BottomNav></BottomNav>
           <Routes>
             <Route path="/" element={<Login />}></Route>
-            <Route path="/login/*" element={<LoginPage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/findId" element={<FindId />}></Route>
             <Route path="/findPwd" element={<FindPwd />}></Route>
             <Route path="/main" element={<Main />}></Route>

@@ -43,6 +43,7 @@ const LoginWrapper = styled.div`
   justify-content: space-between;
   height: 100vh;
   padding: 0 24px;
+  width: 100%;
 `;
 
 const LogoWrapper = styled.div`
