@@ -128,7 +128,7 @@ const Settings = () => {
   };
 
   const moveToToS = () => {
-    window.location.href= '/ToS';
+    window.location.href= '/settings/tos';
   };
 
   const moveToPrivacyPolicy = () => {

@@ -7,9 +7,10 @@ const BottomNav = () => {
   const location = useLocation();
 
   useEffect(() => {
-    let active_url = location.pathname;
+    let activeUrl = location.pathname.split("/")[1];
+    console.log(location.pathname.split("/")[1]);
 
-    switch (active_url) {
+    switch (activeUrl) {
       case "/main":
         setActiveNav(1);
         break;
@@ -25,7 +26,7 @@ const BottomNav = () => {
       default:
         setActiveNav(1);
     }
-  }, []);
+  }, [location.pathname]);
 
   return (
     <BottomNavStyle>
