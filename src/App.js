@@ -34,7 +34,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0px;
-  margin-bottom: 48px;
 `;
 function MainApp() {
   return (
