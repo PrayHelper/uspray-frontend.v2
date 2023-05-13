@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
-import Button from "./Button/Button";
+import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
@@ -13,6 +14,22 @@ const LoginPage = () => {
   };
   const onChangePwd = (event) => {
     setPwdValue(event.target.value);
+  };
+
+  const login = async () => {
+    const api = `/user/login`;
+    const data = {
+      id: idValue,
+      password: pwdValue,
+    };
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200){
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   return (
@@ -35,18 +52,21 @@ const LoginPage = () => {
             <Input
               label="비밀번호"
               value={pwdValue}
+              type="password"
               onChangeHandler={onChangePwd}
             />
           </div>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          <div style={{ margin: "0px 24px 12px 24px" }}>
             <Button
-              backgrond={"#7bab6e"}
-              context={"로그인하기"}
-              color={"#ffffff"}
-              arrowColor={"#ffffff"}
-              margin={"0px 24px 12px 24px"}
-            />
-          </Link>
+              buttonSize={ButtonSize.LARGE}
+              ButtonTheme={ButtonTheme.GREEN}
+              handler={() => {
+                login();
+              }}
+            >
+              로그인 하기
+            </Button>
+          </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
             <SubLink href="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
