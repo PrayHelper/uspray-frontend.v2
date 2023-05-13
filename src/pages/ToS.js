@@ -8,7 +8,7 @@ const TitleTag = styled.div`
   margin-bottom: 8px;
 `;
 
-const ToS = () => {
+const ToS =() => {
   return (
     <>
       <UserHeader>이용 약관 및 정책</UserHeader>

@@ -6,9 +6,9 @@ const SettingToggle = () => {
   const [isToggleOn, setIsToggleOn] = useState(false);
 
   return (
-    <ToggleWrap>
+    <ToggleWrap onClick={() => setIsToggleOn(!isToggleOn)}>
       <Toggle isToggleOn={isToggleOn}>
-        <ToggleButton isToggleOn={isToggleOn} onClick={() => setIsToggleOn(!isToggleOn)}></ToggleButton>
+        <ToggleButton isToggleOn={isToggleOn}></ToggleButton>
       </Toggle>
     </ToggleWrap>
   );
