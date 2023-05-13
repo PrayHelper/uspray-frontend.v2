@@ -1,11 +1,20 @@
 import Header from "../components/Header/Header";
 import styled from "styled-components";
 import HisContent from "../components/History/HisContent";
-import { useState } from "react";
+import serverapi from "../api/serverapi";
+import { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
   const [isOnPray, setIsOnPray] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+
+  const [ref, inView] = useInView();
+
+  const accessToken = "";
 
   const onClickDate = () => {
     setIsOnDate(true);
@@ -15,6 +24,39 @@ const History = () => {
     setIsOnDate(false);
     setIsOnPray(true);
   };
+
+  const fetchHistory = useCallback(async () => {
+    setLoading(true);
+    const api = `/history`;
+    try {
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+        params: {
+          page: page,
+          per_page: 15,
+        },
+      });
+      if (res.status === 200) {
+        console.log(res.data.res);
+        setData((prev) => [...prev, ...res.data.res]);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    fetchHistory();
+  }, [fetchHistory]);
+
+  useEffect(() => {
+    if (inView && !loading) {
+      setPage((prev) => prev + 1);
+    }
+  }, [inView, loading]);
 
   return (
     <HistoryWrapper>
@@ -30,18 +72,16 @@ const History = () => {
         </ToggleButton>
       </ToggleWrapper>
       <Hline />
-      <HisContent
-        name={"문재영"}
-        content={
-          "피고, 심장의 끝까지 스며들어 날카로우나 동산은 것이다. 같은 온갖 거친 바이며, 청춘의 놀이 피어나기 것이다. 대한 같이 능히 그러므로 우리 운다."
-        }
-        date={"2023/03/01 ~ 2023/03/03"}
-      />
-      <HisContent
-        name={"이종우"}
-        content={"열락의 있는 가슴이 동산에는 피고 희망의 능히 새 부패뿐이다."}
-        date={"2023/03/03 ~ 2023/03/05"}
-      />
+      {data.map((el) => (
+        <>
+          <HisContent
+            name={el.target}
+            content={el.title}
+            date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+          />
+          <div ref={ref}></div>
+        </>
+      ))}
     </HistoryWrapper>
   );
 };
