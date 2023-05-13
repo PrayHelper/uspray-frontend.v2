@@ -4,7 +4,7 @@ import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
-import { tokenState } from "../../recoil/token";
+import { tokenState } from "../../recoil/accessToken";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const LoginPage = () => {
@@ -31,7 +31,9 @@ const LoginPage = () => {
       if (res.status === 200){
         console.log(res);
         console.log(res.data.access_token);
+        console.log(res.data.refresh_token);
         setTokenState({accessToken: res.data.access_token});
+        localStorage.setItem('refreshToken', res.data.refresh_token);
       }
     } catch (e) {
       console.log(e.response);
