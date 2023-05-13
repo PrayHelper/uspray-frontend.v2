@@ -18,6 +18,7 @@ const Login = () => {
             context={"로그인하기"}
             color={"#ffffff"}
             arrowColor={"#ffffff"}
+            margin={"0px 24px 12px 24px"}
           />
         </Link>
         <Link to="/signup" style={{ textDecoration: "none" }}>
@@ -27,6 +28,7 @@ const Login = () => {
             color={"#7bab6e"}
             borderColor={"#7bab6e"}
             arrowColor={"#7bab6e"}
+            margin={"0px 24px 12px 24px"}
           />
         </Link>
       </BottomBtnWrapper>
@@ -43,6 +45,7 @@ const LoginWrapper = styled.div`
   justify-content: space-between;
   height: 100vh;
   padding: 0 24px;
+  width: 100%;
 `;
 
 const LogoWrapper = styled.div`

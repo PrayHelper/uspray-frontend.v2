@@ -6,15 +6,15 @@ import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
-import LoginPage from "./components/Login/Page/LoginPage/LoginPage";
-import FindId from "./pages/FindId";
-import FindPwd from "./pages/FindPwd";
+import LoginPage from "./components/Login/LoginPage";
+
 import Settings from "./pages/Settings";
 import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import Locker from "./pages/Locker";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import Find from "./pages/Find";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 const ContainerWrapper = styled.div`
@@ -45,7 +45,8 @@ function MainApp() {
             <Route path="/settings" element={<Settings />} />
           </Route>
           <Route path="/" element={<Login />} />
-          <Route path="/login/*" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/findId" element={<FindId />} />
           <Route path="/findPwd" element={<FindPwd />} />
           <Route path="/signup" element={<Signup />} />
