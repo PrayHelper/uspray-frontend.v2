@@ -1,13 +1,18 @@
 import "./App.css";
 import { Reset } from "styled-reset";
-import { BrowserRouter, Routes, Route, useLocation, Router } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Router,
+} from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import LoginPage from "./components/Login/LoginPage";
-
 import Settings from "./pages/Settings";
 import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
@@ -32,7 +37,6 @@ const Container = styled.div`
   margin-bottom: 48px;
 `;
 function MainApp() {
-
   return (
     <ContainerWrapper>
       <Container>
@@ -47,8 +51,6 @@ function MainApp() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findAccount" element={<Find />}></Route>
-          <Route path="/findId" element={<FindId />} />
-          <Route path="/findPwd" element={<FindPwd />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/checkInfo" element={<CheckInfo />} />
           <Route path="/tos" element={<ToS />} />
