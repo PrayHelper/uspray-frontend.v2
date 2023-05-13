@@ -13,13 +13,19 @@ export const CheckboxStyle = styled.input`
   height: 16px;
   border: 1px solid #CECECE;
   border-radius: 3px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(${IcGrayCheck});
+  background-size: 0px 0px;
+  background-repeat: no-repeat;
+  background-position: 50%;
 
   &:checked {
+    transition: all 0.2s;
     border-color: transparent;
-    background-image: url(${IcGrayCheck});
     background-size: 10px 7px;
-    background-position: 50%;
-    background-repeat: no-repeat;
     background-color: #CECECE;
   }
 `;

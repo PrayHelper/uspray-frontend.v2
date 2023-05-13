@@ -1,43 +1,35 @@
 import ToggleButton from "../components/ToggleButton";
 import React, { useEffect, useRef, useState } from "react";
-import InputText from "../components/InputText";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from "styled-components";
-import axios from "axios";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
-
+import serverapi from "../api/serverapi";
+import BottomNav from "../components/BottomNav/BottomNav";
+import BlackScreen from "../components/BlackScreen/BlackScreen";
 
 let init = 0;
 
-const ModalWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-`;
-
 const ModalContent = styled.div`
-  max-width: 342px;
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 16px;
   gap: 8px;
   border-radius: 16px;
+  padding: 16px;
   color: #7bab6e;
+  z-index: 500;
 `;
 
 const ModalButton = styled.button`
@@ -64,7 +56,6 @@ const Signup = () => {
     certificateNumber: "",
   });
   const [gender, setGender] = useState("");
-  const [birthDate, setBirthDate] = useState("");
   const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
   const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
@@ -104,10 +95,6 @@ const Signup = () => {
     setShowModal(false);
   };
 
-  const makeBirthDateString = () => {
-    setBirthDate(userInfo.year + "-" + userInfo.month + "-" + userInfo.day);
-  };
-
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
   };
@@ -125,14 +112,10 @@ const Signup = () => {
   };
 
   const isIdDuplicated = async (uid) => {
-    // cors설정 이후에는 이걸로
-    // const api = `${process.env.REACT_APP_API_ORIGIN}/api/user/dup_check/${uid}`;
-    // proxy 설정일 경우
-    const api = `api/user/dup_check/${uid}`;
+    const api = `/user/dup_check/${uid}`;
     try {
-      const res = await axios.get(api);
-      if (res.status == 200) {
-        console.log("dup: ", res.data.dup);
+      const res = await serverapi.get(api);
+      if (res.status === 200) {
         return res.data.dup;
       }
     } catch (e) {
@@ -141,13 +124,13 @@ const Signup = () => {
   };
 
   const phoneNumVerfication = async (phoneNumber) => {
-    const api = "api/admin/sms";
+    const api = "/admin/sms";
     const data = {
       phone: phoneNumber,
     };
     try {
-      const res = await axios.post(api, data);
-      if (res.status == 200) {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
         alert("인증번호가 전송되었습니다.");
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
@@ -159,18 +142,18 @@ const Signup = () => {
   };
 
   const signup = async () => {
-    const api = "api/user/signup";
+    const api = "/user/signup";
     const data = {
       id: userInfo.id,
       password: userInfo.pwd,
       name: userInfo.name,
       gender: gender,
-      birth: birthDate,
+      birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
-      const res = await axios.post(api, data);
-      if (res.status == 200) {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
         alert("회원가입이 완료되었습니다.");
       }
     } catch (e) {
@@ -221,22 +204,22 @@ const Signup = () => {
   };
 
   const nameFocusHandler = () => {
-    if (init == 0) {
+    if (init === 0) {
       setShowModal(true);
       init = 1;
     }
   };
 
   const yearChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, year: e.target.value });
+    setUserInfo({ ...userInfo, year: e.target.value.slice(0, 4) });
   };
 
   const monthChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, month: e.target.value });
+    setUserInfo({ ...userInfo, month: e.target.value.slice(0, 2) });
   };
 
   const dayChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, day: e.target.value });
+    setUserInfo({ ...userInfo, day: e.target.value.slice(0, 2) });
   };
 
   const phoneNumberChangeHandler = (e) => {
@@ -320,31 +303,32 @@ const Signup = () => {
     <div>
       <UserHeader />
       {showModal && (
-        <ModalWrapper onClick={handleCloseModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <img src="images/icon_notice.svg" alt="icon_notice" />
-            <div
-              style={{
-                fontSize: "20px",
-                color: "#7BAB6E",
-                fontWeight: "700",
-                paddingBottom: "2px",
-              }}
-            >
-              이름은 실명으로 설정해주세요!
-            </div>
-            <div
-              style={{
-                marginBottom: "28px",
-              }}
-            >
-              기도제목 공유 시 이름으로 전달됩니다.
-            </div>
-            <ModalButton onClick={handleCloseModal}>
-              네, 그렇게 할게요.
-            </ModalButton>
-          </ModalContent>
-        </ModalWrapper>
+        <>
+          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <img src="images/icon_notice.svg" alt="icon_notice" />
+              <div
+                style={{
+                  fontSize: "20px",
+                  color: "#7BAB6E",
+                  fontWeight: "700",
+                  paddingBottom: "2px",
+                }}
+              >
+                이름은 실명으로 설정해주세요!
+              </div>
+              <div
+                style={{
+                  marginBottom: "28px",
+                }}
+              >
+                기도제목 공유 시 이름으로 전달됩니다.
+              </div>
+              <ModalButton onClick={handleCloseModal}>
+                네, 그렇게 할게요.
+              </ModalButton>
+            </ModalContent>
+        </>
       )}
       <div
         style={{
@@ -408,6 +392,9 @@ const Signup = () => {
           </div>
         </div>
         <InputBirth
+          yearValue={userInfo.year}
+          monthValue={userInfo.month}
+          dayValue={userInfo.day}
           yearChangeHandler={yearChangeHandler}
           monthChangeHandler={monthChangeHandler}
           dayChangeHandler={dayChangeHandler}
@@ -510,8 +497,6 @@ const Signup = () => {
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
-            makeBirthDateString();
-            console.log(userInfo);
             signup();
           }}
         >

@@ -23,24 +23,24 @@ const InputBirthStyle = styled.input`
   margin-right: 5px;
 `
 
-const InputBirth = ({yearChangeHandler, monthChangeHandler, dayChangeHandler}) => {
+const InputBirth = ({yearValue, monthValue, dayValue, yearChangeHandler, monthChangeHandler, dayChangeHandler}) => {
   return(
     <div style={{ position: "relative", display: "flex", flexDirection: "column", verticalAlign: "top: 0", height: "56px"}}>
       <InputContainerStyle>
         <span style={{zIndex: "1", backgroundColor: "white", fontSize: "12px", color: "#7BAB6E", position: "absolute", top: "0", transform: "translate(-5px, -5px)", padding: "0 5px" }}>생년월일</span>
         <div style={{display: "flex", width: "100%", justifyContent:"space-evenly", alignItems: "center"}}>
           <div style={{color: "#5C6E56"}}>
-            <InputBirthStyle onChange={yearChangeHandler} style={{maxWidth: "38px"}} type="number"/>
+            <InputBirthStyle value={yearValue} onChange={yearChangeHandler} style={{maxWidth: "38px"}} type="number"/>
             년
           </div>
           <div style={{width: "16px", transform: "rotate(90deg)", borderBottom: "1px solid #7BAB6E"}}></div>
           <div style={{color: "#5C6E56"}}>
-            <InputBirthStyle onChange={monthChangeHandler} type="number"/>
+            <InputBirthStyle value={monthValue} onChange={monthChangeHandler} type="number"/>
             월
           </div>
           <div style={{width: "16px", transform: "rotate(90deg)", borderBottom: "1px solid #7BAB6E"}}></div>
           <div style={{color: "#5C6E56"}}>
-            <InputBirthStyle onChange={dayChangeHandler} type="number"/>
+            <InputBirthStyle value={dayValue} onChange={dayChangeHandler} type="number"/>
             일
           </div>
         </div>

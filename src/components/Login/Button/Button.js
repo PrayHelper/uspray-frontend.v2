@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import { ReactComponent as NextArrow } from "../../../images/next_arrow.svg";
 
-// backgoround, context, color, borderColor 요소 받아오기
+// background, context, color, borderColor 요소 받아오기
 
 const Button = (props) => {
   return (
-    <BottomBtn borderColor={props.borderColor} backgrond={props.backgrond}>
+    <BottomBtn
+      borderColor={props.borderColor}
+      backgrond={props.backgrond}
+      margin={props.margin}
+    >
       <BottomBtnFont color={props.color}>{props.context}</BottomBtnFont>
       <NextArrow fill={props.arrowColor} style={{ paddingRight: "12px" }} />
     </BottomBtn>
@@ -22,7 +26,7 @@ const BottomBtn = styled.div`
   border-radius: 16px;
   background-color: ${(props) => props.backgrond};
   padding: 0 16px;
-  margin-bottom: 12px;
+  margin: ${(props) => props.margin};
   border: ${(props) => `1px solid ${props.borderColor}` || "none"};
   cursor: pointer;
 `;
