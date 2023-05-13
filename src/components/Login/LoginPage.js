@@ -4,10 +4,14 @@ import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
+import { tokenState } from "../../recoil/token";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
+  const setTokenState = useSetRecoilState(tokenState);
+  const accessToken = useRecoilValue(tokenState);
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -26,6 +30,8 @@ const LoginPage = () => {
       const res = await serverapi.post(api, data);
       if (res.status === 200){
         console.log(res);
+        console.log(res.data.access_token);
+        setTokenState({accessToken: res.data.access_token});
       }
     } catch (e) {
       console.log(e.response);
