@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ReactComponent as NextArrow } from "../../../images/next_arrow.svg";
 
-// backgoround, context, color, borderColor 요소 받아오기
+// background, context, color, borderColor 요소 받아오기
 
 const Button = (props) => {
   return (

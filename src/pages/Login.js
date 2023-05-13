@@ -76,6 +76,3 @@ const BottomBtnWrapper = styled.div`
   width: 100%;
   padding: 8px 0px;
 `;
-
-// 이상해요? ㅎㅎ....
-// 제가 원래 디자인이랑 차이를 못 느껴서 ㅇㅇ
