@@ -101,6 +101,13 @@ const ModalButton2 = styled.button`
 `;
 
 
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
+
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
@@ -136,6 +143,8 @@ const Settings = () => {
   const moveToPrivacyPolicy = () => {
     console.log('개인정보 처리방침 표시해라');
   };
+
+
 
   return(
     <Container>
