@@ -2,11 +2,34 @@ import UserHeader from "../components/UserHeader";
 import Input from "../components/Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useEffect, useState } from "react";
+import serverapi from "../api/serverapi";
 
 const CheckInfo = () => {
   const [password, setPassword] = useState("");
+  const passwordChangeHandler = (e) => {
+    setPassword(e.target.value);
+  };
 
-  const checkPassword = async (password) => {};
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE2VDA4OjEyOjMxLjM3NjM5NSJ9.Xw7-D9Bdb6Y2sseGt6YEayc1ZJcLq2gmK2jwi4o72KY";
+
+  const checkPassword = async (password) => {
+    const api = "/user/check/pw";
+    const data = {
+      password: password,
+    };
+    try {
+      const res = await serverapi.post(api, data, {
+        headers: {
+          Authorization: `${accessToken}`,
+        }
+      });
+      if (res.status === 200) {
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   // 배포 이후에 스크롤 생기면 아래 코드 적용
   // useEffect(() => {
@@ -47,7 +70,7 @@ const CheckInfo = () => {
             안전을 위해 <br />
             회원정보를 확인할게요!
           </div>
-          <Input label="비밀번호" value={password} />
+          <Input label="비밀번호" type="password" onChangeHandler={passwordChangeHandler} value={password} />
           <div style={{ position: "absolute", bottom: "40px", width: "calc(100% - 32px)", display: "flex", flexDirection: "column" }}>
             <Button
               buttonSize={ButtonSize.LARGE}
@@ -55,7 +78,9 @@ const CheckInfo = () => {
                 checkPassword(password) ? ButtonTheme.GREEN : ButtonTheme.GRAY
               }
               disabled={!checkPassword(password)}
-              handler={() => {}}
+              handler={() => {
+                checkPassword(password);
+              }}
             >
               회원정보 확인
             </Button>
