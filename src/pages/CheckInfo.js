@@ -10,7 +10,7 @@ const CheckInfo = () => {
     setPassword(e.target.value);
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE2VDA4OjEyOjMxLjM3NjM5NSJ9.Xw7-D9Bdb6Y2sseGt6YEayc1ZJcLq2gmK2jwi4o72KY";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE3VDE0OjUwOjU3LjAwMzAxNyJ9.jUtRIMthRasFRRVHoh_ZlUAC8IXWhBL7cUOk9a__EDU";
 
   const checkPassword = async (password) => {
     const api = "/user/check/pw";
