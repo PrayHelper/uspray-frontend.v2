@@ -3,9 +3,12 @@ import Input from "../components/Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useEffect, useState } from "react";
 import serverapi from "../api/serverapi";
+import { useNavigate } from "react-router-dom";
 
 const CheckInfo = () => {
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
   const passwordChangeHandler = (e) => {
     setPassword(e.target.value);
   };
@@ -25,6 +28,7 @@ const CheckInfo = () => {
       });
       if (res.status === 200) {
         console.log(res);
+        navigate("/changeInfo");
       }
     } catch (e) {
       console.log(e);
