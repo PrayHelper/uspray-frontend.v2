@@ -15,7 +15,6 @@ import LoginPage from "./components/Login/LoginPage";
 import Settings from "./pages/Settings";
 import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
-import Locker from "./pages/Locker";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
 import Find from "./pages/Find";
