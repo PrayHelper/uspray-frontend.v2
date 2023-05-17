@@ -6,10 +6,6 @@ import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-<<<<<<< HEAD
-=======
-
->>>>>>> 7c1be137803ff33ded6d652e3ae7a5dbf2036f4e
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
