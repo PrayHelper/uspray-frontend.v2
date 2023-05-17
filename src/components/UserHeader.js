@@ -20,11 +20,16 @@ const Title = styled.div`
 `
 
 
-const UserHeader = () => {
+const UserHeader = ({children}) => {
+
+  const goBack = () => {
+    window.history.go(-1); // 이전 페이지로 이동
+  };
+
   return (
     <StyledHeader>
-      <BackButton src='images/back_button.svg' alt='back_button' />
-      <Title>회원가입</Title>
+      <BackButton onClick={goBack} src='images/back_button.svg' alt='back_button' />
+      <Title>{children}</Title>
     </StyledHeader>
   );
 };
