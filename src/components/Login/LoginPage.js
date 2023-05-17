@@ -1,18 +1,43 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
-import LoginButton from "./LoginButton/LoginButton";
+import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
+import { tokenState } from "../../recoil/accessToken";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
+  const setTokenState = useSetRecoilState(tokenState);
+  const accessToken = useRecoilValue(tokenState);
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
   };
   const onChangePwd = (event) => {
     setPwdValue(event.target.value);
+  };
+
+  const login = async () => {
+    const api = `/user/login`;
+    const data = {
+      id: idValue,
+      password: pwdValue,
+    };
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200){
+        console.log(res);
+        console.log(res.data.access_token);
+        console.log(res.data.refresh_token);
+        setTokenState({accessToken: res.data.access_token});
+        localStorage.setItem('refreshToken', res.data.refresh_token);
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   return (
@@ -35,18 +60,22 @@ const LoginPage = () => {
             <Input
               label="비밀번호"
               value={pwdValue}
+              type="password"
               onChangeHandler={onChangePwd}
             />
           </div>
-          <Link to="/login" style={{ textDecoration: "none" }}>
-            <LoginButton
-              backgrond={"#7bab6e"}
-              context={"로그인하기"}
-              color={"#ffffff"}
-              arrowColor={"#ffffff"}
-              margin={"0px 24px 12px 24px"}
-            />
-          </Link>
+
+          <div style={{ margin: "0px 24px 12px 24px" }}>
+            <Button
+              buttonSize={ButtonSize.LARGE}
+              ButtonTheme={ButtonTheme.GREEN}
+              handler={() => {
+                login();
+              }}
+            >
+              로그인 하기
+            </Button>
+          </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
             <SubLink href="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
