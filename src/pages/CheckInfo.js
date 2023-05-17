@@ -28,7 +28,7 @@ const CheckInfo = () => {
     if (showErrorToast) {
       const timer = setTimeout(() => {
         setShowErrorToast(false);
-      }, 300000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showErrorToast]);
@@ -106,7 +106,7 @@ const CheckInfo = () => {
               buttonTheme={
                 (pwCheck(password) && !disabled) ? ButtonTheme.GREEN : ButtonTheme.GRAY
               }
-              disabled={!pwCheck(password) && disabled}
+              disabled={(!pwCheck(password)) || disabled}
               handler={() => {
                 checkPassword(password);
               }}
