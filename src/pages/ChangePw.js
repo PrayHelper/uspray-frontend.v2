@@ -3,12 +3,50 @@ import serverapi from "../api/serverapi";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import UserHeader from "../components/UserHeader";
+import styled from 'styled-components';
+import BlackScreen from "../components/BlackScreen/BlackScreen";
+
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  gap: 8px;
+  border-radius: 16px;
+  padding: 16px;
+  color: #7bab6e;
+  z-index: 500;
+`;
+
+const ModalButton1 = styled.button`
+  flex-grow: 1;
+  flex-basis: 0;
+  background-color: #7BAB6E;
+  border-style: none;
+  border-radius: 16px;
+  padding: 16px 0;
+  color: #FFFFFF;
+  font-size: 18px;
+`;
 
 const ChangePw = () => {
   const [pw, setPw] = useState("");
   const [matchingPw, setMatchingPw] = useState("");
   const [invalidPwInfo, setInvalidPwInfo] = useState("");
   const [invalidMatchingPwInfo, setInvalidMatchingPwInfo] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () =>{
+    setShowModal(false);
+    window.location.href = '/settings';
+  };
 
   const isAllValid = pw && matchingPw && !invalidPwInfo && !invalidMatchingPwInfo;
 
@@ -58,6 +96,7 @@ const ChangePw = () => {
         }
       });
       if (res.status === 200) {
+        setShowModal(true);
         console.log(res);
       }
     } catch (e) {
@@ -77,6 +116,37 @@ const ChangePw = () => {
         alignItems: "center",
       }}
     >
+      {showModal && (
+        <>
+          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <img src="images/lock.svg" alt="lock" style={{marginTop: "8px"}}/>
+            <div
+              style={{
+                fontSize: "20px",
+                color: "#7BAB6E",
+                fontWeight: "700",
+                paddingBottom: "2px",
+              }}
+            >
+              비밀번호가 재설정 되었습니다.
+            </div>
+            <div
+              style={{
+                marginTop: "2px",
+                marginBottom: "28px",
+              }}
+            >
+              바뀐 비밀번호를 기억해둘게요!
+            </div>
+            <div style={{display: "flex", flexDirection: "row", width: "100%", gap: "8px"}}>
+              <ModalButton1 onClick={handleCloseModal}>
+                확인
+              </ModalButton1>
+            </div>
+          </ModalContent>
+        </>
+        )}
       <UserHeader>비밀번호 변경</UserHeader>
       <div
         style={{
