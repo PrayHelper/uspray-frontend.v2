@@ -18,7 +18,7 @@ const History = () => {
   const [ref, inView] = useInView();
 
   const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE0VDE0OjEyOjU2Ljg0MDYzNiJ9.vwn7uOtqjyOHX8rNdWs82fkfqYNQ3dJENrfO7ikskRE";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDE2OjM0OjMyLjg1NTg3MSJ9.bFNZaij3ywH1dvYy92fGOt8IpgSoSiGFAHygSdA3wgI";
 
   const onClickDate = () => {
     setIsOnDate(true);
@@ -29,9 +29,9 @@ const History = () => {
     setIsOnPray(true);
   };
 
-  // const isEmptyData = (data) => {
-  //   return data.length === 0 ? true : false;
-  // };
+  const isEmptyData = (data) => {
+    return data.length === 0 ? true : false;
+  };
 
   const onClickHistory = () => {
     setShowModal(true);
@@ -86,6 +86,12 @@ const History = () => {
   return (
     <HistoryWrapper>
       <Header>히스토리</Header>
+      {isEmptyData(data) && (
+        <div>
+          <div>완료된 기도제목이 없네요.</div>
+          <div>기간이 지나면 히스토리에 저장됩니다!</div>
+        </div>
+      )}
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
@@ -95,24 +101,15 @@ const History = () => {
                 <ModalTitle>
                   <ModalTarget>문재영</ModalTarget>의 기도제목
                 </ModalTitle>
-                <ModalDate>2023/03/01 ~ 2023/03/03</ModalDate>
+                <ModalDate>2023/03/01 ~ 2023/03/03, 15회 기도</ModalDate>
               </ModalTitleWrapper>
-              <ModalSubTitleWrapper>
-                <div>
-                  <SubTitle>작성자</SubTitle>
-                  <SubContent>이종우</SubContent>
-                </div>
-                <div>
-                  <SubTitle>기도 횟수</SubTitle>
-                  <SubContent>14번</SubContent>
-                </div>
-              </ModalSubTitleWrapper>
             </ModalHeader>
             <ModalContent>
               안녕할 수 있도록 하기 위해서 어떠한 길을 걸어야 하나 생각을 해본
               결과가 아무거나 작성하기 그리고 80자를 채우려고 조금 더 작성하는데
               어떻게 보일까 100자가 궁금해서 더 채움
             </ModalContent>
+            <ModalWriter>이종우 2023-05-11 작성</ModalWriter>
             <ModalButtonWrapper>
               <ModalButton1
                 showSubModal={showSubModal}
@@ -225,21 +222,17 @@ const ModalWrapper = styled.div`
 const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 27px 40px 16px 40px;
+  padding: 28px 0px 8px 28px;
 `;
 
 const ModalTitleWrapper = styled.div``;
-
-const ModalSubTitleWrapper = styled.div`
-  display: flex;
-  text-align: center;
-`;
 
 const ModalTitle = styled.div`
   color: #606060;
   font-weight: 700;
   font-size: 16px;
   line-height: 23px;
+  margin-bottom: 1px;
 `;
 
 const ModalTarget = styled.span`
@@ -253,25 +246,19 @@ const ModalDate = styled.div`
   line-height: 17px;
 `;
 
-const SubTitle = styled.div`
-  color: #a0a0a0;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 17px;
-`;
-
-const SubContent = styled.div`
-  color: #7bab6e;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 23px;
-`;
-
 const ModalContent = styled.div`
-  padding: 0px 40px 24px 40px;
+  padding: 0px 28px 12px 28px;
   font-size: 16px;
   line-height: 23px;
   color: #606060;
+`;
+
+const ModalWriter = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0px 20px 11px 0px;
+  font-size: 12px;
+  color: #a0a0a0;
 `;
 
 const ModalButtonWrapper = styled.div`
