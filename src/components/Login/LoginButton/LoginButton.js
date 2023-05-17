@@ -3,7 +3,7 @@ import { ReactComponent as NextArrow } from "../../../images/next_arrow.svg";
 
 // background, context, color, borderColor 요소 받아오기
 
-const Button = (props) => {
+const LoginButton = (props) => {
   return (
     <BottomBtn
       borderColor={props.borderColor}
@@ -16,7 +16,7 @@ const Button = (props) => {
   );
 };
 
-export default Button;
+export default LoginButton;
 
 const BottomBtn = styled.div`
   display: flex;

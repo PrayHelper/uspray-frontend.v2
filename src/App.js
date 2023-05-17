@@ -4,8 +4,6 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  useLocation,
-  Router,
 } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";

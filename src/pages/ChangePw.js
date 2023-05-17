@@ -44,13 +44,11 @@ const ChangePw = () => {
   };
 
   //TODO: 전역으로 관리되는 accessToken과 userId로 대체하기
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE3VDE0OjUwOjU3LjAwMzAxNyJ9.jUtRIMthRasFRRVHoh_ZlUAC8IXWhBL7cUOk9a__EDU";
-  const userId = "c69b09b1-2080-47d5-9d4a-9963e5a812d5";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDA1OjIyOjI2LjkwMTM3MiJ9.vgZZ1xbBloYQz0EKvbRCHDNkBqu75CPu523ufLhSfPE";
 
   const resetPw = async () => {
     const api = "/user/reset/password";
     const data = {
-      id: userId,
       password: pw
     };
     try {

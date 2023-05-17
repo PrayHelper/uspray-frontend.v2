@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Input from "../Input/Input";
-import Button from "./Button/Button";
+import LoginButton from "./LoginButton/LoginButton";
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
@@ -39,7 +39,7 @@ const LoginPage = () => {
             />
           </div>
           <Link to="/login" style={{ textDecoration: "none" }}>
-            <Button
+            <LoginButton
               backgrond={"#7bab6e"}
               context={"로그인하기"}
               color={"#ffffff"}

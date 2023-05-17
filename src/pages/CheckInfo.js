@@ -4,16 +4,36 @@ import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useEffect, useState } from "react";
 import serverapi from "../api/serverapi";
 import { useNavigate } from "react-router-dom";
+import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 const CheckInfo = () => {
   const [password, setPassword] = useState("");
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+
   const navigate = useNavigate();
+
+  const pwRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
 
   const passwordChangeHandler = (e) => {
     setPassword(e.target.value);
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE3VDE0OjUwOjU3LjAwMzAxNyJ9.jUtRIMthRasFRRVHoh_ZlUAC8IXWhBL7cUOk9a__EDU";
+  const pwCheck = (pw) => {
+    return pwRegEx.test(pw);
+  }
+
+
+  useEffect(() => {
+    if (showErrorToast) {
+      const timer = setTimeout(() => {
+        setShowErrorToast(false);
+      }, 300000);
+      return () => clearTimeout(timer);
+    }
+  }, [showErrorToast]);
+
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDA1OjIyOjI2LjkwMTM3MiJ9.vgZZ1xbBloYQz0EKvbRCHDNkBqu75CPu523ufLhSfPE";
 
   const checkPassword = async (password) => {
     const api = "/user/check/pw";
@@ -28,7 +48,12 @@ const CheckInfo = () => {
       });
       if (res.status === 200) {
         console.log(res);
-        navigate("/changeInfo");
+        if (res.data.message === true)
+          navigate("/changeInfo");
+        else{
+          setShowErrorToast(true);
+          setDisabled(true);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -74,20 +99,21 @@ const CheckInfo = () => {
             안전을 위해 <br />
             회원정보를 확인할게요!
           </div>
-          <Input label="비밀번호" type="password" onChangeHandler={passwordChangeHandler} value={password} />
+          <Input label="비밀번호" type="password" onChangeHandler={passwordChangeHandler} value={password} onFocusHandler={() => {setDisabled(false)}}/>
           <div style={{ position: "absolute", bottom: "40px", width: "calc(100% - 32px)", display: "flex", flexDirection: "column" }}>
             <Button
               buttonSize={ButtonSize.LARGE}
               buttonTheme={
-                checkPassword(password) ? ButtonTheme.GREEN : ButtonTheme.GRAY
+                (pwCheck(password) && !disabled) ? ButtonTheme.GREEN : ButtonTheme.GRAY
               }
-              disabled={!checkPassword(password)}
+              disabled={!pwCheck(password) && disabled}
               handler={() => {
                 checkPassword(password);
               }}
             >
               회원정보 확인
             </Button>
+            {showErrorToast && (<Toast toastTheme={ToastTheme.ERROR}>비밀번호가 일치하지 않습니다.</Toast>)}
           </div>
         </div>
       </div>
