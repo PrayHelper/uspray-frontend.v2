@@ -1,7 +1,7 @@
 import UserHeader from "../components/UserHeader";
 import styled from "styled-components";
-import Button from "../components/Login/Button/Button";
 import { Link } from "react-router-dom";
+import LoginButton from "../components/Login/LoginButton/LoginButton";
 
 const Find = () => {
   return (
@@ -10,7 +10,7 @@ const Find = () => {
 
       <BtnWrapper>
         <Link to="/findID" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#ffffff"}
             context={"아이디 찾기"}
             color={"#7bab6e"}
@@ -20,7 +20,7 @@ const Find = () => {
           />
         </Link>
         <Link to="/findPW" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#ffffff"}
             context={"비밀번호 찾기"}
             color={"#7bab6e"}

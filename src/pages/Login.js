@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../components/Login/Button/Button";
 import { Link } from "react-router-dom";
+import LoginButton from "../components/Login/LoginButton/LoginButton";
 
 const Login = () => {
   return (
@@ -13,7 +13,7 @@ const Login = () => {
       </LogoWrapper>
       <BottomBtnWrapper>
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#7bab6e"}
             context={"로그인하기"}
             color={"#ffffff"}
@@ -22,7 +22,7 @@ const Login = () => {
           />
         </Link>
         <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#ffffff"}
             context={"회원가입하기"}
             color={"#7bab6e"}
