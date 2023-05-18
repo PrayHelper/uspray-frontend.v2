@@ -45,7 +45,7 @@ const DdayTag = styled.div`
     color: #A0A0A0;
 `
 
-const PrayChecker = ({name, title, dday, key}) => {
+const PrayChecker = ({name, title, dday}) => {
     const [isChecked, setIsChecked] = useState(false);
     function clickHandler(event){
         setIsChecked(event.target.checked);

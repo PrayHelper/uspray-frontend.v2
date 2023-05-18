@@ -18,7 +18,6 @@ const Locker = () => {
         data_ = res.data;
         setData(data_);
         console.log(data);
-        console.log(res.data);
       }
     } catch (e){
       console.log(e);
@@ -49,7 +48,6 @@ const Locker = () => {
           <PrayChecker name={item.share_name} title={item.title} dday={item.shared_at} key={item.pray_id}/>
         ))}
       </div>
-      <button onClick={getSharedPrayList}>testing</button>
     </div>
   </div>
 );
