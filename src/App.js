@@ -35,6 +35,7 @@ const Container = styled.div`
   align-items: center;
   padding: 0px;
 `;
+
 function MainApp() {
   return (
     <ContainerWrapper>
@@ -65,18 +66,9 @@ function MainApp() {
 
 function App() {
   return (
-    <Container>
-      <Reset />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" index element={<Login />}></Route>
-            <Route path="/main" element={<Main />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/Locker" element={<Locker />}></Route>
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-        </BrowserRouter>
-    </Container>
+    <BrowserRouter>
+      <MainApp/>
+    </BrowserRouter>
   );
 }
 
