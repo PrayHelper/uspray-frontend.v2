@@ -57,7 +57,7 @@ const ChangeInfo = () => {
     setShowModal(false);
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlODU3ODNhLTc3YjMtNGEzMC1hYWY0LTNiZjA0MDBmOTMwMiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDEzOjQwOjMyLjk2NTQxNyJ9.WbzdHdVI9tidYgJuhZNg_Kg2CE982sUsSUWlNdlOQQ8";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
 
   const withdrawal = async () => {
     const api = "/user/withdrawal";
