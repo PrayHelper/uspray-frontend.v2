@@ -1,5 +1,5 @@
 import Header from "../components/Header/Header";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import HisContent from "../components/History/HisContent";
 import serverapi from "../api/serverapi";
 import { useCallback, useEffect, useState } from "react";
@@ -15,12 +15,14 @@ const History = () => {
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState({});
-  const [updateDate, setUpdateDate] = useState("");
+  const [currentId, setCurrentId] = useState();
+  const [updateDate, setUpdateDate] = useState("2023.00.00");
+  const [selectedBtn, setSelectedBtn] = useState(null);
 
   const [ref, inView] = useInView();
 
   const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDE2OjM0OjMyLjg1NTg3MSJ9.bFNZaij3ywH1dvYy92fGOt8IpgSoSiGFAHygSdA3wgI";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE1OjI3OjIzLjc1Mzc3NCJ9.S393_KvlcjfR9V-XSVtE8LDLggySACW3V9UnZCBamu8";
 
   const onClickUpdateDate = (days) => {
     const today = new Date();
@@ -30,6 +32,7 @@ const History = () => {
     const dd = String(targetDate.getDate()).padStart(2, "0");
     const formattedDate = `${yyyy}-${mm}-${dd}`;
     setUpdateDate(formattedDate);
+    setSelectedBtn(days); // css 변경용
   };
 
   const onClickDate = () => {
@@ -63,6 +66,26 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
+  const onClickModify = async (id, newDeadline) => {
+    const api = `/history/modify`;
+    const data = {
+      pray_id: id,
+      deadline: newDeadline,
+    };
+    try {
+      const res = await serverapi.put(api, data, {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+      if (res.status === 200) {
+        alert("마감일이 업데이트 되었습니다.");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const fetchCurrentHis = async (id) => {
     const api = `/history`;
     try {
@@ -77,6 +100,7 @@ const History = () => {
       if (res.status === 200) {
         console.log(id);
         console.log(filteredData);
+        setCurrentId(Number(id));
       }
       return filteredData;
     } catch (e) {
@@ -162,18 +186,36 @@ const History = () => {
       {showSubModal && (
         <SubModalWrapper>
           <SubModalTop>
-            <SubModalBtn onClick={() => onClickUpdateDate(3)}>3일</SubModalBtn>
-            <SubModalBtn onClick={() => onClickUpdateDate(7)}>7일</SubModalBtn>
-            <SubModalBtn onClick={() => onClickUpdateDate(30)}>
+            <SubModalBtn
+              isSelected={selectedBtn === 3}
+              onClick={() => onClickUpdateDate(3)}
+            >
+              3일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 7}
+              onClick={() => onClickUpdateDate(7)}
+            >
+              7일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 30}
+              onClick={() => onClickUpdateDate(30)}
+            >
               30일
             </SubModalBtn>
-            <SubModalBtn onClick={() => onClickUpdateDate(100)}>
+            <SubModalBtn
+              isSelected={selectedBtn === 100}
+              onClick={() => onClickUpdateDate(100)}
+            >
               100일
             </SubModalBtn>
             <img src="../images/icon_calender.svg" alt="icon_calender" />
             <SubModalDate>~{updateDate}</SubModalDate>
           </SubModalTop>
-          <SubModalBottom>오늘의 기도에 추가하기</SubModalBottom>
+          <SubModalBottom onClick={() => onClickModify(currentId, updateDate)}>
+            오늘의 기도에 추가하기
+          </SubModalBottom>
         </SubModalWrapper>
       )}
       <ToggleWrapper>
@@ -362,6 +404,13 @@ const SubModalBtn = styled.div`
   font-size: 12px;
   line-height: 17px;
   color: #75bd62;
+  cursor: pointer;
+  ${(props) =>
+    props.isSelected &&
+    css`
+      background-color: #75bd62;
+      color: #ffffff;
+    `}
 `;
 
 const SubModalDate = styled.div`
