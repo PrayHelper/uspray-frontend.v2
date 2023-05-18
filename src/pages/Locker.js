@@ -49,7 +49,7 @@ const Locker = () => {
           <PrayChecker name={item.share_name} title={item.title} dday={item.shared_at} key={item.pray_id}/>
         ))}
       </div>
-      <button onClick={getSharedPrayList}>test</button>
+      <button onClick={getSharedPrayList}>testing</button>
     </div>
   </div>
 );
