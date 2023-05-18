@@ -14,11 +14,23 @@ const History = () => {
   const [showSubModal, setShowSubModal] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
+  const [currentData, setCurrentData] = useState({});
+  const [updateDate, setUpdateDate] = useState("");
 
   const [ref, inView] = useInView();
 
   const accessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDE2OjM0OjMyLjg1NTg3MSJ9.bFNZaij3ywH1dvYy92fGOt8IpgSoSiGFAHygSdA3wgI";
+
+  const onClickUpdateDate = (days) => {
+    const today = new Date();
+    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+    const yyyy = targetDate.getFullYear();
+    const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(targetDate.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    setUpdateDate(formattedDate);
+  };
 
   const onClickDate = () => {
     setIsOnDate(true);
@@ -33,8 +45,13 @@ const History = () => {
     return data.length === 0 ? true : false;
   };
 
-  const onClickHistory = () => {
+  const onClickHistory = async (e) => {
     setShowModal(true);
+    const id = e.currentTarget.id;
+    // setCurrentId(id);
+    const currentData = await fetchCurrentHis(id);
+    console.log(currentData);
+    setCurrentData(currentData);
   };
 
   const onClickExitModal = () => {
@@ -43,11 +60,28 @@ const History = () => {
   };
 
   const onClickSubModal = () => {
-    setShowSubModal(true);
+    setShowSubModal(!showSubModal);
   };
 
-  const onClickExitSubModal = () => {
-    setShowSubModal(false);
+  const fetchCurrentHis = async (id) => {
+    const api = `/history`;
+    try {
+      const res = await serverapi.get(api, {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      });
+      const filteredData = res.data.res.filter(
+        (item) => item.id === Number(id)
+      )[0];
+      if (res.status === 200) {
+        console.log(id);
+        console.log(filteredData);
+      }
+      return filteredData;
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const fetchHistory = useCallback(async () => {
@@ -61,6 +95,7 @@ const History = () => {
         params: {
           page: page,
           per_page: 15,
+          sort_by: isOnPray ? "pray_cnt" : "date",
         },
       });
       if (res.status === 200) {
@@ -71,7 +106,7 @@ const History = () => {
     } catch (e) {
       console.log(e.response);
     }
-  }, [page]);
+  }, [isOnPray, page]);
 
   useEffect(() => {
     fetchHistory();
@@ -92,24 +127,26 @@ const History = () => {
           <div>기간이 지나면 히스토리에 저장됩니다!</div>
         </div>
       )}
-      {showModal && (
+      {!isEmptyData(data) && showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
           <ModalWrapper showSubModal={showSubModal}>
             <ModalHeader>
               <ModalTitleWrapper>
                 <ModalTitle>
-                  <ModalTarget>문재영</ModalTarget>의 기도제목
+                  <ModalTarget>{currentData.target}</ModalTarget>의 기도제목
                 </ModalTitle>
-                <ModalDate>2023/03/01 ~ 2023/03/03, 15회 기도</ModalDate>
+                <ModalDate>
+                  {currentData?.created_at?.split(" ")[0]} ~{" "}
+                  {currentData.deadline}, {currentData.pray_cnt}회 기도
+                </ModalDate>
               </ModalTitleWrapper>
             </ModalHeader>
-            <ModalContent>
-              안녕할 수 있도록 하기 위해서 어떠한 길을 걸어야 하나 생각을 해본
-              결과가 아무거나 작성하기 그리고 80자를 채우려고 조금 더 작성하는데
-              어떻게 보일까 100자가 궁금해서 더 채움
-            </ModalContent>
-            <ModalWriter>이종우 2023-05-11 작성</ModalWriter>
+            <ModalContent>{currentData.title}</ModalContent>
+            <ModalWriter>
+              {currentData.writer}{" "}
+              {currentData?.origin_created_at?.split(" ")[0]} 작성
+            </ModalWriter>
             <ModalButtonWrapper>
               <ModalButton1
                 showSubModal={showSubModal}
@@ -125,12 +162,16 @@ const History = () => {
       {showSubModal && (
         <SubModalWrapper>
           <SubModalTop>
-            <SubModalBtn>3일</SubModalBtn>
-            <SubModalBtn>7일</SubModalBtn>
-            <SubModalBtn>30일</SubModalBtn>
-            <SubModalBtn>100일</SubModalBtn>
+            <SubModalBtn onClick={() => onClickUpdateDate(3)}>3일</SubModalBtn>
+            <SubModalBtn onClick={() => onClickUpdateDate(7)}>7일</SubModalBtn>
+            <SubModalBtn onClick={() => onClickUpdateDate(30)}>
+              30일
+            </SubModalBtn>
+            <SubModalBtn onClick={() => onClickUpdateDate(100)}>
+              100일
+            </SubModalBtn>
             <img src="../images/icon_calender.svg" alt="icon_calender" />
-            <SubModalDate>~2023/03/03 금</SubModalDate>
+            <SubModalDate>~{updateDate}</SubModalDate>
           </SubModalTop>
           <SubModalBottom>오늘의 기도에 추가하기</SubModalBottom>
         </SubModalWrapper>
@@ -147,7 +188,7 @@ const History = () => {
       </ToggleWrapper>
       <Hline />
       {data.map((el) => (
-        <div onClick={onClickHistory}>
+        <div onClick={onClickHistory} id={el.id}>
           <HisContent
             name={el.target}
             content={el.title}
