@@ -5,14 +5,14 @@ import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 const BackGround = styled.div`
-    width: 100ww;
+    width: 100%;
     min-height: 822px;
     background-color: 'white';
 `;
 
 const BackgroundInput = styled.div`
     display : flex;
-    width: 430px;
+    width: 100%;
     height: 120px;
     margin-left : auto;
     margin-right : auto;
@@ -49,11 +49,11 @@ const TemplateMain = ({ children, onInsert}) =>{
     const input_handle = useRef(null);
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
-    const [day , setDay] = useState(0);
-    const WidthChange = () =>{
+    const [day , setDay] = useState(7);
+    const widthChange = () =>{
         setVisible(!visible);
     }
-    const DayInfo = (e) =>{
+    const dayInfo = (e) =>{
         setDay(e);
     }
 
@@ -66,14 +66,16 @@ const TemplateMain = ({ children, onInsert}) =>{
     const onChange = (e) =>{
         setValue(e.target.value);
     }
-    const Submit = () =>{
+    const submit = () =>{
         setVisible(!visible);
         setValue("");
         onInsert(day, value);
-        setDay(0);
+        setDay(7);
     }
     const changeCheckTop = () =>{
         setVisible(false);
+        setDay(7);
+        setValue("");
     }
     return(
         <div>
@@ -86,14 +88,14 @@ const TemplateMain = ({ children, onInsert}) =>{
                 <div>
                 <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'70px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#A0A0A0'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(!visible) ? ()=> WidthChange() : onSubmit}></input>
+                onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>
                 <BarHeight style={{width: '256px', marginLeft:'3px'}}></BarHeight>
                 </div>
                 <div style={{width:'31px', height:'31px', marginTop:'65px'}}>
-                    <BtnSend style={{backgroundColor:'white'}} onClick={() => Submit()}><SendImg src={click_search}/></BtnSend>
+                    <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
-            {visible && <DayButton DayInfo = {DayInfo}/>}
+            {visible && <DayButton dayInfo = {dayInfo}/>}
             {visible && <BackgroundBright onClick={changeCheckTop}/>}
             <BackGround>{children}</BackGround>
         </div>

@@ -23,20 +23,21 @@ const DayBtn = styled.button`
 const DayCalender = styled(Logo)`
 `;
 
-const Day_Button = ({DayInfo}) =>{
+const Day_Button = ({dayInfo}) =>{
     const [color_three ,setColor_three] = useState('white');
-    const [color_seven ,setColor_seven] = useState('white');
+    const [color_seven ,setColor_seven] = useState('#75BD62');
     const [color_thirty ,setColor_thirty] = useState('white');
     const [color_hundred ,setColor_hundred] = useState('white');
     const [font_three ,setFont_three] = useState('#75BD62');
-    const [font_seven ,setFont_seven] = useState('#75BD62');
+    const [font_seven ,setFont_seven] = useState('white');
     const [font_thirty ,setFont_thirty] = useState('#75BD62');
     const [font_hundred ,setFont_hundred] = useState('#75BD62');
     const colorChange = (e) =>{
-        var sliceString_five = e.target.className.slice(-5);
-        var sliceString_six = e.target.className.slice(-6);
-        var sliceString_seven = e.target.className.slice(-7);
-        if(sliceString_five === "three"){ 
+        var sliceStringFive = e.target.className.slice(-5);
+        var sliceStringSix = e.target.className.slice(-6);
+        var sliceStringSeven = e.target.className.slice(-7);
+        console.log(sliceStringSeven);
+        if(sliceStringFive === "three"){ 
             setColor_three('#75BD62');
             setColor_seven('white');
             setColor_thirty('white');
@@ -45,9 +46,9 @@ const Day_Button = ({DayInfo}) =>{
             setFont_seven('#75BD62');
             setFont_thirty('#75BD62');
             setFont_hundred('#75BD62');
-            DayInfo(3);
+            dayInfo(3);
         }   
-        else if(sliceString_five === "seven"){ 
+        else if(sliceStringFive === "seven"){ 
             setColor_three('white');
             setColor_seven('#75BD62');
             setColor_thirty('white');
@@ -56,9 +57,9 @@ const Day_Button = ({DayInfo}) =>{
             setFont_seven('white');
             setFont_thirty('#75BD62');
             setFont_hundred('#75BD62');
-            DayInfo(7);
+            dayInfo(7);
         }   
-        else if(sliceString_six === "thirty"){ 
+        else if(sliceStringSix === "thirty"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('#75BD62');
@@ -67,9 +68,9 @@ const Day_Button = ({DayInfo}) =>{
             setFont_three('#75BD62');
             setFont_thirty('white');
             setFont_hundred('#75BD62');
-            DayInfo(30);
+            dayInfo(30);
         }   
-        else if(sliceString_seven === "hundred"){ 
+        else if(sliceStringSeven === "hundred"){ 
             setColor_three('white');
             setColor_seven('white');
             setColor_thirty('white');
@@ -78,10 +79,10 @@ const Day_Button = ({DayInfo}) =>{
             setFont_thirty('#75BD62');
             setFont_three('#75BD62');
             setFont_hundred('white');
-            DayInfo(100);
+            dayInfo(100);
         }   
     }
-    const DatePickerComponent = () =>{
+    const datePickerComponent = () =>{
         console.log("날짜 입력하는데로 슝")
     }
     return(
@@ -90,7 +91,7 @@ const Day_Button = ({DayInfo}) =>{
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
-            <DayCalender src={Day_Calender} onClick={() => DatePickerComponent()}></DayCalender> 
+            <DayCalender src={Day_Calender} onClick={() => datePickerComponent()}></DayCalender> 
         </DayBtnSet>
     )
 }
