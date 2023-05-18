@@ -9,7 +9,6 @@ const BottomNav = () => {
 
   useEffect(() => {
     let activeUrl = location.pathname;
-    console.log(location.pathname);
 
     switch (activeUrl) {
       case "/main":

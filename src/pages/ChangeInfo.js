@@ -94,7 +94,7 @@ const ChangeInfo = () => {
               style={{
                 fontSize: "24px",
                 color: "#FF6B6B",
-                fontWeight: "500",
+                fontWeight: "700",
                 paddingBottom: "2px",
               }}
             >
