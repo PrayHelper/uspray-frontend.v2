@@ -45,7 +45,7 @@ const DdayTag = styled.div`
     color: #A0A0A0;
 `
 
-const PrayChecker = ({id, checked, name, prayer, dday}) => {
+const PrayChecker = ({name, title, dday, key}) => {
     const [isChecked, setIsChecked] = useState(false);
     function clickHandler(event){
         setIsChecked(event.target.checked);
@@ -54,7 +54,7 @@ const PrayChecker = ({id, checked, name, prayer, dday}) => {
         <BackGroundBox isChecked={isChecked}>
             <GreenCheckbox checked={isChecked} handler = {clickHandler}/>
             <NameTag>{name}</NameTag>
-            <PrayerTag>{prayer}</PrayerTag>
+            <PrayerTag>{title}</PrayerTag>
             <DdayTag>{dday}</DdayTag>
         </BackGroundBox>
     );
