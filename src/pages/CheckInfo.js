@@ -28,12 +28,12 @@ const CheckInfo = () => {
     if (showErrorToast) {
       const timer = setTimeout(() => {
         setShowErrorToast(false);
-      }, 300000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [showErrorToast]);
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDA1OjIyOjI2LjkwMTM3MiJ9.vgZZ1xbBloYQz0EKvbRCHDNkBqu75CPu523ufLhSfPE";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
 
   const checkPassword = async (password) => {
     const api = "/user/check/pw";
@@ -106,7 +106,7 @@ const CheckInfo = () => {
               buttonTheme={
                 (pwCheck(password) && !disabled) ? ButtonTheme.GREEN : ButtonTheme.GRAY
               }
-              disabled={!pwCheck(password) && disabled}
+              disabled={(!pwCheck(password)) || disabled}
               handler={() => {
                 checkPassword(password);
               }}

@@ -21,6 +21,7 @@ import Find from "./pages/Find";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
+import ChangePhoneNumber from "./pages/ChangePhoneNumber";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -55,6 +56,7 @@ function MainApp() {
           <Route path="/checkInfo" element={<CheckInfo />} />
           <Route path="/changeInfo" element={<ChangeInfo />} />
           <Route path="/changePw" element={<ChangePw />} />
+          <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
           <Route path="/tos" element={<ToS />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

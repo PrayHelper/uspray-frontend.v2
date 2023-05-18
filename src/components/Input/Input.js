@@ -20,7 +20,6 @@ const Input = ({
   if (!label) label = "";
   if (!onFocusHandler)
     onFocusHandler = () => {
-      console.log("focused");
     };
   const [isFocused, setIsFocused] = useState(false);
 

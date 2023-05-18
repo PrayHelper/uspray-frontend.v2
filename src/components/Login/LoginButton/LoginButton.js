@@ -9,6 +9,7 @@ const LoginButton = (props) => {
       borderColor={props.borderColor}
       backgrond={props.backgrond}
       margin={props.margin}
+      onClick={props.handler}
     >
       <BottomBtnFont color={props.color}>{props.context}</BottomBtnFont>
       <NextArrow fill={props.arrowColor} style={{ paddingRight: "12px" }} />

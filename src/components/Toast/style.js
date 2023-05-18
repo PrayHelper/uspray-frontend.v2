@@ -3,8 +3,10 @@ import { ToastTheme } from "./Toast";
 
 export const ToastStyle = styled.div`
   position: fixed;
+  left: 0;
+  right: 0;
+  margin: 0 16px;
   bottom: 60px;
-  width: 100%;
   max-width: 344px;
   display: flex;
   align-items: center;
