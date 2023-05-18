@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import LockerHeader from "../Locker_components/L_Header";
-import PrayChecker from "../Locker_components/L_PrayChecker";
+import LockerHeader from "../components/Locker/L_Header";
+import PrayChecker from "../components/Locker/L_PrayChecker";
 import serverapi from "../api/serverapi";
 
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBkNzI5NzQ4LTk3OTQtNGRjMC05NDk3LTY5MWEwMzk3N2Y5ZiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDE1OjE5OjQ2LjM4Njc1NSJ9.o6fGb8W8dcxc9PTP5NTjB4JowayBPASaBDMP_dYkXvI"

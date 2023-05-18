@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import GreenCheckbox from "../components/GreenCheckbox";
+import GreenCheckbox from "../GreenCheckbox";
 
 
 const BackGroundBox = styled.div`
