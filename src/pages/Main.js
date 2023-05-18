@@ -59,7 +59,7 @@ const Main = () => {
           console.log(e);
         }
       };
-      setTimeout(getPrayList, 100); // 이부분은 조금 고민을 해봐야할듯합니다. 눈에 보이는지 나중에 체크 한번 해봐야할듯
+      setTimeout(getPrayList, 200); // 이부분은 조금 고민을 해봐야할듯합니다. 눈에 보이는지 나중에 체크 한번 해봐야할듯
       // getPrayList();
     }
   }
@@ -130,62 +130,45 @@ const contentClick  = (e) =>{
 
   const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
     changeCheck();
-    var date = new Date();
-    var day = addDay(date, 1);
-    var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
-    const api = "/pray/"+ id;
+    // var date = new Date();
+    // var day = addDay(date, 1);
+    // var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
+    const api = "/pray/finish/"+ id;
     try{
-      const data = {
-        "deadline" : deadline
-      }
-      const res = await serverapi.put(api,data,{ headers: {
+      const res = await serverapi.put(api,id,{ headers: {
         'Authorization': `${accessToken}`}} )
       if (res.status === 200) {
-        console.log("Complete");
+        var prayer_content_ = [];
+        var prayer_more_content_ = [];
+        for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
+          var result = ddayCaculate(res.data.uncompleted[i].deadline);
+            prayer_content_[i] = {
+              id : res.data.uncompleted[i].id,
+              name: '김정묵',
+              dday: result,
+              text: res.data.uncompleted[i].title,
+              checked : true,
+              count : res.data.uncompleted[i].pray_cnt
+            };
+          }
+        for(var i = 0;i<Object.keys(res.data.completed).length;i++){
+          var result = ddayCaculate(res.data.completed[i].deadline);
+            prayer_more_content_[i] = {
+              id : res.data.completed[i].id,
+              name: '김정묵',
+              dday: result,
+              text: res.data.completed[i].title,
+              checked : true,
+              count : res.data.completed[i].pray_cnt
+            };
+          }
+        setPrayerContent(prayer_content_);
+        setPrayerMoreContent(prayer_more_content_);
       }
     }catch(e){
       alert("error complete");
       console.log(e);
     }
-    const getPrayList = async () => {
-      const api = "/pray?sort_by=date";
-      try {
-        const res= await serverapi.get(api, { headers: {
-          'Authorization': `${accessToken}`}});
-        if (res.status === 200) {
-          var prayer_content_ = [];
-          var prayer_more_content_ = [];
-          for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-            var result = ddayCaculate(res.data.uncompleted[i].deadline);
-              prayer_content_[i] = {
-                id : res.data.uncompleted[i].id,
-                name: '김정묵',
-                dday: result,
-                text: res.data.uncompleted[i].title,
-                checked : true,
-                count : res.data.uncompleted[i].pray_cnt
-              };
-            }
-          for(var i = 0;i<Object.keys(res.data.completed).length;i++){
-            var result = ddayCaculate(res.data.completed[i].deadline);
-              prayer_more_content_[i] = {
-                id : res.data.completed[i].id,
-                name: '김정묵',
-                dday: result,
-                text: res.data.completed[i].title,
-                checked : true,
-                count : res.data.completed[i].pray_cnt
-              };
-            }
-          setPrayerContent(prayer_content_);
-          setPrayerMoreContent(prayer_more_content_);
-          }
-        } catch (e){
-        alert("error occured");
-        console.log(e);
-      }
-    };
-    getPrayList();
   }
 
 const modifyBtnClick = (id) =>{ // 수정하기 관련 코드
@@ -208,6 +191,7 @@ const deleteBtnClick = async(id) =>{ // 삭제하기 관련 코드
         'Authorization': `${accessToken}`}});
       if (res.status === 200) {
         setPrayerContent(prayerContent.filter(prayer => prayer.id !== id));
+        setPrayerMoreContent(prayerMoreContent.filter(prayer => prayer.id !== id));
       }
       } catch (e){
       alert("error delete");

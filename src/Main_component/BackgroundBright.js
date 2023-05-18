@@ -11,7 +11,7 @@ import styled from "styled-components";
 // 여기서 height에 10000px로 설정해둔것이 문제임.
 const BackgroundBright = styled.div`
     position: absolute;
-    top: 155px;
+    top: 147px;
     left: 0;
     right: 0;
     bottom: 0;

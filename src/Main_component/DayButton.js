@@ -7,9 +7,9 @@ const DayBtnSet = styled.div`
     display: flex;
     height: 42px;
     background-color: white;
-    top: 112px;
+    top: 105px;
     position: absolute;
-    width: 100vw;
+    width: 100%;
 `
 const DayBtn = styled.button`
     width : 48px;

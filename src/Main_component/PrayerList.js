@@ -10,13 +10,16 @@ import serverapi from "../api/serverapi";
 import DeleteBar from "./DeleteBar";
 
 const Background =  styled.div`
-    width  : 430px; 
+    width  : 100%;
     background-color: #D0E8CB;
-    max-height: 10000px;
-`// 여기서 height에 10000px로 설정해둔것이 문제임.
+    height:auto;
+    min-height: 812px;
+    min-width: 430px;
+`
 
 const TopContent = styled.div`
     display: flex;
+    width: 100%;
     margin-left : 32px;
 `;
 
@@ -26,8 +29,6 @@ const TodayPrayer = styled.div`
     font-weight: 700;
     font-size: 12px;
     line-height: 17px;
-    width : 65px;
-    height : 17px;
     margin-top : 44px;
     margin-bottom: 13px;
     margin-right : 220px;
@@ -37,8 +38,8 @@ const BtnSet = styled.div`
     display: flex;
     justify-content: center;
     align-items:center;
-    width: 88px;
-    height: 26px;
+    width: 20.465%;
+    height: 2.82vh;
     margin-bottom: 8px;
     margin-top : 40px;
     background-color:#7BAB6E; 
@@ -46,23 +47,23 @@ const BtnSet = styled.div`
 `;
 
 const BtnElementDay = styled.button`
-    width: 38px;
-    height: 18px;
+    width: 43.182%;
+    height: 1.95vh;
     font-size: 10px;
     padding: 0px;
     border: none;
 `;
 
 const BtnElementPrayer = styled.button`
-    width: 38px;
-    height: 18px;
+    width: 43.182%;
+    height: 1.95vh;
     font-size: 10px;
     padding: 0px;
     border: none;
 `;
 
 const PrayerContentStyle = styled.div`
-    width: 382px;
+    width: 88.84;
     background-color: #FFFFFF;
     margin-right : 24px;
     margin-left : 24px;

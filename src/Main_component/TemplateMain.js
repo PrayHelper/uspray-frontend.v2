@@ -5,18 +5,16 @@ import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 const BackGround = styled.div`
+    min-width: 430px;
     width: 100%;
-    min-height: 822px;
     background-color: 'white';
 `;
 
 const BackgroundInput = styled.div`
     display : flex;
+    min-width: 430px;
     width: 100%;
-    height: 120px;
-    margin-left : auto;
-    margin-right : auto;
-    box-shadow: 0px -2px rgba(0, 0, 0, 0.25);
+    height: 12.88vh;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -37,16 +35,9 @@ const SendImg = styled(Logo)`
 `;
 
 
-const BarHeight = styled.div`
-    width: 67px;
-    height: 1px;
-    background: #EBF7E8;
-    borderRadius: 4px;
-`
 
 const TemplateMain = ({ children, onInsert}) =>{
     const text = "김정묵"
-    const input_handle = useRef(null);
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
@@ -79,19 +70,20 @@ const TemplateMain = ({ children, onInsert}) =>{
     }
     return(
         <div>
-            <BackgroundInput ref={input_handle}>
-                <div style={{width: '67px', height:'23px', marginLeft:'24px',marginTop:'72px', padding:'0px'}}>
-                    <div style={{display:"grid", placeItems:"center", width: '67px', height: '23px', fontSize:'16px',
-                    fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62"}}>{text}
-                    <BarHeight/></div>
+            <BackgroundInput>
+                <div style={{width: '10.47%', height:'2.49vh', marginLeft:'35px',marginTop:'70px', padding:'0px', minHeight:'23px', minWidth:'45px'}}>
+                    <div style={{width: '100%', height: '2.49vh', fontSize:'15px',
+                    fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62", borderBottom:"1px solid #EBF7E8"}}>{text}
+                    </div>
                 </div>
-                <div>
-                <input style={{marginLeft:"16px",width:"256px", height:"23px" , marginTop:'70px', padding:'0px', marginRight:'12px',borderRadius:'4px', border:'none', color:'#A0A0A0'}}
+
+                <div style={{width: '66.05%'}}>
+                <input style={{marginLeft:'31px',marginTop:'70px',marginRight:'12px',width:"90.14%",height:"2.49vh" , padding:'0px',borderRadius:'4px', border:'none',
+                 color:'#A0A0A0', borderBottom: '1px solid #EBF7E8'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>
-                <BarHeight style={{width: '256px', marginLeft:'3px'}}></BarHeight>
                 </div>
-                <div style={{width:'31px', height:'31px', marginTop:'65px'}}>
+                <div style={{width:'7.21%', height:'3.36vh', marginTop:'61px', marginLeft:'12px', minHeight:'31px', minWidth:'31px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
