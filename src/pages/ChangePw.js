@@ -81,8 +81,8 @@ const ChangePw = () => {
     setInvalidMatchingPwInfo("");
   };
 
-  //TODO: 전역으로 관리되는 accessToken과 userId로 대체하기
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE4VDA1OjIyOjI2LjkwMTM3MiJ9.vgZZ1xbBloYQz0EKvbRCHDNkBqu75CPu523ufLhSfPE";
+  //TODO: 전역으로 관리되는 accessToken로 대체하기
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDA5OjQ1OjMwLjg0MzE4NCJ9.Z-XeWMwx1P_2gy9s-egrPjPrclF2UldacZ5dx72OloI";
 
   const resetPw = async () => {
     const api = "/user/reset/password";
