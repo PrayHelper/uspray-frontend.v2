@@ -29,6 +29,7 @@ const BtnSend = styled.button`
 const SendImg = styled(Logo)`
     width: 16.21px;
     height: 16.94px;
+    transform: scaleX(-1);
     display: flex;
     justify-content: center;
     align-items: center;

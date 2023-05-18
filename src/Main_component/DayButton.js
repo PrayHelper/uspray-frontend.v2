@@ -24,61 +24,60 @@ const DayCalender = styled(Logo)`
 `;
 
 const Day_Button = ({dayInfo}) =>{
-    const [color_three ,setColor_three] = useState('white');
-    const [color_seven ,setColor_seven] = useState('#75BD62');
-    const [color_thirty ,setColor_thirty] = useState('white');
-    const [color_hundred ,setColor_hundred] = useState('white');
-    const [font_three ,setFont_three] = useState('#75BD62');
-    const [font_seven ,setFont_seven] = useState('white');
-    const [font_thirty ,setFont_thirty] = useState('#75BD62');
-    const [font_hundred ,setFont_hundred] = useState('#75BD62');
+    const [colorThree ,setColorThree] = useState('white');
+    const [colorSeven ,setColorSeven] = useState('#75BD62');
+    const [colorThirty ,setColorThirty] = useState('white');
+    const [colorHundred ,setColorHundred] = useState('white');
+    const [fontThree ,setFontThree] = useState('#75BD62');
+    const [fontSeven ,setFontSeven] = useState('white');
+    const [fontThirty ,setFontThirty] = useState('#75BD62');
+    const [fontHundred ,setFontHundred] = useState('#75BD62');
     const colorChange = (e) =>{
         var sliceStringFive = e.target.className.slice(-5);
         var sliceStringSix = e.target.className.slice(-6);
         var sliceStringSeven = e.target.className.slice(-7);
-        console.log(sliceStringSeven);
         if(sliceStringFive === "three"){ 
-            setColor_three('#75BD62');
-            setColor_seven('white');
-            setColor_thirty('white');
-            setColor_hundred('white');
-            setFont_three('white');
-            setFont_seven('#75BD62');
-            setFont_thirty('#75BD62');
-            setFont_hundred('#75BD62');
+            setColorThree('#75BD62');
+            setColorSeven('white');
+            setColorThirty('white');
+            setColorHundred('white');
+            setFontThree('white');
+            setFontSeven('#75BD62');
+            setFontThirty('#75BD62');
+            setFontHundred('#75BD62');
             dayInfo(3);
         }   
         else if(sliceStringFive === "seven"){ 
-            setColor_three('white');
-            setColor_seven('#75BD62');
-            setColor_thirty('white');
-            setColor_hundred('white');
-            setFont_three('#75BD62');
-            setFont_seven('white');
-            setFont_thirty('#75BD62');
-            setFont_hundred('#75BD62');
+            setColorThree('white');
+            setColorSeven('#75BD62');
+            setColorThirty('white');
+            setColorHundred('white');
+            setFontThree('#75BD62');
+            setFontSeven('white');
+            setFontThirty('#75BD62');
+            setFontHundred('#75BD62');
             dayInfo(7);
         }   
         else if(sliceStringSix === "thirty"){ 
-            setColor_three('white');
-            setColor_seven('white');
-            setColor_thirty('#75BD62');
-            setColor_hundred('white');
-            setFont_seven('#75BD62');
-            setFont_three('#75BD62');
-            setFont_thirty('white');
-            setFont_hundred('#75BD62');
+            setColorThree('white');
+            setColorSeven('white');
+            setColorThirty('#75BD62');
+            setColorHundred('white');
+            setFontSeven('#75BD62');
+            setFontThree('#75BD62');
+            setFontThirty('white');
+            setFontHundred('#75BD62');
             dayInfo(30);
         }   
         else if(sliceStringSeven === "hundred"){ 
-            setColor_three('white');
-            setColor_seven('white');
-            setColor_thirty('white');
-            setColor_hundred('#75BD62');
-            setFont_seven('#75BD62');
-            setFont_thirty('#75BD62');
-            setFont_three('#75BD62');
-            setFont_hundred('white');
+            setColorThree('white');
+            setColorSeven('white');
+            setColorThirty('white');
+            setColorHundred('#75BD62');
+            setFontSeven('#75BD62');
+            setFontThirty('#75BD62');
+            setFontThree('#75BD62');
+            setFontHundred('white');
             dayInfo(100);
         }   
     }
@@ -87,10 +86,10 @@ const Day_Button = ({dayInfo}) =>{
     }
     return(
         <DayBtnSet>
-            <DayBtn className="three" onClick={colorChange} style={{backgroundColor: color_three, marginLeft:'24px', color: font_three}}>3일</DayBtn>
-            <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: color_seven, color:  font_seven}}>7일</DayBtn>
-            <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: color_thirty, color: font_thirty}}>30일</DayBtn>
-            <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: color_hundred, color: font_hundred}}>100일</DayBtn>
+            <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
+            <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
+            <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
+            <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src={Day_Calender} onClick={() => datePickerComponent()}></DayCalender> 
         </DayBtnSet>
     )

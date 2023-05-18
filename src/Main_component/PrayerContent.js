@@ -61,7 +61,7 @@ const ClickImg = styled(Logo)`
     height: 1.73vh;
 `;
 
-function PrayerContent({content, day_toggle , countUpdate, bottom, contentClick, isShare, shareList}){
+function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList}){
     const {id, dday,text,checked, name, count} = content;
     const checkBoxClick = (id) =>{
         return shareList(id, !checked);
@@ -73,7 +73,7 @@ function PrayerContent({content, day_toggle , countUpdate, bottom, contentClick,
             <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <Bar></Bar>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
-            {day_toggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{(dday != 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
+            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{(dday != 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
             {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )

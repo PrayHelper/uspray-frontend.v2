@@ -75,21 +75,21 @@ const PrayerContentStyle = styled.div`
 
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
-    modifyBtnClick, deleteBtnClick, isChecked, click_id, contentClick, isModify, onModify, isDeleted, onDeleted,
+    modifyBtnClick, deleteBtnClick, isChecked, clickId, contentClick, isModify, onModify, isDeleted, onDeleted,
     valueChange,changeCheck, ddayCaculate}){
-    const [day_toggle_top_day , setDay_toggle_top_day] = useState(true);
-    const [day_toggle_top_prayer , setDay_toggle_top_prayer] = useState(false);
-    const [day_toggle_bottom_day , setDay_toggle_bottom_day] = useState(true);
-    const [day_toggle_bottom_prayer , setDay_toggle_bottom_prayer] = useState(false);
-    const [color_first_top, setColor_first_top] = useState('#EBF6E8');
-    const [color_second_top, setColor_second_top] = useState('#7BAB6E');
-    const [color_first_bottom, setColor_first_bottom] = useState('#EBF6E8');
-    const [color_second_bottom, setColor_second_bottom] = useState('#7BAB6E');
+    const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
+    const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
+    const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
+    const [dayToggleBottomPrayer , setDayToggleBottomPrayer] = useState(false);
+    const [colorFirstTop, setColorFirstTop] = useState('#EBF6E8');
+    const [colorSecondTop, setColorSecondTop] = useState('#7BAB6E');
+    const [colorFirstBottom, setColorFirstBottom] = useState('#EBF6E8');
+    const [colorSecondBottom, setColorSecondBottom] = useState('#7BAB6E');
     const [isShare, setIsShare] = useState(false);
-    const [Share_list, setShare_list] = useState([]);
-    const [share_toggle, setshare_toggle] = useState(false);
+    const [Sharelist, setShareList] = useState([]);
+    const [shareToggle, setshareToggle] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDAyOjMxOjI5LjAwNDU5NyJ9.d2KvnRk0yqw_IR1Q51C0vX1Q4_g9_DJSjLO2ohhQfGk";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDExOjU4OjU0LjkxNjkzNCJ9.0tMdoq74Db065CbRK5QOWBO5pq6SihdMuwj4PMmOOdE";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -134,45 +134,45 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
 
     const dayFucTopDay = (e) =>{
-        if(!day_toggle_top_day){
+        if(!dayToggleTopDay){
             getPrayList("date",false);
-            setDay_toggle_top_day(!day_toggle_top_day);
-            setDay_toggle_top_prayer(!day_toggle_top_prayer);
-            setColor_second_top('#7BAB6E');
-            setColor_first_top('#EBF6E8');
+            setDayToggleTopDay(!dayToggleTopDay);
+            setDayToggleTopPrayer(!dayToggleTopPrayer);
+            setColorSecondTop('#7BAB6E');
+            setColorFirstTop('#EBF6E8');
         }
     }
     const dayFucTopPrayer = () =>{
-        if(!day_toggle_top_prayer){
+        if(!dayToggleTopPrayer){
             getPrayList("cnt", false);
-            setDay_toggle_top_prayer(!day_toggle_top_prayer);
-            setDay_toggle_top_day(!day_toggle_top_day);
-            setColor_first_top('#7BAB6E');
-            setColor_second_top('#EBF6E8');
+            setDayToggleTopPrayer(!dayToggleTopPrayer);
+            setDayToggleTopDay(!dayToggleTopDay);
+            setColorFirstTop('#7BAB6E');
+            setColorSecondTop('#EBF6E8');
         }
     }
 
     const dayFucBottomDay = () =>{
-        if(!day_toggle_bottom_day){
+        if(!dayToggleBottomDay){
             getPrayList("date", true);
-            setDay_toggle_bottom_day(!day_toggle_bottom_day);
-            setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
-            setColor_second_bottom('#7BAB6E');
-            setColor_first_bottom('#EBF6E8');
+            setDayToggleBottomDay(!dayToggleBottomDay);
+            setDayToggleBottomPrayer(!dayToggleBottomPrayer);
+            setColorSecondBottom('#7BAB6E');
+            setColorFirstBottom('#EBF6E8');
         }
     }
     const dayFucBottomPrayer = () =>{
-        if(!day_toggle_bottom_prayer){
+        if(!dayToggleBottomPrayer){
             getPrayList("cnt", true);
-            setDay_toggle_bottom_prayer(!day_toggle_bottom_prayer);
-            setDay_toggle_bottom_day(!day_toggle_bottom_day);
-            setColor_first_bottom('#7BAB6E');
-            setColor_second_bottom('#EBF6E8');
+            setDayToggleBottomPrayer(!dayToggleBottomPrayer);
+            setDayToggleBottomDay(!dayToggleBottomDay);
+            setColorFirstBottom('#7BAB6E');
+            setColorSecondBottom('#EBF6E8');
         }
     }
 
     const onShare = () =>{
-        if(Share_list.length === 0){
+        if(Sharelist.length === 0){
             for(let i=0;i<prayerContent.length;i++){
                 prayerContent[i].checked = false;
             }
@@ -183,13 +183,13 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         }
         setIsShare(!isShare);
         if(isShare){
-            setshare_toggle(!share_toggle);
+            setshareToggle(!shareToggle);
             setIsShare(!isShare);
-            console.log(Share_list);
-            setShare_list([]);
+            console.log(Sharelist);
+            setShareList([]);
         }
         else{
-            console.log(Share_list);
+            console.log(Sharelist);
         }
         console.log(prayerContent);
         console.log(prayerMoreContent);
@@ -199,12 +199,12 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         setIsShare(!isShare);
     }
     const onMove = () =>{
-        setshare_toggle(!share_toggle);
+        setshareToggle(!shareToggle);
     }
 
     const shareList = (id, check_box) =>{
         if(check_box){
-            setShare_list([...Share_list,id]);
+            setShareList([...Sharelist,id]);
             if(id < 1000){
                 prayerContent[Number(id)-1].checked = check_box;
             }
@@ -213,7 +213,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             }
         }
         else{
-            setShare_list(Share_list.filter(list => (list !== id)));
+            setShareList(Sharelist.filter(list => (list !== id)));
             if(id < 1000){
                 prayerContent[Number(id)-1].checked = check_box;
             }
@@ -231,14 +231,14 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                         기도할게요
                     </TodayPrayer>
                     <BtnSet>
-                        <BtnElementDay onClick={dayFucTopDay} style={{backgroundColor: color_first_top, color : color_second_top}}>날짜순</BtnElementDay>
-                        <BtnElementPrayer onClick={dayFucTopPrayer} style={{backgroundColor : color_second_top , color : color_first_top}} >기도순</BtnElementPrayer>
+                        <BtnElementDay onClick={dayFucTopDay} style={{backgroundColor: colorFirstTop, color : colorSecondTop}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={dayFucTopPrayer} style={{backgroundColor : colorSecondTop , color : colorFirstTop}} >기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle>
                     {(prayerContent.length === 0) ? <EmptySpace color={true}/> : 
                     prayerContent.map((content,index) =>(
-                        <PrayerContent key={index} content = {content} day_toggle ={day_toggle_top_day} countUpdate = {countUpdate} contentClick = {contentClick} 
+                        <PrayerContent key={index} content = {content} day_toggle ={dayToggleTopDay} countUpdate = {countUpdate} contentClick = {contentClick} 
                         isShare={isShare} shareList={shareList} bottom={false}/>
                     ))}
                 </PrayerContentStyle>
@@ -246,24 +246,24 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 <TopContent>
                     <TodayPrayer style={{marginTop:'46px'}}>기도했어요</TodayPrayer>
                     <BtnSet>
-                        <BtnElementDay onClick={dayFucBottomDay} style={{backgroundColor: color_first_bottom, color: color_second_bottom}}>날짜순</BtnElementDay>
-                        <BtnElementPrayer onClick={dayFucBottomPrayer} style={{backgroundColor: color_second_bottom, color: color_first_bottom}}>기도순</BtnElementPrayer>
+                        <BtnElementDay onClick={dayFucBottomDay} style={{backgroundColor: colorFirstBottom, color: colorSecondBottom}}>날짜순</BtnElementDay>
+                        <BtnElementPrayer onClick={dayFucBottomPrayer} style={{backgroundColor: colorSecondBottom, color: colorFirstBottom}}>기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
                 <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
                         {(prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
-                            <PrayerContent key={index} content = {content} day_toggle ={day_toggle_bottom_day} countUpdate = {countUpdate} contentClick = {contentClick}
+                            <PrayerContent key={index} content = {content} day_toggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
                             isShare = {isShare} shareList={shareList} bottom = {true}/>
                         ))}
                 </PrayerContentStyle>
-                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} share_toggle={share_toggle} onCheck={onCheck} isShare={isShare}></Share>}
+                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
-                bottom_delete_click = {bottom_delete_click} click_id = {click_id}></BottomMenu>}
+                bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
                 {isChecked && <BackgroundBright style={{top:'0px', bottom:'153px'}} onClick={changeCheck}></BackgroundBright>}
                 {isModify && <BackgroundBright style={{top:'0px', bottom:'282px'}}onClick={onModify}></BackgroundBright>}
-                {isModify  &&  <ModifyBar id ={click_id} valueChange = {valueChange}/>}
+                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange}/>}
                 {isDeleted && <BackgroundBright style={{top:'0px'}} onClick={onDeleted}></BackgroundBright>}
-                {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={click_id}/>}
+                {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>
         </div>
     )

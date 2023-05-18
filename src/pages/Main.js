@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PrayerList from '../Main_component/PrayerList';
 import serverapi from '../api/serverapi';
 import TemplateMain from "../Main_component/TemplateMain";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDAyOjMxOjI5LjAwNDU5NyJ9.d2KvnRk0yqw_IR1Q51C0vX1Q4_g9_DJSjLO2ohhQfGk";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDExOjU4OjU0LjkxNjkzNCJ9.0tMdoq74Db065CbRK5QOWBO5pq6SihdMuwj4PMmOOdE";
 const name = "김정묵";
 const Main = () => {
-  const [click_id , setClick_id] = useState(0);
+  const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -40,7 +40,7 @@ const Main = () => {
                   count : res.data.uncompleted[i].pray_cnt
                 };
             }
-            for(var i = 0;i<Object.keys(res.data.completed).length;i++){
+            for(let i = 0;i<Object.keys(res.data.completed).length;i++){
               var result = ddayCaculate(res.data.completed[i].deadline);
               prayer_more_content_[i] = {
                 id : res.data.completed[i].id,
@@ -125,7 +125,7 @@ const contentClick  = (e) =>{
         setIsModify(!isModify);
       }
     }
-    setClick_id(e);
+    setClickId(e);
   }
 
   const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
@@ -297,7 +297,7 @@ useEffect(()=>{
     <TemplateMain onInsert = {onInsert}>
       <PrayerList prayerContent={prayerContent} setPrayerContent = {setPrayerContent} prayerMoreContent = {prayerMoreContent} setPrayerMoreContent = {setPrayerMoreContent} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
-      contentClick = {contentClick} click_id = {click_id} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
+      contentClick = {contentClick} clickId = {clickId} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
       isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} ddayCaculate = {ddayCaculate}/>
     </TemplateMain>
   );
