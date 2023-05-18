@@ -57,7 +57,7 @@ const ChangeInfo = () => {
     setShowModal(false);
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDA5OjQ1OjMwLjg0MzE4NCJ9.Z-XeWMwx1P_2gy9s-egrPjPrclF2UldacZ5dx72OloI";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNlODU3ODNhLTc3YjMtNGEzMC1hYWY0LTNiZjA0MDBmOTMwMiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDEzOjQwOjMyLjk2NTQxNyJ9.WbzdHdVI9tidYgJuhZNg_Kg2CE982sUsSUWlNdlOQQ8";
 
   const withdrawal = async () => {
     const api = "/user/withdrawal";
@@ -145,7 +145,9 @@ const ChangeInfo = () => {
           >
             비밀번호 변경
           </Button>
-          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>
+          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}  handler={() => {
+              navigate("/changePhoneNumber");
+            }}>
             전화번호 변경
           </Button>
           <LoginButton

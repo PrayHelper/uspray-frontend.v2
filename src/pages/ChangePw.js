@@ -82,7 +82,7 @@ const ChangePw = () => {
   };
 
   //TODO: 전역으로 관리되는 accessToken로 대체하기
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM2OWIwOWIxLTIwODAtNDdkNS05ZDRhLTk5NjNlNWE4MTJkNSIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDA5OjQ1OjMwLjg0MzE4NCJ9.Z-XeWMwx1P_2gy9s-egrPjPrclF2UldacZ5dx72OloI";
+  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImIwY2ViZTUyLTE3MmItNDE1NC1hNjBhLTM1OTM1MzcyNzkyOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDEzOjM3OjAwLjExNzIyOSJ9.AN50h7QnRJpMJBSGqX7MX34v8UOjUf_bZ-A5eEq-kik";
 
   const resetPw = async () => {
     const api = "/user/reset/password";

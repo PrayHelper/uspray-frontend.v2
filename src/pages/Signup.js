@@ -8,7 +8,6 @@ import styled from "styled-components";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 import serverapi from "../api/serverapi";
-import BottomNav from "../components/BottomNav/BottomNav";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 
 let init = 0;
