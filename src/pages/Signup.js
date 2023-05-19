@@ -8,36 +8,27 @@ import styled from "styled-components";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 import serverapi from "../api/serverapi";
-import BottomNav from "../components/BottomNav/BottomNav";
-
+import BlackScreen from "../components/BlackScreen/BlackScreen";
 
 let init = 0;
 
-const ModalWrapper = styled.div`
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 999;
-`;
-
 const ModalContent = styled.div`
-  max-width: 342px;
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 16px;
   gap: 8px;
   border-radius: 16px;
+  padding: 16px;
   color: #7bab6e;
+  z-index: 500;
 `;
 
 const ModalButton = styled.button`
@@ -99,11 +90,9 @@ const Signup = () => {
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
 
-
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
 
   const idCheck = (userInfo) => {
     return idRegEx.test(userInfo);
@@ -120,7 +109,6 @@ const Signup = () => {
   const certificateNumberCheck = (userInfo) => {
     return certificateNumberRegEx.test(userInfo);
   };
-
 
   const isIdDuplicated = async (uid) => {
     const api = `/user/dup_check/${uid}`;
@@ -314,32 +302,33 @@ const Signup = () => {
     <div>
       <UserHeader />
       {showModal && (
-        <ModalWrapper onClick={handleCloseModal}>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <img src="images/icon_notice.svg" alt="icon_notice" />
-            <div
-              style={{
-                fontSize: "20px",
-                color: "#7BAB6E",
-                fontWeight: "700",
-                paddingBottom: "2px",
-              }}
-            >
-              이름은 실명으로 설정해주세요!
-            </div>
-            <div
-              style={{
-                marginBottom: "28px",
-              }}
-            >
-              기도제목 공유 시 이름으로 전달됩니다.
-            </div>
-            <ModalButton onClick={handleCloseModal}>
-              네, 그렇게 할게요.
-            </ModalButton>
-          </ModalContent>
-        </ModalWrapper>
-        )}
+        <>
+          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
+            <ModalContent onClick={(e) => e.stopPropagation()}>
+              <img src="images/icon_notice.svg" alt="icon_notice" />
+              <div
+                style={{
+                  fontSize: "20px",
+                  color: "#7BAB6E",
+                  fontWeight: "700",
+                  paddingBottom: "2px",
+                }}
+              >
+                이름은 실명으로 설정해주세요!
+              </div>
+              <div
+                style={{
+                  marginBottom: "28px",
+                }}
+              >
+                기도제목 공유 시 이름으로 전달됩니다.
+              </div>
+              <ModalButton onClick={handleCloseModal}>
+                네, 그렇게 할게요.
+              </ModalButton>
+            </ModalContent>
+        </>
+      )}
       <div
         style={{
           display: "flex",

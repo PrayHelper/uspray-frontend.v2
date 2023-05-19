@@ -1,8 +1,8 @@
 import Header from "../components/Header/Header";
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
+import BlackScreen from "../components/BlackScreen/BlackScreen";
 
 const Container = styled.div`
   width: 100%;
@@ -36,67 +36,65 @@ const SubTitle = styled.div`
 `;
 
 const StyledItem = styled.div`
+  transition: all 0.3s;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
+  border-radius: 8px;
+  background-color: white;
+
   &:active{
-    background-color: white;
-    filter: brightness(0.9);
-    border-radius: 8px;
-    transform: scale(0.98);
+    transition: all 0.2s; 
+    ${props => props.noActive ?
+      `filter: brightness(1);
+        transform: scale(1);`
+      :
+      `filter: brightness(0.95);
+        transform: scale(0.98);`
+    }
   }
 `;
 
-const ModalWrapper = styled.div`
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  z-index: 999;
-`;
-
 const ModalContent = styled.div`
-  max-width: 342px;
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding: 16px;
   gap: 8px;
   border-radius: 16px;
+  padding: 16px;
   color: #7bab6e;
+  z-index: 500;
 `;
 
 const ModalButton1 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
-  height: 66px;
-  background-color: #7bab6e;
+  background-color: #F0F0F0;
   border-style: none;
   border-radius: 16px;
-  padding: 20px 0;
-  color: #ffffff;
+  padding: 16px 0;
+  color: #808080;
   font-size: 18px;
 `;
 
 const ModalButton2 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
-  height: 66px;
-  background-color: #D0E8CB;
+  background-color: #7BAB6E;
   border-style: none;
   border-radius: 16px;
-  padding: 20px 0;
-  color: #7BAB6E;
+  padding: 16px 0;
+  color: #FFFFFF;
   font-size: 18px;
 `;
 
@@ -129,7 +127,7 @@ const Settings = () => {
   };
 
   const moveToKakao = () => {
-    console.log('카카오톡 계정으로 연결하는 기능 구현해라~');
+    window.open('https://pf.kakao.com/_UgxhYxj');
   };
 
   const moveToInsta = () => {
@@ -137,11 +135,11 @@ const Settings = () => {
   };
 
   const moveToToS = () => {
-    window.location.href= '/ToS';
+    window.location.href= '/tos';
   };
 
   const moveToPrivacyPolicy = () => {
-    console.log('개인정보 처리방침 표시해라');
+    window.location.href= '/privacyPolicy';
   };
 
 
@@ -149,7 +147,8 @@ const Settings = () => {
   return(
     <Container>
       {showModal && (
-        <ModalWrapper onClick={handleCloseModal}>
+        <>
+          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <img src="images/ic_logout.svg" alt="icon_logout" style={{marginTop: "8px"}}/>
             <div
@@ -157,11 +156,18 @@ const Settings = () => {
                 fontSize: "20px",
                 color: "#7BAB6E",
                 fontWeight: "700",
-                marginTop: "8px",
-                marginBottom: "40px",
+                paddingBottom: "2px",
               }}
             >
               로그아웃 하시겠습니까?
+            </div>
+            <div
+              style={{
+                marginTop: "2px",
+                marginBottom: "28px",
+              }}
+            >
+              보다 안전하게 로그아웃을 진행해 드릴게요.
             </div>
             <div style={{display: "flex", flexDirection: "row", width: "100%", gap: "8px"}}>
               <ModalButton1 onClick={handleCloseModal}>
@@ -172,7 +178,7 @@ const Settings = () => {
               </ModalButton2>
             </div>
           </ModalContent>
-        </ModalWrapper>
+        </>
         )}
       <Header>설정</Header>
       <Wrapper style={{marginTop: "10px"}}>
@@ -189,19 +195,15 @@ const Settings = () => {
         </WhiteBox>
         <WhiteBox>
           <SubTitle>알림</SubTitle>
-          <StyledItem>
-            <div>공지사항</div>
+          <StyledItem noActive={true}>
+            <div>기도 시간 - 오전 8시</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
-          <StyledItem>
-            <div>기도 시간(오전 8시)</div>
-            <SettingToggle></SettingToggle>
-          </StyledItem>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
             <SettingToggle></SettingToggle>
           </StyledItem>
@@ -227,7 +229,7 @@ const Settings = () => {
             <div>개인정보 처리 방침</div>
             <img src="images/ic_next_arrow.svg" alt="next_arrow_icon" />
           </StyledItem>  
-          <StyledItem>
+          <StyledItem noActive={true}>
             <div>현재 서비스 버전 확인</div>
             <div style={{color: "#7BAB6E", fontWeight: "700", fontSize: "15px"}}>0.1.2</div>
           </StyledItem>  

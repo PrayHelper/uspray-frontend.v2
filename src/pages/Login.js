@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../components/Login/Button/Button";
 import { Link } from "react-router-dom";
+import LoginButton from "../components/Login/LoginButton/LoginButton";
 
 const Login = () => {
   return (
@@ -13,20 +13,22 @@ const Login = () => {
       </LogoWrapper>
       <BottomBtnWrapper>
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#7bab6e"}
             context={"로그인하기"}
             color={"#ffffff"}
             arrowColor={"#ffffff"}
+            margin={"0px 24px 12px 24px"}
           />
         </Link>
         <Link to="/signup" style={{ textDecoration: "none" }}>
-          <Button
+          <LoginButton
             backgrond={"#ffffff"}
             context={"회원가입하기"}
             color={"#7bab6e"}
             borderColor={"#7bab6e"}
             arrowColor={"#7bab6e"}
+            margin={"0px 24px 12px 24px"}
           />
         </Link>
       </BottomBtnWrapper>
@@ -42,7 +44,7 @@ const LoginWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 100vh;
-  padding: 0 24px;
+  width: 100%;
 `;
 
 const LogoWrapper = styled.div`
@@ -73,6 +75,3 @@ const BottomBtnWrapper = styled.div`
   width: 100%;
   padding: 8px 0px;
 `;
-
-// 이상해요? ㅎㅎ....
-// 제가 원래 디자인이랑 차이를 못 느껴서 ㅇㅇ

@@ -14,7 +14,10 @@ export const Toggle = styled.div`
   border-radius: 16px;
   outline: none;
   padding: 0 2px;
-  background-color: ${props => props.isToggleOn ? '#7BAB6E' : '#CECECE'};
+  ${props => props.isToggleOn ?
+    'background-color: #7BAB6E'
+    : 'background-color: #CECECE'
+  };
 
 `;
 
