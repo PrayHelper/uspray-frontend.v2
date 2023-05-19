@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import PrayerList from '../Main_component/PrayerList';
+import PrayerList from '../components/Main/PrayerList';
 import serverapi from '../api/serverapi';
-import TemplateMain from "../Main_component/TemplateMain";
+import TemplateMain from "../components/Main/TemplateMain";
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDExOjU4OjU0LjkxNjkzNCJ9.0tMdoq74Db065CbRK5QOWBO5pq6SihdMuwj4PMmOOdE";
 const name = "김정묵";
 const Main = () => {
@@ -29,8 +29,8 @@ const Main = () => {
           if (res.status === 200) {
             var prayer_content_ = [];
             var prayer_more_content_ = [];
-            for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-              var result = ddayCaculate(res.data.uncompleted[i].deadline);
+            for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
+              let result = ddayCaculate(res.data.uncompleted[i].deadline);
                 prayer_content_[i] = {
                   id : res.data.uncompleted[i].id,
                   name: name,
@@ -41,7 +41,7 @@ const Main = () => {
                 };
             }
             for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-              var result = ddayCaculate(res.data.completed[i].deadline);
+              let result = ddayCaculate(res.data.completed[i].deadline);
               prayer_more_content_[i] = {
                 id : res.data.completed[i].id,
                 name: '김정묵',
@@ -81,8 +81,8 @@ const Main = () => {
       if (res.status === 200) {
         var prayer_content_ = [];
         var prayer_more_content_ = [];
-        for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-          var result = ddayCaculate(res.data.uncompleted[i].deadline);
+        for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
+          let result = ddayCaculate(res.data.uncompleted[i].deadline);
             prayer_content_[i] = {
               id : res.data.uncompleted[i].id,
               name: name,
@@ -92,8 +92,8 @@ const Main = () => {
               count : res.data.uncompleted[i].pray_cnt
             };
         }
-        for(var i = 0;i<Object.keys(res.data.completed).length;i++){
-          var result = ddayCaculate(res.data.completed[i].deadline);
+        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
+          let result = ddayCaculate(res.data.completed[i].deadline);
           prayer_more_content_[i] = {
             id : res.data.completed[i].id,
             name: '김정묵',
@@ -140,8 +140,8 @@ const contentClick  = (e) =>{
       if (res.status === 200) {
         var prayer_content_ = [];
         var prayer_more_content_ = [];
-        for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-          var result = ddayCaculate(res.data.uncompleted[i].deadline);
+        for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
+          let result = ddayCaculate(res.data.uncompleted[i].deadline);
             prayer_content_[i] = {
               id : res.data.uncompleted[i].id,
               name: '김정묵',
@@ -151,8 +151,8 @@ const contentClick  = (e) =>{
               count : res.data.uncompleted[i].pray_cnt
             };
           }
-        for(var i = 0;i<Object.keys(res.data.completed).length;i++){
-          var result = ddayCaculate(res.data.completed[i].deadline);
+        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
+          let result = ddayCaculate(res.data.completed[i].deadline);
             prayer_more_content_[i] = {
               id : res.data.completed[i].id,
               name: '김정묵',
@@ -270,8 +270,8 @@ useEffect(()=>{
               count : res.data.uncompleted[i].pray_cnt
             };
           }
-        for(var i = 0;i<Object.keys(res.data.completed).length;i++){
-          var result = ddayCaculate(res.data.completed[i].deadline);
+        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
+          let result = ddayCaculate(res.data.completed[i].deadline);
           prayer_more_content_[i] = {
             id : res.data.completed[i].id,
             name: '김정묵',

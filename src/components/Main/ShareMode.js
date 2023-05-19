@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import share_cancel from "../images/share_cancel.svg";
-import share_move from "../images/share_move.svg"
+import share_cancel from "../../images/share_cancel.svg";
+import share_move from "../../images/share_move.svg"
 import MoveLogo from "./MoveLogo";
 
 const BoxContainer = styled.div`

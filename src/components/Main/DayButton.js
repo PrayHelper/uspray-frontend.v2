@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import Day_Calender from '../images/day_calender.svg';
+import Day_Calender from '../../images/day_calender.svg';
+import DatePickerComponent from "./DatePickerComponent";
 // import DatePicker from "react-datepicker";
 const DayBtnSet = styled.div`
     display: flex;
@@ -32,6 +33,7 @@ const Day_Button = ({dayInfo}) =>{
     const [fontSeven ,setFontSeven] = useState('white');
     const [fontThirty ,setFontThirty] = useState('#75BD62');
     const [fontHundred ,setFontHundred] = useState('#75BD62');
+    const [Toggle, setToggle] = useState(true);
     const colorChange = (e) =>{
         var sliceStringFive = e.target.className.slice(-5);
         var sliceStringSix = e.target.className.slice(-6);
@@ -84,14 +86,19 @@ const Day_Button = ({dayInfo}) =>{
     const datePickerComponent = () =>{
         console.log("날짜 입력하는데로 슝")
     }
+    const onToggle = () =>{
+        setToggle(!Toggle);
+    }
     return(
-        <DayBtnSet>
+        Toggle ? <DayBtnSet>
             <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
-            <DayCalender src={Day_Calender} onClick={() => datePickerComponent()}></DayCalender> 
-        </DayBtnSet>
+            <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender> 
+        </DayBtnSet> : <DatePickerComponent/>
+
+
     )
 }
 

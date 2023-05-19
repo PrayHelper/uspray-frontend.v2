@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import Empty_Box_top from '../images/empty_box.svg';
+import Empty_Box_top from '../../images/empty_box.svg';
 import Bar from "./Bar";
-import Download_img from "../images/Click_img.svg";
-import Empty_Box_btm from "../images/empty_box_bt.svg";
-import Check_Box_btm from "../images/check_box_bt.svg";
-import Check_Box_top from "../images/check_box_top.svg";
+import Download_img from "../../images/Click_img.svg";
+import Empty_Box_btm from "../../images/empty_box_bt.svg";
+import Check_Box_btm from "../../images/check_box_bt.svg";
+import Check_Box_top from "../../images/check_box_top.svg";
 
 
 const MainContent = styled.div`

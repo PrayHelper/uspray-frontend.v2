@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Share_Logo from "./ShareLogo";
-import share_img from "../images/share_img.svg";
+import share_img from "../../images/share_img.svg";
 import ShareMode from "./ShareMode";
 
 const ShareImg = styled(Share_Logo)``;

@@ -6,7 +6,7 @@ import Share from "./Share";
 import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
-import serverapi from "../api/serverapi";
+import serverapi from "../../api/serverapi";
 import DeleteBar from "./DeleteBar";
 
 const Background =  styled.div`
@@ -238,7 +238,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 <PrayerContentStyle>
                     {(prayerContent.length === 0) ? <EmptySpace color={true}/> : 
                     prayerContent.map((content,index) =>(
-                        <PrayerContent key={index} content = {content} day_toggle ={dayToggleTopDay} countUpdate = {countUpdate} contentClick = {contentClick} 
+                        <PrayerContent key={index} content = {content} dayToggle ={dayToggleTopDay} countUpdate = {countUpdate} contentClick = {contentClick} 
                         isShare={isShare} shareList={shareList} bottom={false}/>
                     ))}
                 </PrayerContentStyle>
@@ -252,7 +252,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </TopContent>
                 <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
                         {(prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
-                            <PrayerContent key={index} content = {content} day_toggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
+                            <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
                             isShare = {isShare} shareList={shareList} bottom = {true}/>
                         ))}
                 </PrayerContentStyle>
@@ -261,7 +261,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
                 {isChecked && <BackgroundBright style={{top:'0px', bottom:'153px'}} onClick={changeCheck}></BackgroundBright>}
                 {isModify && <BackgroundBright style={{top:'0px', bottom:'282px'}}onClick={onModify}></BackgroundBright>}
-                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange}/>}
+                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify}/>}
                 {isDeleted && <BackgroundBright style={{top:'0px'}} onClick={onDeleted}></BackgroundBright>}
                 {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>

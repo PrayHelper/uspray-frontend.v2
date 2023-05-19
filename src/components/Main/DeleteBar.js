@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import delete_btn from '../images/Delete_btn.svg';
+import delete_btn from '../../images/Delete_btn.svg';
 import Logo from './Logo';
 
 const Delete_btn = styled.div`

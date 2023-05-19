@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import green_prayer_img from '../images/green_prayer_img.svg';
-import white_prayer_img from "../images/white_prayer_img.svg";
+import green_prayer_img from '../../images/green_prayer_img.svg';
+import white_prayer_img from "../../images/white_prayer_img.svg";
 
 const EmptyBackgroud = styled.div`
     height: 246px;

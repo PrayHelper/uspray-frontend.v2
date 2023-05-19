@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import X_image from "../images/X_image.svg";
+import X_image from "../../images/X_image.svg";
 const ModifyStyle = styled.div`
     width: 430px;
     height : 280px;
@@ -26,12 +26,12 @@ const ModifyBtn = styled.div`
     color: #FFFFFF;
     margin-top: 61px;
 `;
-const x_image = styled(Logo)`
+const X_Image = styled(Logo)`
     width: 11.9px;
     height: 11.9px;
 `;
 
-const ModifyBar = ({id, valueChange}) =>{
+const ModifyBar = ({id, valueChange, onModify}) =>{
     const [value , setValue] = useState("");
     const onChangeValue = (e) =>{
         setValue(e.target.value);
@@ -39,7 +39,7 @@ const ModifyBar = ({id, valueChange}) =>{
     return(
         <ModifyStyle>
         <div style={{width: '430px', height:'48px', borderBottom: 'solid #EEEEEE'}}>
-            <x_image src ={X_image}/>
+            <X_Image src={X_image} style={{width:'24px', height:'24px', marginLeft:'390px', marginTop:'12px'}} onClick={onModify}></X_Image>
         </div>
         <div style={{width: '430px', height:'100px', display: 'flex'}}>
             <div style={{width:'45px', height: '23px', marginTop:'15px', marginLeft:'27px', marginRight:'31px', borderBottom: 'solid #EEEEEE',

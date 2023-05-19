@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import check_img from '../images/check_img.svg';
-import delete_img from '../images/delete_img.svg';
-import modify_img from '../images/modify_img.svg';
-
+import check_img from '../../images/check_img.svg';
+import delete_img from '../../images/delete_img.svg';
+import modify_img from '../../images/modify_img.svg';
 
 
 const BoxContainer = styled.div`

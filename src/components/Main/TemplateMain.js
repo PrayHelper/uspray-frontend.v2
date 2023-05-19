@@ -1,6 +1,6 @@
-import React,{useRef, useState} from "react";
+import React,{ useState} from "react";
 import styled from "styled-components";
-import click_search from '../images/click_search.svg';
+import click_search from '../../images/click_search.svg';
 import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
