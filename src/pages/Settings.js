@@ -99,6 +99,13 @@ const ModalButton2 = styled.button`
 `;
 
 
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+`;
+
+
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
@@ -134,6 +141,8 @@ const Settings = () => {
   const moveToPrivacyPolicy = () => {
     window.location.href= '/privacyPolicy';
   };
+
+
 
   return(
     <Container>

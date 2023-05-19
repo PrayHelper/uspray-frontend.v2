@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 const CustomInputStyle = styled.div`
   
 `
