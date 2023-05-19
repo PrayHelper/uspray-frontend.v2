@@ -19,7 +19,10 @@ const History = () => {
   const [updateDate, setUpdateDate] = useState("2023.00.00");
   const [selectedBtn, setSelectedBtn] = useState(null);
 
-  const [ref, inView] = useInView();
+  const [hasMore, setHasMore] = useState(true);
+  const [ref, inView] = useInView({
+    triggerOnce: true, // 한 번만 트리거되도록 설정
+  });
 
   const accessToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE1OjI3OjIzLjc1Mzc3NCJ9.S393_KvlcjfR9V-XSVtE8LDLggySACW3V9UnZCBamu8";
@@ -124,23 +127,28 @@ const History = () => {
       });
       if (res.status === 200) {
         console.log(res.data.res);
-        setData((prev) => [...prev, ...res.data.res]);
-        setLoading(false);
+        console.log(page);
+        const newData = res.data.res;
+        setData((prev) => [...prev, ...newData]);
+        if (res.data.res.length === 0) {
+          setHasMore(false);
+        }
       }
+      setLoading(false);
     } catch (e) {
       console.log(e.response);
     }
-  }, [isOnPray, page]);
+  }, [page, isOnPray]);
 
   useEffect(() => {
     fetchHistory();
   }, [fetchHistory]);
 
   useEffect(() => {
-    if (inView && !loading) {
+    if (inView && hasMore && !loading) {
       setPage((prev) => prev + 1);
     }
-  }, [inView, loading]);
+  }, [hasMore, inView, loading]);
 
   return (
     <HistoryWrapper>
@@ -229,8 +237,8 @@ const History = () => {
         </ToggleButton>
       </ToggleWrapper>
       <Hline />
-      {data.map((el) => (
-        <div onClick={onClickHistory} id={el.id}>
+      {data.map((el, index) => (
+        <div onClick={onClickHistory} key={index} id={el.id}>
           <HisContent
             name={el.target}
             content={el.title}
