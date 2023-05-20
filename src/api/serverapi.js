@@ -1,4 +1,26 @@
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { tokenState } from "../recoil/accessToken";
+
+const Refresh = async () => {
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  const api = "/user/token";
+  try {
+    const res = await serverapi.get(api, {
+      headers: {
+        Authorization: `${refreshToken}`,
+      }
+    });
+    console.log(res);
+    if (res.status === 200) {
+      console.log(res);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+
+};
 
 // ErrorInterceptor
 const onErrorResponse = (error) => {
@@ -11,6 +33,7 @@ const onErrorResponse = (error) => {
         break;
       }
       case 403: {
+        Refresh();
         console.log("access token is expired");
         break;
       }
@@ -24,6 +47,7 @@ const onErrorResponse = (error) => {
       }
       default: {
         // console.log(status);
+
         console.log("알 수 없는 오류가 발생했습니다.");
         break;
       }
