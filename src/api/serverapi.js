@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 
-const Refresh = async () => {
+const refresh = async () => {
   const refreshToken = localStorage.getItem('refreshToken');
+  // const setTokenState = useSetRecoilState(tokenState);
 
   const api = "/user/token";
   try {
@@ -12,9 +13,8 @@ const Refresh = async () => {
         Authorization: `${refreshToken}`,
       }
     });
-    console.log(res);
     if (res.status === 200) {
-      console.log(res);
+      
     }
   } catch (e) {
     console.log(e);
@@ -23,7 +23,7 @@ const Refresh = async () => {
 };
 
 // ErrorInterceptor
-const onErrorResponse = (error) => {
+const onErrorResponse = async (error) => {
   if (axios.isAxiosError(error)) {
     const { status } = error.response;
 
@@ -33,7 +33,7 @@ const onErrorResponse = (error) => {
         break;
       }
       case 403: {
-        Refresh();
+        await refresh();
         console.log("access token is expired");
         break;
       }
@@ -60,7 +60,7 @@ const onErrorResponse = (error) => {
 
 const setupInterceptors = (instance) => {
   instance.interceptors.response.use(function (response) {
-    return response.data.data;
+    return response;
   },
    onErrorResponse);
 
