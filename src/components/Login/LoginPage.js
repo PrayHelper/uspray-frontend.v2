@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [pwdValue, setPwdValue] = useState("");
   const setTokenState = useSetRecoilState(tokenState);
   const accessToken = useRecoilValue(tokenState);
+  const navigate = useNavigate();
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -32,8 +33,10 @@ const LoginPage = () => {
         console.log(res);
         console.log(res.data.access_token);
         console.log(res.data.refresh_token);
-        setTokenState({accessToken: res.data.access_token});
+        setTokenState(res.data.access_token);
+        console.log(accessToken);
         localStorage.setItem('refreshToken', res.data.refresh_token);
+        navigate("/main");
       }
     } catch (e) {
       console.log(e.response);

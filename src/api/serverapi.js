@@ -2,25 +2,6 @@ import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 
-const refresh = async () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  // const setTokenState = useSetRecoilState(tokenState);
-
-  const api = "/user/token";
-  try {
-    const res = await serverapi.get(api, {
-      headers: {
-        Authorization: `${refreshToken}`,
-      }
-    });
-    if (res.status === 200) {
-      
-    }
-  } catch (e) {
-    console.log(e);
-  }
-
-};
 
 // ErrorInterceptor
 const onErrorResponse = async (error) => {
@@ -33,7 +14,6 @@ const onErrorResponse = async (error) => {
         break;
       }
       case 403: {
-        await refresh();
         console.log("access token is expired");
         break;
       }

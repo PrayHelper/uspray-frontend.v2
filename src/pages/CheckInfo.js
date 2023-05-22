@@ -5,11 +5,17 @@ import { useEffect, useState } from "react";
 import serverapi from "../api/serverapi";
 import { useNavigate } from "react-router-dom";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
+import refresh from "../hooks/useRefresh";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { tokenState } from "../recoil/accessToken";
+
 
 const CheckInfo = () => {
   const [password, setPassword] = useState("");
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const setTokenState = useSetRecoilState(tokenState);
+  const accessToken = useRecoilValue(tokenState);
 
   const navigate = useNavigate();
 
@@ -33,7 +39,6 @@ const CheckInfo = () => {
     }
   }, [showErrorToast]);
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
 
   const checkPassword = async (password) => {
     const api = "/user/check/pw";
@@ -41,6 +46,7 @@ const CheckInfo = () => {
       password: password,
     };
     try {
+      console.log("djflkdsjf", accessToken);
       const res = await serverapi.post(api, data, {
         headers: {
           Authorization: `${accessToken}`,
@@ -56,6 +62,9 @@ const CheckInfo = () => {
         }
       }
     } catch (e) {
+      // let new_access_token = await refresh();
+      // console.log(new_access_token);
+      // setTokenState({accessToken: new_access_token});
       console.log(e);
     }
   };
