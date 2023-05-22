@@ -25,7 +25,7 @@ const History = () => {
   });
 
   const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE1OjI3OjIzLjc1Mzc3NCJ9.S393_KvlcjfR9V-XSVtE8LDLggySACW3V9UnZCBamu8";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTIzVDA0OjQ3OjMzLjIwNDE1MSJ9.Mq6r8TvqZTmumuYzilOXd56XSgmX2Dtol_T2E57NFjs";
 
   const onClickUpdateDate = (days) => {
     const today = new Date();
@@ -49,15 +49,6 @@ const History = () => {
 
   const isEmptyData = (data) => {
     return data.length === 0 ? true : false;
-  };
-
-  const onClickHistory = async (e) => {
-    setShowModal(true);
-    const id = e.currentTarget.id;
-    // setCurrentId(id);
-    const currentData = await fetchCurrentHis(id);
-    console.log(currentData);
-    setCurrentData(currentData);
   };
 
   const onClickExitModal = () => {
@@ -140,6 +131,19 @@ const History = () => {
     }
   }, [page, isOnPray]);
 
+  const onClickHistory = async (e) => {
+    setShowModal(true);
+    const id = e.currentTarget.id;
+    const currentData = data.find((item) => item.id === Number(id));
+    if (currentData) {
+      setCurrentData(currentData);
+      setCurrentId(Number(id));
+    } else {
+      const currentData = await fetchCurrentHis(id);
+      setCurrentData(currentData);
+    }
+  };
+
   useEffect(() => {
     fetchHistory();
   }, [fetchHistory]);
@@ -148,7 +152,7 @@ const History = () => {
     if (inView && hasMore && !loading) {
       setPage((prev) => prev + 1);
     }
-  }, [hasMore, inView, loading]);
+  }, [hasMore, inView]);
 
   return (
     <HistoryWrapper>
