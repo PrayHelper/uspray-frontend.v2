@@ -8,6 +8,7 @@ import Toast, { ToastTheme } from "../components/Toast/Toast";
 import refresh from "../hooks/useRefresh";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
+import { useCheckPassword } from "../hooks/useCheckPassword";
 
 
 const CheckInfo = () => {
@@ -16,6 +17,7 @@ const CheckInfo = () => {
   const [disabled, setDisabled] = useState(false);
   const setTokenState = useSetRecoilState(tokenState);
   const accessToken = useRecoilValue(tokenState);
+  const [flag, setFlag] = useState(false);
 
   const navigate = useNavigate();
 
@@ -29,7 +31,6 @@ const CheckInfo = () => {
     return pwRegEx.test(pw);
   }
 
-
   useEffect(() => {
     if (showErrorToast) {
       const timer = setTimeout(() => {
@@ -39,34 +40,36 @@ const CheckInfo = () => {
     }
   }, [showErrorToast]);
 
-
+  useEffect(() => {
+    const api = "/user/check/pw";
+    const data = {
+      password: password,
+    };
+    const onSuccess = () => {
+      if (res.data.message === true)
+        navigate("/changeInfo");
+      else {
+        setShowErrorToast(true);
+        setDisabled(true);
+      }
+    };
+    useCheckPassword(api, data, onSuccess);
+  }, [flag]);
+  
   const checkPassword = async (password) => {
     const api = "/user/check/pw";
     const data = {
       password: password,
     };
-    try {
-      console.log("djflkdsjf", accessToken);
-      const res = await serverapi.post(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        }
-      });
-      if (res.status === 200) {
-        console.log(res);
-        if (res.data.message === true)
-          navigate("/changeInfo");
-        else{
-          setShowErrorToast(true);
-          setDisabled(true);
-        }
+    const onSuccess = () => {
+      if (res.data.message === true)
+        navigate("/changeInfo");
+      else {
+        setShowErrorToast(true);
+        setDisabled(true);
       }
-    } catch (e) {
-      // let new_access_token = await refresh();
-      // console.log(new_access_token);
-      // setTokenState({accessToken: new_access_token});
-      console.log(e);
-    }
+    };
+    useCheckPassword(api, data, onSuccess);
   };
 
   // 배포 이후에 스크롤 생기면 아래 코드 적용
@@ -117,7 +120,8 @@ const CheckInfo = () => {
               }
               disabled={(!pwCheck(password)) || disabled}
               handler={() => {
-                checkPassword(password);
+                setFlag(true);
+                // checkPassword(password);
               }}
             >
               회원정보 확인

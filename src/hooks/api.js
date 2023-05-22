@@ -3,7 +3,7 @@ import serverapi from "../api/serverapi";
 import { tokenState } from "../recoil/accessToken";
 
 // get 방식의 axios 호출 및 error handling
-const useGetFetcher = async (url, onSuccess) => {
+export const useGetFetcher = async (url, onSuccess) => {
   const accessToken = useRecoilValue(tokenState);
   const setAccessToken = useSetRecoilState(tokenState);
   try {
@@ -18,13 +18,15 @@ const useGetFetcher = async (url, onSuccess) => {
     // 403 : access toekn 만료
     if (e.status === 403) {
       const data = refresh();
-      setAccessToken(data);
+      if (typeof(data) === "string")
+        setAccessToken(data);
     }
+    console.log(e);
   }
 };
 
 // post 방식의 axios 호출 및 error handling
-const usePostFetcher = async (url, data, onSuccess) => {
+export const usePostFetcher = async (url, data, onSuccess) => {
   const accessToken = useRecoilValue(tokenState);
   const setAccessToken = useSetRecoilState(tokenState);
   try {
@@ -39,8 +41,10 @@ const usePostFetcher = async (url, data, onSuccess) => {
     // 403 : access toekn 만료
     if (e.status === 403) {
       const data = refresh();
-      setAccessToken(data);
+      if (typeof(data) === "string")
+        setAccessToken(data);
     }
+    console.log(e);
   }
 };
 
