@@ -5,6 +5,9 @@ import serverapi from "../api/serverapi";
 import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from "date-fns/esm/locale";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
@@ -16,8 +19,10 @@ const History = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
-  const [updateDate, setUpdateDate] = useState("2023.00.00");
-  const [selectedBtn, setSelectedBtn] = useState(null);
+  const [updateDate, setUpdateDate] = useState(null);
+  const [selectedBtn, setSelectedBtn] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -36,6 +41,20 @@ const History = () => {
     const formattedDate = `${yyyy}-${mm}-${dd}`;
     setUpdateDate(formattedDate);
     setSelectedBtn(days); // css 변경용
+  };
+
+  const onChangeDatePicker = (date) => {
+    setSelectedDate(date); // 선택된 날짜 업데이트
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
+    setUpdateDate(formattedDate); // formattedDate를 업데이트
+    setShowDatePicker(false); // DatePicker 닫기
+  };
+
+  const handleButtonClick = () => {
+    setShowDatePicker(true);
   };
 
   const onClickDate = () => {
@@ -158,10 +177,10 @@ const History = () => {
     <HistoryWrapper>
       <Header>히스토리</Header>
       {isEmptyData(data) && (
-        <div>
-          <div>완료된 기도제목이 없네요.</div>
-          <div>기간이 지나면 히스토리에 저장됩니다!</div>
-        </div>
+        <NoDataWrapper>
+          <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
+          <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
+        </NoDataWrapper>
       )}
       {!isEmptyData(data) && showModal && (
         <>
@@ -222,7 +241,25 @@ const History = () => {
             >
               100일
             </SubModalBtn>
-            <img src="../images/icon_calender.svg" alt="icon_calender" />
+            <img
+              src="../images/icon_calender.svg"
+              alt="icon_calender"
+              onClick={handleButtonClick}
+            />
+            {showDatePicker && (
+              <DatePickerContainer>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => onChangeDatePicker(date)}
+                  minDate={new Date()}
+                  dateFormat="yyyy-MM-dd"
+                  popperPlacement="bottom-start"
+                  onClickOutside={() => setShowDatePicker(false)}
+                  locale={ko}
+                  inline
+                />
+              </DatePickerContainer>
+            )}
             <SubModalDate>~{updateDate}</SubModalDate>
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify(currentId, updateDate)}>
@@ -230,17 +267,21 @@ const History = () => {
           </SubModalBottom>
         </SubModalWrapper>
       )}
-      <ToggleWrapper>
-        <ToggleButton>
-          <ToggleText isOnDate={isOnDate} onClick={onClickDate}>
-            날짜순
-          </ToggleText>
-          <ToggleText isOnPray={isOnPray} onClick={onClickPray}>
-            기도순
-          </ToggleText>
-        </ToggleButton>
-      </ToggleWrapper>
-      <Hline />
+      {!isEmptyData(data) && (
+        <>
+          <ToggleWrapper>
+            <ToggleButton>
+              <ToggleText isOnDate={isOnDate} onClick={onClickDate}>
+                날짜순
+              </ToggleText>
+              <ToggleText isOnPray={isOnPray} onClick={onClickPray}>
+                기도순
+              </ToggleText>
+            </ToggleButton>
+          </ToggleWrapper>
+          <Hline />
+        </>
+      )}
       {data.map((el, index) => (
         <div onClick={onClickHistory} key={index} id={el.id}>
           <HisContent
@@ -262,6 +303,27 @@ const HistoryWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
+`;
+
+const NoDataWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
+const NoDataTitle = styled.div`
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 41px;
+  color: #a0a0a0;
+`;
+const NoDataContent = styled.div`
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 29px;
+  color: #cecece;
 `;
 
 const Hline = styled.hr`
@@ -311,7 +373,7 @@ const ModalWrapper = styled.div`
   background-color: white;
   /* gap: 8px; */
   border-radius: 16px;
-  z-index: 500;
+  z-index: 300;
 `;
 
 const ModalHeader = styled.div`
@@ -399,7 +461,7 @@ const SubModalWrapper = styled.div`
   justify-content: center;
   background-color: white;
   border-radius: 16px;
-  z-index: 500;
+  z-index: 300;
 `;
 
 const SubModalTop = styled.div`
@@ -439,4 +501,11 @@ const SubModalBottom = styled.div`
   text-align: center;
   color: #ffffff;
   padding: 25px 0px;
+`;
+
+const DatePickerContainer = styled.div`
+  position: absolute;
+  top: -150%;
+  left: 40%;
+  z-index: 400;
 `;
