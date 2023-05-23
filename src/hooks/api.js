@@ -48,8 +48,22 @@ export const usePostFetcher = async (url, data, onSuccess) => {
   }
 };
 
+export const postFetcher = async (url, data, headers) => {
+  const response = await serverapi
+    .post(
+      url,
+      { ...data },
+      {
+        responseType: 'json',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+      }
+    )
+    .then((res) => res.data);
+  return response;
+}
+
 // accessToken 재발급을 위한 axios 호출
-const refresh = async (status) => {
+export const refresh = async (status) => {
   
   try {
     const refreshToken = localStorage.getItem('refreshToken');

@@ -2,12 +2,8 @@ import UserHeader from "../components/UserHeader";
 import Input from "../components/Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useEffect, useState } from "react";
-import serverapi from "../api/serverapi";
 import { useNavigate } from "react-router-dom";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
-import refresh from "../hooks/useRefresh";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
 import { useCheckPassword } from "../hooks/useCheckPassword";
 
 
@@ -15,9 +11,6 @@ const CheckInfo = () => {
   const [password, setPassword] = useState("");
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const setTokenState = useSetRecoilState(tokenState);
-  const accessToken = useRecoilValue(tokenState);
-  const [flag, setFlag] = useState(false);
 
   const navigate = useNavigate();
 
@@ -40,36 +33,13 @@ const CheckInfo = () => {
     }
   }, [showErrorToast]);
 
-  useEffect(() => {
-    const api = "/user/check/pw";
-    const data = {
-      password: password,
-    };
-    const onSuccess = () => {
-      if (res.data.message === true)
-        navigate("/changeInfo");
-      else {
-        setShowErrorToast(true);
-        setDisabled(true);
-      }
-    };
-    useCheckPassword(api, data, onSuccess);
-  }, [flag]);
+
+  const {mutate} = useCheckPassword({
+    password: password,
+  });
   
-  const checkPassword = async (password) => {
-    const api = "/user/check/pw";
-    const data = {
-      password: password,
-    };
-    const onSuccess = () => {
-      if (res.data.message === true)
-        navigate("/changeInfo");
-      else {
-        setShowErrorToast(true);
-        setDisabled(true);
-      }
-    };
-    useCheckPassword(api, data, onSuccess);
+  const checkPassword = async () => {
+    mutate();
   };
 
   // 배포 이후에 스크롤 생기면 아래 코드 적용
@@ -120,8 +90,7 @@ const CheckInfo = () => {
               }
               disabled={(!pwCheck(password)) || disabled}
               handler={() => {
-                setFlag(true);
-                // checkPassword(password);
+                checkPassword();
               }}
             >
               회원정보 확인
