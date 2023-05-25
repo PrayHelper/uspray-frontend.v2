@@ -8,6 +8,7 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
+import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
@@ -23,6 +24,7 @@ const History = () => {
   const [selectedBtn, setSelectedBtn] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -30,7 +32,16 @@ const History = () => {
   });
 
   const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTIzVDA0OjQ3OjMzLjIwNDE1MSJ9.Mq6r8TvqZTmumuYzilOXd56XSgmX2Dtol_T2E57NFjs";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTI2VDA0OjAwOjU2LjA0MDA3NiJ9.4sxLSO5lm4CB0b03CNTwxOZwfKAZBRrApimWg30XT0w";
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   const onClickUpdateDate = (days) => {
     const today = new Date();
@@ -55,15 +66,25 @@ const History = () => {
 
   const handleButtonClick = () => {
     setShowDatePicker(true);
+    setSelectedBtn(0);
   };
 
   const onClickDate = () => {
+    if (isOnDate) return; // 이미 선택된 버튼이면 함수 종료
     setIsOnDate(true);
     setIsOnPray(false);
+    setPage(1);
+    setHasMore(true);
+    setData([]);
   };
+
   const onClickPray = () => {
+    if (isOnPray) return; // 이미 선택된 버튼이면 함수 종료
     setIsOnDate(false);
     setIsOnPray(true);
+    setPage(1);
+    setHasMore(true);
+    setData([]);
   };
 
   const isEmptyData = (data) => {
@@ -92,7 +113,13 @@ const History = () => {
         },
       });
       if (res.status === 200) {
-        alert("마감일이 업데이트 되었습니다.");
+        setShowToast(true);
+        setShowModal(false);
+        setShowSubModal(false);
+        // window.location.reload();
+        setPage(1);
+        setHasMore(true);
+        setData([]);
       }
     } catch (e) {
       console.log(e);
@@ -132,7 +159,7 @@ const History = () => {
         params: {
           page: page,
           per_page: 15,
-          sort_by: isOnPray ? "pray_cnt" : "date",
+          sort_by: isOnPray ? "cnt" : "date",
         },
       });
       if (res.status === 200) {
@@ -292,6 +319,14 @@ const History = () => {
           <div ref={ref}></div>
         </div>
       ))}
+      <div style={{ marginTop: "20px" }}>.</div>
+      <ToastWrapper>
+        {showToast && (
+          <Toast toastTheme={ToastTheme.SUCCESS}>
+            마감일이 업데이트 되었습니다.
+          </Toast>
+        )}
+      </ToastWrapper>
     </HistoryWrapper>
   );
 };
@@ -508,4 +543,10 @@ const DatePickerContainer = styled.div`
   top: -150%;
   left: 40%;
   z-index: 400;
+`;
+
+const ToastWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
