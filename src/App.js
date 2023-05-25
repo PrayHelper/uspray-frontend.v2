@@ -18,6 +18,7 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
 import Find from "./pages/Find";
+import FindId from "./components/Find/FindId";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
@@ -53,6 +54,7 @@ function MainApp() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findAccount" element={<Find />}></Route>
+          <Route path="/findID" element={<FindId />}></Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/checkInfo" element={<CheckInfo />} />
           <Route path="/changeInfo" element={<ChangeInfo />} />
