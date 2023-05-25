@@ -23,7 +23,7 @@ const MainContent = styled.div`
 
 const NameContent = styled.div`
     width: 9.71%;
-    height: 1.84vh;
+    height: 27px;
     margin-right : 8px;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -68,7 +68,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
     }
     return(
         <MainContent>
-            {isShare && <ClickImg src={bottom ? (checked ? Check_Box_btm : Empty_Box_btm) : (checked ? Check_Box_top : Empty_Box_top)} style={{marginRight: '20px'}} 
+            {isShare && <ClickImg src={bottom ? (checked ? Check_Box_btm : Empty_Box_btm) : (checked ? Check_Box_top : Empty_Box_top)} 
             onClick={() => checkBoxClick(id)}/> }
             <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <Bar></Bar>

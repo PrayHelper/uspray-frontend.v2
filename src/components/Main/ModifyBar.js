@@ -3,10 +3,12 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import X_image from "../../images/X_image.svg";
 const ModifyStyle = styled.div`
+    position: absolute;
     width: 430px;
     height : 280px;
     background-color: #FFFFFF;
-    border: solid;
+    border: solid #FFFFFF;
+    z-index: 1000;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -38,7 +40,7 @@ const ModifyBar = ({id, valueChange, onModify}) =>{
     }
     return(
         <ModifyStyle>
-        <div style={{width: '430px', height:'48px', borderBottom: 'solid #EEEEEE'}}>
+        <div style={{width: '430px', height:'48px', borderBottom:"solid #EEEEEE"}}>
             <X_Image src={X_image} style={{width:'24px', height:'24px', marginLeft:'390px', marginTop:'12px'}} onClick={onModify}></X_Image>
         </div>
         <div style={{width: '430px', height:'100px', display: 'flex'}}>
@@ -48,7 +50,7 @@ const ModifyBar = ({id, valueChange, onModify}) =>{
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
             onChange={onChangeValue}></input>
         </div>
-        <ModifyBtn onClick={() => valueChange(id)}>수정완료하기</ModifyBtn>
+        <ModifyBtn onClick={() => valueChange(id, value)}>수정완료하기</ModifyBtn>
         </ModifyStyle>
     )
 }

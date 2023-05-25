@@ -89,7 +89,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [Sharelist, setShareList] = useState([]);
     const [shareToggle, setshareToggle] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDExOjU4OjU0LjkxNjkzNCJ9.0tMdoq74Db065CbRK5QOWBO5pq6SihdMuwj4PMmOOdE";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTI2VDA1OjMwOjE5LjU1MzY1NiJ9.4Lrw-IWoY2-ttwIXZaItJZoEBPExVT7EOhhVHVlOZlk";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -98,7 +98,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
           if (res.status === 200) {
             var prayer_content_ = [];
             var prayer_more_content_ = [];
-            for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
+            for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
                 var result = ddayCaculate(res.data.uncompleted[i].deadline);
                 prayer_content_[i] = {
                   id : res.data.uncompleted[i].id,
@@ -109,7 +109,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                   count : res.data.uncompleted[i].pray_cnt
                 };
               }
-            for(var i = 0;i<Object.keys(res.data.completed).length;i++){
+            for(let i = 0;i<Object.keys(res.data.completed).length;i++){
             var result = ddayCaculate(res.data.completed[i].deadline);
             prayer_more_content_[i] = {
                 id : res.data.completed[i].id,
@@ -191,8 +191,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         else{
             console.log(Sharelist);
         }
-        console.log(prayerContent);
-        console.log(prayerMoreContent);
     }
 
     const onCheck = () =>{
@@ -203,13 +201,15 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
 
     const shareList = (id, check_box) =>{
+        console.log(id);
         if(check_box){
             setShareList([...Sharelist,id]);
+            console.log(Sharelist);
             if(id < 1000){
-                prayerContent[Number(id)-1].checked = check_box;
+                
             }
             else{
-                prayerMoreContent[Number(id)-1001].checked = check_box;
+                // prayerMoreContent[Number(id)-1001].checked = check_box;
             }
         }
         else{
@@ -225,6 +225,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
     return(
         <div> 
+            {isModify && <BackgroundBright onClick={onModify}></BackgroundBright>}
+            {isDeleted && <BackgroundBright onClick={onDeleted}></BackgroundBright>}
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>
@@ -259,10 +261,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
-                {isChecked && <BackgroundBright style={{top:'0px', bottom:'153px'}} onClick={changeCheck}></BackgroundBright>}
-                {isModify && <BackgroundBright style={{top:'0px', bottom:'282px'}}onClick={onModify}></BackgroundBright>}
+                {isChecked && <BackgroundBright onClick={changeCheck}></BackgroundBright>}
                 {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify}/>}
-                {isDeleted && <BackgroundBright style={{top:'0px'}} onClick={onDeleted}></BackgroundBright>}
                 {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>
         </div>
