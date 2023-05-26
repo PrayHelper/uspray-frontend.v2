@@ -37,6 +37,7 @@ export const usePostFetcher = async (url, data, onSuccess) => {
     });
     if (onSuccess)
       onSuccess();
+    return res;
   } catch (e) {
     // 403 : access toekn 만료
     if (e.status === 403) {
@@ -58,7 +59,6 @@ export const postFetcher = async (url, data, headers) => {
         headers: { ...headers, 'Content-Type': 'application/json' },
       }
     )
-    .then((res) => res.data);
   return response;
 }
 

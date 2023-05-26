@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
 
 
 // ErrorInterceptor

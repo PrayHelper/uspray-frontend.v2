@@ -1,9 +1,9 @@
-import { postFetcher, refresh, usePostFetcher } from "./api";
+import { postFetcher, refresh } from "./api";
 import { useMutation } from "react-query";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 
-const postCheckPassword = (data, accessToken) => {
+const postCheckPassword = async (data, accessToken) => {
   return postFetcher('/user/check/pw', data, {
     Authorization: accessToken,
   });
@@ -13,7 +13,7 @@ export const useCheckPassword = (data) => {
   const accessToken = useRecoilValue(tokenState);
   const setAccessToken = useSetRecoilState(tokenState);
   return useMutation(() => {
-    postCheckPassword(data, accessToken)}, {
+    return postCheckPassword(data, accessToken)}, {
       onError: (e) => {
         if (e.status === 403) {
           const data = refresh();
@@ -22,9 +22,8 @@ export const useCheckPassword = (data) => {
         }
         console.log(e);
       },
-      onSuccess: (data) => {
-        console.log(data);
-        alert("성공");
+      onSuccess: (res) => {
+        console.log("useMutation 성공, res: ", res);
       },
       retry: (cnt) => {
         return cnt < 3;

@@ -38,9 +38,20 @@ const CheckInfo = () => {
     password: password,
   });
   
-  const checkPassword = async () => {
-    mutate();
+  const checkPassword = (res) => {
+    mutate(null, {
+      onSuccess: (res) => {
+        console.log(res);
+        if (res.data.message === true)
+          navigate("/changeInfo");
+        else{
+          setShowErrorToast(true);
+          setDisabled(true);
+        }
+      },
+    });
   };
+
 
   // 배포 이후에 스크롤 생기면 아래 코드 적용
   // useEffect(() => {
