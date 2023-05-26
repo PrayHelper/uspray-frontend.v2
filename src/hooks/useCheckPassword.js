@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 
 const postCheckPassword = async (data, accessToken) => {
-  return postFetcher('/user/check/pw', data, {
+  return await postFetcher('/user/check/pw', data, {
     Authorization: accessToken,
   });
 };
@@ -23,7 +23,7 @@ export const useCheckPassword = (data) => {
         console.log(e);
       },
       onSuccess: (res) => {
-        console.log("useMutation 성공, res: ", res);
+        console.log(res);
       },
       retry: (cnt) => {
         return cnt < 1;

@@ -5,6 +5,7 @@ import Input from "../components/Input/Input";
 import UserHeader from "../components/UserHeader";
 import styled from 'styled-components';
 import BlackScreen from "../components/BlackScreen/BlackScreen";
+import { useResetPw } from "../hooks/useResetPw";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -81,29 +82,21 @@ const ChangePw = () => {
     setInvalidMatchingPwInfo("");
   };
 
-  //TODO: 전역으로 관리되는 accessToken로 대체하기
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
+  const {mutate} = useResetPw({
+    password: pw
+  });
 
-  const resetPw = async () => {
-    const api = "/user/reset/password";
-    const data = {
-      password: pw
-    };
-    try {
-      const res = await serverapi.put(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        }
-      });
-      if (res.status === 200) {
+  const resetPw = () => {
+    mutate(null, {
+      onSuccess: (res) => {
         setShowModal(true);
         console.log(res);
+      },
+      onError: (e) => {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    });
   };
-
 
   return (
     <div
