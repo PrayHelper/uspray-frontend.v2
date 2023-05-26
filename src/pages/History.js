@@ -31,8 +31,7 @@ const History = () => {
     triggerOnce: true, // 한 번만 트리거되도록 설정
   });
 
-  const accessToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTI2VDA0OjAwOjU2LjA0MDA3NiJ9.4sxLSO5lm4CB0b03CNTwxOZwfKAZBRrApimWg30XT0w";
+  const accessToken = "";
 
   useEffect(() => {
     if (showToast) {
