@@ -26,8 +26,8 @@ export const useCheckPassword = (data) => {
         console.log("useMutation 성공, res: ", res);
       },
       retry: (cnt) => {
-        return cnt < 3;
+        return cnt < 1;
       },
-      retryDelay: 1000,
+      retryDelay: 300,
     });
 };

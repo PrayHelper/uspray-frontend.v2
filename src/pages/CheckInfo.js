@@ -38,17 +38,17 @@ const CheckInfo = () => {
     password: password,
   });
   
-  const checkPassword = (res) => {
+  const checkPassword = () => {
     mutate(null, {
       onSuccess: (res) => {
         console.log(res);
         if (res.data.message === true)
           navigate("/changeInfo");
-        else{
-          setShowErrorToast(true);
-          setDisabled(true);
-        }
       },
+      onError: (e) => {
+        setShowErrorToast(true);
+        setDisabled(true);
+      }
     });
   };
 

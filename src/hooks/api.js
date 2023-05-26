@@ -1,54 +1,19 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
 import serverapi from "../api/serverapi";
-import { tokenState } from "../recoil/accessToken";
 
-// get 방식의 axios 호출 및 error handling
-export const useGetFetcher = async (url, onSuccess) => {
-  const accessToken = useRecoilValue(tokenState);
-  const setAccessToken = useSetRecoilState(tokenState);
-  try {
-    const res = await serverapi.get(url, {
-      headers: {
-        Authorization: `${accessToken}`,
+// get 방식의 axios 호출
+export const getFetcher = async (url, headers) => {
+  const response = await serverapi
+    .get(
+      url,
+      {
+        responseType: 'json',
+        headers: { ...headers, 'Content-Type': 'application/json' },
       }
-    });
-    if (onSuccess)
-      onSuccess();
-  } catch (e) {
-    // 403 : access toekn 만료
-    if (e.status === 403) {
-      const data = refresh();
-      if (typeof(data) === "string")
-        setAccessToken(data);
-    }
-    console.log(e);
-  }
-};
+    )
+  return response;
+}
 
-// post 방식의 axios 호출 및 error handling
-export const usePostFetcher = async (url, data, onSuccess) => {
-  const accessToken = useRecoilValue(tokenState);
-  const setAccessToken = useSetRecoilState(tokenState);
-  try {
-    const res = await serverapi.post(url, data, {
-      headers: {
-        Authorization: `${accessToken}`,
-      }
-    });
-    if (onSuccess)
-      onSuccess();
-    return res;
-  } catch (e) {
-    // 403 : access toekn 만료
-    if (e.status === 403) {
-      const data = refresh();
-      if (typeof(data) === "string")
-        setAccessToken(data);
-    }
-    console.log(e);
-  }
-};
-
+// post 방식의 axios 호출
 export const postFetcher = async (url, data, headers) => {
   const response = await serverapi
     .post(
@@ -59,6 +24,29 @@ export const postFetcher = async (url, data, headers) => {
         headers: { ...headers, 'Content-Type': 'application/json' },
       }
     )
+  return response;
+}
+
+// put 방식의 axios 호출
+export const putFetcher = async (url, data, headers) => {
+  const response = await serverapi.put(
+    url,
+    { ...data },
+    {
+      responseType: "json",
+      headers: { ...headers, "Content-Type": "application/json" },
+    }
+  );
+  return response;
+}
+
+// delete 방식의 axios 호출
+export const deleteFetcher = async (url, headers) => {
+  const response = await serverapi.delete(
+    url, 
+    {
+    responseType: "json
+  );
   return response;
 }
 
