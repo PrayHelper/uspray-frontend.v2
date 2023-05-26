@@ -45,7 +45,9 @@ export const deleteFetcher = async (url, headers) => {
   const response = await serverapi.delete(
     url, 
     {
-    responseType: "json
+      responseType: "json",
+      headers: { ...headers, "Content-Type": "application/json" },
+    }
   );
   return response;
 }
