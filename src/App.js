@@ -22,6 +22,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
 import ChangePhoneNumber from "./pages/ChangePhoneNumber";
+import { useEffect, useState } from "react";
+import { refresh } from "./hooks/api";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -39,6 +41,12 @@ const Container = styled.div`
 `;
 
 function MainApp() {
+
+  // 최초 접속 시에 refreshToken 만료면 로그인으로 이동하도록
+  useEffect(() => {
+    refresh();
+  }, []);
+
   return (
     <ContainerWrapper>
       <Container>
