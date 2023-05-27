@@ -1,13 +1,14 @@
 import serverapi from "../api/serverapi";
 
 // get 방식의 axios 호출
-export const getFetcher = async (url, headers) => {
+export const getFetcher = async (url, headers, params) => {
   const response = await serverapi
     .get(
       url,
       {
         responseType: 'json',
         headers: { ...headers, 'Content-Type': 'application/json' },
+        params: params,
       }
     )
   return response;
