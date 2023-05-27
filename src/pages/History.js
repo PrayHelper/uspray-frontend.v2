@@ -9,6 +9,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { useFetchCurrentHis } from "../hooks/useFetchCurrentHis";
+import { useFetchHistory } from "../hooks/useFetchHistory";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
@@ -125,43 +127,53 @@ const History = () => {
     }
   };
 
-  const fetchCurrentHis = async (id) => {
-    const api = `/history`;
-    try {
-      const res = await serverapi.get(api, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      const filteredData = res.data.res.filter(
-        (item) => item.id === Number(id)
-      )[0];
-      if (res.status === 200) {
-        console.log(id);
-        console.log(filteredData);
+  const {fetchCurrentHisMutate} = useFetchCurrentHis();
+
+  const fetchCurrentHis = (id) => {
+    fetchCurrentHisMutate(null, {
+      onSuccess: (res) => {
+        console.log(res);
+        const filteredData = res.data.res.filter(
+          (item) => item.id === Number(id)
+        )[0];
         setCurrentId(Number(id));
-      }
-      return filteredData;
-    } catch (e) {
-      console.log(e);
-    }
+        return filteredData;
+      },
+    });
   };
+
+  // const fetchCurrentHis = async (id) => {
+  //   const api = `/history`;
+  //   try {
+  //     const res = await serverapi.get(api, {
+  //       headers: {
+  //         Authorization: `${accessToken}`,
+  //       },
+  //     });
+  //     const filteredData = res.data.res.filter(
+  //       (item) => item.id === Number(id)
+  //     )[0];
+  //     if (res.status === 200) {
+  //       console.log(id);
+  //       console.log(filteredData);
+  //       setCurrentId(Number(id));
+  //     }
+  //     return filteredData;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  const {fetchHistoryMutate} = useFetchHistory({
+    page: page,
+    per_page: 15,
+    sort_by: isOnPray ? "cnt" : "date",
+  });
 
   const fetchHistory = useCallback(async () => {
     setLoading(true);
-    const api = `/history`;
-    try {
-      const res = await serverapi.get(api, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-        params: {
-          page: page,
-          per_page: 15,
-          sort_by: isOnPray ? "cnt" : "date",
-        },
-      });
-      if (res.status === 200) {
+    fetchHistoryMutate(null, {
+      onSuccess: (res) => {
         console.log(res.data.res);
         console.log(page);
         const newData = res.data.res;
@@ -169,12 +181,40 @@ const History = () => {
         if (res.data.res.length === 0) {
           setHasMore(false);
         }
-      }
-      setLoading(false);
-    } catch (e) {
-      console.log(e.response);
-    }
+      },
+    });
+    setLoading(false);
   }, [page, isOnPray]);
+
+
+  // const fetchHistory = useCallback(async () => {
+  //   setLoading(true);
+  //   const api = `/history`;
+  //   try {
+  //     const res = await serverapi.get(api, {
+  //       headers: {
+  //         Authorization: `${accessToken}`,
+  //       },
+  //       params: {
+  //         page: page,
+  //         per_page: 15,
+  //         sort_by: isOnPray ? "cnt" : "date",
+  //       },
+  //     });
+  //     if (res.status === 200) {
+  //       console.log(res.data.res);
+  //       console.log(page);
+  //       const newData = res.data.res;
+  //       setData((prev) => [...prev, ...newData]);
+  //       if (res.data.res.length === 0) {
+  //         setHasMore(false);
+  //       }
+  //     }
+  //     setLoading(false);
+  //   } catch (e) {
+  //     console.log(e.response);
+  //   }
+  // }, [page, isOnPray]);
 
   const onClickHistory = async (e) => {
     setShowModal(true);
