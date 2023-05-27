@@ -65,6 +65,7 @@ const Signup = () => {
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
+  const [isPhoneNumVerficationButtonClicked, setIsPhoneNumVerficationButtonClickClick] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [tos1Checked, setTos1Checked] = useState(false);
   const [tos2Checked, setTos2Checked] = useState(false);
@@ -417,6 +418,7 @@ const Signup = () => {
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
+                setIsPhoneNumVerficationButtonClickClick(true);
               }}
             >
               {time ? "진행 중" : "전송"}
@@ -453,9 +455,11 @@ const Signup = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0
+                  (isCetrificated && isCertificateButtonClicked) || time === 0 || !isPhoneNumVerficationButtonClicked
                 }
                 handler={() => {
+                  console.log(isCetrificated && isCertificateButtonClicked);
+                  console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
                     alert("인증에 성공하였습니다.");
