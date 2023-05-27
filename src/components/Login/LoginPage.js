@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 
 const LoginPage = () => {
+
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
   const setTokenState = useSetRecoilState(tokenState);
   const accessToken = useRecoilValue(tokenState);
+  const navigate = useNavigate();
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -19,6 +21,8 @@ const LoginPage = () => {
   const onChangePwd = (event) => {
     setPwdValue(event.target.value);
   };
+
+
 
   const login = async () => {
     const api = `/user/login`;
@@ -29,11 +33,10 @@ const LoginPage = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200){
-        console.log(res);
-        console.log(res.data.access_token);
-        console.log(res.data.refresh_token);
-        setTokenState({accessToken: res.data.access_token});
+        setTokenState(res.data.access_token);
+        console.log(accessToken);
         localStorage.setItem('refreshToken', res.data.refresh_token);
+        navigate("/main");
       }
     } catch (e) {
       console.log(e.response);
@@ -81,7 +84,7 @@ const LoginPage = () => {
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
-        </div>
+        </div> 
       </BottomBtnWrapper>
     </LoginWrapper>
   );

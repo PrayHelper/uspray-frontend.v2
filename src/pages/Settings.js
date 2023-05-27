@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -102,6 +103,7 @@ const ModalButton2 = styled.button`
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const openModalHandler = () => {
     setShowModal(true);
@@ -112,7 +114,7 @@ const Settings = () => {
   };
 
   const movePageHandler = () => {
-    window.location.href= '/checkInfo';
+    navigate('/checkInfo');
   };
 
   const logout = () => {
@@ -128,11 +130,11 @@ const Settings = () => {
   };
 
   const moveToToS = () => {
-    window.location.href= '/tos';
+    navigate('/tos');
   };
 
   const moveToPrivacyPolicy = () => {
-    window.location.href= '/privacyPolicy';
+    navigate('/privacyPolicy');
   };
 
 
