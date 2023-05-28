@@ -140,7 +140,7 @@ const Signup = () => {
     }
   };
 
-  const signup = async () => {
+  const findId = async () => {
     const api = "/user/signup";
     const data = {
       id: userInfo.id,
@@ -173,31 +173,6 @@ const Signup = () => {
     setInvalidIdInfo("");
   };
 
-  const pwdChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, pwd: e.target.value });
-    if (!pwdCheck(e.target.value)) {
-      setInvalidPwdInfo("8-16자의 영문 대소문자, 숫자, 특수문자만 사용 가능");
-      return;
-    }
-    if (userInfo.matchingPwd || invalidMatchingPwdInfo) {
-      if (e.target.value !== userInfo.matchingPwd) {
-        setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
-      } else {
-        setInvalidMatchingPwdInfo("");
-      }
-    }
-    setInvalidPwdInfo("");
-  };
-
-  const matchingPwdChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, matchingPwd: e.target.value });
-    if (userInfo.pwd !== e.target.value) {
-      setInvalidMatchingPwdInfo("비밀번호가 서로 다릅니다.");
-      return;
-    }
-    setInvalidMatchingPwdInfo("");
-  };
-
   const nameChangeHandler = (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
   };
@@ -207,18 +182,6 @@ const Signup = () => {
       setShowModal(true);
       init = 1;
     }
-  };
-
-  const yearChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, year: e.target.value.slice(0, 4) });
-  };
-
-  const monthChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, month: e.target.value.slice(0, 2) });
-  };
-
-  const dayChangeHandler = (e) => {
-    setUserInfo({ ...userInfo, day: e.target.value.slice(0, 2) });
   };
 
   const phoneNumberChangeHandler = (e) => {
@@ -381,6 +344,16 @@ const Signup = () => {
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
+        <Button
+          disabled={!isAllValid}
+          buttonSize={ButtonSize.LARGE}
+          buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
+          handler={() => {
+            findId();
+          }}
+        >
+          아이디 찾기
+        </Button>
       </div>
     </div>
   );
