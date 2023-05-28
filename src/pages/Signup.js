@@ -301,7 +301,7 @@ const Signup = () => {
 
   return (
     <div>
-      <UserHeader />
+      <UserHeader>회원가입</UserHeader>
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
