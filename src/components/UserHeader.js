@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHeader = styled.div`
@@ -21,9 +22,10 @@ const Title = styled.div`
 
 
 const UserHeader = ({children}) => {
+  const navigate = useNavigate();
 
   const goBack = () => {
-    window.history.go(-1); // 이전 페이지로 이동
+    navigate(-1); // 이전 페이지로 이동
   };
 
   return (

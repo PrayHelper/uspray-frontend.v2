@@ -2,9 +2,10 @@ import UserHeader from "../components/UserHeader";
 import Input from "../components/Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useEffect, useState } from "react";
-import serverapi from "../api/serverapi";
 import { useNavigate } from "react-router-dom";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { useCheckPassword } from "../hooks/useCheckPassword";
+
 
 const CheckInfo = () => {
   const [password, setPassword] = useState("");
@@ -23,7 +24,6 @@ const CheckInfo = () => {
     return pwRegEx.test(pw);
   }
 
-
   useEffect(() => {
     if (showErrorToast) {
       const timer = setTimeout(() => {
@@ -33,32 +33,25 @@ const CheckInfo = () => {
     }
   }, [showErrorToast]);
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
 
-  const checkPassword = async (password) => {
-    const api = "/user/check/pw";
-    const data = {
-      password: password,
-    };
-    try {
-      const res = await serverapi.post(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        }
-      });
-      if (res.status === 200) {
+  const {mutate} = useCheckPassword({
+    password: password,
+  });
+  
+  const checkPassword = () => {
+    mutate(null, {
+      onSuccess: (res) => {
         console.log(res);
         if (res.data.message === true)
           navigate("/changeInfo");
-        else{
-          setShowErrorToast(true);
-          setDisabled(true);
-        }
+      },
+      onError: (e) => {
+        setShowErrorToast(true);
+        setDisabled(true);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    });
   };
+
 
   // 배포 이후에 스크롤 생기면 아래 코드 적용
   // useEffect(() => {
@@ -108,7 +101,7 @@ const CheckInfo = () => {
               }
               disabled={(!pwCheck(password)) || disabled}
               handler={() => {
-                checkPassword(password);
+                checkPassword();
               }}
             >
               회원정보 확인
