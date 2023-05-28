@@ -251,7 +251,7 @@ const Signup = () => {
 
   return (
     <div>
-      <UserHeader />
+      <UserHeader children={"아이디 찾기"}/>
       <div
         style={{
           display: "flex",
