@@ -55,10 +55,10 @@ function MainApp() {
     }
     if (!accessToken){
       const getToken = async () => {
-        return await refresh();
+        const token = await refresh();
+        setAccessToken(token);
       };
-      const token = getToken();
-      setAccessToken(token);
+      getToken();
     } 
 
     return <Outlet />;

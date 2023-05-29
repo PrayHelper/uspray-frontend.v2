@@ -128,28 +128,6 @@ const History = () => {
 
   const {data: currentHistoryData} = useFetchHistory();
 
-  // const fetchCurrentHis = async (id) => {
-  //   const api = `/history`;
-  //   try {
-  //     const res = await serverapi.get(api, {
-  //       headers: {
-  //         Authorization: `${accessToken}`,
-  //       },
-  //     });
-  //     const filteredData = res.data.res.filter(
-  //       (item) => item.id === Number(id)
-  //     )[0];
-  //     if (res.status === 200) {
-  //       console.log(id);
-  //       console.log(filteredData);
-  //       setCurrentId(Number(id));
-  //     }
-  //     return filteredData;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   const {data : historyData, isLoading: historyLoading} = useFetchHistory({
     page: page,
     per_page: 15,
@@ -166,35 +144,6 @@ const History = () => {
     }
   }, [page, isOnPray, historyData]);
 
-
-  // const fetchHistory = useCallback(async () => {
-  //   setLoading(true);
-  //   const api = `/history`;
-  //   try {
-  //     const res = await serverapi.get(api, {
-  //       headers: {
-  //         Authorization: `${accessToken}`,
-  //       },
-  //       params: {
-  //         page: page,
-  //         per_page: 15,
-  //         sort_by: isOnPray ? "cnt" : "date",
-  //       },
-  //     });
-  //     if (res.status === 200) {
-  //       console.log(res.data.res);
-  //       console.log(page);
-  //       const newData = res.data.res;
-  //       setData((prev) => [...prev, ...newData]);
-  //       if (res.data.res.length === 0) {
-  //         setHasMore(false);
-  //       }
-  //     }
-  //     setLoading(false);
-  //   } catch (e) {
-  //     console.log(e.response);
-  //   }
-  // }, [page, isOnPray]);
 
   const onClickHistory = async (e) => {
     setShowModal(true);
