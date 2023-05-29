@@ -9,7 +9,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
-import { useFetchCurrentHis } from "../hooks/useFetchCurrentHis";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 
 const History = () => {
@@ -127,20 +126,7 @@ const History = () => {
     }
   };
 
-  const {fetchCurrentHisMutate} = useFetchCurrentHis();
-
-  const fetchCurrentHis = (id) => {
-    fetchCurrentHisMutate(null, {
-      onSuccess: (res) => {
-        console.log(res);
-        const filteredData = res.data.res.filter(
-          (item) => item.id === Number(id)
-        )[0];
-        setCurrentId(Number(id));
-        return filteredData;
-      },
-    });
-  };
+  const {data: currentHistoryData} = useFetchHistory();
 
   // const fetchCurrentHis = async (id) => {
   //   const api = `/history`;
@@ -164,7 +150,7 @@ const History = () => {
   //   }
   // };
 
-  const {data : historyData, isLoading} = useFetchHistory({
+  const {data : historyData, isLoading: historyLoading} = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
@@ -173,12 +159,12 @@ const History = () => {
   useEffect(() =>{
     if (!historyData)
       return ;
-    setLoading(isLoading);
+    setLoading(historyLoading);
     setData((prev) => [...prev, ...historyData.data.res]);
     if (historyData.data.res.length === 0) {
       setHasMore(false);
     }
-  }, [page, isOnPray]);
+  }, [page, isOnPray, historyData]);
 
 
   // const fetchHistory = useCallback(async () => {
@@ -218,7 +204,10 @@ const History = () => {
       setCurrentData(currentData);
       setCurrentId(Number(id));
     } else {
-      const currentData = await fetchCurrentHis(id);
+      const currentData = currentHistoryData.data.res.filter(
+        (item) => item.id === Number(id)
+      )[0];
+      setCurrentId(Number(id));
       setCurrentData(currentData);
     }
   };
