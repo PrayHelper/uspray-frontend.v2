@@ -164,26 +164,20 @@ const History = () => {
   //   }
   // };
 
-  const {fetchHistoryMutate} = useFetchHistory({
+  const {data : historyData, isLoading} = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
 
-  const fetchHistory = useCallback(async () => {
-    setLoading(true);
-    fetchHistoryMutate(null, {
-      onSuccess: (res) => {
-        console.log(res.data.res);
-        console.log(page);
-        const newData = res.data.res;
-        setData((prev) => [...prev, ...newData]);
-        if (res.data.res.length === 0) {
-          setHasMore(false);
-        }
-      },
-    });
-    setLoading(false);
+  useEffect(() =>{
+    if (!historyData)
+      return ;
+    setLoading(isLoading);
+    setData((prev) => [...prev, ...historyData.data.res]);
+    if (historyData.data.res.length === 0) {
+      setHasMore(false);
+    }
   }, [page, isOnPray]);
 
 
@@ -228,10 +222,6 @@ const History = () => {
       setCurrentData(currentData);
     }
   };
-
-  useEffect(() => {
-    fetchHistory();
-  }, [fetchHistory]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {

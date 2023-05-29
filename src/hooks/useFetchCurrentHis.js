@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 import { getFetcher, refresh } from "./api";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 const getCurrentHis = async (accessToken) => {
   return await getFetcher('/history', {
@@ -11,7 +11,7 @@ const getCurrentHis = async (accessToken) => {
 
 export const useFetchCurrentHis = () => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useMutation(() => {
+  return useQuery(["currentHistory"], () => {
     return getCurrentHis(accessToken)}, {
       onError: (e) => {
         if (e.status === 403) {
