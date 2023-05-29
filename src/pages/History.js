@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
+import { useHistoryModify } from "../hooks/useHistoryModify";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
@@ -17,7 +18,7 @@ const History = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
@@ -32,7 +33,6 @@ const History = () => {
     triggerOnce: true, // 한 번만 트리거되도록 설정
   });
 
-  const accessToken = "";
 
   useEffect(() => {
     if (showToast) {
@@ -100,29 +100,25 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
-  const onClickModify = async (id, newDeadline) => {
-    const api = `/history/modify`;
-    const data = {
-      pray_id: id,
-      deadline: newDeadline,
-    };
-    try {
-      const res = await serverapi.put(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      if (res.status === 200) {
+  const {mutate : mutateHistoryModify} = useHistoryModify(
+    {
+      pray_id: currentId,
+      deadline: updateDate,
+    }
+  );
+
+
+  const onClickModify = () => {
+    mutateHistoryModify(null, {
+      onSuccess: () => {
         setShowToast(true);
         setShowModal(false);
         setShowSubModal(false);
         setPage(1);
         setHasMore(true);
         setData([]);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+      },
+    });
   };
 
   const {data: currentHistoryData} = useFetchHistory();
@@ -255,7 +251,7 @@ const History = () => {
             )}
             <SubModalDate>~{updateDate}</SubModalDate>
           </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify(currentId, updateDate)}>
+          <SubModalBottom onClick={() => onClickModify()}>
             오늘의 기도에 추가하기
           </SubModalBottom>
         </SubModalWrapper>
