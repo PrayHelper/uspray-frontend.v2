@@ -2,7 +2,7 @@ import Header from "../components/Header/Header";
 import styled, { css } from "styled-components";
 import HisContent from "../components/History/HisContent";
 import serverapi from "../api/serverapi";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import DatePicker from "react-datepicker";
@@ -116,7 +116,6 @@ const History = () => {
         setShowToast(true);
         setShowModal(false);
         setShowSubModal(false);
-        // window.location.reload();
         setPage(1);
         setHasMore(true);
         setData([]);

@@ -11,7 +11,7 @@ const getHis = async (accessToken, params) => {
 
 export const useFetchHistory = (params) => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useQuery(["History", accessToken], () => {
+  return useQuery(["History", accessToken, params], () => {
     return getHis(accessToken, params)}, {
       onError: (e) => {
         if (e.status === 403) {
