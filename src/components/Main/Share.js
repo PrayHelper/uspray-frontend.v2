@@ -8,13 +8,12 @@ const ShareImg = styled(Share_Logo)``;
 
 function Share({onShare, onMove , shareToggle, onCheck, isShare}){
     return(
-        <div>
-            {!shareToggle && <div className="share_img" style={{height:"56px", width:"56px", marginLeft:"350px",
-            marginTop:"38px",marginBottom:"72px", borderRadius:"50%", border:"none", backgroundColor:"white"}}
-            onClick={() => onMove()}><ShareImg src={share_img}/></div>}
+        <div style={{display:"flex", justifyContent:'flex-end', marginTop:"38px", marginBottom:"24px", marginRight:"24px"}}>
+            {!shareToggle && <ShareImg src={share_img}/>}
             {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}/>}
         </div>
     )
 }
 
 export default Share;
+

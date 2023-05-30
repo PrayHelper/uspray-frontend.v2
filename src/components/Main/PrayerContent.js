@@ -1,22 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import Empty_Box_top from '../../images/empty_box.svg';
-import Bar from "./Bar";
 import Download_img from "../../images/Click_img.svg";
-import Empty_Box_btm from "../../images/empty_box_bt.svg";
-import Check_Box_btm from "../../images/check_box_bt.svg";
-import Check_Box_top from "../../images/check_box_top.svg";
+import ShareCheckBox from "./ShareCheckBox";
+import ShareBotCheckBox from "./ShareBotCheckBox";
 
 
 const MainContent = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 91.62%;
     height: auto;
     margin-left : 16px;
     margin-right : 16px;
     margin-top : 22px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     border-bottom : solid;
     border-bottom-color: #CECECE;
 `
@@ -61,20 +60,28 @@ const ClickImg = styled(Logo)`
     height: 1.73vh;
 `;
 
-function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList}){
+
+
+function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList, clickOff}){
     const {id, dday,text,checked, name, count} = content;
-    const checkBoxClick = (id) =>{
-        return shareList(id, !checked);
+    const clickHandler = (event) =>{
+        console.log(event.target.id);
+        if(!checked){
+        return shareList(event.target.id, !checked);
+        }
+        else{
+            clickOff(id);
+        }
     }
     return(
         <MainContent>
-            {isShare && <ClickImg src={bottom ? (checked ? Check_Box_btm : Empty_Box_btm) : (checked ? Check_Box_top : Empty_Box_top)} 
-            onClick={() => checkBoxClick(id)}/> }
-            <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
-            <Bar></Bar>
+            {isShare && (!bottom ?         
+            <ShareCheckBox id = {id} checked={checked} handler = {clickHandler} /> : 
+            <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
+            <NameContent style={{marginLeft : isShare ? '4px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{(dday != 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
+            {!isShare && !bottom && <div className="image" style={{marginBottom:'8px'}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )
 }

@@ -8,7 +8,6 @@ const DayBtnSet = styled.div`
     display: flex;
     height: 42px;
     background-color: white;
-    margin-top: 15px;
     margin-left: 20px;
     min-width: 434px;
     width: 100%;

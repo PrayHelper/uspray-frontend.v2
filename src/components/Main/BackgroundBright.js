@@ -17,7 +17,8 @@ const BackgroundBright = styled.div`
     // bottom: 0;
     display: flex;
     width: 100%;
-    height: 850px;
+    min-height:710px;
+    height: auto;
     background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 색상 */
 `
 export default BackgroundBright;

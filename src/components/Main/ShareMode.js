@@ -27,7 +27,8 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare}) =>{
         setCancleToggle(!cancelToggle);
         onMove();
         if(isShare){
-           onCheck();
+            console.log("onCheck");
+            onCheck();
         }
     } 
 
