@@ -54,10 +54,6 @@ const Signup = () => {
     phoneNumber: "",
     certificateNumber: "",
   });
-  const [gender, setGender] = useState("");
-  const [invalidIdInfo, setInvalidIdInfo] = useState("");
-  const [invalidPwdInfo, setInvalidPwdInfo] = useState("");
-  const [invalidMatchingPwdInfo, setInvalidMatchingPwdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
@@ -66,41 +62,18 @@ const Signup = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [tos1Checked, setTos1Checked] = useState(false);
-  const [tos2Checked, setTos2Checked] = useState(false);
-  const [tos3Checked, setTos3Checked] = useState(false);
+
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ""
   );
 
   const isAllValid =
-    !invalidIdInfo &&
-    !invalidPwdInfo &&
-    !invalidMatchingPwdInfo &&
     isCetrificated &&
-    isCertificateButtonClicked &&
-    tos1Checked &&
-    tos2Checked &&
-    tos3Checked &&
-    gender &&
-    !checkEmptyUserInfoValue;
+    isCertificateButtonClicked;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
-  const pwdRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const idCheck = (userInfo) => {
-    return idRegEx.test(userInfo);
-  };
-
-  const pwdCheck = (userInfo) => {
-    return pwdRegEx.test(userInfo);
-  };
 
   const phoneNumberCheck = (userInfo) => {
     return phoneNumberRegEx.test(userInfo);
@@ -108,18 +81,6 @@ const Signup = () => {
 
   const certificateNumberCheck = (userInfo) => {
     return certificateNumberRegEx.test(userInfo);
-  };
-
-  const isIdDuplicated = async (uid) => {
-    const api = `/user/dup_check/${uid}`;
-    try {
-      const res = await serverapi.get(api);
-      if (res.status === 200) {
-        return res.data.dup;
-      }
-    } catch (e) {
-      console.log(e.response);
-    }
   };
 
   const phoneNumVerfication = async (phoneNumber) => {
@@ -146,7 +107,6 @@ const Signup = () => {
       id: userInfo.id,
       password: userInfo.pwd,
       name: userInfo.name,
-      gender: gender,
       birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
@@ -158,19 +118,6 @@ const Signup = () => {
     } catch (e) {
       alert("error occured");
     }
-  };
-
-  const idChangeHandler = async (e) => {
-    setUserInfo({ ...userInfo, id: e.target.value });
-    if (!idCheck(e.target.value)) {
-      setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
-      return;
-    }
-    if (await isIdDuplicated(e.target.value)) {
-      setInvalidIdInfo("아이디가 중복되었습니다.");
-      return;
-    }
-    setInvalidIdInfo("");
   };
 
   const nameChangeHandler = (e) => {
