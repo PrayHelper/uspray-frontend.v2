@@ -18,7 +18,7 @@ const History = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
@@ -27,6 +27,7 @@ const History = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -117,17 +118,25 @@ const History = () => {
         setPage(1);
         setHasMore(true);
         setData([]);
+        setFlag((flag)=>!flag);
+        updateHistoryData();
       },
     });
   };
 
   const {data: currentHistoryData} = useFetchHistory();
 
-  const {data : historyData, isLoading: historyLoading} = useFetchHistory({
+  const {data : historyData, isLoading: historyLoading, refetch: refetchHistory} = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
+  
+  // flag 변경 시 historyData를 새로 받아오는 함수
+  const updateHistoryData = () => {
+    console.log("함수 실행은 되니?");
+    refetchHistory();
+  };
 
   useEffect(() =>{
     if (!historyData)
@@ -137,7 +146,7 @@ const History = () => {
     if (historyData.data.res.length === 0) {
       setHasMore(false);
     }
-  }, [page, isOnPray, historyData]);
+  }, [page, isOnPray, historyData, flag]);
 
 
   const onClickHistory = async (e) => {
