@@ -9,6 +9,7 @@ import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 import serverapi from "../api/serverapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
+import { useNavigate } from "react-router-dom";
 
 let init = 0;
 
@@ -62,6 +63,7 @@ const Signup = () => {
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
@@ -73,6 +75,8 @@ const Signup = () => {
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ""
   );
+
+  const navigate = useNavigate();
 
   const isAllValid =
     !invalidIdInfo &&
@@ -154,7 +158,12 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        alert("회원가입이 완료되었습니다.");
+        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
+        setToastTheme(ToastTheme.SUCCESS);
+        setShowToast(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       }
     } catch (e) {
       alert("error occured");
@@ -465,6 +474,7 @@ const Signup = () => {
                     alert("인증에 성공하였습니다.");
                   } else {
                     setToastMessage("인증번호가 일치하지 않습니다.");
+                    setToastTheme(ToastTheme.ERROR);
                     setShowToast(true);
                     alert("인증에 실패하였습니다.");
                   }
@@ -506,7 +516,10 @@ const Signup = () => {
           회원가입
         </Button>
         {showToast && (
-          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
+          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
+        )}
+        {showToast && (
+          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
         )}
       </div>
     </div>
