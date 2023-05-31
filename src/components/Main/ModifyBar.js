@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import X_image from "../../images/X_image.svg";
+import X_image from "../../images/ic_modify_cancel.svg";
 const ModifyStyle = styled.div`
-    position: absolute;
+    position: fixed;
+    top:1;
+    bottom: 0;
+    right: 0;
+    left: 0;
     width: 430px;
     height : 280px;
     background-color: #FFFFFF;

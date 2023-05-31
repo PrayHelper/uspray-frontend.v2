@@ -10,10 +10,13 @@ const BackGround = styled.div`
 
 const BackgroundInput = styled.div`
     display : flex;
-    justify-content: space-around;
+    position : relative;
+    justify-content: space-evenly;
     width: 100%;
     // margin-bottom: 15px;
+    background: white;
     height: 120px;
+    z-index: 1000;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -79,7 +82,7 @@ const TemplateMain = ({ children, onInsert}) =>{
                 </div>
 
                 <div style={{width: '264px'}}>
-                <input style={{marginTop:'65px',width:"90.14%",height:"27px" , padding:'0px',borderRadius:'4px', border:'none',fontSize:'16px',
+                <input style={{marginTop:'65px',width:"90.14%",height:"27px" , marginLeft:'5px',padding:'0px',borderRadius:'4px', border:'none',fontSize:'16px',
                  color:'#A0A0A0', borderBottom: '1px solid #EBF7E8'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>

@@ -67,11 +67,11 @@ const BtnElementPrayer = styled.button`
 `;
 
 const PrayerContentStyle = styled.div`
-    width: 88.84;
+    width: 88.837%;
     background-color: #FFFFFF;
     margin-right : 24px;
     margin-left : 24px;
-    margin-bottom: 8px;
+    // margin-bottom: 8px;
     border-radius: 16px;
     border: 1px solid #7BAB6F;
     min-height: 244px;
@@ -94,7 +94,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [shareToggle, setshareToggle] = useState(false);
     // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMwVDA3OjQ4OjQwLjg2NzQxMiJ9.UTU8Ok4ZOWzjFhvau7f726A6Gw6_XGrdY4UDlYxcCRo";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -213,7 +213,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             console.log(Sharelist);
         }
     }
-
     const onCheck = () =>{
         setIsShare(!isShare);
         setShareList([]);
@@ -255,9 +254,9 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
     return(
         <div> 
-            {isModify && <BackgroundBright style={{maxHeight:'80vh'}} onClick={onModify}></BackgroundBright>}
-            {isDeleted && <BackgroundBright style={{minHeight:'100vh'}}onClick={onDeleted}></BackgroundBright>}
-            {isChecked && <BackgroundBright style={{maxHeight:'500px'}} onClick={changeCheck}></BackgroundBright>}
+            {isModify && <BackgroundBright onClick={onModify}></BackgroundBright>}
+            {isDeleted && <BackgroundBright onClick={onDeleted}></BackgroundBright>}
+            {isChecked && <BackgroundBright onClick={changeCheck}></BackgroundBright>}
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>
@@ -289,7 +288,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                             isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
                         ))}
                 </PrayerContentStyle>
-                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}></Share>}
+                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
+               ></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
                 {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify}/>}
