@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
 import { getFetcher, refresh } from "./api";
-import { useMutation } from "react-query";
+import { useQuery } from "react-query";
 
 const getHis = async (accessToken, params) => {
   return await getFetcher('/history', {
@@ -11,7 +11,7 @@ const getHis = async (accessToken, params) => {
 
 export const useFetchHistory = (params) => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  const { mutate: fetchHistoryMutate } = useMutation(() => {
+  return useQuery(["History", accessToken, params], () => {
     return getHis(accessToken, params)}, {
       onError: (e) => {
         if (e.status === 403) {
@@ -25,10 +25,9 @@ export const useFetchHistory = (params) => {
         console.log(res);
       },
       retry: (cnt) => {
-        return cnt < 1;
+        return cnt < 3;
       },
       retryDelay: 300,
+      refetchOnWindowFocus: false,
     });
-
-  return { fetchHistoryMutate };
 }
