@@ -10,13 +10,12 @@ import styled from "styled-components";
 // `
 // 여기서 height에 10000px로 설정해둔것이 문제임.
 const BackgroundBright = styled.div`
-    position: absolute;
-    top: 147px;
-    left: 0;
-    right: 0;
+    position: fixed;
+    top:0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 색상 */
-    display: flex;
+    right: 0;
+    left: 0;
     width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 색상 */
 `
 export default BackgroundBright;
