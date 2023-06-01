@@ -49,7 +49,9 @@ function MainApp() {
   function PrivateRoute() {
     const refreshToken = localStorage.getItem('refreshToken');
     const [accessToken, setAccessToken] = useRecoilState(tokenState);
-
+    console.log("refresh : ", refreshToken);
+    console.log("access : ", accessToken);
+    
     if (!refreshToken){
       return <Navigate replace to ='/' />
     }
