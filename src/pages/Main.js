@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PrayerList from '../components/Main/PrayerList';
 import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzYWExZjhkLWI1NDEtNGZiNS1iODE3LTg2MDczYzQwODJiZCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDExOjU4OjU0LjkxNjkzNCJ9.0tMdoq74Db065CbRK5QOWBO5pq6SihdMuwj4PMmOOdE";
 const name = "김정묵";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
 const Main = () => {
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
@@ -20,7 +20,7 @@ const Main = () => {
       var date = new Date();
       var day = addDay(date, Dday);
       var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
-      sendPrayList('김정묵', text, deadline);
+      sendPrayList(name, text, deadline);
       const getPrayList = async () => {
         const api = "/pray?sort_by=date";
         try {
@@ -36,7 +36,7 @@ const Main = () => {
                   name: name,
                   dday: result,
                   text: res.data.uncompleted[i].title,
-                  checked : true,
+                  checked : false,
                   count : res.data.uncompleted[i].pray_cnt
                 };
             }
@@ -47,7 +47,7 @@ const Main = () => {
                 name: '김정묵',
                 dday: result,
                 text: res.data.completed[i].title,
-                checked : true,
+                checked : false,
                 count : res.data.completed[i].pray_cnt
               };
             }
@@ -88,7 +88,7 @@ const Main = () => {
               name: name,
               dday: result,
               text: res.data.uncompleted[i].title,
-              checked : true,
+              checked : false,
               count : res.data.uncompleted[i].pray_cnt
             };
         }
@@ -99,7 +99,7 @@ const Main = () => {
             name: '김정묵',
             dday: result,
             text: res.data.completed[i].title,
-            checked : true,
+            checked : false,
             count : res.data.completed[i].pray_cnt
           };
         }
@@ -130,9 +130,6 @@ const contentClick  = (e) =>{
 
   const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
     changeCheck();
-    // var date = new Date();
-    // var day = addDay(date, 1);
-    // var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
     const api = "/pray/finish/"+ id;
     try{
       const res = await serverapi.put(api,id,{ headers: {
@@ -147,7 +144,7 @@ const contentClick  = (e) =>{
               name: '김정묵',
               dday: result,
               text: res.data.uncompleted[i].title,
-              checked : true,
+              checked : false,
               count : res.data.uncompleted[i].pray_cnt
             };
           }
@@ -158,7 +155,7 @@ const contentClick  = (e) =>{
               name: '김정묵',
               dday: result,
               text: res.data.completed[i].title,
-              checked : true,
+              checked : false,
               count : res.data.completed[i].pray_cnt
             };
           }
@@ -213,6 +210,7 @@ const valueChange = async(id, value) =>{ // 수정하기 관련 코드
       'Authorization': `${accessToken}`}});
     if (res.status === 200) {
       console.log("Value_Change");
+      console.log(res.data);
     }
     } catch (e){
     alert("error Value_change");
@@ -220,6 +218,8 @@ const valueChange = async(id, value) =>{ // 수정하기 관련 코드
   }
   setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
     (PrayerContent.id === id ? {...PrayerContent, text: value} : PrayerContent)));
+  setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(prayerMoreContent => 
+    (prayerMoreContent.id === id ? {...prayerMoreContent, text: value} : prayerMoreContent)));
   setIsModify(!isModify);
 }
 
@@ -266,7 +266,7 @@ useEffect(()=>{
               name: '김정묵',
               dday: result,
               text: res.data.uncompleted[i].title,
-              checked : true,
+              checked : false,
               count : res.data.uncompleted[i].pray_cnt
             };
           }
@@ -277,7 +277,7 @@ useEffect(()=>{
             name: '김정묵',
             dday: result,
             text: res.data.completed[i].title,
-            checked : true,
+            checked : false,
             count : res.data.completed[i].pray_cnt
           };
         }     

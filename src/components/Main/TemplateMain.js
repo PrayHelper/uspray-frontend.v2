@@ -5,16 +5,18 @@ import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 const BackGround = styled.div`
-    min-width: 430px;
     width: 100%;
-    background-color: 'white';
 `;
 
 const BackgroundInput = styled.div`
     display : flex;
-    min-width: 430px;
+    position : relative;
+    justify-content: space-evenly;
     width: 100%;
-    height: 12.88vh;
+    // margin-bottom: 15px;
+    background: white;
+    height: 120px;
+    z-index: 1000;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -61,6 +63,7 @@ const TemplateMain = ({ children, onInsert}) =>{
     const submit = () =>{
         setVisible(!visible);
         setValue("");
+        console.log(day);
         onInsert(day, value);
         setDay(7);
     }
@@ -70,21 +73,21 @@ const TemplateMain = ({ children, onInsert}) =>{
         setValue("");
     }
     return(
-        <div>
+        <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
-                <div style={{width: '10.47%', height:'2.49vh', marginLeft:'35px',marginTop:'70px', padding:'0px', minHeight:'23px', minWidth:'45px'}}>
-                    <div style={{width: '100%', height: '2.49vh', fontSize:'15px',
+                <div style={{width: '45px', height:'23px',marginTop:'70px', padding:'0px'}}>
+                    <div style={{width: '100%', height: '23px', fontSize:'14px',
                     fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62", borderBottom:"1px solid #EBF7E8"}}>{text}
                     </div>
                 </div>
 
-                <div style={{width: '66.05%'}}>
-                <input style={{marginLeft:'31px',marginTop:'70px',marginRight:'12px',width:"90.14%",height:"2.49vh" , padding:'0px',borderRadius:'4px', border:'none',
+                <div style={{width: '264px'}}>
+                <input style={{marginTop:'65px',width:"90.14%",height:"27px" , marginLeft:'5px',padding:'0px',borderRadius:'4px', border:'none',fontSize:'16px',
                  color:'#A0A0A0', borderBottom: '1px solid #EBF7E8'}}
                 placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>
                 </div>
-                <div style={{width:'7.21%', height:'3.36vh', marginTop:'61px', marginLeft:'12px', minHeight:'31px', minWidth:'31px'}}>
+                <div style={{width:'31px', height:'31px', marginTop:'65px', marginLeft:'12px', minHeight:'31px', minWidth:'31px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>

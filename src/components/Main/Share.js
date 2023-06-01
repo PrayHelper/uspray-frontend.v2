@@ -4,17 +4,29 @@ import Share_Logo from "./ShareLogo";
 import share_img from "../../images/share_img.svg";
 import ShareMode from "./ShareMode";
 
-const ShareImg = styled(Share_Logo)``;
-
+const ShareImg = styled(Share_Logo)`
+    // margin-left: 350px;
+    margin-right: 24px;
+`;
+const Container = styled.div`
+    display : flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    height: 128px;
+    position: relative;
+    margin-top: 38px;
+    // margin-top : 98px;
+    margin-bottom: 40px;
+    z-index: 999;
+`
 function Share({onShare, onMove , shareToggle, onCheck, isShare}){
     return(
-        <div>
-            {!shareToggle && <div className="share_img" style={{height:"56px", width:"56px", marginLeft:"350px",
-            marginTop:"38px",marginBottom:"72px", borderRadius:"50%", border:"none", backgroundColor:"white"}}
-            onClick={() => onMove()}><ShareImg src={share_img}/></div>}
+        <Container>
+            {!shareToggle && <ShareImg  onClick={onMove} src={share_img}/>}
             {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}/>}
-        </div>
+        </Container>
     )
 }
 
 export default Share;
+
