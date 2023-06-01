@@ -4,6 +4,8 @@ import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
+import { tokenState } from "../recoil/accessToken";
+import { useSetRecoilState } from 'recoil';
 
 const Container = styled.div`
   width: 100%;
@@ -103,6 +105,7 @@ const ModalButton2 = styled.button`
 const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
+  const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
   const openModalHandler = () => {
@@ -118,7 +121,9 @@ const Settings = () => {
   };
 
   const logout = () => {
-    console.log('로그아웃 기능 구현해라~');
+    localStorage.setItem('refreshToken', '');
+    setTokenState('');
+    navigate('/');
   };
 
   const moveToKakao = () => {
