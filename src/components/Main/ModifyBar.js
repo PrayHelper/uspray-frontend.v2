@@ -8,7 +8,7 @@ const ModifyStyle = styled.div`
     bottom: 0;
     right: 0;
     left: 0;
-    width: 430px;
+    width: 100%;
     height : 280px;
     background-color: #FFFFFF;
     border: solid #FFFFFF;
@@ -19,9 +19,8 @@ const ModifyBtn = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 20px 144px;
-    gap: 10px;
-    height: 30px;
+    width: 100%;
+    height: 63px;
     background: #7BAB6E;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -45,10 +44,10 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
     }
     return(
         <ModifyStyle>
-        <div style={{width: '430px', height:'48px', borderBottom:"solid #EEEEEE"}}>
-            <X_Image src={X_image} style={{width:'24px', height:'24px', marginLeft:'390px', marginTop:'12px'}} onClick={onModify}></X_Image>
+        <div style={{display: "flex",flexDirection: "row-reverse" ,width: '100%', height:'48px', borderBottom:"solid #EEEEEE"}}>
+            <X_Image src={X_image} style={{width:'24px', height:'24px', marginTop:'12px', marginRight:"22px"}} onClick={onModify}></X_Image>
         </div>
-        <div style={{width: '430px', height:'100px', display: 'flex'}}>
+        <div style={{width: '100%', height:'100px', display: 'flex'}}>
             <div style={{width:'45px', height: '23px', marginTop:'15px', marginLeft:'27px', marginRight:'31px', borderBottom: 'solid #EEEEEE',
         fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px', lineHeight:'23px', color:'#75BD62'}}>김정묵</div>
             <textarea style={{display:"flex",width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',

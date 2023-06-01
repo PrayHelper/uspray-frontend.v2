@@ -35,6 +35,7 @@ const TextContent = styled.div`
     width: 263px;
     padding : 0px;
     margin-left : 8px;
+    margin-right: 8px; 
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;

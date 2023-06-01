@@ -31,7 +31,7 @@ const TodayPrayer = styled.div`
     font-weight: 700;
     font-size: 12px;
     line-height: 17px;
-    margin-left : 32px;
+    margin-left : 34px;
     margin-top : 44px;
     margin-bottom: 13px;
     color: #7BAB6E;
