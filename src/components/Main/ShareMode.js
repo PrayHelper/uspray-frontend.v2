@@ -5,7 +5,6 @@ import share_move from "../../images/ic_share_move.svg"
 import MoveLogo from "./MoveLogo";
 
 const BoxContainer = styled.div`
-    margin-left : 24px;
     margin-top: 20px;
     width: 184px;
     height: 63px;
@@ -20,6 +19,7 @@ const BoxContainer = styled.div`
 
 const Container = styled.div`
     display: flex;
+    justify-content: space-between;
     width : 100%;
     position: fixed; 
     top:1;
@@ -30,8 +30,10 @@ const Container = styled.div`
     border: none;
     background-color : white;
     border-radius: 24px 24px 0px 0px;
-    // margin-top : 100px;
     z-index : 1001;
+    padding-right: 24px;
+    padding-left: 24px;
+    box-sizing : border-box;
 `
 const ShareClickLogo = styled(MoveLogo)``;
 

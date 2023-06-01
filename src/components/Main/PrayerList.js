@@ -31,7 +31,7 @@ const TodayPrayer = styled.div`
     font-weight: 700;
     font-size: 12px;
     line-height: 17px;
-    margin-left : 32px;
+    margin-left : 34px;
     margin-top : 44px;
     margin-bottom: 13px;
     color: #7BAB6E;
@@ -48,6 +48,7 @@ const BtnSet = styled.div`
     margin-right: 32px;
     background-color:#7BAB6E; 
     border : none;
+    border-radius : 4px;
 `;
 
 const BtnElementDay = styled.button`
@@ -56,6 +57,7 @@ const BtnElementDay = styled.button`
     font-size: 10px;
     padding: 0px;
     border: none;
+    border-radius: 4px;
 `;
 
 const BtnElementPrayer = styled.button`
@@ -79,7 +81,7 @@ const PrayerContentStyle = styled.div`
 
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
-    modifyBtnClick, deleteBtnClick, isChecked, clickId, contentClick, isModify, onModify, isDeleted, onDeleted,
+    modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
     valueChange,changeCheck, ddayCaculate}){
     const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
     const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
@@ -94,7 +96,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [shareToggle, setshareToggle] = useState(false);
     // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -282,7 +284,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                         <BtnElementPrayer onClick={dayFucBottomPrayer} style={{backgroundColor: colorSecondBottom, color: colorFirstBottom}}>기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
-                <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
+                <PrayerContentStyle style={{background:'#7BAB6E'}}> 
                         {(prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
                             <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
                             isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
@@ -292,7 +294,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                ></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
-                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify}/>}
+                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickText = {clickText}/>}
                 {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>
         </div>

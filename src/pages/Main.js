@@ -3,7 +3,7 @@ import PrayerList from '../components/Main/PrayerList';
 import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
 const name = "김정묵";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
 const Main = () => {
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
@@ -12,6 +12,7 @@ const Main = () => {
   const [prayerContent, setPrayerContent] = useState([]);
   const [prayerMoreContent , setPrayerMoreContent] = useState([
   ])
+  const [clickText, setClickText] = useState("");
   const onInsert = async (Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
@@ -172,6 +173,10 @@ const modifyBtnClick = (id) =>{ // 수정하기 관련 코드
     console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
+    var returnValue = prayerContent.find(function(data){ return data.id === id});
+    var returnValue_ = prayerMoreContent.find(function(data){return data.id === id});
+    var text = returnValue ? returnValue : returnValue_;
+    setClickText(text.text);
 }
 const onModify = () =>{
     setIsModify(!isModify);
@@ -205,17 +210,22 @@ const valueChange = async(id, value) =>{ // 수정하기 관련 코드
     "target" : name,
     "title" : value,
   }
-  try {
-    const res= await serverapi.put(api,data,{ headers: {
-      'Authorization': `${accessToken}`}});
-    if (res.status === 200) {
-      console.log("Value_Change");
-      console.log(res.data);
-    }
-    } catch (e){
-    alert("error Value_change");
-    console.log(e);
+  if(value === ""){
+    return alert("이대로")
   }
+  else{
+    try {
+      const res= await serverapi.put(api,data,{ headers: {
+        'Authorization': `${accessToken}`}});
+      if (res.status === 200) {
+        console.log("Value_Change");
+        console.log(res.data);
+      }
+      } catch (e){
+      alert("error Value_change");
+      console.log(e);
+    }
+  } 
   setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
     (PrayerContent.id === id ? {...PrayerContent, text: value} : PrayerContent)));
   setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(prayerMoreContent => 
@@ -297,7 +307,7 @@ useEffect(()=>{
     <TemplateMain onInsert = {onInsert}>
       <PrayerList prayerContent={prayerContent} setPrayerContent = {setPrayerContent} prayerMoreContent = {prayerMoreContent} setPrayerMoreContent = {setPrayerMoreContent} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
-      contentClick = {contentClick} clickId = {clickId} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
+      contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
       isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} ddayCaculate = {ddayCaculate}/>
     </TemplateMain>
   );
