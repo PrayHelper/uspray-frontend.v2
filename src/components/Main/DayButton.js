@@ -37,10 +37,23 @@ const Day_Button = ({dayInfo}) =>{
     const [fontHundred ,setFontHundred] = useState('#75BD62');
     const [Toggle, setToggle] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
-
+    const [dayToggle, setDayToggle] = useState(false);
+    const [dayText, setDayText] = useState("");
     const dateClick = (date) =>{
         setStartDate(date);
         colorChange(date);
+        setToggle(!Toggle);
+        setColorThree('white');
+        setColorSeven('white');
+        setColorThirty('white');
+        setColorHundred('white');
+        setFontSeven('#75BD62');
+        var year = getYear(date);
+        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
+        let res_data = year + "/" +  month + "/" + date;
+        setDayText(res_data);
+        setDayToggle(!dayToggle);
       }
     const colorChange = (e) =>{
         if(e.target == undefined){
@@ -111,7 +124,8 @@ const Day_Button = ({dayInfo}) =>{
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
-            <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender> 
+            <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender>
+            {dayToggle ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
         </DayBtnSet> : <DayBtnSet>
         <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> </DayBtnSet> 
 
