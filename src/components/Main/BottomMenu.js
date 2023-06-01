@@ -8,6 +8,7 @@ import modify_img from '../../images/modify_img.svg';
 const Container = styled.div`
     display: flex;
     position: fixed;
+    justify-content: space-around;
     top: 1;
     bottom: 0;
     right: 0;
@@ -20,12 +21,12 @@ const Container = styled.div`
 `
 
 const BoxContainer = styled.div`
-    width: 82.14%;
-    height: 9vh;
+    width: 115px;
+    height: 75px;
     border : 1px;
     border-radius: 16px;
     background-color: #F8F8F8;
-    margin-left : 18px;
+    // margin-left : 18px;
     margin-bottom: 4px;
     padding: 0px;
 `;
@@ -34,17 +35,16 @@ const ImgContainer = styled(Logo)`
 `;
 
 const FrameContainer = styled.div`
-    width: 32.56%;
-    height : 9vh;
     margin-top: 41px;
+    display: flex;
 ` 
 
 const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId }) =>{
     return(
         <Container>
-            <FrameContainer onClick = {() => completeBtnClick(clickId)}><BoxContainer style={{color: '#27CD2F', marginLeft:'24px'}}><ImgContainer src ={check_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{marginTop: '10px', marginLeft: '30px'}}> 완료하기</div></BoxContainer></FrameContainer>
-            <FrameContainer onClick = {() => modifyBtnClick(clickId)}><BoxContainer style={{color: '#408CFF'}}><ImgContainer src={modify_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{marginTop: '10px' , marginLeft: '30px'}}>수정하기</div></BoxContainer></FrameContainer>
-            <FrameContainer onClick = {() => bottom_delete_click()}><BoxContainer style={{color: '#FF4F4F'}}><ImgContainer src={delete_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{marginTop: '10px', marginLeft: '30px'}}>삭제하기</div></BoxContainer></FrameContainer>
+            <FrameContainer onClick = {() => completeBtnClick(clickId)}><BoxContainer style={{color: '#27CD2F'}}><ImgContainer src ={check_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{display:"flex", marginTop: '10px', justifyContent:"center", textAlign:"center"}}> 완료하기</div></BoxContainer></FrameContainer>
+            <FrameContainer onClick = {() => modifyBtnClick(clickId)}><BoxContainer style={{color: '#408CFF'}}><ImgContainer src={modify_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{display: "flex",marginTop: '10px' , justifyContent:"center", textAlign:"center" }}>수정하기</div></BoxContainer></FrameContainer>
+            <FrameContainer onClick = {() => bottom_delete_click()}><BoxContainer style={{color: '#FF4F4F'}}><ImgContainer src={delete_img} style={{marginLeft: '46px', marginTop:'12px'}}/><div style={{display: "flex", marginTop: '10px', justifyContent:"center", textAlign:"center"}}>삭제하기</div></BoxContainer></FrameContainer>
         </Container>
     )
 }

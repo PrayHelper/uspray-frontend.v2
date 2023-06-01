@@ -17,11 +17,11 @@ const Container = styled.div`
     margin-top: 38px;
     // margin-top : 98px;
     margin-bottom: 40px;
-    z-index: 999;
+    z-index: 6;
 `
 function Share({onShare, onMove , shareToggle, onCheck, isShare}){
     return(
-        <Container>
+        <Container style={{zIndex : shareToggle ? "999" : "4"}}>
             {!shareToggle && <ShareImg  onClick={onMove} src={share_img}/>}
             {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}/>}
         </Container>

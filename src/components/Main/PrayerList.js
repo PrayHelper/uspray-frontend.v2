@@ -94,7 +94,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [shareToggle, setshareToggle] = useState(false);
     // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -282,7 +282,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                         <BtnElementPrayer onClick={dayFucBottomPrayer} style={{backgroundColor: colorSecondBottom, color: colorFirstBottom}}>기도순</BtnElementPrayer>
                     </BtnSet>
                 </TopContent>
-                <PrayerContentStyle style={{marginTop:'0px', background:'#7BAB6E'}}> 
+                <PrayerContentStyle style={{background:'#7BAB6E'}}> 
                         {(prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
                             <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
                             isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>

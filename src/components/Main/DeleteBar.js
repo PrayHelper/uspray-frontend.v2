@@ -9,7 +9,7 @@ const Delete_btn = styled.div`
     height: 251px;
     left: 24px;
     top: 339px;
-
+    z-index: 7;
     background: #FFFFFF;
     border-radius: 16px;
 `

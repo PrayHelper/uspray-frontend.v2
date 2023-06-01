@@ -3,7 +3,7 @@ import PrayerList from '../components/Main/PrayerList';
 import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
 const name = "김정묵";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
 const Main = () => {
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);

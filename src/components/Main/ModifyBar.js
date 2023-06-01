@@ -50,9 +50,9 @@ const ModifyBar = ({id, valueChange, onModify}) =>{
         <div style={{width: '430px', height:'100px', display: 'flex'}}>
             <div style={{width:'45px', height: '23px', marginTop:'15px', marginLeft:'27px', marginRight:'31px', borderBottom: 'solid #EEEEEE',
         fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px', lineHeight:'23px', color:'#75BD62'}}>김정묵</div>
-            <input style={{width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE',wordWrap: 'break-word', outline: 'none',
+            <textarea style={{display:"flex",width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
-            onChange={onChangeValue}></input>
+            onChange={onChangeValue}></textarea>
         </div>
         <ModifyBtn onClick={() => valueChange(id, value)}>수정완료하기</ModifyBtn>
         </ModifyStyle>
