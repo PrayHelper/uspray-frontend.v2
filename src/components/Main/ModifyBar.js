@@ -37,8 +37,9 @@ const X_Image = styled(Logo)`
     height: 11.9px;
 `;
 
-const ModifyBar = ({id, valueChange, onModify}) =>{
-    const [value , setValue] = useState("");
+const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
+    const [value , setValue] = useState(clickText);
+    console.log()
     const onChangeValue = (e) =>{
         setValue(e.target.value);
     }

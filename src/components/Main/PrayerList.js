@@ -79,7 +79,7 @@ const PrayerContentStyle = styled.div`
 
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
-    modifyBtnClick, deleteBtnClick, isChecked, clickId, contentClick, isModify, onModify, isDeleted, onDeleted,
+    modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
     valueChange,changeCheck, ddayCaculate}){
     const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
     const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
@@ -292,7 +292,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                ></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
-                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify}/>}
+                {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickText = {clickText}/>}
                 {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>
         </div>
