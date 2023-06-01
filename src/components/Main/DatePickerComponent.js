@@ -1,11 +1,25 @@
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from "date-fns/esm/locale";
+import styled from "styled-components";
 
+const DateStyle = styled.div`
+  display: flex;
+  height: 42px;
+  padding-left : 30px;
+`
+
+const MydatePicker = styled(DatePicker)`
+  font-weight:bold;
+  // background-color:transparent;
+  color: #B7CEB0;
+  border: 1px solid ;
+`
 const DatePickerComponent = ({startDate, dateClick}) => {
     return(
-      <div style={{height:'42px', marginLeft : '50px'}}>
-			 <DatePicker
+      <DateStyle>
+			 <MydatePicker
+        showPopperArrow = {false}
         locale={ko}    // 언어설정 기본값은 영어
         dateFormat="yyyy-MM-dd"    // 날짜 형식 설정
         className="input-datepicker"    // 클래스 명 지정 css주기 위해
@@ -15,8 +29,12 @@ const DatePickerComponent = ({startDate, dateClick}) => {
         selected={startDate}    // value
         onChange={(date) => dateClick(date)}    // 날짜를 선택하였을 때 실행될 함수
       />
-		</div>
+		</DateStyle>
     );
 };
+
+// style.input-datepicker{
+
+// }
 
   export default DatePickerComponent;

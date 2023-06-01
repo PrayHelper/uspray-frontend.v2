@@ -11,15 +11,16 @@ const BackGround = styled.div`
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100%;
-    padding-left: 10px;
-    // margin-bottom: 15px;
+    padding-left: 35px;
+    padding-right: 24px;
     background: white;
     height: 120px;
     z-index: 1000;  
     border-bottom: 1px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -92,7 +93,7 @@ const TemplateMain = ({ children, onInsert}) =>{
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
                 <div style={{width: '45px', height:'23px',marginTop:'70px', padding:'0px'}}>
-                    <div style={{width: '100%', height: '23px', fontSize:'14px',
+                    <div style={{width: '100%', height: '23px', fontSize:'14px',marginRight: "31px",
                     fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62", borderBottom:"1px solid #EBF7E8"}}>{text}
                     </div>
                 </div>
@@ -101,7 +102,7 @@ const TemplateMain = ({ children, onInsert}) =>{
                 <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                 </div>
-                <div style={{width:'31px', height:'31px', marginTop:'65px',marginRight:"10px",minHeight:'31px', minWidth:'31px'}}>
+                <div style={{width:'31px', height:'31px', marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>

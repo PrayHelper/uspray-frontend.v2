@@ -12,7 +12,7 @@ const DayBtnSet = styled.div`
     // margin-left: 20px;
     width: 100%;
     z-index: 1000;
-    border: 1px solid white;
+    border: 0px solid white;
 `
 const DayBtn = styled.button`
     width : 48px;
@@ -112,8 +112,8 @@ const Day_Button = ({dayInfo}) =>{
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender> 
-        </DayBtnSet> : 
-        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/>
+        </DayBtnSet> : <DayBtnSet>
+        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> </DayBtnSet> 
 
 
     )
