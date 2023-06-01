@@ -19,6 +19,7 @@ const BackgroundInput = styled.div`
     height: 120px;
     z-index: 1000;  
     border-bottom: 1px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
