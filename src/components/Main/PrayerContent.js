@@ -21,12 +21,14 @@ const MainContent = styled.div`
 `
 
 const NameContent = styled.div`
-    width: 34px;
+    width: 42px;
     height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     // font-size: 12px;
+    margin-right: 8px;
+    border-right: 1px solid #CECECE;
     font-size: 10px;
     line-height: 17px;
 `;
@@ -34,7 +36,6 @@ const NameContent = styled.div`
 const TextContent = styled.div`
     width: 263px;
     padding : 0px;
-    margin-left : 8px;
     margin-right: 8px; 
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -44,17 +45,16 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
-    width : 35px;
-    font-size : 8px;
+    width : 45px;
+    font-size : 10px;
     heigth : 17px;
     text-align : center;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    // font-size: 8px;
     line-height: 17px;
     // margin-left: 4px;
-    // margin-right: 4px;
+    margin-right: 4px;
     margin-top : 4px;
 `;
 const ClickImg = styled(Logo)`
@@ -82,7 +82,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
-            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize:'8px'}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
+            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "10px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
             {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )

@@ -48,6 +48,7 @@ const BtnSet = styled.div`
     margin-right: 32px;
     background-color:#7BAB6E; 
     border : none;
+    border-radius : 4px;
 `;
 
 const BtnElementDay = styled.button`
@@ -56,6 +57,7 @@ const BtnElementDay = styled.button`
     font-size: 10px;
     padding: 0px;
     border: none;
+    border-radius: 4px;
 `;
 
 const BtnElementPrayer = styled.button`

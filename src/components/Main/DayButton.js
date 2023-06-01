@@ -12,7 +12,7 @@ const DayBtnSet = styled.div`
     // margin-left: 20px;
     width: 100%;
     z-index: 1000;
-    border: none;
+    border: 1px solid white;
 `
 const DayBtn = styled.button`
     width : 48px;
