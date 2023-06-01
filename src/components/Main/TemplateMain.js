@@ -14,9 +14,11 @@ const BackgroundInput = styled.div`
     justify-content: space-evenly;
     width: 100%;
     // margin-bottom: 15px;
+    padding-left : 20px;
     background: white;
     height: 120px;
     z-index: 1000;
+    border: none;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -37,8 +39,21 @@ const SendImg = styled(Logo)`
     align-items: center;
 `;
 
-
-
+const StyleInput = styled.input`
+    margin-top:65px;
+    width: 90.14%;
+    height:27px;
+    margin-left: 5px;
+    border-radius:4px;
+    border : none;
+    font-size: 16px;                 
+    color: #A0A0A0; 
+    outline: none;
+    border-bottom: 1px solid #EBF7E8;
+    ::placeholder {
+        color: #B7CEB0; // 원하는 색상으로 변경
+    }
+`
 const TemplateMain = ({ children, onInsert}) =>{
     const text = "김정묵"
     const [visible, setVisible] = useState(false);
@@ -82,12 +97,10 @@ const TemplateMain = ({ children, onInsert}) =>{
                 </div>
 
                 <div style={{width: '264px'}}>
-                <input style={{marginTop:'65px',width:"90.14%",height:"27px" , marginLeft:'5px',padding:'0px',borderRadius:'4px', border:'none',fontSize:'16px',
-                 color:'#A0A0A0', borderBottom: '1px solid #EBF7E8'}}
-                placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>
+                <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
+                onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                 </div>
-                <div style={{width:'31px', height:'31px', marginTop:'65px', marginLeft:'12px', minHeight:'31px', minWidth:'31px'}}>
+                <div style={{width:'31px', height:'31px', marginTop:'65px',marginRight:"20px",minHeight:'31px', minWidth:'31px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
@@ -99,3 +112,4 @@ const TemplateMain = ({ children, onInsert}) =>{
 }
 
 export default TemplateMain;
+
