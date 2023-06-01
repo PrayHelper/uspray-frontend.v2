@@ -27,7 +27,6 @@ const History = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [flag, setFlag] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -118,7 +117,6 @@ const History = () => {
         setPage(1);
         setHasMore(true);
         setData([]);
-        setFlag((flag)=>!flag);
         updateHistoryData();
       },
     });
@@ -141,12 +139,14 @@ const History = () => {
   useEffect(() =>{
     if (!historyData)
       return ;
+    console.log("useEffect 실행은 되니?");
+    console.log(historyData);
     setLoading(historyLoading);
     setData((prev) => [...prev, ...historyData.data.res]);
     if (historyData.data.res.length === 0) {
       setHasMore(false);
     }
-  }, [page, isOnPray, historyData, flag]);
+  }, [page, isOnPray, historyData]);
 
 
   const onClickHistory = async (e) => {
