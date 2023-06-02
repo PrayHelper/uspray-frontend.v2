@@ -8,7 +8,7 @@ import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
 import serverapi from "../../api/serverapi";
 import DeleteBar from "./DeleteBar";
-import { setDate } from "date-fns/esm/fp";
+import AnimationModal from "./AnimationModal";
 
 const Background = styled.div`
   width: 100%;
@@ -83,7 +83,7 @@ const PrayerContentStyle = styled.div`
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
     modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
-    valueChange,changeCheck, ddayCaculate}){
+    valueChange,changeCheck, ddayCaculate, modalToggle, modalText}){
     const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
     const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
     const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
@@ -291,6 +291,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </PrayerContentStyle>
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
                ></Share>}
+                {modalToggle && <AnimationModal modalText = {modalText} />}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck}></BottomMenu>}
                 {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickText = {clickText}/>}

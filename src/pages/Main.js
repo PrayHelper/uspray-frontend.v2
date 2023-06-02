@@ -13,6 +13,8 @@ const Main = () => {
   const [prayerMoreContent , setPrayerMoreContent] = useState([
   ])
   const [clickText, setClickText] = useState("");
+  const [modalToggle,setmodalToggle] = useState(false);
+  const [modalText, setModalText] = useState("");
   const onInsert = async (Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
@@ -128,7 +130,16 @@ const contentClick  = (e) =>{
     }
     setClickId(e);
   }
-
+  const FeedbackHandler = (text) => { 
+    // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며 
+    // 일정시간후 모달창을 안보이는 상태로 변경
+    setmodalToggle(true);
+    setModalText(text);
+    setTimeout(() => {
+      setmodalToggle(false);
+      setModalText("");
+    }, 1000);
+  };
   const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
     changeCheck();
     const api = "/pray/finish/"+ id;
@@ -162,6 +173,7 @@ const contentClick  = (e) =>{
           }
         setPrayerContent(prayer_content);
         setPrayerMoreContent(prayer_more_content);
+        FeedbackHandler("기도제목을 완료했어요.");
       }
     }catch(e){
       alert("error complete");
@@ -200,6 +212,7 @@ const deleteBtnClick = async(id) =>{ // 삭제하기 관련 코드
       console.log(e);
     }
     setIsDeleted(!isDeleted);
+    FeedbackHandler("기도제목이 삭제되었어요.");
 }
 const onDeleted = () =>{
   setIsDeleted(!isDeleted);
@@ -231,6 +244,7 @@ const valueChange = async(id, value) =>{ // 수정하기 관련 코드
   setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(prayerMoreContent => 
     (prayerMoreContent.id === id ? {...prayerMoreContent, text: value} : prayerMoreContent)));
   setIsModify(!isModify);
+  FeedbackHandler("기도제목이 수정되었어요.");
 }
 
 const ddayCaculate = (res_data) =>{
@@ -308,7 +322,8 @@ useEffect(()=>{
       <PrayerList prayerContent={prayerContent} setPrayerContent = {setPrayerContent} prayerMoreContent = {prayerMoreContent} setPrayerMoreContent = {setPrayerMoreContent} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
       contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
-      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} ddayCaculate = {ddayCaculate}/>
+      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} ddayCaculate = {ddayCaculate} 
+      modalToggle = {modalToggle} modalText = {modalText}/>
     </TemplateMain>
   );
 };
