@@ -3,7 +3,7 @@ import PrayerList from '../components/Main/PrayerList';
 import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
 const name = "김정묵";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
+const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAzVDAzOjMzOjMxLjkyODIzMCJ9.XNHvz9HwViSBkla2Wq1OGXUtzXfZINdGE-wAHxL_7eY";
 const Main = () => {
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
@@ -28,11 +28,11 @@ const Main = () => {
           const res= await serverapi.get(api, { headers: {
             'Authorization': `${accessToken}`}});
           if (res.status === 200) {
-            var prayer_content_ = [];
-            var prayer_more_content_ = [];
+            var prayer_content = [];
+            var prayer_more_content = [];
             for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
               let result = ddayCaculate(res.data.uncompleted[i].deadline);
-                prayer_content_[i] = {
+                prayer_content[i] = {
                   id : res.data.uncompleted[i].id,
                   name: name,
                   dday: result,
@@ -43,7 +43,7 @@ const Main = () => {
             }
             for(let i = 0;i<Object.keys(res.data.completed).length;i++){
               let result = ddayCaculate(res.data.completed[i].deadline);
-              prayer_more_content_[i] = {
+              prayer_more_content[i] = {
                 id : res.data.completed[i].id,
                 name: '김정묵',
                 dday: result,
@@ -52,8 +52,8 @@ const Main = () => {
                 count : res.data.completed[i].pray_cnt
               };
             }
-            setPrayerContent(prayer_content_);
-            setPrayerMoreContent(prayer_more_content_); 
+            setPrayerContent(prayer_content);
+            setPrayerMoreContent(prayer_more_content); 
             }
           } catch (e){
           alert("error prayList");
@@ -80,11 +80,11 @@ const Main = () => {
       const res= await serverapi.put(api,id, { headers: {
         'Authorization': `${accessToken}`}});
       if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
+        var prayer_content = [];
+        var prayer_more_content = [];
         for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
           let result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
+            prayer_content[i] = {
               id : res.data.uncompleted[i].id,
               name: name,
               dday: result,
@@ -95,7 +95,7 @@ const Main = () => {
         }
         for(let i = 0;i<Object.keys(res.data.completed).length;i++){
           let result = ddayCaculate(res.data.completed[i].deadline);
-          prayer_more_content_[i] = {
+          prayer_more_content[i] = {
             id : res.data.completed[i].id,
             name: '김정묵',
             dday: result,
@@ -104,8 +104,8 @@ const Main = () => {
             count : res.data.completed[i].pray_cnt
           };
         }
-        setPrayerContent(prayer_content_);
-        setPrayerMoreContent(prayer_more_content_);        
+        setPrayerContent(prayer_content);
+        setPrayerMoreContent(prayer_more_content);        
       }
       } catch (e){
       alert("error CountUpdate");
@@ -136,11 +136,11 @@ const contentClick  = (e) =>{
       const res = await serverapi.put(api,id,{ headers: {
         'Authorization': `${accessToken}`}} )
       if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
+        var prayer_content = [];
+        var prayer_more_content = [];
         for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
           let result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
+            prayer_content[i] = {
               id : res.data.uncompleted[i].id,
               name: '김정묵',
               dday: result,
@@ -151,7 +151,7 @@ const contentClick  = (e) =>{
           }
         for(let i = 0;i<Object.keys(res.data.completed).length;i++){
           let result = ddayCaculate(res.data.completed[i].deadline);
-            prayer_more_content_[i] = {
+            prayer_more_content[i] = {
               id : res.data.completed[i].id,
               name: '김정묵',
               dday: result,
@@ -160,8 +160,8 @@ const contentClick  = (e) =>{
               count : res.data.completed[i].pray_cnt
             };
           }
-        setPrayerContent(prayer_content_);
-        setPrayerMoreContent(prayer_more_content_);
+        setPrayerContent(prayer_content);
+        setPrayerMoreContent(prayer_more_content);
       }
     }catch(e){
       alert("error complete");
@@ -267,11 +267,11 @@ useEffect(()=>{
       const res= await serverapi.get(api, { headers: {
         'Authorization': `${accessToken}`}});
       if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
+        var prayer_content = [];
+        var prayer_more_content = [];
         for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
           var result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
+            prayer_content[i] = {
               id : res.data.uncompleted[i].id,
               name: '김정묵',
               dday: result,
@@ -282,7 +282,7 @@ useEffect(()=>{
           }
         for(let i = 0;i<Object.keys(res.data.completed).length;i++){
           let result = ddayCaculate(res.data.completed[i].deadline);
-          prayer_more_content_[i] = {
+          prayer_more_content[i] = {
             id : res.data.completed[i].id,
             name: '김정묵',
             dday: result,
@@ -291,8 +291,8 @@ useEffect(()=>{
             count : res.data.completed[i].pray_cnt
           };
         }     
-        setPrayerContent(prayer_content_); 
-        setPrayerMoreContent(prayer_more_content_);  
+        setPrayerContent(prayer_content); 
+        setPrayerMoreContent(prayer_more_content);  
       }    
       } catch (e){
       alert("error occured");

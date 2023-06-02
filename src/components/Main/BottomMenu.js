@@ -27,7 +27,7 @@ const Container = styled.div`
 const BoxContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 115px;
+    width: 30.67%;
     height: 75px;
     border : 1px;
     border-radius: 16px;

@@ -96,18 +96,18 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [shareToggle, setshareToggle] = useState(false);
     // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAzVDAzOjMzOjMxLjkyODIzMCJ9.XNHvz9HwViSBkla2Wq1OGXUtzXfZINdGE-wAHxL_7eY";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
           const res= await serverapi.get(api,{ headers: {
             'Authorization': `${accessToken}`}});
           if (res.status === 200) {
-            var prayer_content_ = [];
-            var prayer_more_content_ = [];
+            var prayer_content = [];
+            var prayer_more_content = [];
             for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
                 var result = ddayCaculate(res.data.uncompleted[i].deadline);
-                prayer_content_[i] = {
+                prayer_content[i] = {
                   id : res.data.uncompleted[i].id,
                   name: '김정묵',
                   dday: result,
@@ -118,7 +118,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
               }
             for(let i = 0;i<Object.keys(res.data.completed).length;i++){
             var result = ddayCaculate(res.data.completed[i].deadline);
-            prayer_more_content_[i] = {
+            prayer_more_content[i] = {
                 id : res.data.completed[i].id,
                 name: '김정묵',
                 dday: result,
@@ -128,10 +128,10 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             };
             }
             if(!complete){
-                setPrayerContent(prayer_content_);
+                setPrayerContent(prayer_content);
             }
             else{
-                setPrayerMoreContent(prayer_more_content_);
+                setPrayerMoreContent(prayer_more_content);
             }
             }
           } catch (e){
@@ -251,8 +251,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             var share_id = prayerContent.findIndex(e => e.id == id);
             prayerContent[share_id].check_box = check_box;
         }
-        // console.log(check_box);
-        
     }
     return(
         <div> 

@@ -6,7 +6,7 @@ import MoveLogo from "./MoveLogo";
 
 const BoxContainer = styled.div`
     margin-top: 20px;
-    width: 184px;
+    width: 47%;
     height: 63px;
     display: flex;
     justify-content : center;

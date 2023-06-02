@@ -21,22 +21,26 @@ const MainContent = styled.div`
 `
 
 const NameContent = styled.div`
-    width: 42px;
+    // width: 42px;
+    width: 13%;
     height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     // font-size: 12px;
-    margin-right: 8px;
+    // margin-right: 4px;
+    // padding-right: 4px;
     border-right: 1px solid #CECECE;
     font-size: 10px;
     line-height: 17px;
 `;
 
 const TextContent = styled.div`
-    width: 263px;
+    // width: 263px;
+    width: 73.913%;
     padding : 0px;
-    margin-right: 8px; 
+    margin-left: 6px;
+    margin-right: 4px; 
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
