@@ -17,9 +17,10 @@ const BoxContainer = styled.div`
     color: ##7BAB6E;
 `;
 
-const Container = styled.div`
+const MainContainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    // justify-content: space-between;
     width : 100%;
     position: fixed; 
     top:1;
@@ -34,6 +35,14 @@ const Container = styled.div`
     padding-right: 24px;
     padding-left: 24px;
     box-sizing : border-box;
+`
+
+const SubContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    width : 100%;
+    heigth: 75px;
+    border: none;
 `
 const ShareClickLogo = styled(MoveLogo)``;
 
@@ -50,10 +59,14 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare}) =>{
         }
     } 
     return(
-        cancelToggle && <Container>
-            <BoxContainer onClick={() => onCancle()}>취소하기<ShareClickLogo style={{height:'14px', width:'14px',marginLeft: '20px'}} src={share_cancel}/></BoxContainer>
-            <BoxContainer style={{background:'#7BAB6E', color:'#FFFFFF'}}onClick={() => onShare()}>공유하기<ShareClickLogo style={{marginLeft: '20px', backgroundColor:'#FFFFF'}}src={share_move}/></BoxContainer>
-        </Container>
+        cancelToggle && <MainContainer>
+            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",borderBottom: "1px solid #F0F0F0"}} 
+            onClick={() => onCancle()}></div></div>
+            <SubContainer>
+                <BoxContainer onClick={() => onCancle()}>취소하기<ShareClickLogo style={{height:'14px', width:'14px',marginLeft: '20px'}} src={share_cancel}/></BoxContainer>
+                <BoxContainer style={{background:'#7BAB6E', color:'#FFFFFF'}}onClick={() => onShare()}>공유하기<ShareClickLogo style={{marginLeft: '20px', backgroundColor:'#FFFFF'}}src={share_move}/></BoxContainer>
+            </SubContainer>
+        </MainContainer>
     )
 }
 

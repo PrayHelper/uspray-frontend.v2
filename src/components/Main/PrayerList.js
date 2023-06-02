@@ -8,6 +8,7 @@ import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
 import serverapi from "../../api/serverapi";
 import DeleteBar from "./DeleteBar";
+import { setDate } from "date-fns/esm/fp";
 
 const Background = styled.div`
   width: 100%;
@@ -291,7 +292,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
                ></Share>}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
-                bottom_delete_click = {bottom_delete_click} clickId = {clickId}></BottomMenu>}
+                bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck}></BottomMenu>}
                 {isModify  &&  <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickText = {clickText}/>}
                 {isDeleted && <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId}/>}
             </Background>
