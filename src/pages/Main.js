@@ -20,6 +20,8 @@ const Main = () => {
   const [isModify, setIsModify] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [clickText, setClickText] = useState("");
+  const [modalToggle,setmodalToggle] = useState(false);
+  const [modalText, setModalText] = useState("");
 
   const renderingData = (result) => {
     let uncompletedList = [];
@@ -114,11 +116,23 @@ const contentClick  = (e) =>{
     setClickId(e);
   }
 
+const feedbackHandler = (text) => { 
+  // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며 
+  // 일정시간후 모달창을 안보이는 상태로 변경
+  setmodalToggle(true);
+  setModalText(text);
+  setTimeout(() => {
+    setmodalToggle(false);
+    setModalText("");
+  }, 1000);
+};
+
 const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
   changeCheck();
   mutateComplete({id:id}, {
     onSuccess: (res) => {
       renderingData(res);
+      feedbackHandler("기도를 완료하였습니다.");
     }
   })
 }
@@ -145,6 +159,7 @@ const deleteBtnClick = async (id) => {
       onSuccess: () => {
         setUncompletedList(uncompletedList.filter(prayer => prayer.id !== id));
         setCompletedList(completedList.filter(prayer => prayer.id !== id));
+        feedbackHandler("기도제목이 삭제되었어요.");
       }
     }
   );
@@ -167,6 +182,7 @@ const valueChange = async (id, value) => {
       },{
         onSuccess: () => {
           console.log("Value_Change");
+          feedbackHandler("기도제목이 수정되었어요.");
         },
       }
     );
