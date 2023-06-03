@@ -1,22 +1,41 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import serverapi from "../api/serverapi";
-import Header from "../components/Header/Header";
 import LockerContent from "../components/Locker/LockerContent";
+import LockerHeader from "../components/Locker/L_Header";
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxNDFkYWNkLTg1NWItNDIyYy04NmIxLWFiZWRlMTQwNTEwOCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDE2OjA0OjAyLjAwOTI3OCJ9.CwHk-xJaxr8FWXED1Lq7bd6JjwuO2jed4QlETHrScnk";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA0VDE2OjUxOjU5LjgzOTAyNCJ9.1he_4YhR1YpNFeC7BwYgIQiJ5YsLA7Okx1KXnGTLaB8";
 
 const Locker = () => {
   const [data, setData] = useState([]);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState([]);
+
+  const calculateDday = (startDate) => {
+    const start = new Date(startDate);
+    const today = new Date();
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+    const diffInMilliseconds = today - start;
+    return Math.floor(diffInMilliseconds / millisecondsPerDay);
+  };
 
   const isEmptyData = (data) => {
     return data.length === 0 ? true : false;
   };
 
-  const onClickContent = () => {
-    setIsClicked(!isClicked);
+  const onClickSelectAll = () => {
+    if (isClicked.some((clicked) => clicked)) {
+      setIsClicked(isClicked.map(() => false));
+    } else {
+      setIsClicked(isClicked.map(() => true));
+    }
+  };
+
+  const onClickContent = (index) => {
+    console.log(index);
+    const updateClickedList = [...isClicked];
+    updateClickedList[index] = !updateClickedList[index];
+    setIsClicked(updateClickedList);
   };
 
   const getSharedPrayList = async () => {
@@ -28,10 +47,11 @@ const Locker = () => {
         },
       });
       if (res.status === 200) {
-        var data_ = [];
-        data_ = res.data;
+        const data_ = res.data;
         setData(data_);
         console.log(data);
+        setIsClicked(new Array(data_.length).fill(false));
+        console.log(isClicked);
       }
     } catch (e) {
       console.log(e);
@@ -43,7 +63,10 @@ const Locker = () => {
 
   return (
     <LockerWrapper>
-      <Header>보관함</Header>
+      <LockerHeader
+        isClicked={isClicked.some((clicked) => clicked)}
+        onClickSelectAll={onClickSelectAll}
+      />
       {isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>공유받은 기도제목이 없네요.</NoDataTitle>
@@ -52,14 +75,17 @@ const Locker = () => {
       )}
       {!isEmptyData(data) && (
         <LockerList>
-          {data.map((item) => (
-            <div onClick={onClickContent}>
+          {data.map((item, index) => (
+            <div
+              style={{ width: "100%" }}
+              onClick={() => onClickContent(index)}
+            >
               <LockerContent
-                isClicked={isClicked}
+                isClicked={isClicked[index]}
                 name={item.share_name}
                 title={item.title}
                 target={item.target}
-                dday={item.shared_at}
+                dday={calculateDday(item.shared_at)}
                 key={item.pray_id}
               />
             </div>
