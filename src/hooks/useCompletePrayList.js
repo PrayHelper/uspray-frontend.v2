@@ -4,7 +4,7 @@ import { putFetcher, refresh } from "./api";
 import { useMutation } from "react-query";
 
 const putCompletePrayList = async (accessToken, data) => {
-  return await putFetcher('/pray/complete/'+data, data, {
+  return await putFetcher('/pray/finish/'+data, data, {
     Authorization: accessToken,
   });
 };

@@ -9,7 +9,7 @@ const putCountUpdate = async (accessToken, data) => {
   });
 };
 
-export const useCountUpdate = (data) => {
+export const useCountUpdate = () => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
   return useMutation((data) => {
     return putCountUpdate(accessToken, data.id)}, {
