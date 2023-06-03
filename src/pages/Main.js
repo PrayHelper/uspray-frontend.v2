@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import PrayerList from '../components/Main/PrayerList';
-import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
 import { usePrayList } from '../hooks/usePrayList';
 import { useCountUpdate } from '../hooks/useCountUpdate';
 import { useCompletePrayList } from '../hooks/useCompletePrayList';
 import { usePrayDelete } from '../hooks/usePrayDelete';
 import { useChangeValue } from '../hooks/useChangeValue';
+import { useSendPrayItem } from '../hooks/useSendPrayItem';
 const name = "김정묵";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
+
 const Main = () => {
-  const {data: prayList} = usePrayList('date');
+  const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
   
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList , setCompletedList] = useState([]);
@@ -59,6 +59,7 @@ const Main = () => {
   const {mutate: mutateComplete} = useCompletePrayList();
   const {mutate: mutateDeletePrayItem} = usePrayDelete();
   const {mutate: mutateChangeValue} = useChangeValue();
+  const {mutate: mutateSendPrayItem} = useSendPrayItem();
 
   const onInsert = async (Dday,text) =>{
     if(text === ""){
@@ -68,46 +69,16 @@ const Main = () => {
       var date = new Date();
       var day = addDay(date, Dday);
       var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
-      sendPrayList(name, text, deadline);
-      const getPrayList = async () => {
-        const api = "/pray?sort_by=date";
-        try {
-          const res= await serverapi.get(api, { headers: {
-            'Authorization': `${accessToken}`}});
-          if (res.status === 200) {
-            var prayer_content_ = [];
-            var prayer_more_content_ = [];
-            for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-              let result = dDayCalculate(res.data.uncompleted[i].deadline);
-                prayer_content_[i] = {
-                  id : res.data.uncompleted[i].id,
-                  name: name,
-                  dday: result,
-                  text: res.data.uncompleted[i].title,
-                  checked : false,
-                  count : res.data.uncompleted[i].pray_cnt
-                };
-            }
-            for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-              let result = dDayCalculate(res.data.completed[i].deadline);
-              prayer_more_content_[i] = {
-                id : res.data.completed[i].id,
-                name: '김정묵',
-                dday: result,
-                text: res.data.completed[i].title,
-                checked : false,
-                count : res.data.completed[i].pray_cnt
-              };
-            }
-            setUncompletedList(prayer_content_);
-            setCompletedList(prayer_more_content_); 
-            }
-          } catch (e){
-          alert("error prayList");
-          console.log(e);
-        }
-      };
-      setTimeout(getPrayList, 200); // 이부분은 조금 고민을 해봐야할듯합니다. 눈에 보이는지 나중에 체크 한번 해봐야할듯
+      mutateSendPrayItem({
+        target: name,
+        title: text,
+        deadline: deadline,
+      },{
+        onSuccess: () => {
+          console.log("sendPraryList");
+          refetchPrayList();
+        },
+      });
       // getPrayList();
     }
   }
@@ -213,25 +184,6 @@ const dDayCalculate = (res_data) =>{
   var result = Math.ceil((dday - today)/(1000*60*60*24));
   return result;
 }
-
-
-const sendPrayList = async (name, title, dead) =>{
-  const api = "/pray";
-  const data = {
-      'target' : `${name}`,
-      'title'  : `${title}`,
-      'deadline' : `${dead}`        
-  }
-  try{
-    const res = await serverapi.post(api, data ,{ headers : {
-      'Authorization' : `${accessToken}`}});
-    if(res.status === 200){
-      console.log("sendPraryList");
-    }
-  } catch(e){
-      console.log(e);
-  }
-};
 
   return (
     <TemplateMain onInsert = {onInsert}>
