@@ -57,7 +57,7 @@ const BtnElementDay = styled.button`
     font-size: 10px;
     padding: 0px;
     border: none;
-    border-radius: 4px;
+    border-radius: 2px;
 `;
 
 const BtnElementPrayer = styled.button`
