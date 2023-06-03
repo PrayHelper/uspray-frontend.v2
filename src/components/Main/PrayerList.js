@@ -181,16 +181,11 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
 
     const onShare = async() =>{
-        if(Sharelist.length === 0){
-            console.log(prayerContent)
-            console.log("여기 입장");
-        }
         setIsShare(!isShare);
         if(isShare){
             const api = "/share";
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
-            console.log(Sharelist);
             try {
                 var data = {
                     "pray_id_list": Sharelist
@@ -212,9 +207,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 prayerMoreContent => ({...prayerMoreContent, checked:false})
               ))
         }
-        else{
-            console.log(Sharelist);
-        }
     }
     const onCheck = () =>{
         setIsShare(!isShare);
@@ -228,6 +220,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
     const onMove = () =>{
         setshareToggle(!shareToggle);
+        setShareLength(0);
     }
 
     const clickOff = (id) =>{
@@ -242,8 +235,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         if(check_box){
             setShareList([...Sharelist,id]);
             setShareLength(shareLength+1);
-            console.log(Sharelist);
-            console.log(id);
             setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
                 (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:check_box}: PrayerContent)));
             setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
