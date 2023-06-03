@@ -13,7 +13,7 @@ const BackgroundInput = styled.div`
     position : relative;
     justify-content: space-between;
     width: 100%;
-    padding-left: 35px;
+    padding-left: 30px;
     padding-right: 24px;
     background: white;
     height: 120px;
@@ -44,8 +44,9 @@ const SendImg = styled(Logo)`
 const StyleInput = styled.input`
     margin-top: 64px;
     width: 90.14%;
-    height:27px;
-    margin-left: 5px;
+    height:30px;
+    margin-left: 10px;
+    // padding-left: 12px;
     border-radius:4px;
     border : none;
     font-size: 16px;                 
@@ -59,13 +60,15 @@ const StyleInput = styled.input`
 const StyleName = styled.input`
     width: 100%;
     height: 23px;
-    font-size: 12px;
-    margin-right: 31px;
+    font-size: 16px;
+    // margin-right: 12px;
     font-family: Noto Sans KR;
     font-weight: 400;
     color: #75BD62;
+    outline: none;
     border: none;
     border-bottom: 1px solid #EBF7E8;
+    padding-bottom: 4px;
 `
 const TemplateMain = ({ children, onInsert}) =>{
     const [text, setText] = useState("김정묵");
@@ -106,7 +109,7 @@ const TemplateMain = ({ children, onInsert}) =>{
     return(
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
-                <div style={{width: '45px', height:'23px',marginTop:'65px', padding:'0px'}}>
+                <div style={{width: '15%', height:'23px',marginTop:'67px', padding:'0px'}}>
                      <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                 </div>
 

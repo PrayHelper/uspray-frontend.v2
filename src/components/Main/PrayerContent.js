@@ -14,24 +14,23 @@ const MainContent = styled.div`
     margin: 0 16px; 
     margin-top : 22px;
     margin-bottom: 12px;
-    border-bottom : solid;
-    border-bottom-color: #CECECE;
+    border-bottom : 1px solid #CECECE;
     padding-right: 4px;
     padding-bottom : 8px;
 `
 
 const NameContent = styled.div`
     // width: 42px;
-    display: flex;
-    width: 10%;
+    // display: ;
+    width: 15%;
     height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     border-right: 1px solid #CECECE;
-    font-size: 10px;
-    zoom: 0.8;
+    font-size: 12px;
     line-height: 17px;
+
 `;
 
 const TextContent = styled.div`
