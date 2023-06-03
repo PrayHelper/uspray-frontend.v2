@@ -6,6 +6,7 @@ import { usePrayList } from '../hooks/usePrayList';
 import { useCountUpdate } from '../hooks/useCountUpdate';
 import { useCompletePrayList } from '../hooks/useCompletePrayList';
 import { usePrayDelete } from '../hooks/usePrayDelete';
+import { useChangeValue } from '../hooks/useChangeValue';
 const name = "김정묵";
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
 const Main = () => {
@@ -57,6 +58,7 @@ const Main = () => {
   const {mutate: mutateCountUpdate} = useCountUpdate();
   const {mutate: mutateComplete} = useCompletePrayList();
   const {mutate: mutateDeletePrayItem} = usePrayDelete();
+  const {mutate: mutateChangeValue} = useChangeValue();
 
   const onInsert = async (Dday,text) =>{
     if(text === ""){
@@ -180,28 +182,24 @@ const deleteBtnClick = async (id) => {
 const onDeleted = () =>{
   setIsDeleted(!isDeleted);
 } 
-const valueChange = async(id, value) =>{ // 수정하기 관련 코드
-  const api = "/pray/my/" + id;
-  const data = {
-    "target" : name,
-    "title" : value,
-  }
+
+const valueChange = async (id, value) => {
   if(value === ""){
     return alert("이대로")
   }
-  else{
-    try {
-      const res= await serverapi.put(api,data,{ headers: {
-        'Authorization': `${accessToken}`}});
-      if (res.status === 200) {
-        console.log("Value_Change");
-        console.log(res.data);
+  else {
+    mutateChangeValue(
+      {
+        id : id,
+        data : {target : name,
+        title : value},
+      },{
+        onSuccess: () => {
+          console.log("Value_Change");
+        },
       }
-      } catch (e){
-      alert("error Value_change");
-      console.log(e);
-    }
-  } 
+    );
+  }
   setUncompletedList(uncompletedList => uncompletedList.map(uncompletedList => 
     (uncompletedList.id === id ? {...uncompletedList, text: value} : uncompletedList)));
   setCompletedList(completedList => completedList.map(completedList => 
