@@ -95,9 +95,10 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [isShare, setIsShare] = useState(false);
     const [Sharelist, setShareList] = useState([]);
     const [shareToggle, setshareToggle] = useState(false);
+    const [shareLength, setShareLength] = useState(0);
     // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAzVDAzOjMzOjMxLjkyODIzMCJ9.XNHvz9HwViSBkla2Wq1OGXUtzXfZINdGE-wAHxL_7eY";
+    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA0VDA5OjAwOjUzLjMwMzc5OCJ9.j6SPL71hR__O5NT1wDbMPwdWm7Jr4jsm7njWyURBF8M";
     const getPrayList = async (query, complete) => {
         const api = "/pray?sort_by=" + query;
         try {
@@ -203,7 +204,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 alert("Share error ");
                 console.log(e);
               }
-
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
               prayerContent => ({...prayerContent, checked:false})
@@ -231,6 +231,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
 
     const clickOff = (id) =>{
+        setShareLength(shareLength-1);
         setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
             (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
         setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
@@ -240,6 +241,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const shareList = (id, check_box) =>{
         if(check_box){
             setShareList([...Sharelist,id]);
+            setShareLength(shareLength+1);
             console.log(Sharelist);
             console.log(id);
             setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
@@ -247,11 +249,12 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
                 (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:check_box}: PrayerMoreContent)));
         }
-        else{
-            setShareList(Sharelist.filter(list => (list !== id)));
-            var share_id = prayerContent.findIndex(e => e.id == id);
-            prayerContent[share_id].check_box = check_box;
-        }
+        // else{
+        //     console.log(shareLength);
+        //     setShareList(Sharelist.filter(list => (list !== id)));
+        //     var share_id = prayerContent.findIndex(e => e.id == id);
+        //     prayerContent[share_id].check_box = check_box;
+        // }
     }
     return(
         <div> 
@@ -290,7 +293,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                         ))}
                 </PrayerContentStyle>
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
-               ></Share>}
+               shareLength = {shareLength}></Share>}
                 {modalToggle && <AnimationModal modalText = {modalText} />}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck}></BottomMenu>}

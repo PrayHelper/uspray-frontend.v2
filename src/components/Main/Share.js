@@ -19,11 +19,12 @@ const Container = styled.div`
     margin-bottom: 40px;
     z-index: 6;
 `
-function Share({onShare, onMove , shareToggle, onCheck, isShare}){
+function Share({onShare, onMove , shareToggle, onCheck, isShare, shareLength}){
     return(
         <Container style={{zIndex : shareToggle ? "999" : "4"}}>
             {!shareToggle && <ShareImg  onClick={onMove} src={share_img}/>}
-            {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}/>}
+            {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare} 
+            shareLength = {shareLength}/>}
         </Container>
     )
 }
