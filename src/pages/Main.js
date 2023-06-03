@@ -5,6 +5,7 @@ import TemplateMain from "../components/Main/TemplateMain";
 import { usePrayList } from '../hooks/usePrayList';
 import { useCountUpdate } from '../hooks/useCountUpdate';
 import { useCompletePrayList } from '../hooks/useCompletePrayList';
+import { usePrayDelete } from '../hooks/usePrayDelete';
 const name = "김정묵";
 const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTAyVDAzOjIzOjE3LjQ2NTQzOSJ9.-X-DTausMa7eN_aPcx3IJQeyy6v1zTGvlCezQcDa_js";
 const Main = () => {
@@ -55,6 +56,7 @@ const Main = () => {
 
   const {mutate: mutateCountUpdate} = useCountUpdate();
   const {mutate: mutateComplete} = useCompletePrayList();
+  const {mutate: mutateDeletePrayItem} = usePrayDelete();
 
   const onInsert = async (Dday,text) =>{
     if(text === ""){
@@ -163,21 +165,17 @@ const bottom_delete_click = () =>{
   setIsChecked(!isChecked);
   setIsDeleted(!isDeleted);
 }
-const deleteBtnClick = async(id) =>{ // 삭제하기 관련 코드
-  const api = "/pray/"+ id;
-    console.log(id);
-    try {
-      const res= await serverapi.delete(api,{ headers: {
-        'Authorization': `${accessToken}`}});
-      if (res.status === 200) {
+
+const deleteBtnClick = async (id) => {
+  mutateDeletePrayItem(
+    {id: id}, {
+      onSuccess: () => {
         setUncompletedList(uncompletedList.filter(prayer => prayer.id !== id));
         setCompletedList(completedList.filter(prayer => prayer.id !== id));
       }
-      } catch (e){
-      alert("error delete");
-      console.log(e);
     }
-    setIsDeleted(!isDeleted);
+  );
+  setIsDeleted(!isDeleted);
 }
 const onDeleted = () =>{
   setIsDeleted(!isDeleted);

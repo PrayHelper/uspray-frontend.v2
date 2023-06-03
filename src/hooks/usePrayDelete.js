@@ -11,8 +11,8 @@ const deletePrayItem = async (accessToken, id) => {
 
 export const usePrayDelete = () => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useMutation((id) => {
-    return deletePrayItem(accessToken, id)
+  return useMutation((data) => {
+    return deletePrayItem(accessToken, data.id)
   }, {
     onError: (e) => {
       if (e.status === 403) {
