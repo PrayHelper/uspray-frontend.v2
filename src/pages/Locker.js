@@ -5,13 +5,14 @@ import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA1VDE1OjQ4OjQwLjAwMjU2MSJ9.03Jt5Dp8O_T2egDZPh1uBa-5XWOkOIUx1xdQ14diQk4";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA1VDE3OjE2OjA4LjgzNzQ4MyJ9._TFAF1Pqs1nDNuCO3QTZcK7w_TuXaigwVw0DUWyzZrM";
 
 const Locker = () => {
   const [data, setData] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
   const [selectedID, setSelectedID] = useState([]);
 
+  // DDay 계산
   const calculateDday = (startDate) => {
     const start = new Date(startDate);
     const today = new Date();
@@ -20,10 +21,12 @@ const Locker = () => {
     return Math.floor(diffInMilliseconds / millisecondsPerDay);
   };
 
+  // 데이터 저장 확인
   const isEmptyData = (data) => {
     return data.length === 0 ? true : false;
   };
 
+  // 전체 선택 및 해제 구현
   const onClickSelectAll = () => {
     if (isClicked.some((clicked) => clicked)) {
       setIsClicked(isClicked.map(() => false));
@@ -32,6 +35,7 @@ const Locker = () => {
     }
   };
 
+  // 배열 요소 선택
   const onClickContent = (index, pray_id) => {
     console.log(pray_id);
     console.log(index);
@@ -54,6 +58,7 @@ const Locker = () => {
     setIsClicked(updateClickedList);
   };
 
+  // 공유 리스트 읽기
   const fetchSharedList = async () => {
     const api = "/share";
     try {
@@ -73,6 +78,7 @@ const Locker = () => {
     }
   };
 
+  // 공유 기도 삭제
   const deleteSharedList = async () => {
     const api = "/share";
     try {
@@ -108,6 +114,42 @@ const Locker = () => {
     }
   };
 
+  // 공유 기도 저장
+  const saveSharedList = async () => {
+    const api = "/share/save";
+    try {
+      if (isClicked.every((clicked) => clicked)) {
+        // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
+        const res = await serverapi.post(api, {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+          data: {
+            pray_id_list: data.map((item) => item.pray_id),
+          },
+        });
+        if (res.status === 200) {
+          fetchSharedList();
+        }
+      } else {
+        // 선택된 항목만 저장
+        const res = await serverapi.post(api, {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+          data: {
+            pray_id_list: selectedID,
+          },
+        });
+        if (res.status === 200) {
+          fetchSharedList();
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     fetchSharedList();
   }, []);
@@ -118,6 +160,7 @@ const Locker = () => {
         isClicked={isClicked.some((clicked) => clicked)}
         onClickSelectAll={onClickSelectAll}
         deleteSharedList={deleteSharedList}
+        saveSharedList={saveSharedList}
       />
       {isEmptyData(data) && (
         <NoDataWrapper>

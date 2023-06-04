@@ -13,7 +13,7 @@ const LockerHeader = (props) => {
           {props.isClicked && (
             <>
               <div onClick={props.onClickSelectAll}>전체 취소</div>
-              <div>저장</div>
+              <div onClick={props.saveSharedList}>저장</div>
               <div onClick={props.deleteSharedList}>삭제</div>
             </>
           )}
