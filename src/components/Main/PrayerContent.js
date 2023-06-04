@@ -14,29 +14,31 @@ const MainContent = styled.div`
     margin: 0 16px; 
     margin-top : 22px;
     margin-bottom: 12px;
-    border-bottom : solid;
-    border-bottom-color: #CECECE;
+    border-bottom : 1px solid #CECECE;
     padding-right: 4px;
     padding-bottom : 8px;
 `
 
 const NameContent = styled.div`
-    width: 42px;
+    // width: 42px;
+    // display: ;
+    width: 15%;
     height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    // font-size: 12px;
-    margin-right: 8px;
     border-right: 1px solid #CECECE;
-    font-size: 10px;
+    font-size: 12px;
     line-height: 17px;
+
 `;
 
 const TextContent = styled.div`
-    width: 263px;
+    // width: 263px;
+    width: 70.571%;
     padding : 0px;
-    margin-right: 8px; 
+    margin-left: 6px;
+    // margin-right: 8px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -72,6 +74,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
         return shareList(event.target.id, !checked);
         }
         else{
+            console.log("여기");
             clickOff(id);
         }
     }

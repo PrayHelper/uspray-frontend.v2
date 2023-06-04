@@ -47,7 +47,10 @@ const Day_Button = ({dayInfo}) =>{
         setColorSeven('white');
         setColorThirty('white');
         setColorHundred('white');
+        setFontThree('#75BD62');
         setFontSeven('#75BD62');
+        setFontThirty('#75BD62');
+        setFontHundred('#75BD62');
         var year = getYear(date);
         var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
         var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
@@ -78,6 +81,9 @@ const Day_Button = ({dayInfo}) =>{
                 setFontThirty('#75BD62');
                 setFontHundred('#75BD62');
                 dayInfo(3);
+                if(dayToggle){
+                    setDayToggle(!dayToggle);
+                }
             }   
             else if(sliceStringFive === "seven"){ 
                 setColorThree('white');
@@ -89,6 +95,9 @@ const Day_Button = ({dayInfo}) =>{
                 setFontThirty('#75BD62');
                 setFontHundred('#75BD62');
                 dayInfo(7);
+                if(dayToggle){
+                    setDayToggle(!dayToggle);
+                }
             }   
             else if(sliceStringSix === "thirty"){ 
                 setColorThree('white');
@@ -100,6 +109,9 @@ const Day_Button = ({dayInfo}) =>{
                 setFontThirty('white');
                 setFontHundred('#75BD62');
                 dayInfo(30);
+                if(dayToggle){
+                setDayToggle(!dayToggle);
+                }
             }   
             else if(sliceStringSeven === "hundred"){ 
                 setColorThree('white');
@@ -111,6 +123,9 @@ const Day_Button = ({dayInfo}) =>{
                 setFontThree('#75BD62');
                 setFontHundred('white');
                 dayInfo(100);
+                if(dayToggle){
+                    setDayToggle(!dayToggle);
+                }
             }   
         }
     }

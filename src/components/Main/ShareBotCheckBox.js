@@ -22,7 +22,7 @@ export default ShareBotCheckBox;
 
 const CheckboxWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 `;
 
