@@ -5,11 +5,12 @@ import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA0VDE2OjUxOjU5LjgzOTAyNCJ9.1he_4YhR1YpNFeC7BwYgIQiJ5YsLA7Okx1KXnGTLaB8";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA1VDE1OjQ4OjQwLjAwMjU2MSJ9.03Jt5Dp8O_T2egDZPh1uBa-5XWOkOIUx1xdQ14diQk4";
 
 const Locker = () => {
   const [data, setData] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
+  const [selectedID, setSelectedID] = useState([]);
 
   const calculateDday = (startDate) => {
     const start = new Date(startDate);
@@ -31,14 +32,29 @@ const Locker = () => {
     }
   };
 
-  const onClickContent = (index) => {
+  const onClickContent = (index, pray_id) => {
+    console.log(pray_id);
     console.log(index);
+    const updateClickedID = pray_id;
+    // 이미 선택된 pray_id인지 확인
+    const isSelected = selectedID.includes(updateClickedID);
+    if (isSelected) {
+      // 이미 선택된 경우 해당 pray_id를 제거
+      const updatedSelectedID = selectedID.filter(
+        (id) => id !== updateClickedID
+      );
+      setSelectedID(updatedSelectedID);
+    } else {
+      // 선택되지 않은 경우 해당 pray_id를 추가
+      setSelectedID([...selectedID, updateClickedID]);
+    }
+
     const updateClickedList = [...isClicked];
     updateClickedList[index] = !updateClickedList[index];
     setIsClicked(updateClickedList);
   };
 
-  const getSharedPrayList = async () => {
+  const fetchSharedList = async () => {
     const api = "/share";
     try {
       const res = await serverapi.get(api, {
@@ -47,18 +63,53 @@ const Locker = () => {
         },
       });
       if (res.status === 200) {
-        const data_ = res.data;
-        setData(data_);
+        setData(res.data);
         console.log(data);
-        setIsClicked(new Array(data_.length).fill(false));
+        setIsClicked(new Array(res.data.length).fill(false));
         console.log(isClicked);
       }
     } catch (e) {
       console.log(e);
     }
   };
+
+  const deleteSharedList = async () => {
+    const api = "/share";
+    try {
+      if (isClicked.every((clicked) => clicked)) {
+        // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 삭제
+        const res = await serverapi.delete(api, {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+          data: {
+            pray_id_list: data.map((item) => item.pray_id),
+          },
+        });
+        if (res.status === 200) {
+          fetchSharedList();
+        }
+      } else {
+        // 선택된 항목만 삭제
+        const res = await serverapi.delete(api, {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+          data: {
+            pray_id_list: selectedID,
+          },
+        });
+        if (res.status === 200) {
+          fetchSharedList();
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    getSharedPrayList();
+    fetchSharedList();
   }, []);
 
   return (
@@ -66,6 +117,7 @@ const Locker = () => {
       <LockerHeader
         isClicked={isClicked.some((clicked) => clicked)}
         onClickSelectAll={onClickSelectAll}
+        deleteSharedList={deleteSharedList}
       />
       {isEmptyData(data) && (
         <NoDataWrapper>
@@ -78,7 +130,7 @@ const Locker = () => {
           {data.map((item, index) => (
             <div
               style={{ width: "100%" }}
-              onClick={() => onClickContent(index)}
+              onClick={() => onClickContent(index, item.pray_id)}
             >
               <LockerContent
                 isClicked={isClicked[index]}
