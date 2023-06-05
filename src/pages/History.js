@@ -127,7 +127,7 @@ const History = () => {
     }
   };
 
-  const {fetchCurrentHisMutate} = useFetchCurrentHis();
+  const { fetchCurrentHisMutate } = useFetchCurrentHis();
 
   const fetchCurrentHis = (id) => {
     fetchCurrentHisMutate(null, {
@@ -164,7 +164,7 @@ const History = () => {
   //   }
   // };
 
-  const {fetchHistoryMutate} = useFetchHistory({
+  const { fetchHistoryMutate } = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
@@ -185,7 +185,6 @@ const History = () => {
     });
     setLoading(false);
   }, [page, isOnPray]);
-
 
   // const fetchHistory = useCallback(async () => {
   //   setLoading(true);

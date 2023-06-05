@@ -3,14 +3,36 @@ import styled from "styled-components";
 import serverapi from "../api/serverapi";
 import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
+import Toast, { ToastTheme } from "../components/Toast/Toast";
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA2VDAzOjU4OjI1Ljc1MjQyOSJ9.z4UumAk5HRJwVVE5G1fBzHHW_8MY7iQbvZJyqqlqXeg";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA2VDA0OjQxOjQ3LjExODIwNyJ9.pdh3UVRtQHmsE5eRTmuiYrxIy5uOILfqk35rOQFhyYw";
 
 const Locker = () => {
   const [data, setData] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
   const [selectedID, setSelectedID] = useState([]);
+  const [showSaveToast, setShowSaveToast] = useState(false);
+  const [showDeleteToast, setShowDeleteToast] = useState(false);
+
+  // Toast 창 띄우기
+  useEffect(() => {
+    if (showSaveToast) {
+      const timer = setTimeout(() => {
+        setShowSaveToast(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSaveToast]);
+
+  useEffect(() => {
+    if (showDeleteToast) {
+      const timer = setTimeout(() => {
+        setShowDeleteToast(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showDeleteToast]);
 
   // DDay 계산
   const calculateDday = (startDate) => {
@@ -93,6 +115,7 @@ const Locker = () => {
           },
         });
         if (res.status === 200) {
+          setShowDeleteToast(true);
           fetchSharedList();
         }
       } else {
@@ -106,6 +129,7 @@ const Locker = () => {
           },
         });
         if (res.status === 200) {
+          setShowDeleteToast(true);
           fetchSharedList();
         }
       }
@@ -122,32 +146,22 @@ const Locker = () => {
         // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
         const res = await serverapi.post(
           api,
-          {
-            pray_id_list: data.map((item) => item.pray_id),
-          },
-          {
-            headers: {
-              Authorization: `${accessToken}`,
-            },
-          }
+          { pray_id_list: data.map((item) => item.pray_id) },
+          { headers: { Authorization: `${accessToken}` } }
         );
         if (res.status === 200) {
+          setShowSaveToast(true);
           fetchSharedList();
         }
       } else {
         // 선택된 항목만 저장
         const res = await serverapi.post(
           api,
-          {
-            pray_id_list: selectedID,
-          },
-          {
-            headers: {
-              Authorization: `${accessToken}`,
-            },
-          }
+          { pray_id_list: selectedID },
+          { headers: { Authorization: `${accessToken}` } }
         );
         if (res.status === 200) {
+          setShowSaveToast(true);
           fetchSharedList();
         }
       }
@@ -193,6 +207,19 @@ const Locker = () => {
           ))}
         </LockerList>
       )}
+      <div style={{ marginTop: "20px" }}>.</div>
+      <ToastWrapper>
+        {showSaveToast && (
+          <Toast toastTheme={ToastTheme.SUCCESS}>
+            기도제목이 저장되었습니다.
+          </Toast>
+        )}
+        {showDeleteToast && (
+          <Toast toastTheme={ToastTheme.SUCCESS}>
+            기도제목이 삭제되었습니다.
+          </Toast>
+        )}
+      </ToastWrapper>
     </LockerWrapper>
   );
 };
@@ -237,4 +264,10 @@ const LockerList = styled.div`
   height: 100%;
   width: 100%;
   overflow: auto;
+`;
+
+const ToastWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
