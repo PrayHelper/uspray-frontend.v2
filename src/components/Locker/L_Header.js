@@ -1,38 +1,55 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ReactComponent as GrayCheck } from "../../images/ic_gray_check.svg";
+import React, { useState } from "react";
+import styled from "styled-components";
 
-const StyledHeader = styled.div`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 65px;
-
-    background: #FFFFFF;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
-    `
-
-const Title = styled.div`
-
-  margin-left: 16px;
-
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 29px;
-  text-align: center;
-`
-
-const LockerHeader = () => {
-    return (
-        <StyledHeader>
-          <Title>보관함</Title>
-          <div>
-            <button><GrayCheck/>전체선택</button>
-          </div>
-        </StyledHeader>
-    );
-  };
+const LockerHeader = (props) => {
+  return (
+    <div style={{ width: "100%" }}>
+      <StyledHeader>
+        <Title>보관함</Title>
+        <SelectGroup>
+          {!props.isClicked && (
+            <div onClick={props.onClickSelectAll}>전체 선택</div>
+          )}
+          {props.isClicked && (
+            <>
+              <div onClick={props.onClickSelectAll}>전체 취소</div>
+              <div onClick={props.saveSharedList}>저장</div>
+              <div onClick={props.deleteSharedList}>삭제</div>
+            </>
+          )}
+        </SelectGroup>
+      </StyledHeader>
+    </div>
+  );
+};
 
 export default LockerHeader;
+
+const StyledHeader = styled.div`
+  width: 100%;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+`;
+
+const Title = styled.div`
+  font-weight: 700;
+  font-size: 20px;
+  margin-left: 16px;
+  line-height: 29px;
+`;
+
+const SelectGroup = styled.div`
+  cursor: pointer;
+  display: flex;
+  gap: 16px;
+  margin-right: 16px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  text-align: center;
+  color: #a0a0a0;
+`;
