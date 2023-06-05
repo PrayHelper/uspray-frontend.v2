@@ -5,7 +5,7 @@ import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 
 const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA1VDE3OjE2OjA4LjgzNzQ4MyJ9._TFAF1Pqs1nDNuCO3QTZcK7w_TuXaigwVw0DUWyzZrM";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA2VDAzOjU4OjI1Ljc1MjQyOSJ9.z4UumAk5HRJwVVE5G1fBzHHW_8MY7iQbvZJyqqlqXeg";
 
 const Locker = () => {
   const [data, setData] = useState([]);
@@ -120,27 +120,33 @@ const Locker = () => {
     try {
       if (isClicked.every((clicked) => clicked)) {
         // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
-        const res = await serverapi.post(api, {
-          headers: {
-            Authorization: `${accessToken}`,
-          },
-          data: {
+        const res = await serverapi.post(
+          api,
+          {
             pray_id_list: data.map((item) => item.pray_id),
           },
-        });
+          {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          }
+        );
         if (res.status === 200) {
           fetchSharedList();
         }
       } else {
         // 선택된 항목만 저장
-        const res = await serverapi.post(api, {
-          headers: {
-            Authorization: `${accessToken}`,
-          },
-          data: {
+        const res = await serverapi.post(
+          api,
+          {
             pray_id_list: selectedID,
           },
-        });
+          {
+            headers: {
+              Authorization: `${accessToken}`,
+            },
+          }
+        );
         if (res.status === 200) {
           fetchSharedList();
         }
