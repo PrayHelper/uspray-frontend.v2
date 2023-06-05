@@ -98,11 +98,13 @@ const History = () => {
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
   };
-
-  const { mutate: mutateHistoryModify } = useHistoryModify({
-    pray_id: currentId,
-    deadline: updateDate,
-  });
+  
+  const {mutate : mutateHistoryModify} = useHistoryModify(
+    {
+      pray_id: currentId,
+      deadline: updateDate,
+    }
+  );
 
   const onClickModify = () => {
     mutateHistoryModify(null, {
@@ -117,18 +119,31 @@ const History = () => {
       },
     });
   };
+  const {data: currentHistoryData} = useFetchHistory();
 
-  const { data: currentHistoryData } = useFetchHistory();
-
-  const {
-    data: historyData,
-    isLoading: historyLoading,
-    refetch: refetchHistory,
-  } = useFetchHistory({
+  const {data : historyData, isLoading: historyLoading, refetch: refetchHistory} = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
+  
+  // flag 변경 시 historyData를 새로 받아오는 함수
+  const updateHistoryData = () => {
+    console.log("함수 실행은 되니?");
+    refetchHistory();
+  };
+
+  useEffect(() =>{
+    if (!historyData)
+      return ;
+    console.log("useEffect 실행은 되니?");
+    console.log(historyData);
+    setLoading(historyLoading);
+    setData((prev) => [...prev, ...historyData.data.res]);
+    if (historyData.data.res.length === 0) {
+      setHasMore(false);
+    }
+  }, [page, isOnPray, historyData]);
 
   // flag 변경 시 historyData를 새로 받아오는 함수
   const updateHistoryData = () => {

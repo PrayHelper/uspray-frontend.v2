@@ -1,17 +1,68 @@
 import React, { useEffect, useState } from 'react';
 import PrayerList from '../components/Main/PrayerList';
-import serverapi from '../api/serverapi';
 import TemplateMain from "../components/Main/TemplateMain";
+import { usePrayList } from '../hooks/usePrayList';
+import { useCountUpdate } from '../hooks/useCountUpdate';
+import { useCompletePrayList } from '../hooks/useCompletePrayList';
+import { usePrayDelete } from '../hooks/usePrayDelete';
+import { useChangeValue } from '../hooks/useChangeValue';
+import { useSendPrayItem } from '../hooks/useSendPrayItem';
 const name = "김정묵";
-const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTMxVDA5OjUzOjA3LjgwNjAyOCJ9.PZXwT-NJOFFdkzEDxngM8jrFS8e7uBKIAt9elOWK38g";
+
 const Main = () => {
+  const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
+  
+  const [uncompletedList, setUncompletedList] = useState([]);
+  const [completedList , setCompletedList] = useState([]);
+
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [prayerContent, setPrayerContent] = useState([]);
-  const [prayerMoreContent , setPrayerMoreContent] = useState([
-  ])
+  const [clickText, setClickText] = useState("");
+  const [modalToggle,setmodalToggle] = useState(false);
+  const [modalText, setModalText] = useState("");
+
+  const renderingData = (result) => {
+    let uncompletedList = [];
+    let completedList = [];
+    result.data.uncompleted.map((uncompletedItem) => {
+      let dDay = dDayCalculate(uncompletedItem.deadline);
+      uncompletedList.push({
+        id : uncompletedItem.id,
+        name:uncompletedItem.target,
+        dday: dDay,
+        text: uncompletedItem.title,
+        checked : false,
+        count : uncompletedItem.pray_cnt
+      })
+    });
+    result.data.completed.map((completedItem) => {
+      let dDay = dDayCalculate(completedItem.deadline);
+      completedList.push({
+        id : completedItem.id,
+        name:completedItem.target,
+        dday: dDay,
+        text: completedItem.title,
+        checked : false,
+        count : completedItem.pray_cnt
+      })
+    });
+    setUncompletedList(uncompletedList);
+    setCompletedList(completedList);
+  }
+
+  useEffect(()=>{
+    if(!prayList) return;
+    renderingData(prayList);
+  },[prayList]);
+
+  const {mutate: mutateCountUpdate} = useCountUpdate();
+  const {mutate: mutateComplete} = useCompletePrayList();
+  const {mutate: mutateDeletePrayItem} = usePrayDelete();
+  const {mutate: mutateChangeValue} = useChangeValue();
+  const {mutate: mutateSendPrayItem} = useSendPrayItem();
+
   const onInsert = async (Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
@@ -20,46 +71,16 @@ const Main = () => {
       var date = new Date();
       var day = addDay(date, Dday);
       var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
-      sendPrayList(name, text, deadline);
-      const getPrayList = async () => {
-        const api = "/pray?sort_by=date";
-        try {
-          const res= await serverapi.get(api, { headers: {
-            'Authorization': `${accessToken}`}});
-          if (res.status === 200) {
-            var prayer_content_ = [];
-            var prayer_more_content_ = [];
-            for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-              let result = ddayCaculate(res.data.uncompleted[i].deadline);
-                prayer_content_[i] = {
-                  id : res.data.uncompleted[i].id,
-                  name: name,
-                  dday: result,
-                  text: res.data.uncompleted[i].title,
-                  checked : false,
-                  count : res.data.uncompleted[i].pray_cnt
-                };
-            }
-            for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-              let result = ddayCaculate(res.data.completed[i].deadline);
-              prayer_more_content_[i] = {
-                id : res.data.completed[i].id,
-                name: '김정묵',
-                dday: result,
-                text: res.data.completed[i].title,
-                checked : false,
-                count : res.data.completed[i].pray_cnt
-              };
-            }
-            setPrayerContent(prayer_content_);
-            setPrayerMoreContent(prayer_more_content_); 
-            }
-          } catch (e){
-          alert("error prayList");
-          console.log(e);
-        }
-      };
-      setTimeout(getPrayList, 200); // 이부분은 조금 고민을 해봐야할듯합니다. 눈에 보이는지 나중에 체크 한번 해봐야할듯
+      mutateSendPrayItem({
+        target: name,
+        title: text,
+        deadline: deadline,
+      },{
+        onSuccess: () => {
+          console.log("sendPraryList");
+          refetchPrayList();
+        },
+      });
       // getPrayList();
     }
   }
@@ -73,44 +94,11 @@ const Main = () => {
   }
   
   const countUpdate = async (id) => {
-    const api = "/pray/complete/" + id;
-    console.log(id);
-    try {
-      const res= await serverapi.put(api,id, { headers: {
-        'Authorization': `${accessToken}`}});
-      if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
-        for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-          let result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
-              id : res.data.uncompleted[i].id,
-              name: name,
-              dday: result,
-              text: res.data.uncompleted[i].title,
-              checked : false,
-              count : res.data.uncompleted[i].pray_cnt
-            };
-        }
-        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-          let result = ddayCaculate(res.data.completed[i].deadline);
-          prayer_more_content_[i] = {
-            id : res.data.completed[i].id,
-            name: '김정묵',
-            dday: result,
-            text: res.data.completed[i].title,
-            checked : false,
-            count : res.data.completed[i].pray_cnt
-          };
-        }
-        setPrayerContent(prayer_content_);
-        setPrayerMoreContent(prayer_more_content_);        
+    mutateCountUpdate({id: id}, {
+      onSuccess: (res) => {
+        renderingData(res)
       }
-      } catch (e){
-      alert("error CountUpdate");
-      console.log(e);
-    }
-    
+    });
   };
 
 const contentClick  = (e) =>{
@@ -128,50 +116,34 @@ const contentClick  = (e) =>{
     setClickId(e);
   }
 
-  const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
-    changeCheck();
-    const api = "/pray/finish/"+ id;
-    try{
-      const res = await serverapi.put(api,id,{ headers: {
-        'Authorization': `${accessToken}`}} )
-      if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
-        for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-          let result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
-              id : res.data.uncompleted[i].id,
-              name: '김정묵',
-              dday: result,
-              text: res.data.uncompleted[i].title,
-              checked : false,
-              count : res.data.uncompleted[i].pray_cnt
-            };
-          }
-        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-          let result = ddayCaculate(res.data.completed[i].deadline);
-            prayer_more_content_[i] = {
-              id : res.data.completed[i].id,
-              name: '김정묵',
-              dday: result,
-              text: res.data.completed[i].title,
-              checked : false,
-              count : res.data.completed[i].pray_cnt
-            };
-          }
-        setPrayerContent(prayer_content_);
-        setPrayerMoreContent(prayer_more_content_);
-      }
-    }catch(e){
-      alert("error complete");
-      console.log(e);
-    }
-  }
+const feedbackHandler = (text) => { 
+  // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며 
+  // 일정시간후 모달창을 안보이는 상태로 변경
+  setmodalToggle(true);
+  setModalText(text);
+  setTimeout(() => {
+    setmodalToggle(false);
+    setModalText("");
+  }, 1000);
+};
 
+const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
+  changeCheck();
+  mutateComplete({id:id}, {
+    onSuccess: (res) => {
+      renderingData(res);
+      feedbackHandler("기도를 완료하였습니다.");
+    }
+  })
+}
 const modifyBtnClick = (id) =>{ // 수정하기 관련 코드
     console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
+    var returnValue = uncompletedList.find(function(data){ return data.id === id});
+    var returnValue_ = completedList.find(function(data){return data.id === id});
+    var text = returnValue ? returnValue : returnValue_;
+    setClickText(text.text);
 }
 const onModify = () =>{
     setIsModify(!isModify);
@@ -180,125 +152,61 @@ const bottom_delete_click = () =>{
   setIsChecked(!isChecked);
   setIsDeleted(!isDeleted);
 }
-const deleteBtnClick = async(id) =>{ // 삭제하기 관련 코드
-  const api = "/pray/"+ id;
-    console.log(id);
-    try {
-      const res= await serverapi.delete(api,{ headers: {
-        'Authorization': `${accessToken}`}});
-      if (res.status === 200) {
-        setPrayerContent(prayerContent.filter(prayer => prayer.id !== id));
-        setPrayerMoreContent(prayerMoreContent.filter(prayer => prayer.id !== id));
+
+const deleteBtnClick = async (id) => {
+  mutateDeletePrayItem(
+    {id: id}, {
+      onSuccess: () => {
+        setUncompletedList(uncompletedList.filter(prayer => prayer.id !== id));
+        setCompletedList(completedList.filter(prayer => prayer.id !== id));
+        feedbackHandler("기도제목이 삭제되었어요.");
       }
-      } catch (e){
-      alert("error delete");
-      console.log(e);
     }
-    setIsDeleted(!isDeleted);
+  );
+  setIsDeleted(!isDeleted);
 }
 const onDeleted = () =>{
   setIsDeleted(!isDeleted);
 } 
-const valueChange = async(id, value) =>{ // 수정하기 관련 코드
-  const api = "/pray/my/" + id;
-  const data = {
-    "target" : name,
-    "title" : value,
+
+const valueChange = async (id, value) => {
+  if(value === ""){
+    return alert("이대로")
   }
-  try {
-    const res= await serverapi.put(api,data,{ headers: {
-      'Authorization': `${accessToken}`}});
-    if (res.status === 200) {
-      console.log("Value_Change");
-      console.log(res.data);
-    }
-    } catch (e){
-    alert("error Value_change");
-    console.log(e);
+  else {
+    mutateChangeValue(
+      {
+        id : id,
+        data : {target : name,
+        title : value},
+      },{
+        onSuccess: () => {
+          console.log("Value_Change");
+          feedbackHandler("기도제목이 수정되었어요.");
+        },
+      }
+    );
   }
-  setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
-    (PrayerContent.id === id ? {...PrayerContent, text: value} : PrayerContent)));
-  setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(prayerMoreContent => 
-    (prayerMoreContent.id === id ? {...prayerMoreContent, text: value} : prayerMoreContent)));
+  setUncompletedList(uncompletedList => uncompletedList.map(uncompletedList => 
+    (uncompletedList.id === id ? {...uncompletedList, text: value} : uncompletedList)));
+  setCompletedList(completedList => completedList.map(completedList => 
+    (completedList.id === id ? {...completedList, text: value} : completedList)));
   setIsModify(!isModify);
 }
 
-const ddayCaculate = (res_data) =>{
+const dDayCalculate = (res_data) =>{
   var today = new Date();
   var dday = new Date(res_data);
   var result = Math.ceil((dday - today)/(1000*60*60*24));
   return result;
 }
 
-
-const sendPrayList = async (name, title, dead) =>{
-  const api = "/pray";
-  const data = {
-      'target' : `${name}`,
-      'title'  : `${title}`,
-      'deadline' : `${dead}`        
-  }
-  try{
-    const res = await serverapi.post(api, data ,{ headers : {
-      'Authorization' : `${accessToken}`}});
-    if(res.status === 200){
-      console.log("sendPraryList");
-    }
-  } catch(e){
-      console.log(e);
-  }
-};
-
-
-useEffect(()=>{
-  const getPrayList = async () => {
-    const api = "/pray?sort_by=date";
-    try {
-      const res= await serverapi.get(api, { headers: {
-        'Authorization': `${accessToken}`}});
-      if (res.status === 200) {
-        var prayer_content_ = [];
-        var prayer_more_content_ = [];
-        for(var i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-          var result = ddayCaculate(res.data.uncompleted[i].deadline);
-            prayer_content_[i] = {
-              id : res.data.uncompleted[i].id,
-              name: '김정묵',
-              dday: result,
-              text: res.data.uncompleted[i].title,
-              checked : false,
-              count : res.data.uncompleted[i].pray_cnt
-            };
-          }
-        for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-          let result = ddayCaculate(res.data.completed[i].deadline);
-          prayer_more_content_[i] = {
-            id : res.data.completed[i].id,
-            name: '김정묵',
-            dday: result,
-            text: res.data.completed[i].title,
-            checked : false,
-            count : res.data.completed[i].pray_cnt
-          };
-        }     
-        setPrayerContent(prayer_content_); 
-        setPrayerMoreContent(prayer_more_content_);  
-      }    
-      } catch (e){
-      alert("error occured");
-      console.log(e);
-    }
-  };
-  getPrayList();  
-},[])
-
-
   return (
     <TemplateMain onInsert = {onInsert}>
-      <PrayerList prayerContent={prayerContent} setPrayerContent = {setPrayerContent} prayerMoreContent = {prayerMoreContent} setPrayerMoreContent = {setPrayerMoreContent} 
+      <PrayerList prayerContent={uncompletedList} setPrayerContent = {setUncompletedList} prayerMoreContent = {completedList} setPrayerMoreContent = {setCompletedList} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
-      contentClick = {contentClick} clickId = {clickId} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
-      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} ddayCaculate = {ddayCaculate}/>
+      contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
+      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}/>
     </TemplateMain>
   );
 };
