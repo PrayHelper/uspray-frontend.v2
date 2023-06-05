@@ -2,15 +2,15 @@ import Header from "../components/Header/Header";
 import styled, { css } from "styled-components";
 import HisContent from "../components/History/HisContent";
 import serverapi from "../api/serverapi";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
-import { useFetchCurrentHis } from "../hooks/useFetchCurrentHis";
 import { useFetchHistory } from "../hooks/useFetchHistory";
+import { useHistoryModify } from "../hooks/useHistoryModify";
 
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
@@ -32,8 +32,6 @@ const History = () => {
   const [ref, inView] = useInView({
     triggerOnce: true, // 한 번만 트리거되도록 설정
   });
-
-  const accessToken = "";
 
   useEffect(() => {
     if (showToast) {
@@ -101,119 +99,53 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
-  const onClickModify = async (id, newDeadline) => {
-    const api = `/history/modify`;
-    const data = {
-      pray_id: id,
-      deadline: newDeadline,
-    };
-    try {
-      const res = await serverapi.put(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      if (res.status === 200) {
+  const { mutate: mutateHistoryModify } = useHistoryModify({
+    pray_id: currentId,
+    deadline: updateDate,
+  });
+
+  const onClickModify = () => {
+    mutateHistoryModify(null, {
+      onSuccess: () => {
         setShowToast(true);
         setShowModal(false);
         setShowSubModal(false);
-        // window.location.reload();
         setPage(1);
         setHasMore(true);
         setData([]);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const { fetchCurrentHisMutate } = useFetchCurrentHis();
-
-  const fetchCurrentHis = (id) => {
-    fetchCurrentHisMutate(null, {
-      onSuccess: (res) => {
-        console.log(res);
-        const filteredData = res.data.res.filter(
-          (item) => item.id === Number(id)
-        )[0];
-        setCurrentId(Number(id));
-        return filteredData;
+        updateHistoryData();
       },
     });
   };
 
-  // const fetchCurrentHis = async (id) => {
-  //   const api = `/history`;
-  //   try {
-  //     const res = await serverapi.get(api, {
-  //       headers: {
-  //         Authorization: `${accessToken}`,
-  //       },
-  //     });
-  //     const filteredData = res.data.res.filter(
-  //       (item) => item.id === Number(id)
-  //     )[0];
-  //     if (res.status === 200) {
-  //       console.log(id);
-  //       console.log(filteredData);
-  //       setCurrentId(Number(id));
-  //     }
-  //     return filteredData;
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  const { data: currentHistoryData } = useFetchHistory();
 
-  const { fetchHistoryMutate } = useFetchHistory({
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: refetchHistory,
+  } = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
 
-  const fetchHistory = useCallback(async () => {
-    setLoading(true);
-    fetchHistoryMutate(null, {
-      onSuccess: (res) => {
-        console.log(res.data.res);
-        console.log(page);
-        const newData = res.data.res;
-        setData((prev) => [...prev, ...newData]);
-        if (res.data.res.length === 0) {
-          setHasMore(false);
-        }
-      },
-    });
-    setLoading(false);
-  }, [page, isOnPray]);
+  // flag 변경 시 historyData를 새로 받아오는 함수
+  const updateHistoryData = () => {
+    console.log("함수 실행은 되니?");
+    refetchHistory();
+  };
 
-  // const fetchHistory = useCallback(async () => {
-  //   setLoading(true);
-  //   const api = `/history`;
-  //   try {
-  //     const res = await serverapi.get(api, {
-  //       headers: {
-  //         Authorization: `${accessToken}`,
-  //       },
-  //       params: {
-  //         page: page,
-  //         per_page: 15,
-  //         sort_by: isOnPray ? "cnt" : "date",
-  //       },
-  //     });
-  //     if (res.status === 200) {
-  //       console.log(res.data.res);
-  //       console.log(page);
-  //       const newData = res.data.res;
-  //       setData((prev) => [...prev, ...newData]);
-  //       if (res.data.res.length === 0) {
-  //         setHasMore(false);
-  //       }
-  //     }
-  //     setLoading(false);
-  //   } catch (e) {
-  //     console.log(e.response);
-  //   }
-  // }, [page, isOnPray]);
+  useEffect(() => {
+    if (!historyData) return;
+    console.log("useEffect 실행은 되니?");
+    console.log(historyData);
+    setLoading(historyLoading);
+    setData((prev) => [...prev, ...historyData.data.res]);
+    if (historyData.data.res.length === 0) {
+      setHasMore(false);
+    }
+  }, [page, isOnPray, historyData]);
 
   const onClickHistory = async (e) => {
     setShowModal(true);
@@ -223,14 +155,13 @@ const History = () => {
       setCurrentData(currentData);
       setCurrentId(Number(id));
     } else {
-      const currentData = await fetchCurrentHis(id);
+      const currentData = currentHistoryData.data.res.filter(
+        (item) => item.id === Number(id)
+      )[0];
+      setCurrentId(Number(id));
       setCurrentData(currentData);
     }
   };
-
-  useEffect(() => {
-    fetchHistory();
-  }, [fetchHistory]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
@@ -327,7 +258,7 @@ const History = () => {
             )}
             <SubModalDate>~{updateDate}</SubModalDate>
           </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify(currentId, updateDate)}>
+          <SubModalBottom onClick={() => onClickModify()}>
             오늘의 기도에 추가하기
           </SubModalBottom>
         </SubModalWrapper>
