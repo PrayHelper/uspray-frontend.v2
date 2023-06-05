@@ -6,7 +6,7 @@ import DatePickerComponent from "./DatePickerComponent";
 import { getMonth, getYear, getDate } from "date-fns"
 const DayBtnSet = styled.div`
     display: flex;
-    position: relative;
+    position: absolute;
     height: 42px;
     background-color: white;
     // margin-left: 20px;

@@ -11,10 +11,8 @@ const name = "김정묵";
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
-  
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList , setCompletedList] = useState([]);
-
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
@@ -22,8 +20,9 @@ const Main = () => {
   const [clickText, setClickText] = useState("");
   const [modalToggle,setmodalToggle] = useState(false);
   const [modalText, setModalText] = useState("");
-
+  const [tg, settg] = useState(true);
   const renderingData = (result) => {
+    console.log(result);
     let uncompletedList = [];
     let completedList = [];
     result.data.uncompleted.map((uncompletedItem) => {
@@ -51,11 +50,19 @@ const Main = () => {
     setUncompletedList(uncompletedList);
     setCompletedList(completedList);
   }
-
+  // console.log(prayList)
   useEffect(()=>{
-    if(!prayList) return;
-    renderingData(prayList);
-  },[prayList]);
+    if(!prayList){
+      // setTimeout(1000);
+      settg(!tg);
+      // refetchPrayList();
+    }else{
+      console.log("1");
+      renderingData(prayList);
+    }
+  },[tg]);
+
+
 
   const {mutate: mutateCountUpdate} = useCountUpdate();
   const {mutate: mutateComplete} = useCompletePrayList();
@@ -70,7 +77,10 @@ const Main = () => {
     else{
       var date = new Date();
       var day = addDay(date, Dday);
-      var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
+      var zeroTime = setZeroTime(day);
+      var deadline = zeroTime.getFullYear() + "-" + (zeroTime.getMonth()+1) + "-" + (zeroTime.getDate());
+      console.log(deadline);
+      console.log(date);
       mutateSendPrayItem({
         target: name,
         title: text,
@@ -87,6 +97,7 @@ const Main = () => {
   const addDay = (today, Dday) =>{
       var day = new Date(today);
       day.setDate(day.getDate() + Dday);
+      console.log(day);
       return day;
   }
   const changeCheck = () =>{
@@ -97,6 +108,7 @@ const Main = () => {
     mutateCountUpdate({id: id}, {
       onSuccess: (res) => {
         renderingData(res)
+
       }
     });
   };
@@ -169,7 +181,7 @@ const onDeleted = () =>{
   setIsDeleted(!isDeleted);
 } 
 
-const valueChange = async (id, value) => {
+const valueChange = async (id, value, name) => {
   if(value === ""){
     return alert("이대로")
   }
@@ -199,6 +211,12 @@ const dDayCalculate = (res_data) =>{
   var dday = new Date(res_data);
   var result = Math.ceil((dday - today)/(1000*60*60*24));
   return result;
+}
+
+const setZeroTime = (date)=>{
+  const newDate = new Date(date);
+  newDate.setHours(0, 0, 0, 0);
+  return newDate;
 }
 
   return (

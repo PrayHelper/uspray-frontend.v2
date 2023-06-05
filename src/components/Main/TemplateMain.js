@@ -103,8 +103,6 @@ const TemplateMain = ({ children, onInsert}) =>{
     }
     const changeCheckTop = () =>{
         setVisible(false);
-        setDay(7);
-        setValue("");
     }
     return(
         <div style={{width:"100%", height:"923px"}}>

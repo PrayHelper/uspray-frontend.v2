@@ -1,22 +1,21 @@
-import { useQuery } from 'react-query';
 import { useRecoilState } from "recoil";
-import { getFetcher, refresh } from "./api";
 import { tokenState } from "../recoil/accessToken";
+import { postFetcher, refresh } from "./api";
+import { useMutation } from "react-query";
 
-const getPrayList = async (accessToken,sort_by) => {
-  console.log(accessToken)
-  console.log(sort_by)
-  return await getFetcher(`/pray?sort_by=${sort_by}`, {
-    Authorization: accessToken,
-  });
+const postShareItem = async (accessToken, data) => {
+    return await postFetcher('/share', data, {
+      Authorization: accessToken,
+    });
+  };
+  
 
-}
-
-export const usePrayList = (sort_by) => {
+export const useShare = () =>{
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useQuery(['prayList','sort_by', accessToken],() => {return getPrayList(accessToken,sort_by)} ,  {
+  return useMutation((data) => {
+    return postShareItem(accessToken, data)}, {
     onError: (e) => {
-      if (e.status === 403) {
+      if (e.status === 500) {
         const data = refresh();
         if (typeof(data) === "string")
           setAccessToken(data);
@@ -31,5 +30,5 @@ export const usePrayList = (sort_by) => {
     },
     retryDelay: 300,
     refetchOnWindowFocus: false,
-  })
+  });
 }
