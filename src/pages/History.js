@@ -145,23 +145,6 @@ const History = () => {
     }
   }, [page, isOnPray, historyData]);
 
-  // flag 변경 시 historyData를 새로 받아오는 함수
-  const updateHistoryData = () => {
-    console.log("함수 실행은 되니?");
-    refetchHistory();
-  };
-
-  useEffect(() => {
-    if (!historyData) return;
-    console.log("useEffect 실행은 되니?");
-    console.log(historyData);
-    setLoading(historyLoading);
-    setData((prev) => [...prev, ...historyData.data.res]);
-    if (historyData.data.res.length === 0) {
-      setHasMore(false);
-    }
-  }, [page, isOnPray, historyData]);
-
   const onClickHistory = async (e) => {
     setShowModal(true);
     const id = e.currentTarget.id;
