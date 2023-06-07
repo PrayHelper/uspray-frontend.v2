@@ -5,6 +5,8 @@ import green_prayer_img from '../../images/green_prayer_img.svg';
 import white_prayer_img from "../../images/white_prayer_img.svg";
 
 const EmptyBackgroud = styled.div`
+    display: flex;
+    flex-direction : column;
     height: 246px;
 `
 

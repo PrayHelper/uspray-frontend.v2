@@ -22,7 +22,7 @@ export default ShareCheckBox;
 
 const CheckboxWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 `;
 
@@ -40,9 +40,8 @@ const CheckboxStyle = styled.input`
   background-size: 0px 0px;
   background-repeat: no-repeat;
   background-position: 50%;
+  margin: 0px;
   margin-bottom: 14px;
-  margin-left: 16px;
-
   &:checked {
     transition: all 0.2s;
     border-color: transparent;

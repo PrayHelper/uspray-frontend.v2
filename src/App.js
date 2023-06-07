@@ -26,7 +26,7 @@ import ChangePw from "./pages/ChangePw";
 import ChangePhoneNumber from "./pages/ChangePhoneNumber";
 import { useEffect, useState } from "react";
 import { refresh } from "./hooks/api";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { tokenState } from "./recoil/accessToken";
 
 const ContainerWrapper = styled.div`
@@ -46,19 +46,22 @@ const Container = styled.div`
 
 function MainApp() {
 
-  // 최초 접속 시에 refreshToken 만료면 로그인으로 이동하도록
-  useEffect(() => {
-    refresh();
-  }, []);
-
   function PrivateRoute() {
-    const token = useRecoilValue(tokenState);
-    console.log("private 라우트 테스트");
-
-    if (!token){
-      console.log("test");
+    const refreshToken = localStorage.getItem('refreshToken');
+    const [accessToken, setAccessToken] = useRecoilState(tokenState);
+    console.log("refresh : ", refreshToken);
+    console.log("access : ", accessToken);
+    
+    if (!refreshToken){
       return <Navigate replace to ='/' />
     }
+    if (!accessToken){
+      const getToken = async () => {
+        const token = await refresh();
+        setAccessToken(token);
+      };
+      getToken();
+    } 
 
     return <Outlet />;
   };

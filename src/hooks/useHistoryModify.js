@@ -1,18 +1,18 @@
 import { useRecoilState } from "recoil";
 import { tokenState } from "../recoil/accessToken";
-import { getFetcher, refresh } from "./api";
+import { putFetcher, refresh } from "./api";
 import { useMutation } from "react-query";
 
-const getCurrentHis = async (accessToken) => {
-  return await getFetcher('/history', {
+const putHistory = async (accessToken, data) => {
+  return await putFetcher('/history/modify', data, {
     Authorization: accessToken,
   });
 };
 
-export const useFetchCurrentHis = () => {
+export const useHistoryModify = (data) => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
   return useMutation(() => {
-    return getCurrentHis(accessToken)}, {
+    return putHistory(accessToken, data)}, {
       onError: (e) => {
         if (e.status === 403) {
           const data = refresh();
@@ -25,8 +25,9 @@ export const useFetchCurrentHis = () => {
         console.log(res);
       },
       retry: (cnt) => {
-        return cnt < 1;
+        return cnt < 3;
       },
       retryDelay: 300,
+      refetchOnWindowFocus: false,
     });
 }

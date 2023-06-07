@@ -11,12 +11,16 @@ const BackGround = styled.div`
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 100%;
-    // margin-bottom: 15px;
+    padding-left: 30px;
+    padding-right: 24px;
     background: white;
     height: 120px;
-    z-index: 1000;
+    z-index: 1000;  
+    border-bottom: 1px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -37,10 +41,37 @@ const SendImg = styled(Logo)`
     align-items: center;
 `;
 
-
-
+const StyleInput = styled.input`
+    margin-top: 64px;
+    width: 90.14%;
+    height:30px;
+    margin-left: 10px;
+    // padding-left: 12px;
+    border-radius:4px;
+    border : none;
+    font-size: 16px;                 
+    color: #A0A0A0; 
+    outline: none;
+    border-bottom: 1px solid #EBF7E8;
+    ::placeholder {
+        color: #B7CEB0; // 원하는 색상으로 변경
+    }
+`
+const StyleName = styled.input`
+    width: 100%;
+    height: 23px;
+    font-size: 16px;
+    // margin-right: 12px;
+    font-family: Noto Sans KR;
+    font-weight: 400;
+    color: #75BD62;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #EBF7E8;
+    padding-bottom: 4px;
+`
 const TemplateMain = ({ children, onInsert}) =>{
-    const text = "김정묵"
+    const [text, setText] = useState("김정묵");
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
@@ -60,6 +91,9 @@ const TemplateMain = ({ children, onInsert}) =>{
     const onChange = (e) =>{
         setValue(e.target.value);
     }
+    const onName = (e) =>{
+        setText(e.target.value);
+    }
     const submit = () =>{
         setVisible(!visible);
         setValue("");
@@ -75,19 +109,15 @@ const TemplateMain = ({ children, onInsert}) =>{
     return(
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
-                <div style={{width: '45px', height:'23px',marginTop:'70px', padding:'0px'}}>
-                    <div style={{width: '100%', height: '23px', fontSize:'14px',
-                    fontFamily:'Noto Sans KR',fontWeight:'400',color:"#75BD62", borderBottom:"1px solid #EBF7E8"}}>{text}
-                    </div>
+                <div style={{width: '15%', height:'23px',marginTop:'67px', padding:'0px'}}>
+                     <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                 </div>
 
                 <div style={{width: '264px'}}>
-                <input style={{marginTop:'65px',width:"90.14%",height:"27px" , marginLeft:'5px',padding:'0px',borderRadius:'4px', border:'none',fontSize:'16px',
-                 color:'#A0A0A0', borderBottom: '1px solid #EBF7E8'}}
-                placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(!visible) ? ()=> widthChange() : onSubmit}></input>
+                <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
+                onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                 </div>
-                <div style={{width:'31px', height:'31px', marginTop:'65px', marginLeft:'12px', minHeight:'31px', minWidth:'31px'}}>
+                <div style={{width:'31px', height:'31px', marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                     <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
@@ -99,3 +129,4 @@ const TemplateMain = ({ children, onInsert}) =>{
 }
 
 export default TemplateMain;
+

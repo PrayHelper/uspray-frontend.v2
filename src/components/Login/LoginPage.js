@@ -5,7 +5,8 @@ import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import Toast, { ToastTheme } from "../Toast/Toast";
 
 const LoginPage = () => {
 
@@ -14,6 +15,8 @@ const LoginPage = () => {
   const setTokenState = useSetRecoilState(tokenState);
   const accessToken = useRecoilValue(tokenState);
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -22,7 +25,14 @@ const LoginPage = () => {
     setPwdValue(event.target.value);
   };
 
-
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   const login = async () => {
     const api = `/user/login`;
@@ -40,6 +50,10 @@ const LoginPage = () => {
       }
     } catch (e) {
       console.log(e.response);
+      if (e.response.status === 400){
+        setToastMessage("회원정보가 일치하지 않습니다.");
+        setShowToast(true);
+      }
     }
   };
 
@@ -86,6 +100,9 @@ const LoginPage = () => {
           </div>
         </div> 
       </BottomBtnWrapper>
+      {showToast && (
+          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
+        )}
     </LoginWrapper>
   );
 };
