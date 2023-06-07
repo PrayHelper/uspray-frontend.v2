@@ -1,12 +1,7 @@
 import { useEffect } from 'react';
-import { useRecoilSetState } from 'recoil';
-import { deviceTokenState, authTokenState } from '../recoil/accessToken';
 
 
 const useFlutterWebview = () => {
-
-  const deviceTokenSetter = useRecoilSetState(deviceTokenState);
-  const authTokenSetter = useRecoilSetState(authTokenState);
 
   const getDeviceToken = () => window.FlutterUtil.getDeviceToken();
   const getAuthToken = () => window.FlutterUtil.getAuthToken();
@@ -15,12 +10,12 @@ const useFlutterWebview = () => {
   useEffect(() => {
     window.sendDeviceToken = (message) => {
       const token = JSON.parse(message)
-      deviceTokenSetter(token);
+      return token
     }
 
     window.sendAuthToken = (message) => {
       const token = JSON.parse(message)
-      authTokenSetter(token);
+      return token
     }
   });
 
@@ -39,10 +34,7 @@ export default useFlutterWebview;
 
 const onClick = () => {
   const { getDeviceToken } = useFlutterWebview();
-  getDeviceToken();
-
-  const deviceToken = useRecoilValue(deviceTokenState);
-  console.log(deviceToken);
+  token = getDeviceToken();
 }
 */
 
