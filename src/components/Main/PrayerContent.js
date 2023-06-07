@@ -8,11 +8,10 @@ import HeartImage from "../../images/ic_heart_image.svg";
 const MainContent = styled.div`
     display: flex;
     justify-content: space-between;
-    height: auto;
-    // margin-left : 16px;
-    margin: 0 16px; 
-    margin-top : 22px;
-    margin-bottom: 12px;
+    height: 25px;
+    margin-top: 16px;
+    margin-left: 12px; 
+    margin-right: 12px;
     border-bottom : 1px solid #CECECE;
     padding-right: 4px;
     padding-bottom : 8px;
@@ -35,6 +34,7 @@ const NameContent = styled.div`
 const TextContent = styled.div`
     // width: 263px;
     width: 70.571%;
+    height: 17px;
     padding : 0px;
     margin-left: 6px;
     // margin-right: 8px;

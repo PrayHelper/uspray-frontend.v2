@@ -6,20 +6,19 @@ import Animation_check from '../../images/ic_animation_check.svg';
 const AnimationStyle = styled.div`
     position : fixed;
     display: flex;
-    just-content: center;
     text-align: center;
-    padding: 16px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding: 16px 30px;
     // gap: 10px;
     border-radius: 16px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 1;
+    bottom: 0;
+    right: 0;
+    left: 0;
     width: 88.837%;
     height: 28px;
     background-color: #78AB6E;
-    z-index: 10000;
+    margin-bottom : 50px;
+    z-index: 100000;
 `
 const SubAnimation = styled.div`
     display: flex;

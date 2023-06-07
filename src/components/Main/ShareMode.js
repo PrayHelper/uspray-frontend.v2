@@ -63,7 +63,7 @@ const NumberContainer = styled.div`
 const ShareClickLogo = styled(MoveLogo)``;
 
 
-const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
+const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, doubleToggle}) =>{
     const [cancelToggle, setCancleToggle] = useState(true);
 
     const onCancle = () =>{
@@ -75,7 +75,7 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
         }
     } 
     return(
-        cancelToggle && <MainContainer>
+        doubleToggle && cancelToggle && <MainContainer>
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",borderBottom: "1px solid #F0F0F0"}} 
             onClick={() => onCancle()}></div></div>
             <div style={{display:"flex", flexDirection:"row-reverse"}}>

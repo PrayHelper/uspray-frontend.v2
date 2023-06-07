@@ -10,7 +10,6 @@ import DeleteBar from "./DeleteBar";
 import AnimationModal from "./AnimationModal";
 import { usePrayList } from "../../hooks/usePrayList";
 import { useShare } from "../../hooks/useShare";
-import { is } from "date-fns/locale";
 
 const Background = styled.div`
   width: 100%;
@@ -85,7 +84,7 @@ const PrayerContentStyle = styled.div`
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
     modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
-    valueChange,changeCheck, dDayCalculate, modalToggle, modalText}){
+    valueChange,changeCheck, dDayCalculate, modalToggle, modalText, doubleToggle}){
     const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
     const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
     const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
@@ -182,7 +181,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const onShare = async() =>{
         setIsShare(!isShare);
         if(isShare){
-            const api = "/share";
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
             mutateSharePrayItem({
@@ -255,7 +253,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                     {(prayerContent.length === 0) ? <EmptySpace color={true}/> : 
                     prayerContent.map((content,index) =>(
                         <PrayerContent key={index} content = {content} dayToggle ={dayToggleTopDay} countUpdate = {countUpdate} contentClick = {contentClick} 
-                        isShare={isShare} shareList={shareList} clickOff = {clickOff} bottom={false}/>
+                        isShare={isShare} shareList={shareList} clickOff = {clickOff} bottom={false} doubleToggle = {doubleToggle}/>
                     ))}
                 </PrayerContentStyle>
 
@@ -269,11 +267,11 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 <PrayerContentStyle style={{background:'#7BAB6E'}}> 
                         {(prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
                             <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
-                            isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
+                            isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true} doubleToggle ={doubleToggle}/>
                         ))}
                 </PrayerContentStyle>
-                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
-               shareLength = {shareLength}></Share>}
+                {!isModify && isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
+               shareLength = {shareLength} doubleToggle = {doubleToggle}></Share>}
                 {modalToggle && <AnimationModal modalText = {modalText} />}
                 {isChecked && <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck}></BottomMenu>}

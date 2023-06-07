@@ -21,6 +21,7 @@ const Main = () => {
   const [modalToggle,setmodalToggle] = useState(false);
   const [modalText, setModalText] = useState("");
   const [tg, settg] = useState(true);
+  const [doubleToggle, setDoubleToggle] = useState(true);
   const renderingData = (result) => {
     console.log(result);
     let uncompletedList = [];
@@ -53,9 +54,7 @@ const Main = () => {
   // console.log(prayList)
   useEffect(()=>{
     if(!prayList){
-      // setTimeout(1000);
       settg(!tg);
-      // refetchPrayList();
     }else{
       console.log("1");
       renderingData(prayList);
@@ -220,11 +219,12 @@ const setZeroTime = (date)=>{
 }
 
   return (
-    <TemplateMain onInsert = {onInsert}>
+    <TemplateMain onInsert = {onInsert} setDoubleToggle = {setDoubleToggle} doubleToggle = {doubleToggle} >
       <PrayerList prayerContent={uncompletedList} setPrayerContent = {setUncompletedList} prayerMoreContent = {completedList} setPrayerMoreContent = {setCompletedList} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
       contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
-      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}/>
+      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}
+      modalText={modalText} modalToggle={modalToggle} doubleToggle ={doubleToggle}/>
     </TemplateMain>
   );
 };
