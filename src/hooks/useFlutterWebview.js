@@ -1,23 +1,34 @@
+import { useRef } from 'react';
 import { useEffect } from 'react';
 
 
 const useFlutterWebview = () => {
 
-  const getDeviceToken = () => window.FlutterUtil.getDeviceToken();
-  const getAuthToken = () => window.FlutterUtil.getAuthToken();
-  const storeAuthToken = (token) => window.storeAuthToken(token);
+  const deviceToken = useRef(null);
+  const authToken = useRef(null);
+
+  const getDeviceToken = () => {
+    window.FlutterGetDeviceToken.postMessage();
+    return deviceToken.current;
+  }
+
+  const getAuthToken = () => {
+    window.FlutterGetAuthToken.getAuthToken();
+    return authToken.current;
+  }
+
+  const storeAuthToken = (token) => window.FlutterStoreAuthToken.postMessage(token);
+
 
   useEffect(() => {
-    window.sendDeviceToken = (message) => {
-      const token = JSON.parse(message)
-      return token
+    window.sendDeviceToken = (token) => {
+      deviceToken.current = token
     }
 
-    window.sendAuthToken = (message) => {
-      const token = JSON.parse(message)
-      return token
+    window.sendAuthToken = (token) => {
+      authToken.current = token
     }
-  });
+  }, []);
 
   return {
     getDeviceToken,
@@ -35,6 +46,7 @@ export default useFlutterWebview;
 const onClick = () => {
   const { getDeviceToken } = useFlutterWebview();
   token = getDeviceToken();
+  // send token to server
 }
 */
 
@@ -42,10 +54,26 @@ const onClick = () => {
 
 /* INSTRUCTION FOR FLUTTER
 
-class FlutterUtil = {
-  function getDeviceToken() {
-    // get a device token from mobile
-    window.sendDeviceToken(token)
-  }
-}
+  javascriptChannels: <JavascriptChannel>[
+    JavascriptChannel(
+      name: 'FlutterGetDeviceToken',
+      onMessageReceived: (JavascriptMessage message) {
+        // get device token
+        controller.runJavascript('window.sendDeviceToken(${token})');
+      },
+    ),
+    JavascriptChannel(
+      name: 'FlutterGetAuthToken',
+      onMessageReceived: (JavascriptMessage message) {
+        // get auth token
+        controller.runJavascript('window.sendAuthToken(${token})');
+      },
+    ),
+        JavascriptChannel(
+      name: 'FlutterStoreAuthToken',
+      onMessageReceived: (JavascriptMessage message) {
+        // store auth token
+      },
+    ),
+  ].toSet(),
 */
