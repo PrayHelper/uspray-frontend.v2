@@ -12,7 +12,7 @@ const LoginButton = (props) => {
       onClick={props.handler}
     >
       <BottomBtnFont color={props.color}>{props.context}</BottomBtnFont>
-      <NextArrow fill={props.arrowColor} style={{ paddingRight: "12px" }} />
+      <NextArrow fill={props.arrowColor} style={{ paddingRight: "10px" }} />
     </BottomBtn>
   );
 };
@@ -30,10 +30,11 @@ const BottomBtn = styled.div`
   margin: ${(props) => props.margin};
   border: ${(props) => `1px solid ${props.borderColor}` || "none"};
   cursor: pointer;
+  box-sizing: border-box;
 `;
 
 const BottomBtnFont = styled.div`
   color: ${(props) => props.color};
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
 `;

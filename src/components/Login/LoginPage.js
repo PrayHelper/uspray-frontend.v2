@@ -82,7 +82,7 @@ const LoginPage = () => {
             />
           </div>
 
-          <div style={{ margin: "0px 24px 12px 24px" }}>
+          <div style={{ margin: "0px 24px 12px 24px"}}>
             <Button
               buttonSize={ButtonSize.LARGE}
               ButtonTheme={ButtonTheme.GREEN}
@@ -90,7 +90,7 @@ const LoginPage = () => {
                 login();
               }}
             >
-              로그인 하기
+              로그인
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
