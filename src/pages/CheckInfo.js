@@ -44,10 +44,13 @@ const CheckInfo = () => {
         console.log(res);
         if (res.data.message === true)
           navigate("/changeInfo");
+        else if (res.data.message === false)
+        {
+          setShowErrorToast(true);
+          setDisabled(true);
+        }
       },
       onError: (e) => {
-        setShowErrorToast(true);
-        setDisabled(true);
       }
     });
   };
