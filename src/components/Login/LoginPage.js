@@ -7,6 +7,7 @@ import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import Toast, { ToastTheme } from "../Toast/Toast";
+import useFlutterWebview from "../../hooks/useFlutterWebview";
 
 const LoginPage = () => {
 
@@ -17,6 +18,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const { getDeviceToken } = useFlutterWebview();
+  const [deviceToken, setDeviceToken] = useState("");
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -34,6 +37,22 @@ const LoginPage = () => {
     }
   }, [showToast]);
 
+  const sendDeviceToken = async ()=> {
+    const api = '/user/device/token';
+    const data = {
+      device_token: deviceToken
+    };
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  
   const login = async () => {
     const api = `/user/login`;
     const data = {
@@ -46,6 +65,9 @@ const LoginPage = () => {
         setTokenState(res.data.access_token);
         console.log(accessToken);
         localStorage.setItem('refreshToken', res.data.refresh_token);
+        const result = getDeviceToken();
+        setDeviceToken(result);
+        sendDeviceToken();
         navigate("/main");
       }
     } catch (e) {
