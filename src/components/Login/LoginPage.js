@@ -65,12 +65,14 @@ const LoginPage = () => {
         setTokenState(res.data.access_token);
         console.log(accessToken);
         localStorage.setItem('refreshToken', res.data.refresh_token);
-        const result = getDeviceToken();
+        const result = await getDeviceToken();
+        console.log(result);
         setDeviceToken(result);
-        sendDeviceToken();
+        await sendDeviceToken();
         navigate("/main");
       }
     } catch (e) {
+      console.log(e);
       console.log(e.response);
       if (e.response.status === 400){
         setToastMessage("회원정보가 일치하지 않습니다.");
