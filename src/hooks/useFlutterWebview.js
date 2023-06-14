@@ -7,17 +7,17 @@ const useFlutterWebview = () => {
   const deviceToken = useRef(null);
   const authToken = useRef(null);
 
-  const getDeviceToken = () => {
-    window.FlutterGetDeviceToken.postMessage();
+  const getDeviceToken = async () => {
+    await window.FlutterGetDeviceToken.postMessage();
     return deviceToken.current;
   }
 
-  const getAuthToken = () => {
-    window.FlutterGetAuthToken.getAuthToken();
+  const getAuthToken = async () => {
+    await window.FlutterGetAuthToken.getAuthToken();
     return authToken.current;
   }
 
-  const storeAuthToken = (token) => window.FlutterStoreAuthToken.postMessage(token);
+  const storeAuthToken = async (token) => await window.FlutterStoreAuthToken.postMessage(token);
 
 
   useEffect(() => {
