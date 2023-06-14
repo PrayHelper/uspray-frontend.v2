@@ -8,6 +8,7 @@ import { tokenState } from "../../recoil/accessToken";
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
+import { AxiosError } from "axios";
 
 const LoginPage = () => {
 
@@ -68,15 +69,22 @@ const LoginPage = () => {
         const result = await getDeviceToken();
         console.log(result);
         setDeviceToken(result);
+        alert("device token: " , result);
         await sendDeviceToken();
         navigate("/main");
       }
     } catch (e) {
-      console.log(e);
-      console.log(e.response);
-      if (e.response.status === 400){
-        setToastMessage("회원정보가 일치하지 않습니다.");
+      if (e instanceof TypeError) {
+        console.log("Type Error Occured: " + e.message);
+        setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
         setShowToast(true);
+      }
+      else if (e instanceof AxiosError) {
+        console.log("Axios Error Occured: " + e.message);
+        if (e.response.status === 400){
+          setToastMessage("회원정보가 일치하지 않습니다.");
+          setShowToast(true);
+        }
       }
     }
   };
