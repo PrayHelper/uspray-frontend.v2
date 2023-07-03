@@ -36,7 +36,7 @@ const MainContainer = styled.div`
     border: none;
     background-color : white;
     border-radius: 24px 24px 0px 0px;
-    z-index : 1001;
+    z-index : 2001;
     padding-right: 24px;
     padding-left: 24px;
     box-sizing : border-box;
@@ -48,6 +48,7 @@ const SubContainer = styled.div`
     width : 100%;
     heigth: 75px;
     border: none;
+    z-index: 10001;
 `
 const NumberContainer = styled.div`
     width: 43px;
@@ -63,7 +64,7 @@ const NumberContainer = styled.div`
 const ShareClickLogo = styled(MoveLogo)``;
 
 
-const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, doubleToggle}) =>{
+const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
     const [cancelToggle, setCancleToggle] = useState(true);
 
     const onCancle = () =>{
@@ -75,7 +76,7 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, doubleToggle
         }
     } 
     return(
-        doubleToggle && cancelToggle && <MainContainer>
+        cancelToggle && <MainContainer>
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",borderBottom: "1px solid #F0F0F0"}} 
             onClick={() => onCancle()}></div></div>
             <div style={{display:"flex", flexDirection:"row-reverse"}}>

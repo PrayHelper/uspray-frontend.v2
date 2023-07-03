@@ -12,7 +12,7 @@ const MainContent = styled.div`
     margin-top: 16px;
     margin-left: 12px; 
     margin-right: 12px;
-    border-bottom : 1px solid #CECECE;
+    border-bottom : 1px solid #B3D1AB;
     padding-right: 4px;
     padding-bottom : 8px;
 `

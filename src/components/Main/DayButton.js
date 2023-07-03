@@ -52,11 +52,11 @@ const Day_Button = ({dayInfo}) =>{
         setFontThirty('#75BD62');
         setFontHundred('#75BD62');
         var year = getYear(date);
-        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var month = ((getMonth(date)+1) <= 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
         var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
         let res_data = year + "/" +  month + "/" + date;
         setDayText(res_data);
-        setDayToggle(!dayToggle);
+        setDayToggle(true);
       }
     const colorChange = (e) =>{
         if(e.target == undefined){
@@ -141,8 +141,10 @@ const Day_Button = ({dayInfo}) =>{
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender>
             {dayToggle ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
-        </DayBtnSet> : <DayBtnSet>
-        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> </DayBtnSet> 
+        </DayBtnSet>: 
+        <DayBtnSet>
+        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> 
+        </DayBtnSet> 
 
 
     )

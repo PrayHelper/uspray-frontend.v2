@@ -71,16 +71,18 @@ const StyleName = styled.input`
     border-bottom: 1px solid #EBF7E8;
     padding-bottom: 4px;
 `
-const TemplateMain = ({ children, onInsert, setDoubleToggle, doubleToggle}) =>{
+const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
     const [text, setText] = useState("김정묵");
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const widthChange = () =>{
         setVisible(!visible);
+        if(shareToggle){
+            setshareToggle(!shareToggle)
+            setIsShare(!isShare)
+        }
         // setDoubleToggle(!doubleToggle);
-        setDoubleToggle(false);
-        console.log(doubleToggle);
     }
     const dayInfo = (e) =>{
         setDay(e);
@@ -108,6 +110,7 @@ const TemplateMain = ({ children, onInsert, setDoubleToggle, doubleToggle}) =>{
     const changeCheckTop = () =>{
         setVisible(false);
     }
+
     return(
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
@@ -124,7 +127,7 @@ const TemplateMain = ({ children, onInsert, setDoubleToggle, doubleToggle}) =>{
                      : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
                 </div>
             </BackgroundInput>
-            {doubleToggle && visible && <DayButton dayInfo = {dayInfo}/>}
+            {visible && <DayButton dayInfo = {dayInfo}/>}
             {visible && <BackgroundBright onClick={changeCheckTop}/>}
             <BackGround>{children}</BackGround>
         </div>

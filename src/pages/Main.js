@@ -11,6 +11,7 @@ const name = "김정묵";
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
+  const {data: pray_List, refetch: refetch_PrayList} = usePrayList('cnt');
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList , setCompletedList] = useState([]);
   const [clickId , setClickId] = useState(0);
@@ -20,10 +21,16 @@ const Main = () => {
   const [clickText, setClickText] = useState("");
   const [modalToggle,setmodalToggle] = useState(false);
   const [modalText, setModalText] = useState("");
-  const [tg, settg] = useState(true);
-  const [doubleToggle, setDoubleToggle] = useState(true);
+  const [upPosition , setUpPosition] = useState(true);
+  const [DownPosition , setDownPosition] = useState(true);
+  const [isShare, setIsShare] = useState(false);
+  const [shareToggle, setshareToggle] = useState(false);
+  const [shareLength, setShareLength] = useState(0);
+
   const renderingData = (result) => {
     console.log(result);
+    console.log(DownPosition);
+    console.log(upPosition);
     let uncompletedList = [];
     let completedList = [];
     result.data.uncompleted.map((uncompletedItem) => {
@@ -48,20 +55,25 @@ const Main = () => {
         count : completedItem.pray_cnt
       })
     });
-    setUncompletedList(uncompletedList);
-    setCompletedList(completedList);
+    upPosition && setUncompletedList(uncompletedList);
+    DownPosition && setCompletedList(completedList);
   }
-  // console.log(prayList)
+
+  const sortUpPosition = (result) =>{
+    setUpPosition(result);
+  }
+  const sortDownPosition = (result) =>{
+    setDownPosition(result);
+}
   useEffect(()=>{
-    if(!prayList){
-      settg(!tg);
-    }else{
-      console.log("1");
-      renderingData(prayList);
-    }
-  },[tg]);
+    if(!prayList) return;
+    renderingData(prayList);
+  },[prayList]);
 
-
+  useEffect(()=>{
+    if(!pray_List) return;
+    renderingData(pray_List);
+  },[pray_List])
 
   const {mutate: mutateCountUpdate} = useCountUpdate();
   const {mutate: mutateComplete} = useCompletePrayList();
@@ -90,7 +102,6 @@ const Main = () => {
           refetchPrayList();
         },
       });
-      // getPrayList();
     }
   }
   const addDay = (today, Dday) =>{
@@ -106,8 +117,9 @@ const Main = () => {
   const countUpdate = async (id) => {
     mutateCountUpdate({id: id}, {
       onSuccess: (res) => {
-        renderingData(res)
-
+        setUpPosition(true);
+        setDownPosition(true);
+        renderingData(res);
       }
     });
   };
@@ -218,13 +230,21 @@ const setZeroTime = (date)=>{
   return newDate;
 }
 
+
+const onMove = () =>{
+  setshareToggle(!shareToggle);
+  setIsShare(!isShare);
+  setShareLength(0);
+}
   return (
-    <TemplateMain onInsert = {onInsert} setDoubleToggle = {setDoubleToggle} doubleToggle = {doubleToggle} >
+    <TemplateMain onInsert = {onInsert} setshareToggle ={setshareToggle} shareToggle={shareToggle} isShare={isShare} setIsShare={setIsShare}>
       <PrayerList prayerContent={uncompletedList} setPrayerContent = {setUncompletedList} prayerMoreContent = {completedList} setPrayerMoreContent = {setCompletedList} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
       contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
       isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}
-      modalText={modalText} modalToggle={modalToggle} doubleToggle ={doubleToggle}/>
+      modalText={modalText} modalToggle={modalToggle} sortUpPosition = {sortUpPosition} sortDownPosition= {sortDownPosition} 
+      isShare = {isShare} setIsShare = {setIsShare} shareToggle = {shareToggle} setshareToggle={setshareToggle}
+    shareLength = {shareLength} setShareLength = {setShareLength} onMove={onMove}/>
     </TemplateMain>
   );
 };

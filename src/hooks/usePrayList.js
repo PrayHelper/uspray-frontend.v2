@@ -4,8 +4,6 @@ import { getFetcher, refresh } from "./api";
 import { tokenState } from "../recoil/accessToken";
 
 const getPrayList = async (accessToken,sort_by) => {
-  console.log(accessToken)
-  console.log(sort_by)
   return await getFetcher(`/pray?sort_by=${sort_by}`, {
     Authorization: accessToken,
   });
@@ -21,7 +19,6 @@ export const usePrayList = (sort_by) => {
         if (typeof(data) === "string")
           setAccessToken(data);
       }
-      console.log(e);
     },
     onSuccess: (res) => {
       console.log(res);

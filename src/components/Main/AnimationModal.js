@@ -17,7 +17,7 @@ const AnimationStyle = styled.div`
     width: 88.837%;
     height: 28px;
     background-color: #78AB6E;
-    margin-bottom : 50px;
+    margin-bottom : 65px;
     z-index: 100000;
 `
 const SubAnimation = styled.div`
