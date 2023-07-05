@@ -2,35 +2,56 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 
 
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 const useFlutterWebview = () => {
 
-  const deviceToken = useRef(null);
-  const authToken = useRef(null);
+  const deviceToken = useRef("");
+  const authToken = useRef("");
+
+  const isMobile = () => {
+    // eslint-disable-next-line no-undef
+    const flag = typeof FlutterGetDeviceToken !== 'undefined' && typeof FlutterGetDeviceToken.postMessage === 'function';
+    console.log(`isMobile() = ${flag}`)
+    return flag
+  }
 
   const getDeviceToken = async () => {
-    await window.FlutterGetDeviceToken.postMessage();
+
+    // eslint-disable-next-line no-undef
+    FlutterGetDeviceToken.postMessage(JSON.stringify({}));
+
+    await sleep(1000);
+
+    alert(`getDeviceToken() = ${deviceToken.current}`)
     return deviceToken.current;
   }
 
   const getAuthToken = async () => {
-    await window.FlutterGetAuthToken.getAuthToken();
-    return authToken.current;
+    // eslint-disable-next-line no-undef
+    FlutterGetAuthToken.postMessage(JSON.stringify({}));
   }
-
-  const storeAuthToken = async (token) => await window.FlutterStoreAuthToken.postMessage(token);
+  // eslint-disable-next-line no-undef
+  const storeAuthToken = (token) => FlutterStoreAuthToken.postMessage(token);
 
 
   useEffect(() => {
+    // eslint-disable-next-line no-undef
     window.sendDeviceToken = (token) => {
+      alert(`sendDeviceToken(${token})`)
       deviceToken.current = token
     }
 
+    // eslint-disable-next-line no-undef
     window.sendAuthToken = (token) => {
       authToken.current = token
     }
   }, []);
 
   return {
+    isMobile,
     getDeviceToken,
     getAuthToken,
     storeAuthToken
@@ -69,7 +90,7 @@ const onClick = () => {
         controller.runJavascript('window.sendAuthToken(${token})');
       },
     ),
-        JavascriptChannel(
+    JavascriptChannel(
       name: 'FlutterStoreAuthToken',
       onMessageReceived: (JavascriptMessage message) {
         // store auth token

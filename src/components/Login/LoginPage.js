@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
-import { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 
 const LoginPage = () => {
 
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
-  const setTokenState = useSetRecoilState(tokenState);
-  const accessToken = useRecoilValue(tokenState);
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { getDeviceToken } = useFlutterWebview();
-  const [deviceToken, setDeviceToken] = useState("");
+  const setTokenState = useSetRecoilState(tokenState);
+  const { isMobile, getDeviceToken, storeAuthToken } = useFlutterWebview();
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -38,7 +36,7 @@ const LoginPage = () => {
     }
   }, [showToast]);
 
-  const sendDeviceToken = async ()=> {
+  const sendDeviceToken = async (deviceToken) => {
     const api = '/user/device/token';
     const data = {
       device_token: deviceToken
@@ -63,25 +61,28 @@ const LoginPage = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200){
-        setTokenState(res.data.access_token);
-        console.log(accessToken);
-        localStorage.setItem('refreshToken', res.data.refresh_token);
-        const result = await getDeviceToken();
-        console.log(result);
-        setDeviceToken(result);
-        alert("device token: " , result);
-        await sendDeviceToken();
+        const accessToken = res.data.access_token;
+        setTokenState(accessToken);
+
+        if (isMobile()) {
+          const deviceToken = await getDeviceToken();
+          alert(`device token on client side: ${deviceToken}`);
+          await sendDeviceToken(deviceToken);
+
+          storeAuthToken(accessToken)
+
+        } else {
+          localStorage.setItem('refreshToken', accessToken);
+
+          setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
+          setShowToast(true);
+        }
+
         navigate("/main");
       }
     } catch (e) {
-      if (e instanceof TypeError) {
-        console.log("Type Error Occured: " + e.message);
-        setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
-        setShowToast(true);
-      }
-      else if (e instanceof AxiosError) {
-        console.log("Axios Error Occured: " + e.message);
-        if (e.response.status === 400){
+      if (isAxiosError(e)) {
+        if (e.response && e.response.status === 400){
           setToastMessage("회원정보가 일치하지 않습니다.");
           setShowToast(true);
         }
