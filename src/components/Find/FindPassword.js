@@ -1,15 +1,45 @@
 import React, { useEffect, useRef, useState } from "react";
-import UserHeader from "../UserHeader";
-import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
-import Input from "../Input/Input";
 import styled from "styled-components";
-import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
-import { Link } from "react-router-dom";
+import UserHeader from "../UserHeader";
+import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
+import Input from "../Input/Input";
+import Toast, { ToastTheme } from "../Toast/Toast";
+import BlackScreen from "../BlackScreen/BlackScreen";
 
 let init = 0;
 
-const FindId = () => {
+const ModalContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: calc(100vw - 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  gap: 8px;
+  border-radius: 16px;
+  padding: 16px;
+  color: #7bab6e;
+  z-index: 500;
+`;
+
+const ModalButton = styled.button`
+  width: 100%;
+  height: 66px;
+  background-color: #7bab6e;
+  border-style: none;
+  border-radius: 16px;
+  padding: 20px 0;
+  color: #ffffff;
+  font-size: 18px;
+`;
+
+const FindPassword = () => {
   const [userInfo, setUserInfo] = useState({
     id: "",
     pwd: "",
@@ -21,6 +51,7 @@ const FindId = () => {
     phoneNumber: "",
     certificateNumber: "",
   });
+  const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
@@ -28,15 +59,25 @@ const FindId = () => {
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
+  const [isPhoneNumVerficationButtonClicked, setIsPhoneNumVerficationButtonClickClick] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
 
   const isAllValid =
     isCetrificated &&
     isCertificateButtonClicked;
-    
+
+  const idRegEx = /^[a-z0-9]{6,15}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const idCheck = (userInfo) => {
+    return idRegEx.test(userInfo);
+  };
 
   const phoneNumberCheck = (userInfo) => {
     return phoneNumberRegEx.test(userInfo);
@@ -44,6 +85,18 @@ const FindId = () => {
 
   const certificateNumberCheck = (userInfo) => {
     return certificateNumberRegEx.test(userInfo);
+  };
+
+  const isIdDuplicated = async (uid) => {
+    const api = `/user/dup_check/${uid}`;
+    try {
+      const res = await serverapi.get(api);
+      if (res.status === 200) {
+        return res.data.dup;
+      }
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 
   const phoneNumVerfication = async (phoneNumber) => {
@@ -64,10 +117,18 @@ const FindId = () => {
     }
   };
 
-  // const findId = async () => {
+  // const findPassword = async () => {
   //   const api = "/user/signup";
+  //   const data = {
+  //     id: userInfo.id,
+  //     password: userInfo.pwd,
+  //     name: userInfo.name,
+  //     gender: gender,
+  //     birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
+  //     phone: userInfo.phoneNumber.replace(/-/g, ""),
+  //   };
   //   try {
-  //     const res = await serverapi.post(api);
+  //     const res = await serverapi.post(api, data);
   //     if (res.status === 200) {
   //       alert("회원가입이 완료되었습니다.");
   //     }
@@ -75,6 +136,19 @@ const FindId = () => {
   //     alert("error occured");
   //   }
   // };
+
+  const idChangeHandler = async (e) => {
+    setUserInfo({ ...userInfo, id: e.target.value });
+    if (!idCheck(e.target.value)) {
+      setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
+      return;
+    }
+    if (await isIdDuplicated(e.target.value)) {
+      setInvalidIdInfo("아이디가 중복되었습니다.");
+      return;
+    }
+    setInvalidIdInfo("");
+  };
 
   const nameChangeHandler = (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
@@ -154,7 +228,7 @@ const FindId = () => {
 
   return (
     <div>
-      <UserHeader children={"아이디 찾기"}/>
+      <UserHeader children={"비밀번호 찾기"} />
       <div
         style={{
           display: "flex",
@@ -163,6 +237,12 @@ const FindId = () => {
           padding: "20px 27px",
         }}
       >
+        <Input
+          label="아이디"
+          onChangeHandler={idChangeHandler}
+          value={userInfo.id}
+          description={invalidIdInfo}
+        />
         <Input
           label="이름"
           onChangeHandler={nameChangeHandler}
@@ -190,6 +270,7 @@ const FindId = () => {
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
+                setIsPhoneNumVerficationButtonClickClick(true);
               }}
             >
               {time ? "진행 중" : "전송"}
@@ -226,9 +307,11 @@ const FindId = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0
+                  (isCetrificated && isCertificateButtonClicked) || time === 0 || !isPhoneNumVerficationButtonClicked
                 }
                 handler={() => {
+                  console.log(isCetrificated && isCertificateButtonClicked);
+                  console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
                     alert("인증에 성공하였습니다.");
@@ -244,24 +327,22 @@ const FindId = () => {
             </div>
           }
         />
+        <Button
+          disabled={!isAllValid}
+          buttonSize={ButtonSize.LARGE}
+          buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
+          handler={() => {
+            // findPassword();
+          }}
+        >
+          비밀번호 찾기
+        </Button>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <Button
-            disabled={!isAllValid}
-            buttonSize={ButtonSize.LARGE}
-            buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-            // handler={() => {
-            //   findId();
-            // }}
-          >
-            아이디 찾기
-          </Button>
-        </Link>
       </div>
     </div>
   );
 };
 
-export default FindId;
+export default FindPassword;

@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 import { refresh } from "./hooks/api";
 import { useRecoilValue } from "recoil";
 import { tokenState } from "./recoil/accessToken";
+import FindPassword from "./components/Find/FindPassword";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -91,6 +92,7 @@ function MainApp() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/findID" element={<FindId />}></Route>
+          <Route path="/findPW" element={<FindPassword />}></Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
 
