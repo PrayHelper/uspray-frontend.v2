@@ -68,12 +68,10 @@ const ClickImg = styled(Logo)`
 function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList, clickOff}){
     const {id, dday,text,checked, name, count} = content;
     const clickHandler = (event) =>{
-        console.log(event.target.id);
         if(!checked){
         return shareList(event.target.id, !checked);
         }
         else{
-            console.log("여기");
             clickOff(id);
         }
     }

@@ -239,8 +239,17 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             mutateSharePrayItem({
                 pray_id_list : Sharelist
               },{
-                onSuccess: () => {
+                onSuccess: (e) => {
                   console.log("sendShareList");
+                  console.log(e.data);
+                  if (navigator.share) {
+                    navigator.share({
+                        title: 'Web_share',
+                        url: e.data,
+                    });
+                }else{
+                    alert("공유하기가 지원되지 않는 환경 입니다.")
+                }
                 },
               });
             setShareList([]);

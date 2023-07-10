@@ -28,9 +28,6 @@ const Main = () => {
   const [shareLength, setShareLength] = useState(0);
 
   const renderingData = (result) => {
-    console.log(result);
-    console.log(DownPosition);
-    console.log(upPosition);
     let uncompletedList = [];
     let completedList = [];
     result.data.uncompleted.map((uncompletedItem) => {
