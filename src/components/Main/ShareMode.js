@@ -14,7 +14,12 @@ const BoxContainer = styled.div`
     margin-bottom: 12px;
     border : 1px solid #7BAB6E;
     border-radius: 16px;
-    color: ##7BAB6E;
+    color: #7BAB6E;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 23px;
 `;
 
 const MainContainer = styled.div`
@@ -31,7 +36,7 @@ const MainContainer = styled.div`
     border: none;
     background-color : white;
     border-radius: 24px 24px 0px 0px;
-    z-index : 1001;
+    z-index : 2001;
     padding-right: 24px;
     padding-left: 24px;
     box-sizing : border-box;
@@ -43,6 +48,7 @@ const SubContainer = styled.div`
     width : 100%;
     heigth: 75px;
     border: none;
+    z-index: 10001;
 `
 const NumberContainer = styled.div`
     width: 43px;
@@ -65,7 +71,6 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
         setCancleToggle(!cancelToggle);
         onMove();
         if(isShare){
-            console.log("onCheck");
             onCheck();
         }
     } 
@@ -77,7 +82,8 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
             {(shareLength == undefined) ? "" : <NumberContainer>{shareLength + "개 선택"}</NumberContainer>}</div>
             <SubContainer>
                 <BoxContainer onClick={() => onCancle()}>취소하기<ShareClickLogo style={{height:'14px', width:'14px',marginLeft: '20px'}} src={share_cancel}/></BoxContainer>
-                <BoxContainer style={{background:'#7BAB6E', color:'#FFFFFF'}}onClick={() => onShare()}>공유하기<ShareClickLogo style={{marginLeft: '20px', backgroundColor:'#FFFFF'}}src={share_move}/></BoxContainer>
+                {(shareLength === 0) ? <BoxContainer style={{backgroundColor:"#D0E8CB", color:"#FFFFFF", border:"1px solid #FFFFFF"}}>공유하기<ShareClickLogo style={{marginLeft: "20px"}} src = {share_move}/></BoxContainer> 
+                :<BoxContainer style={{background:'#7BAB6E', color:'#FFFFFF'}}onClick={() => onShare()}>공유하기<ShareClickLogo style={{marginLeft: '20px'}}src={share_move}/></BoxContainer>}
             </SubContainer>
         </MainContainer>
     )

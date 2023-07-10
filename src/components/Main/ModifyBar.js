@@ -52,6 +52,19 @@ const DateSet = styled.div`
     margin-top: 20px;
     flex-direction: row-reverse
 `
+const StyleName = styled.input`
+    width: 60px;
+    height: 23px;
+    font-size: 16px;
+    margin-right: 31px;
+    margin-top: 15px;
+    font-family: Noto Sans KR;
+    font-weight: 400;
+    color: #75BD62;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #EEEEEE;
+`
 
 const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
     const [value , setValue] = useState(clickText);
@@ -59,6 +72,7 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
     const [startDate, setStartDate] = useState(new Date());
     const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
+    const [name, setName] = useState("김정묵");
     console.log()
     const onChangeValue = (e) =>{
         setValue(e.target.value);
@@ -76,6 +90,10 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
         setDayText(res_data);
         setDayToggle(!dayToggle);
       }
+
+    const onName = (e) =>{
+        setName(e.target.value)
+    }
     return(
         <ModifyStyle>
         {Toggle ? <div><DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/></div> : ""}
@@ -83,8 +101,7 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
             <X_Image src={X_image} style={{width:'24px', height:'24px', marginTop:'12px', marginRight:"22px"}} onClick={onModify}></X_Image>
         </div>
         <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"29px",boxSizing:"border-box"}}>
-            <div style={{width:'60px', height: '23px', marginTop:'15px',marginRight:"31px", borderBottom: 'solid #EEEEEE',
-        fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px', lineHeight:'23px', color:'#75BD62'}}>김정묵</div>
+        <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
             <textarea style={{display:"flex",width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
             onChange={onChangeValue}></textarea>
@@ -94,7 +111,7 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
         <div><DayCalender src={Day_Calender} onClick={onToggle}/></div>
         </DateSet>
-        <ModifyBtn onClick={() => valueChange(id, value)}>수정완료하기</ModifyBtn>
+        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정완료하기</ModifyBtn>
         </ModifyStyle>
     )
 }
