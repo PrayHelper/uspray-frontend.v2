@@ -6,6 +6,9 @@ import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import { tokenState } from "../../recoil/accessToken";
 import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
+import Toast, { ToastTheme } from "../Toast/Toast";
+import useFlutterWebview from "../../hooks/useFlutterWebview";
+import { AxiosError } from "axios";
 
 const LoginPage = () => {
 
@@ -14,6 +17,10 @@ const LoginPage = () => {
   const setTokenState = useSetRecoilState(tokenState);
   const accessToken = useRecoilValue(tokenState);
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const { getDeviceToken } = useFlutterWebview();
+  const [deviceToken, setDeviceToken] = useState("");
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -22,8 +29,31 @@ const LoginPage = () => {
     setPwdValue(event.target.value);
   };
 
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
+  const sendDeviceToken = async ()=> {
+    const api = '/user/device/token';
+    const data = {
+      device_token: deviceToken
+    };
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
+        console.log(res);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
+  
   const login = async () => {
     const api = `/user/login`;
     const data = {
@@ -36,10 +66,26 @@ const LoginPage = () => {
         setTokenState(res.data.access_token);
         console.log(accessToken);
         localStorage.setItem('refreshToken', res.data.refresh_token);
+        const result = await getDeviceToken();
+        console.log(result);
+        setDeviceToken(result);
+        alert("device token: " , result);
+        await sendDeviceToken();
         navigate("/main");
       }
     } catch (e) {
-      console.log(e.response);
+      if (e instanceof TypeError) {
+        console.log("Type Error Occured: " + e.message);
+        setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
+        setShowToast(true);
+      }
+      else if (e instanceof AxiosError) {
+        console.log("Axios Error Occured: " + e.message);
+        if (e.response.status === 400){
+          setToastMessage("회원정보가 일치하지 않습니다.");
+          setShowToast(true);
+        }
+      }
     }
   };
 
@@ -68,7 +114,7 @@ const LoginPage = () => {
             />
           </div>
 
-          <div style={{ margin: "0px 24px 12px 24px" }}>
+          <div style={{ margin: "0px 24px 12px 24px"}}>
             <Button
               buttonSize={ButtonSize.LARGE}
               ButtonTheme={ButtonTheme.GREEN}
@@ -76,7 +122,7 @@ const LoginPage = () => {
                 login();
               }}
             >
-              로그인 하기
+              로그인
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
@@ -86,6 +132,9 @@ const LoginPage = () => {
           </div>
         </div> 
       </BottomBtnWrapper>
+      {showToast && (
+          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
+        )}
     </LoginWrapper>
   );
 };

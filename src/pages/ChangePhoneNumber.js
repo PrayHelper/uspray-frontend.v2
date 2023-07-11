@@ -5,6 +5,7 @@ import Input from "../components/Input/Input";
 import UserHeader from "../components/UserHeader";
 import styled from 'styled-components';
 import BlackScreen from "../components/BlackScreen/BlackScreen";
+import { useResetPhoneNumber } from "../hooks/useResetPhoneNumber";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -150,26 +151,20 @@ const ChangePhoneNumber = () => {
     }
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
+  const {mutate} = useResetPhoneNumber({
+    phone: phoneNumber.replace(/-/g, "")
+  });
 
-  const resetPhoneNumber = async () => {
-    const api = "/user/reset/phone";
-    const data = {
-      phone: phoneNumber.replace(/-/g, "")
-    };
-    try {
-      const res = await serverapi.put(api, data, {
-        headers: {
-          Authorization: `${accessToken}`,
-        }
-      });
-      if (res.status === 200) {
+  const resetPhoneNumber = () => {
+    mutate(null, {
+      onSuccess: (res) => {
         setShowModal(true);
         console.log(res);
+      },
+      onError: (e) => {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    });
   }
 
   return (

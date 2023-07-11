@@ -8,7 +8,7 @@ const GreenCheckbox = ({ id, label, checked, handler }) => {
         id={id}
         name={id}
         checked={checked}
-        onChange={handler}
+        onClick={() => handler}
       ></CheckboxStyle>
       <StyledLabel htmlFor={id}>{label}</StyledLabel>
     </CheckboxWrapper>

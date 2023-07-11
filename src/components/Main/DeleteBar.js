@@ -4,12 +4,13 @@ import delete_btn from '../../images/Delete_btn.svg';
 import Logo from './Logo';
 
 const Delete_btn = styled.div`
-    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 382px;
     height: 251px;
-    left: 24px;
-    top: 339px;
-
+    z-index: 7;
     background: #FFFFFF;
     border-radius: 16px;
 `

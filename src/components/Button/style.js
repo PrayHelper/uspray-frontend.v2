@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button, { ButtonSize, ButtonTheme } from './Button';
+import { ButtonSize, ButtonTheme } from './Button';
 
 export const BaseButtonStyle = styled.button`
   width: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "55px" : "100%"};
@@ -15,4 +15,5 @@ export const BaseButtonStyle = styled.button`
   background-color: ${(props) => props.buttonTheme === ButtonTheme.GREEN ? (props.disabled ? "#D0E8CB" : "#7BAB6E") : (props.buttonTheme === ButtonTheme.RED ? "#FF6B6B" : "#EEEEEE")};
   color: ${props => (props.buttonTheme == ButtonTheme.GREEN) ? "#FFFFFF" : (props.buttonTheme === ButtonTheme.RED ? "white" : "#A0A0A0")};
   line-height: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "17px" : "23px"};
+  font-weight: 500;
 `

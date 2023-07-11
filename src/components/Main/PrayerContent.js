@@ -1,40 +1,44 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import Empty_Box_top from '../../images/empty_box.svg';
-import Bar from "./Bar";
 import Download_img from "../../images/Click_img.svg";
-import Empty_Box_btm from "../../images/empty_box_bt.svg";
-import Check_Box_btm from "../../images/check_box_bt.svg";
-import Check_Box_top from "../../images/check_box_top.svg";
+import ShareCheckBox from "./ShareCheckBox";
+import ShareBotCheckBox from "./ShareBotCheckBox";
 
 
 const MainContent = styled.div`
     display: flex;
-    width: 91.62%;
+    justify-content: space-between;
     height: auto;
-    margin-left : 16px;
-    margin-right : 16px;
+    // margin-left : 16px;
+    margin: 0 16px; 
     margin-top : 22px;
-    margin-bottom: 16px;
-    border-bottom : solid;
-    border-bottom-color: #CECECE;
+    margin-bottom: 12px;
+    border-bottom : 1px solid #CECECE;
+    padding-right: 4px;
+    padding-bottom : 8px;
 `
 
 const NameContent = styled.div`
-    width: 9.71%;
-    height: 1.84vh;
-    margin-right : 8px;
+    // width: 42px;
+    // display: ;
+    width: 15%;
+    height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    font-size: 10px;
+    border-right: 1px solid #CECECE;
+    font-size: 12px;
     line-height: 17px;
+
 `;
 
 const TextContent = styled.div`
-    width: 66.75%;
+    // width: 263px;
+    width: 70.571%;
     padding : 0px;
+    margin-left: 6px;
+    // margin-right: 8px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -43,38 +47,46 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
-    width : 8.5%;
+    width : 45px;
     font-size : 10px;
-    heigth : 1.84vh;
+    heigth : 17px;
     text-align : center;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    font-size: 10px;
     line-height: 17px;
-    margin-left: 4px;
+    // margin-left: 4px;
     margin-right: 4px;
     margin-top : 4px;
 `;
 const ClickImg = styled(Logo)`
-    width: 4.19%;
-    height: 1.73vh;
+    width: 24px;
+    height: 24px;
 `;
 
-function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList}){
+
+
+function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList, clickOff}){
     const {id, dday,text,checked, name, count} = content;
-    const checkBoxClick = (id) =>{
-        return shareList(id, !checked);
+    const clickHandler = (event) =>{
+        console.log(event.target.id);
+        if(!checked){
+        return shareList(event.target.id, !checked);
+        }
+        else{
+            console.log("여기");
+            clickOff(id);
+        }
     }
     return(
         <MainContent>
-            {isShare && <ClickImg src={bottom ? (checked ? Check_Box_btm : Empty_Box_btm) : (checked ? Check_Box_top : Empty_Box_top)} style={{marginRight: '20px'}} 
-            onClick={() => checkBoxClick(id)}/> }
-            <NameContent style={{marginLeft : isShare ? '30px' : '0px' , color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
-            <Bar></Bar>
+            {isShare && (!bottom ?         
+            <ShareCheckBox id = {id} checked={checked} handler = {clickHandler} /> : 
+            <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
+            <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
-            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{(dday != 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{marginBottom:'2px'}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
+            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "10px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
+            {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )
 }

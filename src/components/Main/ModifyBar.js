@@ -1,21 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
-import X_image from "../../images/X_image.svg";
+import X_image from "../../images/ic_modify_cancel.svg";
+import Day_Calender from '../../images/day_calender.svg';
+import DatePickerComponent from "./DatePickerComponent";
+import { getMonth, getYear, getDate } from "date-fns"
+
+
 const ModifyStyle = styled.div`
-    width: 430px;
+    position: fixed;
+    top: 1;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
     height : 280px;
     background-color: #FFFFFF;
-    border: solid;
+    border: 0px solid #FFFFFF;
+    z-index: 1000;
+    box-sizing: border-box;
 `;
 const ModifyBtn = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 20px 144px;
-    gap: 10px;
-    height: 30px;
+    width: 100%;
+    height: 63px;
     background: #7BAB6E;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -24,31 +35,66 @@ const ModifyBtn = styled.div`
     line-height: 23px;
     text-align: center;
     color: #FFFFFF;
-    margin-top: 61px;
+    margin-top: 16px;
+    box-sizing: border-box;
 `;
 const X_Image = styled(Logo)`
     width: 11.9px;
     height: 11.9px;
 `;
 
-const ModifyBar = ({id, valueChange, onModify}) =>{
-    const [value , setValue] = useState("");
+const DayCalender = styled(Logo)`
+`;
+
+const DateSet = styled.div`
+    display:flex;
+    padding-right: 16px;
+    margin-top: 20px;
+    flex-direction: row-reverse
+`
+
+const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
+    const [value , setValue] = useState(clickText);
+    const [Toggle, setToggle] = useState(false);
+    const [startDate, setStartDate] = useState(new Date());
+    const [dayText, setDayText] = useState("");
+    const [dayToggle, setDayToggle] = useState(false);
+    console.log()
     const onChangeValue = (e) =>{
         setValue(e.target.value);
     }
+    const onToggle = () =>{
+        setToggle(!Toggle);
+    }
+    const dateClick = (date) =>{
+        setStartDate(date);
+        setToggle(!Toggle);
+        var year = getYear(date);
+        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
+        let res_data = year + "/" +  month + "/" + date;
+        setDayText(res_data);
+        setDayToggle(!dayToggle);
+      }
     return(
         <ModifyStyle>
-        <div style={{width: '430px', height:'48px', borderBottom: 'solid #EEEEEE'}}>
-            <X_Image src={X_image} style={{width:'24px', height:'24px', marginLeft:'390px', marginTop:'12px'}} onClick={onModify}></X_Image>
+        {Toggle ? <div><DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/></div> : ""}
+        <div style={{display: "flex",flexDirection: "row-reverse" ,width: '100%', height:'48px', borderBottom:"solid #EEEEEE"}}>
+            <X_Image src={X_image} style={{width:'24px', height:'24px', marginTop:'12px', marginRight:"22px"}} onClick={onModify}></X_Image>
         </div>
-        <div style={{width: '430px', height:'100px', display: 'flex'}}>
-            <div style={{width:'45px', height: '23px', marginTop:'15px', marginLeft:'27px', marginRight:'31px', borderBottom: 'solid #EEEEEE',
+        <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"29px",boxSizing:"border-box"}}>
+            <div style={{width:'60px', height: '23px', marginTop:'15px',marginRight:"31px", borderBottom: 'solid #EEEEEE',
         fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px', lineHeight:'23px', color:'#75BD62'}}>김정묵</div>
-            <input style={{width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE',wordWrap: 'break-word', outline: 'none',
+            <textarea style={{display:"flex",width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
-            onChange={onChangeValue}></input>
+            onChange={onChangeValue}></textarea>
         </div>
-        <ModifyBtn onClick={() => valueChange(id)}>수정완료하기</ModifyBtn>
+        <DateSet>
+        {dayToggle ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
+        fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
+        <div><DayCalender src={Day_Calender} onClick={onToggle}/></div>
+        </DateSet>
+        <ModifyBtn onClick={() => valueChange(id, value)}>수정완료하기</ModifyBtn>
         </ModifyStyle>
     )
 }

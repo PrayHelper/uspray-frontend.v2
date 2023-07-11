@@ -54,7 +54,7 @@ export const deleteFetcher = async (url, headers) => {
 }
 
 // accessToken 재발급을 위한 axios 호출
-export const refresh = async (status) => {
+export const refresh = async () => {
   
   try {
     const refreshToken = localStorage.getItem('refreshToken');
