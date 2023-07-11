@@ -48,8 +48,8 @@ const History = () => {
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
     const dd = String(targetDate.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`;
-    setUpdateDate(formattedDate);
+    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
+    setUpdateDate(formattedDate1);
     setSelectedBtn(days); // css 변경용
   };
 
@@ -97,14 +97,13 @@ const History = () => {
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
+    onClickUpdateDate(0);
   };
-  
-  const {mutate : mutateHistoryModify} = useHistoryModify(
-    {
-      pray_id: currentId,
-      deadline: updateDate,
-    }
-  );
+
+  const { mutate: mutateHistoryModify } = useHistoryModify({
+    pray_id: currentId,
+    deadline: updateDate,
+  });
 
   const onClickModify = () => {
     mutateHistoryModify(null, {
@@ -119,23 +118,26 @@ const History = () => {
       },
     });
   };
-  const {data: currentHistoryData} = useFetchHistory();
+  const { data: currentHistoryData } = useFetchHistory();
 
-  const {data : historyData, isLoading: historyLoading, refetch: refetchHistory} = useFetchHistory({
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: refetchHistory,
+  } = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
-  
+
   // flag 변경 시 historyData를 새로 받아오는 함수
   const updateHistoryData = () => {
     console.log("함수 실행은 되니?");
     refetchHistory();
   };
 
-  useEffect(() =>{
-    if (!historyData)
-      return ;
+  useEffect(() => {
+    if (!historyData) return;
     console.log("useEffect 실행은 되니?");
     console.log(historyData);
     setLoading(historyLoading);
@@ -150,6 +152,7 @@ const History = () => {
     const id = e.currentTarget.id;
     const currentData = data.find((item) => item.id === Number(id));
     if (currentData) {
+      console.log(currentData);
       setCurrentData(currentData);
       setCurrentId(Number(id));
     } else {
@@ -186,8 +189,9 @@ const History = () => {
                   <ModalTarget>{currentData.target}</ModalTarget>의 기도제목
                 </ModalTitle>
                 <ModalDate>
-                  {currentData?.created_at?.split(" ")[0]} ~{" "}
-                  {currentData.deadline}, {currentData.pray_cnt}회 기도
+                  {currentData?.created_at?.split(" ")[0].replace(/-/g, ".")} ~{" "}
+                  {currentData.deadline.replace(/-/g, ".")},{" "}
+                  {currentData.pray_cnt}회 기도
                 </ModalDate>
               </ModalTitleWrapper>
             </ModalHeader>
@@ -254,7 +258,7 @@ const History = () => {
                 />
               </DatePickerContainer>
             )}
-            <SubModalDate>~{updateDate}</SubModalDate>
+            <SubModalDate>~{updateDate.replace(/-/g, ".")}</SubModalDate>
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify()}>
             오늘의 기도에 추가하기
@@ -282,6 +286,8 @@ const History = () => {
             name={el.target}
             content={el.title}
             date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+            pray_cnt={el.pray_cnt}
+            isOnPray={isOnPray}
           />
           <div ref={ref}></div>
         </div>
@@ -365,7 +371,8 @@ const ToggleText = styled.div`
 
 const ModalWrapper = styled.div`
   position: fixed;
-  top: ${(props) => (props.showSubModal ? `38.5%` : `50%`)};
+  /* top: ${(props) => (props.showSubModal ? `40%` : `50%`)}; */
+  bottom: ${(props) => (props.showSubModal ? `32%` : `25%`)};
   left: 50%;
   transform: translate(-50%, -50%);
   width: calc(100vw - 64px);
@@ -435,7 +442,6 @@ const ModalButton1 = styled.button`
   padding: 20px 0;
   color: #7bab6e;
   font-size: 18px;
-  font-weight: 700;
   cursor: pointer;
 `;
 
@@ -448,7 +454,6 @@ const ModalButton2 = styled.button`
   padding: 20px 0;
   color: #ffffff;
   font-size: 18px;
-  font-weight: 700;
   cursor: pointer;
 `;
 
