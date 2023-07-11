@@ -4,7 +4,6 @@ import click_search from '../../images/click_search.svg';
 import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
-import DisableImage from "../../images/ic_disable_image.svg";
 const BackGround = styled.div`
     width: 100%;
 `;
@@ -71,18 +70,13 @@ const StyleName = styled.input`
     border-bottom: 1px solid #EBF7E8;
     padding-bottom: 4px;
 `
-const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
+const TemplateMain = ({ children, onInsert}) =>{
     const [text, setText] = useState("김정묵");
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const widthChange = () =>{
         setVisible(!visible);
-        if(shareToggle){
-            setshareToggle(!shareToggle)
-            setIsShare(!isShare)
-        }
-        // setDoubleToggle(!doubleToggle);
     }
     const dayInfo = (e) =>{
         setDay(e);
@@ -109,8 +103,9 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     }
     const changeCheckTop = () =>{
         setVisible(false);
+        setDay(7);
+        setValue("");
     }
-
     return(
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
@@ -123,8 +118,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                 </div>
                 <div style={{width:'31px', height:'31px', marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
-                    {(value === "") ? <BtnSend style={{backgroundColor:"white"}}><SendImg src={DisableImage}/></BtnSend>
-                     : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
+                    <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>
                 </div>
             </BackgroundInput>
             {visible && <DayButton dayInfo = {dayInfo}/>}

@@ -11,9 +11,10 @@ const name = "김정묵";
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
-  const {data: pray_List, refetch: refetch_PrayList} = usePrayList('cnt');
+  
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList , setCompletedList] = useState([]);
+
   const [clickId , setClickId] = useState(0);
   const [isChecked , setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
@@ -21,11 +22,6 @@ const Main = () => {
   const [clickText, setClickText] = useState("");
   const [modalToggle,setmodalToggle] = useState(false);
   const [modalText, setModalText] = useState("");
-  const [upPosition , setUpPosition] = useState(true);
-  const [DownPosition , setDownPosition] = useState(true);
-  const [isShare, setIsShare] = useState(false);
-  const [shareToggle, setshareToggle] = useState(false);
-  const [shareLength, setShareLength] = useState(0);
 
   const renderingData = (result) => {
     let uncompletedList = [];
@@ -52,25 +48,14 @@ const Main = () => {
         count : completedItem.pray_cnt
       })
     });
-    upPosition && setUncompletedList(uncompletedList);
-    DownPosition && setCompletedList(completedList);
+    setUncompletedList(uncompletedList);
+    setCompletedList(completedList);
   }
 
-  const sortUpPosition = (result) =>{
-    setUpPosition(result);
-  }
-  const sortDownPosition = (result) =>{
-    setDownPosition(result);
-}
   useEffect(()=>{
     if(!prayList) return;
     renderingData(prayList);
   },[prayList]);
-
-  useEffect(()=>{
-    if(!pray_List) return;
-    renderingData(pray_List);
-  },[pray_List])
 
   const {mutate: mutateCountUpdate} = useCountUpdate();
   const {mutate: mutateComplete} = useCompletePrayList();
@@ -85,10 +70,7 @@ const Main = () => {
     else{
       var date = new Date();
       var day = addDay(date, Dday);
-      var zeroTime = setZeroTime(day);
-      var deadline = zeroTime.getFullYear() + "-" + (zeroTime.getMonth()+1) + "-" + (zeroTime.getDate());
-      console.log(deadline);
-      console.log(date);
+      var deadline = day.getFullYear() + "-" + (day.getMonth()+1) + "-" + (day.getDate());
       mutateSendPrayItem({
         target: name,
         title: text,
@@ -99,12 +81,12 @@ const Main = () => {
           refetchPrayList();
         },
       });
+      // getPrayList();
     }
   }
   const addDay = (today, Dday) =>{
       var day = new Date(today);
       day.setDate(day.getDate() + Dday);
-      console.log(day);
       return day;
   }
   const changeCheck = () =>{
@@ -114,9 +96,7 @@ const Main = () => {
   const countUpdate = async (id) => {
     mutateCountUpdate({id: id}, {
       onSuccess: (res) => {
-        setUpPosition(true);
-        setDownPosition(true);
-        renderingData(res);
+        renderingData(res)
       }
     });
   };
@@ -189,7 +169,7 @@ const onDeleted = () =>{
   setIsDeleted(!isDeleted);
 } 
 
-const valueChange = async (id, value, name) => {
+const valueChange = async (id, value) => {
   if(value === ""){
     return alert("이대로")
   }
@@ -221,27 +201,12 @@ const dDayCalculate = (res_data) =>{
   return result;
 }
 
-const setZeroTime = (date)=>{
-  const newDate = new Date(date);
-  newDate.setHours(0, 0, 0, 0);
-  return newDate;
-}
-
-
-const onMove = () =>{
-  setshareToggle(!shareToggle);
-  setIsShare(!isShare);
-  setShareLength(0);
-}
   return (
-    <TemplateMain onInsert = {onInsert} setshareToggle ={setshareToggle} shareToggle={shareToggle} isShare={isShare} setIsShare={setIsShare}>
+    <TemplateMain onInsert = {onInsert}>
       <PrayerList prayerContent={uncompletedList} setPrayerContent = {setUncompletedList} prayerMoreContent = {completedList} setPrayerMoreContent = {setCompletedList} 
       countUpdate = {countUpdate} completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} deleteBtnClick = {deleteBtnClick} bottom_delete_click = {bottom_delete_click}
       contentClick = {contentClick} clickId = {clickId} clickText = {clickText} isChecked = {isChecked} isModify = {isModify} onModify={onModify}
-      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}
-      modalText={modalText} modalToggle={modalToggle} sortUpPosition = {sortUpPosition} sortDownPosition= {sortDownPosition} 
-      isShare = {isShare} setIsShare = {setIsShare} shareToggle = {shareToggle} setshareToggle={setshareToggle}
-    shareLength = {shareLength} setShareLength = {setShareLength} onMove={onMove}/>
+      isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}/>
     </TemplateMain>
   );
 };

@@ -1,18 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
+import Download_img from "../../images/Click_img.svg";
 import ShareCheckBox from "./ShareCheckBox";
 import ShareBotCheckBox from "./ShareBotCheckBox";
-import HeartImage from "../../images/ic_heart_image.svg";
+
 
 const MainContent = styled.div`
     display: flex;
     justify-content: space-between;
-    height: 25px;
-    margin-top: 16px;
-    margin-left: 12px; 
-    margin-right: 12px;
-    border-bottom : 1px solid #B3D1AB;
+    height: auto;
+    // margin-left : 16px;
+    margin: 0 16px; 
+    margin-top : 22px;
+    margin-bottom: 12px;
+    border-bottom : 1px solid #CECECE;
     padding-right: 4px;
     padding-bottom : 8px;
 `
@@ -34,7 +36,6 @@ const NameContent = styled.div`
 const TextContent = styled.div`
     // width: 263px;
     width: 70.571%;
-    height: 17px;
     padding : 0px;
     margin-left: 6px;
     // margin-right: 8px;
@@ -68,10 +69,12 @@ const ClickImg = styled(Logo)`
 function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShare, shareList, clickOff}){
     const {id, dday,text,checked, name, count} = content;
     const clickHandler = (event) =>{
+        console.log(event.target.id);
         if(!checked){
         return shareList(event.target.id, !checked);
         }
         else{
+            console.log("여기");
             clickOff(id);
         }
     }
@@ -83,7 +86,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "10px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
+            {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={Download_img} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )
 }
