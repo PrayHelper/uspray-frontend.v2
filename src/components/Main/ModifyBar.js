@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
 import Day_Calender from '../../images/day_calender.svg';
+import Day_Calender_hover from "../../images/DayCalender_hover.svg";
 import DatePickerComponent from "./DatePickerComponent";
 import { getMonth, getYear, getDate } from "date-fns"
 
@@ -41,6 +42,8 @@ const ModifyBtn = styled.div`
 const X_Image = styled(Logo)`
     width: 11.9px;
     height: 11.9px;
+    margin-right: 12px;
+    margin-top:12px;
 `;
 
 const DayCalender = styled(Logo)`
@@ -98,7 +101,7 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
         <ModifyStyle>
         {Toggle ? <div><DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/></div> : ""}
         <div style={{display: "flex",flexDirection: "row-reverse" ,width: '100%', height:'48px', borderBottom:"solid #EEEEEE"}}>
-            <X_Image src={X_image} style={{width:'24px', height:'24px', marginTop:'12px', marginRight:"22px"}} onClick={onModify}></X_Image>
+            <X_Image src={X_image} onClick={onModify}></X_Image>
         </div>
         <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"29px",boxSizing:"border-box"}}>
         <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
@@ -109,9 +112,9 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
         <DateSet>
         {dayToggle ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
-        <div><DayCalender src={Day_Calender} onClick={onToggle}/></div>
+        <div><DayCalender src={dayToggle ? Day_Calender_hover: Day_Calender} onClick={onToggle}/></div>
         </DateSet>
-        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정완료하기</ModifyBtn>
+        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>
         </ModifyStyle>
     )
 }

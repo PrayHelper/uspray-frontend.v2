@@ -47,7 +47,7 @@ const TextContent = styled.div`
 
 const DdayContent = styled.div`
     width : 45px;
-    font-size : 10px;
+    font-size : 12px;
     heigth : 17px;
     text-align : center;
     font-family: 'Noto Sans KR';
@@ -55,8 +55,7 @@ const DdayContent = styled.div`
     font-weight: 400;
     line-height: 17px;
     // margin-left: 4px;
-    margin-right: 4px;
-    margin-top : 4px;
+    margin-top : 2px;
 `;
 const ClickImg = styled(Logo)`
     width: 24px;
@@ -82,7 +81,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
-            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "10px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
+            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
             {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
         </MainContent>
     )

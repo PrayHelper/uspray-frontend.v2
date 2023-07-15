@@ -8,19 +8,22 @@ const Delete_btn = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 382px;
     height: 251px;
+    // margin-right: 24px;
+    // margin-left : 24px;
     z-index: 7;
     background: #FFFFFF;
     border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 const DeleteImg = styled(Logo)`
-    margin-right: 171px;
-    margin-left: 171px;
     margin-top: 24px;
     margin-bottom: 8px;
     width: 40px;
     height: 40px;
+    align-self: center;
 `;
 
 const Deletefont = styled.div`
@@ -30,10 +33,8 @@ const Deletefont = styled.div`
     font-size: 24px;
     line-height: 35px;
     /* identical to box height */
-
     text-align: center;
     letter-spacing: -0.02em;
-
     color: #FF6B6B;
 `
 const Btn_set = styled.button`
