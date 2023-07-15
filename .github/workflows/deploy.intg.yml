@@ -1,0 +1,40 @@
+name: Deploy Frontend on Integration Server
+on:
+  push:
+    branches:
+      - ${{ vars.INTG_BRANCH }}
+
+env:
+  HOST:     ${{ secrets.HOST }}
+  USERNAME: ${{ secrets.USERNAME }}
+  KEY:      ${{ secrets.SSH_KEY }}
+  PORT:     ${{ secrets.PORT }}
+  PATH:     ${{ vars.INTG_PATH}}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Send
+        uses: appleboy/scp-action@master
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $KEY
+          port: $PORT
+          source: "."
+          target: $PATH
+
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: $HOST
+          username: $USERNAME
+          key: $KEY
+          port: $PORT
+          script: |
+            cd $PATH
+            make build-dev
