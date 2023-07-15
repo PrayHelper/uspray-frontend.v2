@@ -9,7 +9,7 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  PATH:     ${{ vars.INTG_PATH}}
+  PATH:     ${{ vars.INTG_PATH }}
 
 jobs:
   deploy:
