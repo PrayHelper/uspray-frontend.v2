@@ -57,6 +57,8 @@ const useAuthToken = () => {
 
     muLockGetter.current = true;
     sleepWithCondition(() => muLockGetter.current === false)
+
+    alert(`getAuthToken() returned ${authToken.current}`)
     return authToken.current;
   }
 
@@ -71,6 +73,8 @@ const useAuthToken = () => {
     window.onReceiveAuthToken = (token) => {
       authToken.current = token
       muLockGetter.current = false;
+
+      alert(`onReceiveAuthToken(${token}) called`)
     }
 
     window.onReceiveTokenStoredMsg = () => {
