@@ -11,7 +11,7 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  PATH:     ./frontend-intg
+  INSTANCE_PATH: ./frontend-intg
 
 jobs:
   test:
@@ -37,7 +37,7 @@ jobs:
           key: $KEY
           port: $PORT
           source: "."
-          target: $PATH
+          target: $INSTANCE_PATH
 
       - name: Deploy 
         uses: appleboy/ssh-action@master
@@ -47,5 +47,5 @@ jobs:
           key: $KEY
           port: $PORT
           script: |
-            cd $PATH
+            cd $INSTANCE_PATH
             make build-intg
