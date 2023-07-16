@@ -5,6 +5,7 @@ import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
 import Toast, { ToastTheme } from "../Toast/Toast";
+import { Link } from "react-router-dom";
 import BlackScreen from "../BlackScreen/BlackScreen";
 
 let init = 0;
@@ -327,6 +328,7 @@ const FindPassword = () => {
             </div>
           }
         />
+        <Link to="/FindPasswordResult" style={{ textDecoration: "none" }}>
         <Button
           disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
@@ -337,6 +339,7 @@ const FindPassword = () => {
         >
           비밀번호 찾기
         </Button>
+        </Link>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}

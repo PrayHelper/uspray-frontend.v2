@@ -5,21 +5,15 @@ import Input from "../Input/Input";
 import styled from "styled-components";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { style } from "@mui/system";
 
 let init = 0;
 
 const FindId = () => {
   const [userInfo, setUserInfo] = useState({
-    id: "",
-    pwd: "",
-    matchingPwd: "",
     name: "",
-    year: "",
-    month: "",
-    day: "",
     phoneNumber: "",
-    certificateNumber: "",
   });
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
@@ -29,12 +23,13 @@ const FindId = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const navigate = useNavigate();
+  const moveToResult = () => {
+    navigate("/FindIdResult", { state: { userInfo: userInfo } });
+  };
 
+  const isAllValid = isCetrificated && isCertificateButtonClicked;
 
-  const isAllValid =
-    isCetrificated &&
-    isCertificateButtonClicked;
-    
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
 
@@ -63,18 +58,6 @@ const FindId = () => {
       alert("error occured");
     }
   };
-
-  // const findId = async () => {
-  //   const api = "/user/signup";
-  //   try {
-  //     const res = await serverapi.post(api);
-  //     if (res.status === 200) {
-  //       alert("회원가입이 완료되었습니다.");
-  //     }
-  //   } catch (e) {
-  //     alert("error occured");
-  //   }
-  // };
 
   const nameChangeHandler = (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
@@ -153,8 +136,8 @@ const FindId = () => {
   }, [showToast]);
 
   return (
-    <div>
-      <UserHeader children={"아이디 찾기"}/>
+    <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+      <UserHeader children={"아이디 찾기"} />
       <div
         style={{
           display: "flex",
@@ -247,18 +230,26 @@ const FindId = () => {
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            width: "calc(100% - 48px)",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Button
             disabled={!isAllValid}
             buttonSize={ButtonSize.LARGE}
             buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-            // handler={() => {
-            //   findId();
-            // }}
+            handler={() => {
+              moveToResult();
+            }}
           >
             아이디 찾기
           </Button>
-        </Link>
+        </div>
       </div>
     </div>
   );

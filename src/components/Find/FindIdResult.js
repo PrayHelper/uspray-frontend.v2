@@ -39,8 +39,8 @@ const FindIdResult = () => {
   const result = useLocation();
   const [text, setText]= useState("");
 
-  const isAllValid = 
-    !invalidUserInfo
+  // const isAllValid = 
+  //   !invalidUserInfo
 
   const showId = async () => {
     const api = "/user/find/id";
