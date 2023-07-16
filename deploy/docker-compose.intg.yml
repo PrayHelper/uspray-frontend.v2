@@ -1,6 +1,6 @@
 services:
   api:
-    container_name: prayhelper-client-prod
+    container_name: prayhelper-client-intg
     build:
       context: ../
       dockerfile: ./deploy/Dockerfile
