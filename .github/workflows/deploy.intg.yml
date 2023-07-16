@@ -19,6 +19,7 @@ jobs:
       - name: Log
         run: |
           echo "secrets: ${{ secrets.PORT }}"
+          echo "env: $PATH"
           echo "vars: ${{ vars.INTG_BRANCH }}"
       
       - name: Checkout
