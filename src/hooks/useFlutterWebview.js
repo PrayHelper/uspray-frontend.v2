@@ -21,7 +21,7 @@ const useDeviceToken = () => {
     FlutterGetDeviceToken.postMessage(nil);
 
     muLock.current = true;
-    await sleepWithCondition(() => muLock.current === false)
+    //await sleepWithCondition(() => muLock.current === false)
 
     alert(`getAuthToken() returned ${deviceToken.current}`)
     return deviceToken.current;
