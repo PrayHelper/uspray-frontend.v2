@@ -34,10 +34,10 @@ jobs:
         with:
           host: ${{ env.HOST }}
           username: ${{ env.USERNAME }}
-          key: ${{ KEY }}
+          key: ${{ env.KEY }}
           port: ${{ env.PORT }}
           source: "."
-          target: ${{ INSTANCE_PATH }}
+          target: ${{ env.INSTANCE_PATH }}
 
       - name: Deploy 
         uses: appleboy/ssh-action@master
