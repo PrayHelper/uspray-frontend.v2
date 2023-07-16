@@ -35,14 +35,12 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: false
-    #if: github.ref == 'refs/heads/${{ vars.INTG_BRANCH }}'
+    if: github.ref == 'refs/heads/${{ vars.INTG_BRANCH }}'
     steps:
       - name: Check
         run: |
           echo "${{ github.ref }}"
-          echo 'refs/heads/${{ vars.INTG_BRANCH }}'
-          echo 
+          echo "refs/heads/${{ vars.INTG_BRANCH }}"
       - name: Checkout
         uses: actions/checkout@v2
 
