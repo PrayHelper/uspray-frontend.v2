@@ -52,6 +52,7 @@ const LoginPage = () => {
       alert(`sendDeviceToken(${token}) called, with response status ${res.status}`)
     } catch (e) {
       console.log(e);
+      alert(`sendDeviceToken(${token}) called, with response status ${e.response.status}`)
     }
 
   };

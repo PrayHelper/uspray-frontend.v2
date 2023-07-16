@@ -22,6 +22,8 @@ const useDeviceToken = () => {
 
     muLock.current = true;
     sleepWithCondition(() => muLock.current === false)
+
+    alert(`getAuthToken() returned ${deviceToken.current}`)
     return deviceToken.current;
   }
 
@@ -58,7 +60,6 @@ const useAuthToken = () => {
     muLockGetter.current = true;
     sleepWithCondition(() => muLockGetter.current === false)
 
-    alert(`getAuthToken() returned ${authToken.current}`)
     return authToken.current;
   }
 
