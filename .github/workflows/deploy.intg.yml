@@ -17,7 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log
-        run: echo "${env.PATH}, ${vars.INTG_BRANCH}"
+        run: |
+          echo "secrets: ${{ secrets.PORT }}"
+          echo "vars: ${{ vars.INTG_BRANCH }}"
       
       - name: Checkout
         uses: actions/checkout@v2
