@@ -8,7 +8,7 @@ const nil = {isnil: true}
 
 const useDeviceToken = () => {
 
-  const { sleepWithCondition, sleep } = useSleep();
+  const { sleepWithCondition } = useSleep();
 
   const muLock = useRef(false);
   const deviceToken = useRef(null);
@@ -21,8 +21,7 @@ const useDeviceToken = () => {
     FlutterGetDeviceToken.postMessage(nil);
 
     muLock.current = true;
-    //sleepWithCondition(() => muLock.current === false)
-    sleep(1000)
+    await sleepWithCondition(() => muLock.current === false)
 
     alert(`getAuthToken() returned ${deviceToken.current}`)
     return deviceToken.current;
