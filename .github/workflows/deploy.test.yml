@@ -11,7 +11,7 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  PATH:     ~/frontend-intg
+  PATH:     ./frontend-intg
 
 jobs:
   test:
