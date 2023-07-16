@@ -35,7 +35,7 @@ jobs:
           host: $HOST
           username: $USERNAME
           key: $KEY
-          port: $PORT
+          port: ${{ env.PORT }}
           source: "."
           target: $INSTANCE_PATH
 
@@ -45,7 +45,7 @@ jobs:
           host: $HOST
           username: $USERNAME
           key: $KEY
-          port: $PORT
+          port: ${{ env.PORT }}
           script: |
             cd $INSTANCE_PATH
             make build-intg
