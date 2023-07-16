@@ -29,7 +29,9 @@ jobs:
       run: npm ci
 
     - name: Run tests
-      run: npm test --silent
+      run: |
+        CI=false
+        npm test --silent
 
   deploy:
     runs-on: ubuntu-latest
