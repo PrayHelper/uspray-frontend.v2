@@ -11,7 +11,7 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  PATH:     ${{ vars.INTG_PATH }}
+  PATH:     ~/frontend-intg
 
 jobs:
   test:
@@ -20,6 +20,7 @@ jobs:
       - name: Test
         run: |
           echo "test is skipped"
+          echo $PATH
 
   deploy:
     runs-on: ubuntu-latest
