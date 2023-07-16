@@ -1,79 +1,120 @@
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import useSleep from './useSleep';
 
 
-const useFlutterWebview = () => {
+const nil = {isnil: true}
 
+
+const useDeviceToken = () => {
+
+  const { sleepWithCondition } = useSleep();
+
+  const muLock = useRef(false);
   const deviceToken = useRef(null);
-  const authToken = useRef(null);
 
   const getDeviceToken = async () => {
-    await window.FlutterGetDeviceToken.postMessage();
+    if (deviceToken.current != null) {
+      return deviceToken.current
+    }
+    //eslint-disable-next-line
+    FlutterGetDeviceToken.postMessage(nil);
+
+    muLock.current = true;
+    sleepWithCondition(() => muLock.current === false)
     return deviceToken.current;
   }
 
-  const getAuthToken = async () => {
-    await window.FlutterGetAuthToken.getAuthToken();
-    return authToken.current;
-  }
-
-  const storeAuthToken = async (token) => await window.FlutterStoreAuthToken.postMessage(token);
-
-
   useEffect(() => {
-    window.sendDeviceToken = (token) => {
+    window.onReceiveDeviceToken = (token) => {
       deviceToken.current = token
-    }
-
-    window.sendAuthToken = (token) => {
-      authToken.current = token
+      muLock.current = false;
     }
   }, []);
 
   return {
+    getDeviceToken,
+  }
+}
+
+
+
+const useAuthToken = () => {
+
+  const { sleepWithCondition } = useSleep();
+
+  const muLockGetter = useRef(false);
+  const muLockSetter = useRef(false);
+  const authToken = useRef(null);
+
+  // Return nullstring if there is no auth token stored in device.
+  const getAuthToken = async () => {
+    if (authToken.current != null) {
+      return authToken.current
+    }
+    //eslint-disable-next-line
+    await FlutterGetAuthToken.postMessage();
+
+    muLockGetter.current = true;
+    sleepWithCondition(() => muLockGetter.current === false)
+    return authToken.current;
+  }
+
+  const storeAuthToken = (token) => {
+    authToken.current = token;
+    //eslint-disable-next-line
+    FlutterStoreAuthToken.postMessage(token);
+  }
+
+  
+  useEffect(() => {
+    window.onReceiveAuthToken = (token) => {
+      authToken.current = token
+      muLockGetter.current = false;
+    }
+
+    window.onReceiveTokenStoredMsg = () => {
+      muLockSetter.current = false;
+    }
+  }, []);
+  
+
+  return {
+    getAuthToken,
+    storeAuthToken
+  }
+}
+
+
+
+const useFlutterWebview = () => {
+
+  const isMobile = () => {
+    //eslint-disable-next-line
+    const isDeviceTokenAvail = typeof FlutterGetDeviceToken !== "undefined" && typeof FlutterGetAuthToken.postMessage === "function"
+    //eslint-disable-next-line
+    const isGetAuthTokenAvail = typeof FlutterStoreAuthToken !== "undefined" && typeof FlutterStoreAuthToken.postMessage === "function"
+    //eslint-disable-next-line
+    const isStoreAuthTokenAvail = typeof FlutterStoreAuthToken !== "undefined" && typeof FlutterStoreAuthToken.postMessage === "function"
+
+    if (isDeviceTokenAvail) {
+      return true;
+    } else {
+      return false
+    }
+
+  }
+
+  const { getDeviceToken } = useDeviceToken();
+  const { getAuthToken, storeAuthToken } = useAuthToken();
+
+  return {
+    isMobile,
     getDeviceToken,
     getAuthToken,
     storeAuthToken
   }
 }
 
+
 export default useFlutterWebview;
-
-
-
-/* INSERUCTION FOR REACT
-
-const onClick = () => {
-  const { getDeviceToken } = useFlutterWebview();
-  token = getDeviceToken();
-  // send token to server
-}
-*/
-
-
-
-/* INSTRUCTION FOR FLUTTER
-
-  javascriptChannels: <JavascriptChannel>[
-    JavascriptChannel(
-      name: 'FlutterGetDeviceToken',
-      onMessageReceived: (JavascriptMessage message) {
-        // get device token
-        controller.runJavascript('window.sendDeviceToken(${token})');
-      },
-    ),
-    JavascriptChannel(
-      name: 'FlutterGetAuthToken',
-      onMessageReceived: (JavascriptMessage message) {
-        // get auth token
-        controller.runJavascript('window.sendAuthToken(${token})');
-      },
-    ),
-        JavascriptChannel(
-      name: 'FlutterStoreAuthToken',
-      onMessageReceived: (JavascriptMessage message) {
-        // store auth token
-      },
-    ),
-  ].toSet(),
-*/
