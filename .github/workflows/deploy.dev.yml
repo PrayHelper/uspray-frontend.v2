@@ -2,7 +2,14 @@ name: Deploy Frontend on Development Server
 on:
   push:
     branches:
-      - main
+      - feature/cicd
+
+env:
+  HOST:     ${{ secrets.HOST }}
+  USERNAME: ${{ secrets.USERNAME }}
+  KEY:      ${{ secrets.SSH_KEY }}
+  PORT:     ${{ secrets.PORT }}
+  INSTANCE_PATH: ./frontend-dev
 
 jobs:
   deploy:
@@ -14,20 +21,20 @@ jobs:
       - name: Send
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USERNAME }}
+          key: ${{ env.KEY }}
+          port: ${{ env.PORT }}
           source: "."
-          target: ${{ secrets.DEV_PATH }}
+          target: ${{ env.INSTANCE_PATH }}
 
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
+          host: ${{ env.HOST }}
+          username: ${{ env.USERNAME }}
+          key: ${{ env.KEY }}
+          port: ${{ env.PORT }}
           script: |
-            cd ${{ secrets.DEV_PATH }}
+            cd ${{ env.INSTANCE_PATH }}
             make build-dev
