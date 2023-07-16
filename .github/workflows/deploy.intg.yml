@@ -1,9 +1,4 @@
 name: Deploy Frontend on Integration Server
-on:
-  push:
-    branches:
-      #- feature/cicd
-      - ${{ vars.INTG_BRANCH }}
 
 env:
   HOST:     ${{ secrets.HOST }}
@@ -11,6 +6,13 @@ env:
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
   PATH:     ${{ vars.INTG_PATH }}
+  BRANCH:   ${{ vars.INTG_BRANCH }}
+
+on:
+  push:
+    branches:
+      #- feature/cicd
+      - $BRANCH
 
 jobs:
   deploy:
@@ -19,8 +21,9 @@ jobs:
       - name: Log
         run: |
           echo "secrets: ${{ secrets.PORT }}"
-          echo "env: $PATH"
+          echo "env: $BRANCH"
           echo "vars: ${{ vars.INTG_BRANCH }}"
+          
       
       - name: Checkout
         uses: actions/checkout@v2
