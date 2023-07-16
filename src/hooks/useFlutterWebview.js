@@ -22,16 +22,19 @@ const useDeviceToken = () => {
 
     muLock.current = true;
     await sleep(1000)
-    //await sleepWithCondition(() => muLock.current === false)
+    // await sleepWithCondition(() => muLock.current === false)
 
     alert(`getAuthToken() returned ${deviceToken.current}`)
     return deviceToken.current;
   }
 
   useEffect(() => {
-    window.onReceiveDeviceToken = (token) => {
+    // name should be modified to onReceiveDeviceToken
+    window.onReceiveAuthToken = (token) => {
       deviceToken.current = token
       muLock.current = false;
+
+      alert(`onReceiveDeviceToken(${token}) called`)
     }
   }, []);
 
@@ -72,7 +75,7 @@ const useAuthToken = () => {
 
   
   useEffect(() => {
-    window.onReceiveAuthToken = (token) => {
+    window.onReceiveAuthTokenFalse = (token) => {
       authToken.current = token
       muLockGetter.current = false;
 
