@@ -5,12 +5,12 @@ const useSleep = () => {
   const defaultAttemts = 10;
 
   // Sleeps until given duration passes.
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   // Sleeps until condition given as function returns true.
   // Checks condition every 100ms, 10 times by default.
   // If condition is not met within 10 attempts, throws an error.
-  const sleepWithCondition = (condition) => {
+  const sleepWithCondition = async (condition) => {
     return new Promise((resolve, reject) => {
       let attempts = 0;
       const intervalId = setInterval(() => {
