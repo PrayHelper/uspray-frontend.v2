@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
-import LoginButton from "../Login/LoginButton/LoginButton";
+import FindButton from "./FindButton/FindButton";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -13,7 +13,6 @@ const Box = styled.div`
     display: flex;
     justify-content: center;
     height: auto;
-    // margin-left : 16px;
     margin: 0 16px; 
     margin-top : 22px;
     margin-bottom: 12px;
@@ -67,19 +66,17 @@ const FindIdResult = () => {
   
 
   return (
-    <>
+    <div>
       <UserHeader children={"아이디 찾기"}/>
         <Box>
           <BoxSetting>{text}</BoxSetting>
         </Box>
+        
         <Link to="/findPW" style={{ textDecoration: "none" }}>
-          <LoginButton
-            backgrond={"#ffffff"}
-            context={"비밀번호 찾기"}
-            color={"#7bab6e"}
-            borderColor={"#7bab6e"}
-            arrowColor={"#7bab6e"}
-            margin={"54px 0px 24px 0px"}
+          <FindButton
+            children={"비밀번호 찾기"}
+            buttonSize={ButtonSize.LARGE}
+            buttonTheme={ButtonTheme.RED}
           />
         </Link>
         <Link to="/" style={{ textDecoration: "none" }}>
@@ -90,7 +87,7 @@ const FindIdResult = () => {
             메인화면으로 이동          
           </Button>
         </Link>
-    </>
+    </div>
   );
 };
 
