@@ -27,6 +27,8 @@ const Hline = styled.hr`
   color: "#CECECE";
   size: 1px;
   opacity: 0.5;
+  border-right: 0;
+  border-left: 0;
 `;
 
 const Vline = styled.div`
