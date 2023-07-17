@@ -23,7 +23,7 @@ const useDeviceToken = () => {
     muLock.current = true;
     await sleepWithCondition(() => muLock.current === false)
 
-    alert(`getAuthToken() returned ${deviceToken.current}`)
+    console.log(`getDeviceToken() returned ${deviceToken.current}`)
     return deviceToken.current;
   }
 
@@ -33,7 +33,7 @@ const useDeviceToken = () => {
       deviceToken.current = token
       muLock.current = false;
 
-      alert(`onReceiveDeviceToken(${token}) called`)
+      console.log(`onReceiveDeviceToken(${token}) called`)
     }
   }, []);
 
@@ -63,6 +63,7 @@ const useAuthToken = () => {
     muLockGetter.current = true;
     sleepWithCondition(() => muLockGetter.current === false)
 
+    console.log(`getAuthToken() returned ${authToken.current}`)
     return authToken.current;
   }
 
@@ -78,11 +79,12 @@ const useAuthToken = () => {
       authToken.current = token
       muLockGetter.current = false;
 
-      alert(`onReceiveAuthToken(${token}) called`)
+      console.log(`onReceiveAuthToken(${token}) called`)
     }
 
     window.onReceiveTokenStoredMsg = () => {
       muLockSetter.current = false;
+      console.log(`onReceiveTokenStoredMsg() called`)
     }
   }, []);
   
@@ -99,7 +101,7 @@ const useFlutterWebview = () => {
 
   const isMobile = () => {
     //eslint-disable-next-line
-    const isDeviceTokenAvail = typeof FlutterGetDeviceToken !== "undefined" && typeof FlutterGetAuthToken.postMessage === "function"
+    const isDeviceTokenAvail = typeof FlutterGetDeviceToken !== "undefined" && typeof FlutterGetDeviceToken.postMessage === "function"
     //eslint-disable-next-line
     const isGetAuthTokenAvail = typeof FlutterStoreAuthToken !== "undefined" && typeof FlutterStoreAuthToken.postMessage === "function"
     //eslint-disable-next-line

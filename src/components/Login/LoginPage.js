@@ -45,17 +45,10 @@ const LoginPage = () => {
     };
     try {
       const res = await serverapi.post(api, data);
-      if (res.status === 200) {
-        console.log(res);
-      }
+      console.log(`sendDeviceToken(${token}) called, with response status ${res.status}`)
 
-      alert(`sendDeviceToken(${token}) called, with response status ${res.status}`)
     } catch (e) {
-      console.log(e);
-      alert(`sendDeviceToken(${token}) called, with response status failed`)
-      if (typeof e.response !== 'undefined') {
-        console.log(e.response.status)
-      }
+      console.log(`sendDeviceToken(${token}) called, with response status failed`)
     }
 
   };
