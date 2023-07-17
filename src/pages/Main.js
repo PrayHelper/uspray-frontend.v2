@@ -7,7 +7,6 @@ import { useCompletePrayList } from '../hooks/useCompletePrayList';
 import { usePrayDelete } from '../hooks/usePrayDelete';
 import { useChangeValue } from '../hooks/useChangeValue';
 import { useSendPrayItem } from '../hooks/useSendPrayItem';
-const name = "김정묵";
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
@@ -26,8 +25,14 @@ const Main = () => {
   const [isShare, setIsShare] = useState(false);
   const [shareToggle, setshareToggle] = useState(false);
   const [shareLength, setShareLength] = useState(0);
+  const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
+  const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
+  const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
+  const [dayToggleBottomPrayer , setDayToggleBottomPrayer] = useState(false);
+  const [loading , setisloading] = useState(true);
 
-  const renderingData = (result) => {
+  const renderingData = async (result) => {
+    setisloading(true);
     let uncompletedList = [];
     let completedList = [];
     result.data.uncompleted.map((uncompletedItem) => {
@@ -52,8 +57,11 @@ const Main = () => {
         count : completedItem.pray_cnt
       })
     });
+    console.log(upPosition);
+    console.log(DownPosition);
     upPosition && setUncompletedList(uncompletedList);
     DownPosition && setCompletedList(completedList);
+    setisloading(false);
   }
 
   const sortUpPosition = (result) =>{
@@ -63,12 +71,20 @@ const Main = () => {
     setDownPosition(result);
 }
   useEffect(()=>{
-    if(!prayList) return;
+    if(!prayList) {
+      setisloading(true);
+      return;
+    }
+    console.log("prayList")
     renderingData(prayList);
   },[prayList]);
 
   useEffect(()=>{
-    if(!pray_List) return;
+    if(!pray_List) {
+      setisloading(true);
+      return;
+    }
+    console.log("pray_List")
     renderingData(pray_List);
   },[pray_List])
 
@@ -78,7 +94,7 @@ const Main = () => {
   const {mutate: mutateChangeValue} = useChangeValue();
   const {mutate: mutateSendPrayItem} = useSendPrayItem();
 
-  const onInsert = async (Dday,text) =>{
+  const onInsert = async (name,Dday,text) =>{
     if(text === ""){
       return alert("기도제목이 입력이 되지 않았습니다.");
     }
@@ -87,8 +103,6 @@ const Main = () => {
       var day = addDay(date, Dday);
       var zeroTime = setZeroTime(day);
       var deadline = zeroTime.getFullYear() + "-" + (zeroTime.getMonth()+1) + "-" + (zeroTime.getDate());
-      console.log(deadline);
-      console.log(date);
       mutateSendPrayItem({
         target: name,
         title: text,
@@ -96,7 +110,11 @@ const Main = () => {
       },{
         onSuccess: () => {
           console.log("sendPraryList");
-          refetchPrayList();
+          setUpPosition(true);
+          setDownPosition(false);
+          dayToggleTopDay && refetchPrayList();
+          dayToggleTopPrayer && refetch_PrayList();
+          console.log(dayToggleTopPrayer);
         },
       });
     }
@@ -116,14 +134,18 @@ const Main = () => {
       onSuccess: (res) => {
         setUpPosition(true);
         setDownPosition(true);
+        console.log(res);
+        refetchPrayList();
+        refetch_PrayList();
         renderingData(res);
       }
     });
   };
 
 const contentClick  = (e) =>{
+
     if(isChecked === isModify){
-      setIsChecked(!isChecked);
+      !isShare && setIsChecked(!isChecked);
     }
     else{
       if(isChecked === true && isModify === false){
@@ -241,7 +263,10 @@ const onMove = () =>{
       isDeleted = {isDeleted} onDeleted = {onDeleted} valueChange = {valueChange} changeCheck = {changeCheck} dDayCalculate = {dDayCalculate}
       modalText={modalText} modalToggle={modalToggle} sortUpPosition = {sortUpPosition} sortDownPosition= {sortDownPosition} 
       isShare = {isShare} setIsShare = {setIsShare} shareToggle = {shareToggle} setshareToggle={setshareToggle}
-    shareLength = {shareLength} setShareLength = {setShareLength} onMove={onMove}/>
+      shareLength = {shareLength} setShareLength = {setShareLength} onMove={onMove}
+      dayToggleTopDay={dayToggleTopDay} setDayToggleTopDay={setDayToggleTopDay} dayToggleTopPrayer ={dayToggleTopPrayer} setDayToggleTopPrayer={setDayToggleTopPrayer}
+      dayToggleBottomDay={dayToggleBottomDay} setDayToggleBottomDay = {setDayToggleBottomDay} dayToggleBottomPrayer={dayToggleBottomPrayer} setDayToggleBottomPrayer={setDayToggleBottomPrayer} 
+      loading = {loading}/>
     </TemplateMain>
   );
 };

@@ -57,7 +57,7 @@ const ImgContainer = styled(Logo)`
 const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck}) =>{
     return(
         <MainContainer>
-            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",marginBottom:"25px",borderBottom: "4px solid #F0F0F0"}} 
+            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px',marginTop:"12px",marginBottom:"25px", backgroundColor:"#EEEEEE", borderRadius:"4px"}} 
             onClick={changeCheck}></div></div>
             <SubContainer>
                 <BoxContainer style={{color: '#27CD2F'}} onClick = {() => completeBtnClick(clickId)}><ImgContainer src ={check_img}/><div style={{display:"flex", marginTop: '4px', justifyContent:"center", textAlign:"center"}}> 완료하기</div></BoxContainer>

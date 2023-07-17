@@ -9,8 +9,11 @@ const BoxContainer = styled.div`
     width: 47%;
     height: 63px;
     display: flex;
-    justify-content : center;
     align-items : center;
+    justify-content : space-between;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-right: 12px;
     margin-bottom: 12px;
     border : 1px solid #7BAB6E;
     border-radius: 16px;
@@ -25,10 +28,9 @@ const BoxContainer = styled.div`
 const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
     width : 100%;
     position: fixed; 
-    top:1;
+    top: 1;
     bottom: 0;
     right: 0;
     left: 0;
@@ -76,7 +78,7 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
     } 
     return(
         cancelToggle && <MainContainer>
-            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",borderBottom: "1px solid #F0F0F0"}} 
+            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', marginTop:"12px", backgroundColor:"#F0F0F0", borderRadius:"4px"}} 
             onClick={() => onCancle()}></div></div>
             <div style={{display:"flex", flexDirection:"row-reverse"}}>
             {(shareLength == undefined) ? "" : <NumberContainer>{shareLength + "개 선택"}</NumberContainer>}</div>

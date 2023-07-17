@@ -51,7 +51,7 @@ const DayCalender = styled(Logo)`
 
 const DateSet = styled.div`
     display:flex;
-    padding-right: 16px;
+    padding-right: 12px;
     margin-top: 20px;
     flex-direction: row-reverse
 `
@@ -112,7 +112,7 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
         <DateSet>
         {dayToggle ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
-        <div><DayCalender src={dayToggle ? Day_Calender_hover: Day_Calender} onClick={onToggle}/></div>
+        <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>
         </ModifyStyle>

@@ -104,7 +104,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setVisible(!visible);
         setValue("");
         console.log(day);
-        onInsert(day, value);
+        onInsert(text, day, value);
         setDay(7);
     }
     const changeCheckTop = () =>{

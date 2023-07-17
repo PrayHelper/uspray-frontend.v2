@@ -7,36 +7,28 @@ import HeartImage from "../../images/ic_heart_image.svg";
 
 const MainContent = styled.div`
     display: flex;
-    justify-content: space-between;
-    height: 25px;
-    margin-top: 16px;
-    margin-left: 12px; 
-    margin-right: 12px;
+    align-items: center;
+    margin: 16px 12px 0 16px;
     border-bottom : 1px solid #B3D1AB;
-    padding-right: 4px;
-    padding-bottom : 8px;
+    padding: 0 4px 8px 0;
 `
 
 const NameContent = styled.div`
-    // width: 42px;
-    // display: ;
-    width: 15%;
-    height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     border-right: 1px solid #CECECE;
+    padding-right: 4px;
     font-size: 12px;
     line-height: 17px;
 
 `;
 
 const TextContent = styled.div`
-    // width: 263px;
-    width: 70.571%;
     height: 17px;
     padding : 0px;
     margin-left: 6px;
+    flex-grow : 1;
     // margin-right: 8px;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -46,16 +38,13 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
-    width : 45px;
     font-size : 12px;
-    heigth : 17px;
-    text-align : center;
+    text-align : right;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     line-height: 17px;
-    // margin-left: 4px;
-    margin-top : 2px;
+    margin-right: 4px;
 `;
 const ClickImg = styled(Logo)`
     width: 24px;

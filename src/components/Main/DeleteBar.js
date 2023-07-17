@@ -9,6 +9,7 @@ const Delete_btn = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     height: 251px;
+    width: 88.83%;
     // margin-right: 24px;
     // margin-left : 24px;
     z-index: 7;
@@ -39,7 +40,7 @@ const Deletefont = styled.div`
 `
 const Btn_set = styled.button`
     height: 58px;
-    width: 171px;
+    width: 44.76%;
     background: #F0F0F0;
     border-radius: 16px;
     border: 1px solid white;
@@ -61,7 +62,7 @@ const DeleteBar = ({deleteBtnClick, onDeleted, id}) => {
             <DeleteImg src={delete_btn}/>
             <Deletefont>정말 삭제하시겠습니까?</Deletefont>
             <Deletefont style={{fontWeight: "400", fontSize:'18px', lineHeight:'26px', marginTop:'2px', marginBottom:'42px'}}>다른 목록에서 확인할 수 었습니다.</Deletefont>
-            <div style={{height:'58px', marginBottom:'16px', display:'flex'}}>
+            <div style={{width: '88.83%', height:'58px', marginBottom:'16px', display:'flex'}}>
                 <Btn_set style={{marginLeft:'16px', marginRight:'8px'}} onClick={onDeleted}>취소</Btn_set>
                 <Btn_set style={{marginRight: '16px', background:"#FF6B6B", color:'#FFFFFF'}} onClick={() => deleteBtnClick(id)}>삭제</Btn_set>
             </div>

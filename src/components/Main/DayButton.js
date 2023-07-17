@@ -53,7 +53,7 @@ const Day_Button = ({dayInfo}) =>{
         setFontThirty('#75BD62');
         setFontHundred('#75BD62');
         var year = getYear(date);
-        var month = ((getMonth(date)+1) <= 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : (getMonth(date)+1);
         var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
         let res_data = year + "/" +  month + "/" + date;
         setDayText(res_data);
