@@ -15,7 +15,6 @@ const Input = ({
   onChangeHandler,
   onFocusHandler,
   value,
-  setIsScaleLogo,
 }) => {
   if (!type) type = "text";
   if (!label) label = "";
@@ -36,16 +35,10 @@ const Input = ({
         isError={isError}
         onChange={onChangeHandler}
         onFocus={() => {
-          if(window.location.pathname === '/login') {
-            setIsScaleLogo(true);
-          }
           setIsFocused(true);
           onFocusHandler();
         }}
         onBlur={() => {
-          if(window.location.pathname === '/login') {
-            setIsScaleLogo(false);
-          }
           setIsFocused(false);
         }}
       />
