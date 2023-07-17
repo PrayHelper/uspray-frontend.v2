@@ -19,6 +19,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [isScaleLogo, setIsScaleLogo] = useState(true);
 
   const { isMobile, getDeviceToken, storeAuthToken } = useFlutterWebview();
 
@@ -89,10 +90,10 @@ const LoginPage = () => {
 
   return (
     <LoginWrapper>
-      <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
-        <LogoTitle>Uspray</LogoTitle>
-        <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
+      <LogoWrapper isScaleLogo={isScaleLogo}>
+        <LogoImg src="images/logo_image.svg" alt="logo" isScaleLogo={isScaleLogo} />
+        <LogoTitle isScaleLogo={isScaleLogo}>Uspray</LogoTitle>
+        <LogoSubTitle isScaleLogo={isScaleLogo}>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
       <BottomBtnWrapper>
         <div style={{ textAlign: "center" }}>
@@ -101,6 +102,7 @@ const LoginPage = () => {
               label="아이디"
               value={idValue}
               onChangeHandler={onChangeId}
+              setIsScaleLogo={setIsScaleLogo}
             />
           </div>
           <div style={{ margin: "0px 24px 12px 24px" }}>
@@ -109,6 +111,7 @@ const LoginPage = () => {
               value={pwdValue}
               type="password"
               onChangeHandler={onChangePwd}
+              setIsScaleLogo={setIsScaleLogo}
             />
           </div>
 
@@ -156,27 +159,30 @@ const LoginWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 120px;
+  transition: all 0.5s;
+  margin-top: ${props => props.isScaleLogo ? "0px" : "60px"};
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const LogoImg = styled.img`
-  width: 204px;
+  transition: all 0.5s;
+  width: ${props => props.isScaleLogo ? "120px" : "204px"};
 `;
 
 const LogoTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
-  font-size: 40px;
+  font-size: ${props => props.isScaleLogo ? "32px" : "40px"};
   font-weight: 700;
-  line-height: 57.92px;
+  margin-bottom: 8px;
 `;
 
 const LogoSubTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
-  font-size: 24px;
-  line-height: 34.75px;
+  font-size: ${props => props.isScaleLogo ? "20px" : "24px"};
 `;
 
 const BottomBtnWrapper = styled.div`

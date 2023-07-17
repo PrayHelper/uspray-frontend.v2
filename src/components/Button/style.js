@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ButtonSize, ButtonTheme } from './Button';
 
 export const BaseButtonStyle = styled.button`
+  transition: all 0.2s;
   width: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "55px" : "100%"};
   height: ${props => (props.buttonSize == ButtonSize.NORMAL) ? "33px" : "63px"};
   display: flex;
