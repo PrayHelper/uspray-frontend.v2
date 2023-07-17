@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PrayerContent from "./PrayerContent";
 import styled from 'styled-components';
 import BottomMenu from "./BottomMenu";
@@ -6,9 +6,10 @@ import Share from "./Share";
 import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
-import serverapi from "../../api/serverapi";
 import DeleteBar from "./DeleteBar";
 import AnimationModal from "./AnimationModal";
+import { usePrayList } from "../../hooks/usePrayList";
+import { useShare } from "../../hooks/useShare";
 
 const Background = styled.div`
   width: 100%;
@@ -74,16 +75,17 @@ const PrayerContentStyle = styled.div`
     background-color: #FFFFFF;
     margin-right : 24px;
     margin-left : 24px;
-    // margin-bottom: 8px;
     border-radius: 16px;
     border: 1px solid #7BAB6F;
     min-height: 244px;
+    padding-bottom: 20px;
 `;
 
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
     modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
-    valueChange,changeCheck, ddayCaculate, modalToggle, modalText}){
+    valueChange,changeCheck, dDayCalculate, modalToggle, modalText,sortUpPosition,sortDownPosition,
+    onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength}){
     const [dayToggleTopDay , setDayToggleTopDay] = useState(true);
     const [dayToggleTopPrayer , setDayToggleTopPrayer] = useState(false);
     const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
@@ -92,59 +94,105 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [colorSecondTop, setColorSecondTop] = useState('#7BAB6E');
     const [colorFirstBottom, setColorFirstBottom] = useState('#EBF6E8');
     const [colorSecondBottom, setColorSecondBottom] = useState('#7BAB6E');
-    const [isShare, setIsShare] = useState(false);
     const [Sharelist, setShareList] = useState([]);
-    const [shareToggle, setshareToggle] = useState(false);
-    const [shareLength, setShareLength] = useState(0);
-    // const [isShareChecked, setShareIsChecked] = useState(false);
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2OTgzN2E5LThiNjMtNDEyYS05NzE2LWFjNjMxMTM0MzY2NCIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA0VDA5OjAwOjUzLjMwMzc5OCJ9.j6SPL71hR__O5NT1wDbMPwdWm7Jr4jsm7njWyURBF8M";
-    const getPrayList = async (query, complete) => {
-        const api = "/pray?sort_by=" + query;
-        try {
-          const res= await serverapi.get(api,{ headers: {
-            'Authorization': `${accessToken}`}});
-          if (res.status === 200) {
-            var prayer_content = [];
-            var prayer_more_content = [];
-            for(let i = 0;i<Object.keys(res.data.uncompleted).length;i++){
-                var result = ddayCaculate(res.data.uncompleted[i].deadline);
-                prayer_content[i] = {
-                  id : res.data.uncompleted[i].id,
-                  name: '김정묵',
-                  dday: result,
-                  text: res.data.uncompleted[i].title,
-                  checked : false,
-                  count : res.data.uncompleted[i].pray_cnt
-                };
-              }
-            for(let i = 0;i<Object.keys(res.data.completed).length;i++){
-            var result = ddayCaculate(res.data.completed[i].deadline);
-            prayer_more_content[i] = {
-                id : res.data.completed[i].id,
-                name: '김정묵',
-                dday: result,
-                text: res.data.completed[i].title,
+    const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
+    const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
+    const {mutate: mutateSharePrayItem} = useShare();
+
+    const praySort = (praylist) =>{
+        console.log("솔트")
+        let uncompletedsortedList = [];
+        uncompletedsortedList = praylist.data.uncompleted.sort(function (a,b){
+            return a.pray_cnt - b.pray_cnt;
+        });
+        console.log(uncompletedsortedList);
+        return uncompletedsortedList;
+    }
+    
+    const prayCompletedSort = (praylist) =>{
+        let completedsortedList = []
+        completedsortedList = praylist.data.completed.sort(function (a,b){
+            return a.pray_cnt - b.pray_cnt;
+        });
+        console.log(completedsortedList);
+        return completedsortedList;       
+    }
+    const getPrayList = (result, bool, pray) =>{ // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭 
+        if(!bool){
+            let uncompletedList = [];
+            if(pray){
+                let sortedResult = [];
+                sortedResult = praySort(result);
+                sortedResult.map((uncompletedItem) => {
+                let dDay = dDayCalculate(uncompletedItem.deadline);
+                uncompletedList.push({
+                id : uncompletedItem.id,
+                name:uncompletedItem.target,
+                dday: dDay,
+                text: uncompletedItem.title,
                 checked : false,
-                count : res.data.completed[i].pray_cnt
-            };
+                count : uncompletedItem.pray_cnt
+                })
+                });
             }
-            if(!complete){
-                setPrayerContent(prayer_content);
+
+            else{
+                result.data.uncompleted.map((uncompletedItem) => {
+                    let dDay = dDayCalculate(uncompletedItem.deadline);
+                    uncompletedList.push({
+                    id : uncompletedItem.id,
+                    name:uncompletedItem.target,
+                    dday: dDay,
+                    text: uncompletedItem.title,
+                    checked : false,
+                    count : uncompletedItem.pray_cnt
+                    })
+                    });
+            }
+            setPrayerContent(uncompletedList);
+            sortUpPosition(true);
+            sortDownPosition(false);
+        }
+        else{
+            let completedList = [];
+            if(pray){
+                let sortedResult = [];
+                sortedResult = prayCompletedSort(result);
+                sortedResult.map((completedItem) => {
+                let dDay = dDayCalculate(completedItem.deadline);
+                completedList.push({
+                id : completedItem.id,
+                name:completedItem.target,
+                dday: dDay,
+                text: completedItem.title,
+                checked : false,
+                count : completedItem.pray_cnt
+                })
+                });
             }
             else{
-                setPrayerMoreContent(prayer_more_content);
+            result.data.completed.map((completedItem) => {
+                let dDay = dDayCalculate(completedItem.deadline);
+                completedList.push({
+                  id : completedItem.id,
+                  name:completedItem.target,
+                  dday: dDay,
+                  text: completedItem.title,
+                  checked : false,
+                  count : completedItem.pray_cnt
+                })
+              });
             }
-            }
-          } catch (e){
-          alert("error occured");
-          console.log(e);
+            setPrayerMoreContent(completedList);
+            sortUpPosition(false);
+            sortDownPosition(true);
         }
     }
-
-    const dayFucTopDay = (e) =>{
+    const dayFucTopDay  =  () =>{
         if(!dayToggleTopDay){
-            getPrayList("date",false);
+            refetchPrayList();
+            getPrayList(prayList, false, false);
             setDayToggleTopDay(!dayToggleTopDay);
             setDayToggleTopPrayer(!dayToggleTopPrayer);
             setColorSecondTop('#7BAB6E');
@@ -153,7 +201,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
     const dayFucTopPrayer = () =>{
         if(!dayToggleTopPrayer){
-            getPrayList("cnt", false);
+            refetch_cnt_PrayList();
+            getPrayList(pray_cnt_List, false, true);
             setDayToggleTopPrayer(!dayToggleTopPrayer);
             setDayToggleTopDay(!dayToggleTopDay);
             setColorFirstTop('#7BAB6E');
@@ -163,7 +212,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
 
     const dayFucBottomDay = () =>{
         if(!dayToggleBottomDay){
-            getPrayList("date", true);
+            refetchPrayList();
+            getPrayList(prayList, true, false);
             setDayToggleBottomDay(!dayToggleBottomDay);
             setDayToggleBottomPrayer(!dayToggleBottomPrayer);
             setColorSecondBottom('#7BAB6E');
@@ -172,7 +222,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
     const dayFucBottomPrayer = () =>{
         if(!dayToggleBottomPrayer){
-            getPrayList("cnt", true);
+            refetch_cnt_PrayList();
+            getPrayList(pray_cnt_List, true, true);
             setDayToggleBottomPrayer(!dayToggleBottomPrayer);
             setDayToggleBottomDay(!dayToggleBottomDay);
             setColorFirstBottom('#7BAB6E');
@@ -183,22 +234,24 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const onShare = async() =>{
         setIsShare(!isShare);
         if(isShare){
-            const api = "/share";
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
-            try {
-                var data = {
-                    "pray_id_list": Sharelist
+            mutateSharePrayItem({
+                pray_id_list : Sharelist
+              },{
+                onSuccess: (e) => {
+                  console.log("sendShareList");
+                  console.log(e.data);
+                  if (navigator.share) {
+                    navigator.share({
+                        title: 'Web_share',
+                        url: e.data,
+                    });
+                }else{
+                    alert("공유하기가 지원되지 않는 환경 입니다.")
                 }
-                const res= await serverapi.post(api,data, { headers: {
-                  'Authorization': `${accessToken}`}});
-                if (res.status === 200) {
-
-                } 
-            }catch (e){
-                alert("Share error ");
-                console.log(e);
-              }
+                },
+              });
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
               prayerContent => ({...prayerContent, checked:false})
@@ -218,10 +271,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             prayerMoreContent => ({...prayerMoreContent, checked:false})
           ))
     }
-    const onMove = () =>{
-        setshareToggle(!shareToggle);
-        setShareLength(0);
-    }
 
     const clickOff = (id) =>{
         setShareLength(shareLength-1);
@@ -240,13 +289,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
                 (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:check_box}: PrayerMoreContent)));
         }
-        // else{
-        //     console.log(shareLength);
-        //     setShareList(Sharelist.filter(list => (list !== id)));
-        //     var share_id = prayerContent.findIndex(e => e.id == id);
-        //     prayerContent[share_id].check_box = check_box;
-        // }
     }
+
     return(
         <div> 
             {isModify && <BackgroundBright onClick={onModify}></BackgroundBright>}

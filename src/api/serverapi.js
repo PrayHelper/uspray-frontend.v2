@@ -25,7 +25,6 @@ const onErrorResponse = async (error) => {
       }
       default: {
         // console.log(status);
-
         console.log("알 수 없는 오류가 발생했습니다.");
         break;
       }
