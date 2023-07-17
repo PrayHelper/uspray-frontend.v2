@@ -8,8 +8,20 @@ import useSleep from "./useSleep";
 
 const useAuthToken = () => {
 
+  const accessToken = useRef(null);
+
+  const getAccessToken = () => {
+    return accessToken.current;
+  }
+
+  const setAccessToken = (token) => {
+    accessToken.current = token;
+  }
+
+
   const muLock = useRef(false);
   const { sleepWithCondition } = useSleep();
+
 
   const getAuthTokenFromLocalStorage = async () => {
     await sleepWithCondition(() => muLock.current === false)
@@ -26,7 +38,7 @@ const useAuthToken = () => {
     storeAuthToken: storeAuthTokenFromMobile
   } = useFlutterWebview();
 
-  const getAuthToken = () => {
+  const getRefreshToken = () => {
     if (isMobile()) {
       return getAuthTokenFromMobile();
     } else {
@@ -34,7 +46,7 @@ const useAuthToken = () => {
     }
   }
 
-  const setAuthToken = (token) => {
+  const setRefreshToken = (token) => {
     if (isMobile()) {
       muLock.current = true;
       storeAuthTokenFromMobile(token);
@@ -50,8 +62,10 @@ const useAuthToken = () => {
   }, []);
 
   return {
-    getAuthToken,
-    setAuthToken,
+    getAccessToken,
+    setAccessToken,
+    getRefreshToken,
+    setRefreshToken,
   }
 
 }
