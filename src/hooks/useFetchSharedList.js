@@ -3,22 +3,18 @@ import { tokenState } from "../recoil/accessToken";
 import { getFetcher, refresh } from "./api";
 import { useQuery } from "react-query";
 
-const getSharedList = async (accessToken, params) => {
-  return await getFetcher(
-    "/share",
-    {
-      Authorization: accessToken,
-    },
-    params
-  );
+const getSharedList = async (accessToken) => {
+  return await getFetcher("/share", {
+    Authorization: accessToken,
+  });
 };
 
-export const useFetchSharedList = (params) => {
+export const useFetchSharedList = () => {
   const [accessToken, setAccessToken] = useRecoilState(tokenState);
   return useQuery(
-    ["SharedList", accessToken, params],
+    ["SharedList", accessToken],
     () => {
-      return getSharedList(accessToken, params);
+      return getSharedList(accessToken);
     },
     {
       onError: (e) => {

@@ -4,6 +4,7 @@ import serverapi from "../api/serverapi";
 import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { useFetchSharedList } from "../hooks/useFetchSharedList";
 
 const accessToken = "";
 
@@ -81,23 +82,13 @@ const Locker = () => {
 
   // 공유 리스트 읽기
   const fetchSharedList = async () => {
-    const api = "/share";
-    try {
-      const res = await serverapi.get(api, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      if (res.status === 200) {
-        setData(res.data);
-        console.log(data);
-        setIsClicked(new Array(res.data.length).fill(false));
-        console.log(isClicked);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    setData(sharedListData.data);
+    console.log(sharedListData);
+    setIsClicked(new Array(sharedListData.data.length).fill(false));
+    console.log(isClicked);
   };
+
+  const { data: sharedListData } = useFetchSharedList();
 
   // 공유 기도 삭제
   const deleteSharedList = async () => {
@@ -170,8 +161,9 @@ const Locker = () => {
   };
 
   useEffect(() => {
+    if (!sharedListData) return;
     fetchSharedList();
-  }, []);
+  }, [sharedListData]);
 
   return (
     <LockerWrapper>
