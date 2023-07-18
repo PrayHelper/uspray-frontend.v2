@@ -116,6 +116,7 @@ const LoginPage = () => {
             <Button
               buttonSize={ButtonSize.LARGE}
               ButtonTheme={ButtonTheme.GREEN}
+              disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
               handler={() => {
                 login();
               }}
