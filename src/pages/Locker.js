@@ -5,8 +5,7 @@ import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 
-const accessToken =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA2LTA2VDA0OjQxOjQ3LjExODIwNyJ9.pdh3UVRtQHmsE5eRTmuiYrxIy5uOILfqk35rOQFhyYw";
+const accessToken = "";
 
 const Locker = () => {
   const [data, setData] = useState([]);

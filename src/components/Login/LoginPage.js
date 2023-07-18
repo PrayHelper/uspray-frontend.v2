@@ -157,27 +157,30 @@ const LoginWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 120px;
+  transition: all 0.5s;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const LogoImg = styled.img`
+  transition: all 0.5s;
   width: 204px;
 `;
 
 const LogoTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
   font-size: 40px;
   font-weight: 700;
-  line-height: 57.92px;
+  margin-bottom: 8px;
 `;
 
 const LogoSubTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
   font-size: 24px;
-  line-height: 34.75px;
 `;
 
 const BottomBtnWrapper = styled.div`

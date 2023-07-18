@@ -5,6 +5,7 @@ on:
     branches:
       - feature/**
       - feat/**
+      - hotfix
 
 env:
   HOST:     ${{ secrets.HOST }}
