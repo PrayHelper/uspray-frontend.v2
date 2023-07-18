@@ -14,11 +14,12 @@ import { useNavigate } from "react-router-dom";
 let init = 0;
 
 const ModalContent = styled.div`
+
+  transition: all 0.3s ease-in-out;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-
+  transform: ${props => props.isModalOn ? 'translate(-50%, -50%' : 'translate(-50%, -40%'});
   width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
@@ -29,6 +30,9 @@ const ModalContent = styled.div`
   padding: 16px;
   color: #7bab6e;
   z-index: 500;
+
+  opacity: ${props => props.isModalOn ? '1' :'0'};
+  pointer-events: ${props => props.isModalOn ? 'auto' :'none'};
 `;
 
 const ModalButton = styled.button`
@@ -316,40 +320,36 @@ const Signup = () => {
   return (
     <div>
       <UserHeader>회원가입</UserHeader>
-      {showModal && (
-        <>
-          <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-            <ModalContent onClick={(e) => e.stopPropagation()}>
-              <img
-                src="images/icon_notice.svg"
-                alt="icon_notice"
-                style={{
-                  marginBottom: "8px",
-                }}
-              />
-              <div
-                style={{
-                  fontSize: "20px",
-                  color: "#7BAB6E",
-                  fontWeight: "700",
-                  marginBottom: "2px",
-                }}
-              >
-                이름은 실명으로 설정해주세요!
-              </div>
-              <div
-                style={{
-                  marginBottom: "36px",
-                }}
-              >
-                기도제목 공유 시 이름으로 전달됩니다.
-              </div>
-              <ModalButton onClick={handleCloseModal}>
-                네, 그렇게 할게요.
-              </ModalButton>
-            </ModalContent>
-        </>
-      )}
+        <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
+        <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
+          <img
+            src="images/icon_notice.svg"
+            alt="icon_notice"
+            style={{
+              marginBottom: "8px",
+            }}
+          />
+          <div
+            style={{
+              fontSize: "20px",
+              color: "#7BAB6E",
+              fontWeight: "700",
+              marginBottom: "2px",
+            }}
+          >
+            이름은 실명으로 설정해주세요!
+          </div>
+          <div
+            style={{
+              marginBottom: "36px",
+            }}
+          >
+            기도제목 공유 시 이름으로 전달됩니다.
+          </div>
+          <ModalButton onClick={handleCloseModal}>
+            네, 그렇게 할게요.
+          </ModalButton>
+        </ModalContent>
       <div
         style={{
           display: "flex",
