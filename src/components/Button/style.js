@@ -21,7 +21,7 @@ export const BaseButtonStyle = styled.button`
 
   &:active {
     transition: all 0.2s ease-in-out;
-    filter: brightness(0.9);
-    scale: 0.98;
+    filter: ${(props) => props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => props.disabled ? "1" : "0.98"};
   }
 `
