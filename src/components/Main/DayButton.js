@@ -8,20 +8,18 @@ import { getMonth, getYear, getDate } from "date-fns"
 const DayBtnSet = styled.div`
     display: flex;
     position: absolute;
-    height: 42px;
     background-color: white;
-    // margin-left: 20px;
     width: 100%;
     z-index: 1000;
     border: 0px solid white;
+    padding-bottom: 26px;
 `
 const DayBtn = styled.button`
-    width : 48px;
-    height : 25px;
     font-size: 10px;
     margin-right : 8px;
     border: 1px solid #75BD62;
     border-radius: 8px;
+    padding: 4px 15px;
 `
 
 const DayCalender = styled(Logo)`

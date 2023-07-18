@@ -8,7 +8,6 @@ const AnimationStyle = styled.div`
     display: flex;
     text-align: center;
     padding: 16px 30px;
-    // gap: 10px;
     border-radius: 16px;
     top: 1;
     bottom: 0;

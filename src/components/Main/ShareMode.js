@@ -6,15 +6,12 @@ import MoveLogo from "./MoveLogo";
 
 const BoxContainer = styled.div`
     margin-top: 8px;
-    width: 47%;
-    height: 63px;
+    flex-grow: 1;
     display: flex;
     align-items : center;
     justify-content : space-between;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin-right: 12px;
-    margin-bottom: 12px;
+    padding : 20px 12px;
+    margin: 0px 12px 12px;
     border : 1px solid #7BAB6E;
     border-radius: 16px;
     color: #7BAB6E;
@@ -23,12 +20,14 @@ const BoxContainer = styled.div`
     font-weight: 700;
     font-size: 16px;
     line-height: 23px;
+    margin-left: 12px;
 `;
 
 const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
     width : 100%;
+    gap: 14px;
     position: fixed; 
     top: 1;
     bottom: 0;
@@ -39,8 +38,6 @@ const MainContainer = styled.div`
     background-color : white;
     border-radius: 24px 24px 0px 0px;
     z-index : 2001;
-    padding-right: 24px;
-    padding-left: 24px;
     box-sizing : border-box;
 `
 
@@ -62,6 +59,7 @@ const NumberContainer = styled.div`
     font-size: 12px;
     line-height: 17px;
     color: #7BAB6E;
+    margin-right: 26px;
 `
 const ShareClickLogo = styled(MoveLogo)``;
 

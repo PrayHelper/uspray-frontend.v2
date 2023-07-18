@@ -12,24 +12,20 @@ const BackGround = styled.div`
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    justify-content: space-between;
-    width: 100%;
-    padding-left: 30px;
-    padding-right: 24px;
+    padding: 0px 24px 12px 35px;
     background: white;
-    height: 120px;
     z-index: 1000;  
     border-bottom: 1px solid white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
+    align-items : center;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
     width: 31px;
     height : 31px;
-    font-size: 1px;
     border: 1px solid #EBF7E8;
-    border-radius: 6.26087px;
+    border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
 `;
 
@@ -43,33 +39,29 @@ const SendImg = styled(Logo)`
 `;
 
 const StyleInput = styled.input`
-    margin-top: 64px;
-    width: 90.14%;
-    height:30px;
-    margin-left: 10px;
-    // padding-left: 12px;
+    margin-top: 69px;
+    margin: 69px 12px 0px 12px;
     border-radius:4px;
     border : none;
     font-size: 16px;                 
     color: #A0A0A0; 
     outline: none;
+    flex-grow: 1;
     border-bottom: 1px solid #EBF7E8;
     ::placeholder {
         color: #B7CEB0; // 원하는 색상으로 변경
     }
 `
 const StyleName = styled.input`
-    width: 100%;
-    height: 23px;
+    width: 48px;
     font-size: 16px;
-    // margin-right: 12px;
     font-family: Noto Sans KR;
     font-weight: 400;
     color: #75BD62;
     outline: none;
     border: none;
     border-bottom: 1px solid #EBF7E8;
-    padding-bottom: 4px;
+    margin-top: 69px;
 `
 const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
     const [text, setText] = useState("김정묵");
@@ -114,15 +106,10 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     return(
         <div style={{width:"100%", height:"923px"}}>
             <BackgroundInput>
-                <div style={{width: '15%', height:'23px',marginTop:'67px', padding:'0px'}}>
-                     <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
-                </div>
-
-                <div style={{width: '264px'}}>
+                <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                 <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
-                </div>
-                <div style={{width:'31px', height:'31px', marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
+                <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                     {(value === "") ? <BtnSend style={{backgroundColor:"white"}}><SendImg src={DisableImage}/></BtnSend>
                      : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
                 </div>

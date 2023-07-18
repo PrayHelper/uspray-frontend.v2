@@ -11,7 +11,6 @@ const DateStyle = styled.div`
 
 const MydatePicker = styled(DatePicker)`
   font-weight:bold;
-  // background-color:transparent;
   color: #B7CEB0;
   border: 1px solid ;
 `
