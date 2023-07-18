@@ -146,7 +146,7 @@ const ChangeInfo = () => {
             전화번호 변경
           </Button>
           <LoginButton
-            backgrond={"#ffffff"}
+            background={"#ffffff"}
             context={"회원탈퇴"}
             color={"#7bab6e"}
             borderColor={"#7bab6e"}
