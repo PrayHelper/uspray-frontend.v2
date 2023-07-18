@@ -25,7 +25,6 @@ const ModalContent = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-  gap: 8px;
   border-radius: 16px;
   padding: 16px;
   color: #7bab6e;
@@ -33,14 +32,20 @@ const ModalContent = styled.div`
 `;
 
 const ModalButton = styled.button`
+  transition: 0.2s all ease-in-out;
   width: 100%;
-  height: 66px;
   background-color: #7bab6e;
   border-style: none;
   border-radius: 16px;
   padding: 20px 0;
   color: #ffffff;
   font-size: 18px;
+
+  &:active {
+    transition: 0.2s all ease-in-out;
+    transform: scale(0.98);
+    filter: brightness(0.9);
+  }
 `;
 
 const Signup = () => {
@@ -315,20 +320,26 @@ const Signup = () => {
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
             <ModalContent onClick={(e) => e.stopPropagation()}>
-              <img src="images/icon_notice.svg" alt="icon_notice" />
+              <img
+                src="images/icon_notice.svg"
+                alt="icon_notice"
+                style={{
+                  marginBottom: "8px",
+                }}
+              />
               <div
                 style={{
                   fontSize: "20px",
                   color: "#7BAB6E",
                   fontWeight: "700",
-                  paddingBottom: "2px",
+                  marginBottom: "2px",
                 }}
               >
                 이름은 실명으로 설정해주세요!
               </div>
               <div
                 style={{
-                  marginBottom: "28px",
+                  marginBottom: "36px",
                 }}
               >
                 기도제목 공유 시 이름으로 전달됩니다.
