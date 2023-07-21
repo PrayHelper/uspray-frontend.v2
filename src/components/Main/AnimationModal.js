@@ -17,7 +17,7 @@ const AnimationStyle = styled.div`
     height: 28px;
     background-color: #78AB6E;
     margin-bottom : 65px;
-    z-index: 100000;
+    z-index: 1000;
 `
 const SubAnimation = styled.div`
     display: flex;

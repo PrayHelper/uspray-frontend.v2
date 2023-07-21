@@ -14,9 +14,8 @@ const BackgroundInput = styled.div`
     position : relative;
     padding: 0px 24px 12px 35px;
     background: white;
-    z-index: 1000;  
+    z-index: 10;  
     border-bottom: 1px solid white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
     align-items : center;
 `;
@@ -93,7 +92,12 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setValue(e.target.value);
     }
     const onName = (e) =>{
+        if(e.target.value.length < 5){
         setText(e.target.value);
+        }
+        else{
+            alert("이름의 최대 글자는 4글자입니다.");
+        }
     }
     const submit = () =>{
         setVisible(!visible);
@@ -108,7 +112,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
 
     return(
         <div style={{width:"100%", height:"923px"}}>
-            <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "16px"}}>
+            <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "16px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
                 <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                 <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>

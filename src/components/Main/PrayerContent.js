@@ -70,7 +70,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <ShareCheckBox id = {id} checked={checked} handler = {clickHandler} /> : 
             <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
-            <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
+            <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
             {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>}
         </MainContent>

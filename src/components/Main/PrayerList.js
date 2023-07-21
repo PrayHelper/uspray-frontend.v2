@@ -86,7 +86,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     valueChange,changeCheck, dDayCalculate, modalToggle, modalText,sortUpPosition,sortDownPosition,
     onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
-    dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading}){
+    dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
+    shareList, Sharelist, setShareList}){
 
     const defaultOptions = { //예제1
         loop: true,
@@ -100,7 +101,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [colorSecondTop, setColorSecondTop] = useState('#7BAB6E');
     const [colorFirstBottom, setColorFirstBottom] = useState('#EBF6E8');
     const [colorSecondBottom, setColorSecondBottom] = useState('#7BAB6E');
-    const [Sharelist, setShareList] = useState([]);
     const padding = (isChecked || isModify) ? "0px" : "24px";
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
@@ -286,22 +286,12 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
     }
 
-    const shareList = (id, check_box) =>{
-        if(check_box){
-            setShareList([...Sharelist,id]);
-            setShareLength(shareLength+1);
-            setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
-                (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:check_box}: PrayerContent)));
-            setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
-                (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:check_box}: PrayerMoreContent)));
-        }
-    }
 
     return(
         <div> 
             {isModify && <BackgroundBright onClick={onModify}></BackgroundBright>}
             {isDeleted && <BackgroundBright onClick={onDeleted}></BackgroundBright>}
-            {isChecked && <BackgroundBright onClick={changeCheck}></BackgroundBright>}
+            {isChecked && <BackgroundBright style = {{zIndex: "11"}} onClick={changeCheck}></BackgroundBright>}
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>

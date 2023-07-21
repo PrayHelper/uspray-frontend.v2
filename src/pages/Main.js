@@ -7,6 +7,7 @@ import { useCompletePrayList } from '../hooks/useCompletePrayList';
 import { usePrayDelete } from '../hooks/usePrayDelete';
 import { useChangeValue } from '../hooks/useChangeValue';
 import { useSendPrayItem } from '../hooks/useSendPrayItem';
+import { compareAsc } from 'date-fns';
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
@@ -30,6 +31,7 @@ const Main = () => {
   const [dayToggleBottomDay , setDayToggleBottomDay] = useState(true);
   const [dayToggleBottomPrayer , setDayToggleBottomPrayer] = useState(false);
   const [loading , setisloading] = useState(true);
+  const [Sharelist, setShareList] = useState([]);
 
   const renderingData = async (result) => {
     setisloading(true);
@@ -142,10 +144,14 @@ const Main = () => {
     });
   };
 
-const contentClick  = (e) =>{
+const contentClick  = (id, checked) =>{
 
     if(isChecked === isModify){
-      !isShare && setIsChecked(!isChecked);
+      if(isShare){
+        shareList(id, !checked);
+      }else{
+        setIsChecked(!isChecked);
+      }      
     }
     else{
       if(isChecked === true && isModify === false){
@@ -155,7 +161,7 @@ const contentClick  = (e) =>{
         setIsModify(!isModify);
       }
     }
-    setClickId(e);
+    setClickId(id);
   }
 
 const feedbackHandler = (text) => { 
@@ -255,6 +261,17 @@ const onMove = () =>{
   setIsShare(!isShare);
   setShareLength(0);
 }
+
+const shareList = (id, check_box) =>{
+  if(check_box){
+      setShareList([...Sharelist,id]);
+      setShareLength(shareLength+1);
+      setUncompletedList(uncompletedList => uncompletedList.map(uncompletedList => 
+          (Number(uncompletedList.id) === Number(id) ? {...uncompletedList, checked:check_box}: uncompletedList)));
+      setCompletedList(completedList => completedList.map(completedList => 
+          (Number(completedList.id) === Number(id) ? {...completedList, checked:check_box}: completedList)));
+  }
+}
   return (
     <TemplateMain onInsert = {onInsert} setshareToggle ={setshareToggle} shareToggle={shareToggle} isShare={isShare} setIsShare={setIsShare}>
       <PrayerList prayerContent={uncompletedList} setPrayerContent = {setUncompletedList} prayerMoreContent = {completedList} setPrayerMoreContent = {setCompletedList} 
@@ -266,7 +283,7 @@ const onMove = () =>{
       shareLength = {shareLength} setShareLength = {setShareLength} onMove={onMove}
       dayToggleTopDay={dayToggleTopDay} setDayToggleTopDay={setDayToggleTopDay} dayToggleTopPrayer ={dayToggleTopPrayer} setDayToggleTopPrayer={setDayToggleTopPrayer}
       dayToggleBottomDay={dayToggleBottomDay} setDayToggleBottomDay = {setDayToggleBottomDay} dayToggleBottomPrayer={dayToggleBottomPrayer} setDayToggleBottomPrayer={setDayToggleBottomPrayer} 
-      loading = {loading}/>
+      loading = {loading} shareList = {shareList} Sharelist = {Sharelist} setShareList = {setShareList} />
     </TemplateMain>
   );
 };
