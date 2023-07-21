@@ -46,6 +46,10 @@ const DdayContent = styled.div`
 const ClickImg = styled(Logo)`
     width: 24px;
     height: 24px;
+    transition: background-color 0.3s;
+    &:active {
+        filter: brightness(0.9)
+    }
 `;
 
 

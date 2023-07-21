@@ -51,6 +51,9 @@ const StyleInput = styled.input`
     ::placeholder {
         color: #B7CEB0; // 원하는 색상으로 변경
     }
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 `
 const StyleName = styled.input`
     width: 48px;
@@ -105,7 +108,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
 
     return(
         <div style={{width:"100%", height:"923px"}}>
-            <BackgroundInput>
+            <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "16px"}}>
                 <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                 <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                 onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>

@@ -24,9 +24,7 @@ const Background = styled.div`
 const TopContent = styled.div`
     display: flex;
     width: 100%;
-    height: 74px;
     justify-content: space-between;
-    // margin-left : 32px;
 `;
 
 const TodayPrayer = styled.div`
@@ -35,41 +33,42 @@ const TodayPrayer = styled.div`
     font-weight: 700;
     font-size: 12px;
     line-height: 17px;
-    margin-left : 34px;
-    margin-top : 44px;
-    margin-bottom: 13px;
+    margin: 44px 0px 13px 34px;
     color: #7BAB6E;
-    width: 56px;
 `;
 const BtnSet = styled.div`
     display: flex;
     justify-content: center;
     align-items:center;
-    width: 88px;
-    height: 26px;
     margin-bottom: 8px;
     margin-top : 40px;
     margin-right: 32px;
     background-color:#7BAB6E; 
     border : none;
     border-radius : 4px;
+    padding: 4px;
 `;
 
 const BtnElementDay = styled.button`
-    width: 40px;
-    height: 18px;
     font-size: 10px;
-    padding: 0px;
+    padding: 2px 6px;
     border: none;
     border-radius: 2px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 `;
 
 const BtnElementPrayer = styled.button`
-    width: 40px;
-    height: 18px;
     font-size: 10px;
-    padding: 0px;
+    padding: 2px 6px;
     border: none;
+    border-radius: 2px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 `;
 
 const PrayerContentStyle = styled.div`

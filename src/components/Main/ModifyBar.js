@@ -15,11 +15,9 @@ const ModifyStyle = styled.div`
     right: 0;
     left: 0;
     width: 100%;
-    height : 280px;
     background-color: #FFFFFF;
     border: 0px solid #FFFFFF;
     z-index: 1000;
-    box-sizing: border-box;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -27,7 +25,6 @@ const ModifyBtn = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 63px;
     background: #7BAB6E;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -38,12 +35,19 @@ const ModifyBtn = styled.div`
     color: #FFFFFF;
     margin-top: 16px;
     box-sizing: border-box;
+    padding: 20px 0px;
 `;
+const TopContainer = styled.div`
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    borderBottom: 1px solid #EEEEEE;
+    padding: 18px 16px 18px 0px;
+    box-sizing: border-box;
+`
 const X_Image = styled(Logo)`
     width: 11.9px;
     height: 11.9px;
-    margin-right: 12px;
-    margin-top:12px;
 `;
 
 const DayCalender = styled(Logo)`
@@ -51,8 +55,8 @@ const DayCalender = styled(Logo)`
 
 const DateSet = styled.div`
     display:flex;
-    padding-right: 12px;
-    margin-top: 20px;
+    padding-right: 16px;
+    margin-top: 16px;
     flex-direction: row-reverse
 `
 const StyleName = styled.input`
@@ -100,12 +104,12 @@ const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
     return(
         <ModifyStyle>
         {Toggle ? <div><DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/></div> : ""}
-        <div style={{display: "flex",flexDirection: "row-reverse" ,width: '100%', height:'48px', borderBottom:"solid #EEEEEE"}}>
+        <TopContainer>
             <X_Image src={X_image} onClick={onModify}></X_Image>
-        </div>
-        <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"29px",boxSizing:"border-box"}}>
+        </TopContainer>
+        <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"31px",boxSizing:"border-box"}}>
         <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
-            <textarea style={{display:"flex",width: '298px', height:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
+            <textarea style={{display:"flex",flexGrow:"1", minHeight:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
             onChange={onChangeValue}></textarea>
         </div>

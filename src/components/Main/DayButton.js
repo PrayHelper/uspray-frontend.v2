@@ -11,7 +11,7 @@ const DayBtnSet = styled.div`
     background-color: white;
     width: 100%;
     z-index: 1000;
-    border: 0px solid white;
+    border-bottom: 1px solid white;
     padding-bottom: 26px;
 `
 const DayBtn = styled.button`
