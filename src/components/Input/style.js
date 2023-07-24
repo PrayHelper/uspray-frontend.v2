@@ -54,5 +54,4 @@ export const DescriptionStyle = styled.div`
     font-weight: 500;
     white-space: nowrap;
     color: ${props => props.isError ? "#FF6B6B" : "#7BAB6E"};
-    pointer-events: none;
 `;
