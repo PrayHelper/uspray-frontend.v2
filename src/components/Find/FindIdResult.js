@@ -35,7 +35,7 @@ const BoldText = styled.span`
 `;
 
 const BoxSettingError = styled.div`
-  color: #7bab6e;
+  color: #FF6B6B;
   text-align: center;
   margin-bottom: 16px;
 
@@ -46,6 +46,16 @@ const BoxSettingError = styled.div`
   line-height: normal;
 `;
 
+const BoxError = styled.div`
+  display: flex;
+  justify-content: center;
+  height: auto;
+  margin: 0 16px;
+  margin-top: 22px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #FF6B6B;
+  contents-align: center;
+`;
 const isValid = true;
 
 const FindIdResult = () => {
@@ -84,15 +94,24 @@ const FindIdResult = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ width: "100%", height: "100vh", display: "flex", position: "relative", flexDirection: "column"}}>
       <UserHeader children={"아이디 찾기"} />
-      <Box>
         {
           isValid ?
-          <BoxSetting>{name}님의 아이디는 <BoldText children={id}/> 입니다.</BoxSetting> :
-          <BoxSettingError>일치하는 정보가 없습니다.</BoxSettingError>
+          <Box><BoxSetting>{name}님의 아이디는 <BoldText children={id}/>입니다.</BoxSetting></Box> :
+          <BoxError><BoxSettingError children="해당 정보와 일치하는 유저가 없습니다."/></BoxError> 
         }
-      </Box>
+      <div
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            width: "calc(100% - 48px)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "16px",
+            alignSelf: "center"
+          }}
+      >
       <Link to="/findPW" style={{ textDecoration: "none" }}>
         <Button
           buttonSize={ButtonSize.LARGE}
@@ -108,6 +127,7 @@ const FindIdResult = () => {
           메인화면으로 이동
         </Button>
       </Link>
+      </div>
     </div>
   );
 };
