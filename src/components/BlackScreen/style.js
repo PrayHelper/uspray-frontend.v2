@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const BlackScreenStyle = styled.div`
+  transition: all 0.3s ease-in-out;
   top: 0;
   left: 0;
   bottom: 0;
@@ -12,4 +13,5 @@ export const BlackScreenStyle = styled.div`
   position: fixed;
   z-index: 200;
   opacity: ${props => props.isModalOn ? '1' :'0'};
+  pointer-events: ${props => props.isModalOn ? 'auto' :'none'};
 `;

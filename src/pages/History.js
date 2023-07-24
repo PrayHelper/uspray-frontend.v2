@@ -27,6 +27,7 @@ const History = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [isClickedDay, setIsClickedDay] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -48,9 +49,10 @@ const History = () => {
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
     const dd = String(targetDate.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`;
-    setUpdateDate(formattedDate);
+    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
+    setUpdateDate(formattedDate1);
     setSelectedBtn(days); // css 변경용
+    setIsClickedDay(true);
   };
 
   const onChangeDatePicker = (date) => {
@@ -65,7 +67,6 @@ const History = () => {
 
   const handleButtonClick = () => {
     setShowDatePicker(true);
-    setSelectedBtn(0);
   };
 
   const onClickDate = () => {
@@ -98,13 +99,11 @@ const History = () => {
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
   };
-  
-  const {mutate : mutateHistoryModify} = useHistoryModify(
-    {
-      pray_id: currentId,
-      deadline: updateDate,
-    }
-  );
+
+  const { mutate: mutateHistoryModify } = useHistoryModify({
+    pray_id: currentId,
+    deadline: updateDate,
+  });
 
   const onClickModify = () => {
     mutateHistoryModify(null, {
@@ -119,23 +118,26 @@ const History = () => {
       },
     });
   };
-  const {data: currentHistoryData} = useFetchHistory();
+  const { data: currentHistoryData } = useFetchHistory();
 
-  const {data : historyData, isLoading: historyLoading, refetch: refetchHistory} = useFetchHistory({
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: refetchHistory,
+  } = useFetchHistory({
     page: page,
     per_page: 15,
     sort_by: isOnPray ? "cnt" : "date",
   });
-  
+
   // flag 변경 시 historyData를 새로 받아오는 함수
   const updateHistoryData = () => {
     console.log("함수 실행은 되니?");
     refetchHistory();
   };
 
-  useEffect(() =>{
-    if (!historyData)
-      return ;
+  useEffect(() => {
+    if (!historyData) return;
     console.log("useEffect 실행은 되니?");
     console.log(historyData);
     setLoading(historyLoading);
@@ -150,6 +152,7 @@ const History = () => {
     const id = e.currentTarget.id;
     const currentData = data.find((item) => item.id === Number(id));
     if (currentData) {
+      console.log(currentData);
       setCurrentData(currentData);
       setCurrentId(Number(id));
     } else {
@@ -176,91 +179,103 @@ const History = () => {
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
         </NoDataWrapper>
       )}
-      {!isEmptyData(data) && showModal && (
-        <>
-          <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
-          <ModalWrapper showSubModal={showSubModal}>
-            <ModalHeader>
-              <ModalTitleWrapper>
-                <ModalTitle>
-                  <ModalTarget>{currentData.target}</ModalTarget>의 기도제목
-                </ModalTitle>
-                <ModalDate>
-                  {currentData?.created_at?.split(" ")[0]} ~{" "}
-                  {currentData.deadline}, {currentData.pray_cnt}회 기도
-                </ModalDate>
-              </ModalTitleWrapper>
-            </ModalHeader>
-            <ModalContent>{currentData.title}</ModalContent>
-            <ModalWriter>
-              {currentData.writer}{" "}
-              {currentData?.origin_created_at?.split(" ")[0]} 작성
-            </ModalWriter>
-            <ModalButtonWrapper>
-              <ModalButton1
-                showSubModal={showSubModal}
-                onClick={onClickSubModal}
+      <div>
+        {!isEmptyData(data) && showModal && (
+          <>
+            <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
+            <ModalWrapper showSubModal={showSubModal}>
+              <ModalHeader>
+                <ModalTitleWrapper>
+                  <ModalTitle>
+                    <ModalTarget>{currentData.target}</ModalTarget>의 기도제목
+                  </ModalTitle>
+                  <ModalDate>
+                    {currentData?.created_at?.split(" ")[0].replace(/-/g, ".")}{" "}
+                    ~ {currentData.deadline.replace(/-/g, ".")},{" "}
+                    {currentData.pray_cnt}회 기도
+                  </ModalDate>
+                </ModalTitleWrapper>
+              </ModalHeader>
+              <ModalContent>{currentData.title}</ModalContent>
+              <ModalWriter>
+                {currentData.writer}{" "}
+                {currentData?.origin_created_at?.split(" ")[0]} 작성
+              </ModalWriter>
+              <ModalButtonWrapper>
+                <ModalButton1
+                  showSubModal={showSubModal}
+                  onClick={onClickSubModal}
+                >
+                  또 기도하기
+                </ModalButton1>
+                <ModalButton2 onClick={onClickExitModal}>닫기</ModalButton2>
+              </ModalButtonWrapper>
+            </ModalWrapper>
+          </>
+        )}
+        {showSubModal && (
+          <SubModalWrapper>
+            <SubModalTop>
+              <SubModalBtn
+                isSelected={selectedBtn === 3}
+                onClick={() => onClickUpdateDate(3)}
               >
-                또 기도하기
-              </ModalButton1>
-              <ModalButton2 onClick={onClickExitModal}>닫기</ModalButton2>
-            </ModalButtonWrapper>
-          </ModalWrapper>
-        </>
-      )}
-      {showSubModal && (
-        <SubModalWrapper>
-          <SubModalTop>
-            <SubModalBtn
-              isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}
-            >
-              3일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}
-            >
-              7일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}
-            >
-              30일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}
-            >
-              100일
-            </SubModalBtn>
-            <img
-              src="../images/icon_calender.svg"
-              alt="icon_calender"
-              onClick={handleButtonClick}
-            />
-            {showDatePicker && (
-              <DatePickerContainer>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => onChangeDatePicker(date)}
-                  minDate={new Date()}
-                  dateFormat="yyyy-MM-dd"
-                  popperPlacement="bottom-start"
-                  onClickOutside={() => setShowDatePicker(false)}
-                  locale={ko}
-                  inline
+                3일
+              </SubModalBtn>
+              <SubModalBtn
+                isSelected={selectedBtn === 7}
+                onClick={() => onClickUpdateDate(7)}
+              >
+                7일
+              </SubModalBtn>
+              <SubModalBtn
+                isSelected={selectedBtn === 30}
+                onClick={() => onClickUpdateDate(30)}
+              >
+                30일
+              </SubModalBtn>
+              <SubModalBtn
+                isSelected={selectedBtn === 100}
+                onClick={() => onClickUpdateDate(100)}
+              >
+                100일
+              </SubModalBtn>
+              {showDatePicker ? (
+                <img
+                  src="../images/icon_calender_filled.svg"
+                  alt="icon_calender"
                 />
-              </DatePickerContainer>
-            )}
-            <SubModalDate>~{updateDate}</SubModalDate>
-          </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify()}>
-            오늘의 기도에 추가하기
-          </SubModalBottom>
-        </SubModalWrapper>
-      )}
+              ) : (
+                <img
+                  src="../images/icon_calender.svg"
+                  alt="icon_calender"
+                  onClick={handleButtonClick}
+                />
+              )}
+              {showDatePicker && (
+                <DatePickerContainer>
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => onChangeDatePicker(date)}
+                    minDate={new Date()}
+                    dateFormat="yyyy-MM-dd"
+                    popperPlacement="bottom-start"
+                    onClickOutside={() => setShowDatePicker(false)}
+                    locale={ko}
+                    inline
+                  />
+                </DatePickerContainer>
+              )}
+              {isClickedDay && (
+                <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
+              )}
+            </SubModalTop>
+            <SubModalBottom onClick={() => onClickModify()}>
+              오늘의 기도에 추가하기
+            </SubModalBottom>
+          </SubModalWrapper>
+        )}
+      </div>
       {!isEmptyData(data) && (
         <>
           <ToggleWrapper>
@@ -282,6 +297,8 @@ const History = () => {
             name={el.target}
             content={el.title}
             date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+            pray_cnt={el.pray_cnt}
+            isOnPray={isOnPray}
           />
           <div ref={ref}></div>
         </div>
@@ -290,7 +307,7 @@ const History = () => {
       <ToastWrapper>
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
-            마감일이 업데이트 되었습니다.
+            기도제목이 오늘의 기도에 추가되었어요.
           </Toast>
         )}
       </ToastWrapper>
@@ -334,6 +351,8 @@ const Hline = styled.hr`
   size: 1px;
   opacity: 0.5;
   margin: 0;
+  border-right: 0;
+  border-left: 0;
 `;
 
 const ToggleWrapper = styled.div`
@@ -365,7 +384,8 @@ const ToggleText = styled.div`
 
 const ModalWrapper = styled.div`
   position: fixed;
-  top: ${(props) => (props.showSubModal ? `38.5%` : `50%`)};
+  /* top: ${(props) => (props.showSubModal ? `40%` : `50%`)}; */
+  bottom: ${(props) => (props.showSubModal ? `32%` : `25%`)};
   left: 50%;
   transform: translate(-50%, -50%);
   width: calc(100vw - 64px);
@@ -422,33 +442,29 @@ const ModalWriter = styled.div`
 
 const ModalButtonWrapper = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 8px;
   padding: 0px 16px 20px;
 `;
 
 const ModalButton1 = styled.button`
   width: 100%;
-  height: 66px;
   background-color: ${(props) => (props.showSubModal ? "#D0E8CB" : "#ffffff")};
   border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
   border-radius: 16px;
-  padding: 20px 0;
+  padding: 16px 0;
   color: #7bab6e;
   font-size: 18px;
-  font-weight: 700;
   cursor: pointer;
 `;
 
 const ModalButton2 = styled.button`
   width: 100%;
-  height: 66px;
   background-color: #7bab6e;
   border-style: none;
   border-radius: 16px;
-  padding: 20px 0;
+  padding: 16px 0;
   color: #ffffff;
   font-size: 18px;
-  font-weight: 700;
   cursor: pointer;
 `;
 
@@ -468,15 +484,17 @@ const SubModalWrapper = styled.div`
 
 const SubModalTop = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   padding: 24px 16px;
   align-items: center;
+  gap: 8px;
 `;
 
 const SubModalBtn = styled.div`
   border: 1px solid #75bd62;
   border-radius: 8px;
   padding: 4px 8px;
+  word-break: keep-all;
   font-size: 12px;
   line-height: 17px;
   color: #75bd62;
@@ -491,8 +509,8 @@ const SubModalBtn = styled.div`
 
 const SubModalDate = styled.div`
   font-size: 12px;
-  line-height: 17px;
   color: #75bd62;
+  transform: translateX(-4px);
 `;
 
 const SubModalBottom = styled.div`

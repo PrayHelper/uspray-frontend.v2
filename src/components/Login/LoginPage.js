@@ -19,8 +19,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { getDeviceToken } = useFlutterWebview();
-  const [deviceToken, setDeviceToken] = useState("");
+
+  const { isMobile, getDeviceToken, storeAuthToken } = useFlutterWebview();
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -38,19 +38,19 @@ const LoginPage = () => {
     }
   }, [showToast]);
 
-  const sendDeviceToken = async ()=> {
+  const sendDeviceToken = async (token)=> {
     const api = '/user/device/token';
     const data = {
-      device_token: deviceToken
+      device_token: token
     };
     try {
       const res = await serverapi.post(api, data);
-      if (res.status === 200) {
-        console.log(res);
-      }
+      console.log(`sendDeviceToken(${token}) called, with response status ${res.status}`)
+
     } catch (e) {
-      console.log(e);
+      console.log(`sendDeviceToken(${token}) called, with response status failed`)
     }
+
   };
 
   
@@ -63,28 +63,26 @@ const LoginPage = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200){
-        setTokenState(res.data.access_token);
-        console.log(accessToken);
-        localStorage.setItem('refreshToken', res.data.refresh_token);
-        const result = await getDeviceToken();
-        console.log(result);
-        setDeviceToken(result);
-        alert("device token: " , result);
-        await sendDeviceToken();
-        navigate("/main");
-      }
-    } catch (e) {
-      if (e instanceof TypeError) {
-        console.log("Type Error Occured: " + e.message);
-        setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
-        setShowToast(true);
-      }
-      else if (e instanceof AxiosError) {
-        console.log("Axios Error Occured: " + e.message);
-        if (e.response.status === 400){
-          setToastMessage("회원정보가 일치하지 않습니다.");
+
+        if (isMobile()) {
+          const deviceToken = await getDeviceToken()
+          await sendDeviceToken(deviceToken);
+        } else {
+          setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
           setShowToast(true);
         }
+
+        navigate("/main");
+
+        storeAuthToken(res.data.access_token);
+        // need to fixed: use storeAuthToken() int the useAuthToken hook instead.
+        setTokenState(res.data.access_token);
+      }
+
+    } catch (e) {
+      if (e.response.status === 400){
+        setToastMessage("회원정보가 일치하지 않습니다.");
+        setShowToast(true);
       }
     }
   };
@@ -118,6 +116,7 @@ const LoginPage = () => {
             <Button
               buttonSize={ButtonSize.LARGE}
               ButtonTheme={ButtonTheme.GREEN}
+              disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
               handler={() => {
                 login();
               }}
@@ -158,27 +157,30 @@ const LoginWrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
-  margin-top: 120px;
+  transition: all 0.5s;
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const LogoImg = styled.img`
+  transition: all 0.5s;
   width: 204px;
 `;
 
 const LogoTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
   font-size: 40px;
   font-weight: 700;
-  line-height: 57.92px;
+  margin-bottom: 8px;
 `;
 
 const LogoSubTitle = styled.div`
+  transition: all 0.5s;
   color: #75bd62;
   font-size: 24px;
-  line-height: 34.75px;
 `;
 
 const BottomBtnWrapper = styled.div`
