@@ -5,19 +5,17 @@ import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
-const BackGround = styled.div`
-    width: 100%;
-`;
+
 
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
     padding: 0px 24px 12px 35px;
     background: white;
-    z-index: 102;  
     border-bottom: 1px solid white;
     box-sizing: border-box;
     align-items : center;
+    z-index: 103;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -40,7 +38,7 @@ const SendImg = styled(Logo)`
 const StyleInput = styled.input`
     margin-top: 69px;
     margin: 69px 12px 0px 12px;
-    border-radius:4px;
+    border-radius: 4px;
     border : none;
     font-size: 16px;                 
     color: #A0A0A0; 
@@ -65,11 +63,13 @@ const StyleName = styled.input`
     border-bottom: 1px solid #EBF7E8;
     margin-top: 69px;
 `
+
 const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
     const [text, setText] = useState("김정묵");
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
+
     const widthChange = () =>{
         setVisible(!visible);
         if(shareToggle){
@@ -95,9 +95,6 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         if(e.target.value.length < 5){
         setText(e.target.value);
         }
-        else{
-            alert("이름의 최대 글자는 4글자입니다.");
-        }
     }
     const submit = () =>{
         setVisible(!visible);
@@ -109,21 +106,23 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const changeCheckTop = () =>{
         setVisible(false);
     }
-
+    
     return(
-        <div style={{width:"100%", height:"923px"}}>
-            <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "16px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
-                <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
-                <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
-                <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
-                    {(value === "") ? <BtnSend style={{backgroundColor:"white"}}><SendImg src={DisableImage}/></BtnSend>
-                     : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
-                </div>
-            </BackgroundInput>
-            {visible && <DayButton dayInfo = {dayInfo}/>}
-            {visible && <BackgroundBright style = {{animation : "fadein 7s ease-in-out"}}onClick={changeCheckTop}/>}
-            <BackGround>{children}</BackGround>
+        <div style={{width:"100%"}}>
+            <div style={{position:"relative"}}>
+                <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "12px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
+                    <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
+                    <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
+                    onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
+                    <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
+                        {(value === "") ? <BtnSend style={{backgroundColor:"white"}}><SendImg src={DisableImage}/></BtnSend>
+                        : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
+                    </div>
+                </BackgroundInput>
+                <DayButton dayInfo = {dayInfo} visible={visible}/>
+            </div>
+            {visible && <BackgroundBright onClick={changeCheckTop}/>}
+            {children}
         </div>
     )
 }

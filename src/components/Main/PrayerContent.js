@@ -10,7 +10,6 @@ const MainContent = styled.div`
     align-items: center;
     margin: 16px 12px 0 16px;
     border-bottom : 1px solid #B3D1AB;
-    padding: 0 4px 8px 0;
 `
 
 const NameContent = styled.div`
@@ -46,9 +45,10 @@ const DdayContent = styled.div`
 const ClickImg = styled(Logo)`
     width: 24px;
     height: 24px;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
     &:active {
-        filter: brightness(0.9)
+        filter: brightness(0.9);
+        transform: scale(0.9);
     }
 `;
 

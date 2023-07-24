@@ -4,15 +4,16 @@ import Logo from "./Logo";
 import Day_Calender from '../../images/day_calender.svg';
 import Day_Calender_hover from "../../images/DayCalender_hover.svg";
 import DatePickerComponent from "./DatePickerComponent";
-import { getMonth, getYear, getDate } from "date-fns"
+import { getMonth, getYear, getDate } from "date-fns";
 const DayBtnSet = styled.div`
     display: flex;
     position: absolute;
     background-color: white;
     width: 100%;
-    z-index: 102;
     border-bottom: 1px solid white;
     padding-bottom: 26px;
+    transition: all 0.3s ease-in-out;
+    z-index: 102;
 `
 const DayBtn = styled.button`
     font-size: 10px;
@@ -25,7 +26,7 @@ const DayBtn = styled.button`
 const DayCalender = styled(Logo)`
 `;
 
-const Day_Button = ({dayInfo}) =>{
+const Day_Button = ({dayInfo, visible}) =>{
     const [colorThree ,setColorThree] = useState('white');
     const [colorSeven ,setColorSeven] = useState('#75BD62');
     const [colorThirty ,setColorThirty] = useState('white');
@@ -41,7 +42,6 @@ const Day_Button = ({dayInfo}) =>{
     const dateClick = (date) =>{
         setStartDate(date);
         colorChange(date);
-        setToggle(!Toggle);
         setColorThree('white');
         setColorSeven('white');
         setColorThirty('white');
@@ -133,7 +133,7 @@ const Day_Button = ({dayInfo}) =>{
         setToggle(!Toggle);
     }
     return(
-        Toggle ? <DayBtnSet>
+        Toggle ? <DayBtnSet style={{opacity : visible ? "1" : "0" , top: visible ? "100%" : "50%"}}>
             <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
@@ -143,6 +143,7 @@ const Day_Button = ({dayInfo}) =>{
         </DayBtnSet>: 
         <DayBtnSet>
         <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> 
+        {dayToggle ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
         </DayBtnSet> 
 
 

@@ -42,12 +42,12 @@ const TopContainer = styled.div`
     flex-direction: row-reverse;
     width: 100%;
     borderBottom: 1px solid #EEEEEE;
-    padding: 18px 16px 18px 0px;
+    padding: 12px 16px 12px 0px;
     box-sizing: border-box;
 `
 const X_Image = styled(Logo)`
-    width: 11.9px;
-    height: 11.9px;
+    width: 24px;
+    height: 24px;
 `;
 
 const DayCalender = styled(Logo)`
