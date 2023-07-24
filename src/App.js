@@ -32,13 +32,13 @@ import { useEffect, useState } from "react";
 import { refresh } from "./hooks/api";
 import { useRecoilState } from "recoil";
 import { tokenState } from "./recoil/accessToken";
+import SocialLogin from "./pages/SocialLogin";
 
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
   margin: 0 auto;
 `;
-
 
 const Container = styled.div`
   position: relative;
@@ -50,26 +50,25 @@ const Container = styled.div`
 `;
 
 function MainApp() {
-
   function PrivateRoute() {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem("refreshToken");
     const [accessToken, setAccessToken] = useRecoilState(tokenState);
     console.log("refresh : ", refreshToken);
     console.log("access : ", accessToken);
-    
-    if (!refreshToken){
-      return <Navigate replace to ='/' />
-    }
-    if (!accessToken){
-      const getToken = async () => {
-        const token = await refresh();
-        setAccessToken(token);
-      };
-      getToken();
-    } 
+
+    // if (!refreshToken){
+    //   return <Navigate replace to ='/' />
+    // }
+    // if (!accessToken){
+    //   const getToken = async () => {
+    //     const token = await refresh();
+    //     setAccessToken(token);
+    //   };
+    //   getToken();
+    // }
 
     return <Outlet />;
-  };
+  }
 
   return (
     <ContainerWrapper>
@@ -92,6 +91,7 @@ function MainApp() {
             <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
             <Route path="/tos" element={<ToS />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+            <Route path="/social" element={<SocialLogin />} />
           </Route>
 
           <Route path="/" element={<Login />} />
@@ -103,7 +103,6 @@ function MainApp() {
           <Route path="/findPWResult" element={<FindPasswordResult />}></Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<NotFound />} />
-
         </Routes>
       </Container>
     </ContainerWrapper>
@@ -113,7 +112,7 @@ function MainApp() {
 function App() {
   return (
     <BrowserRouter>
-      <MainApp/>
+      <MainApp />
     </BrowserRouter>
   );
 }
