@@ -86,7 +86,7 @@ function MainApp() {
             <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
             <Route path="/tos" element={<ToS />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            <Route path="/limeojin-test" element={<SocialLogin />} />
+            <Route path="/social" element={<SocialLogin />} />
           </Route>
 
           <Route path="/" element={<Login />} />

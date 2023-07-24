@@ -1,3 +1,3 @@
-import RoundBtn from "./SocialLoginBtn";
+import SocialLoginBtn from "./SocialLoginBtn";
 
-export default RoundBtn;
+export default SocialLoginBtn;

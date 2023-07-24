@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import SocialLoginBtn from "../components/SocialLoginBtn/SocialLoginBtn";
+import SocialLoginBtn from "../components/SocialLoginBtn";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const SocialLoginWrapper = styled.div`
   display: flex;
@@ -34,12 +36,71 @@ const LogoSubTitle = styled.div`
   line-height: 34.75px;
 `;
 
-const BottomBtnWrapper = styled.div`
+const BottomWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 20px 0px;
+  gap: 24px;
+  margin-bottom: 40px;
+`;
+
+const LinksWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+
+  & > a {
+    text-decoration: none;
+    color: #a0a0a0;
+    font-size: 12px;
+    font-weight: 700;
+  }
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+`;
+
+const IconWrapper = styled.img`
+  position: absolute;
+  left: 20px;
+`;
+
+const Bar = styled.span`
+  width: 1px;
+  height: 12px;
+  background-color: #cecece;
 `;
 
 const SocialLogin = () => {
+  const {
+    REACT_APP_KAKAO_API_KEY,
+    REACT_APP_KAKAO_CLIENT_SECRET,
+    REACT_APP_KAKAO_URI,
+  } = process.env;
+
+  useEffect(() => {
+    console.log(
+      "REACT_APP_KAKAO_API_KEY: ",
+      process.env.REACT_APP_KAKAO_API_KEY
+    );
+    console.log(
+      "REACT_APP_KAKAO_CLIENT_SECRET: ",
+      process.env.REACT_APP_KAKAO_CLIENT_SECRET
+    );
+  }, [process.env]);
+
+  const kakaoReq = async () => {
+    await fetch(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
+    );
+  };
+
   return (
     <SocialLoginWrapper>
       <LogoWrapper>
@@ -47,11 +108,29 @@ const SocialLogin = () => {
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
-      <BottomBtnWrapper>
-        <SocialLoginBtn theme={"kakao"}>카카오로 계속하기</SocialLoginBtn>
-        <SocialLoginBtn theme={"naver"}>네이버로 계속하기</SocialLoginBtn>
-        <SocialLoginBtn theme={"apple"}>Apple로 계속하기</SocialLoginBtn>
-      </BottomBtnWrapper>
+      <BottomWrapper>
+        <BtnWrapper>
+          <SocialLoginBtn onClick={kakaoReq} theme={"kakao"}>
+            <IconWrapper src="images/ic_kakao.svg" />
+            카카오로 계속하기
+          </SocialLoginBtn>
+          <SocialLoginBtn theme={"naver"}>
+            <IconWrapper src="images/ic_naver.svg" />
+            네이버로 계속하기
+          </SocialLoginBtn>
+          <SocialLoginBtn theme={"apple"}>
+            <IconWrapper src="images/ic_apple.svg" />
+            Apple로 계속하기
+          </SocialLoginBtn>
+        </BtnWrapper>
+        <LinksWrapper>
+          <a>회원가입하기</a>
+          <Bar />
+          <a>로그인하기</a>
+          <Bar />
+          <a>문의하기</a>
+        </LinksWrapper>
+      </BottomWrapper>
     </SocialLoginWrapper>
   );
 };
