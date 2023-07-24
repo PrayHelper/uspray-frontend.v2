@@ -99,7 +99,7 @@ const SocialLogin = () => {
     await fetch(
       `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`,
       {
-        header: {
+        headers: {
           "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
       }
