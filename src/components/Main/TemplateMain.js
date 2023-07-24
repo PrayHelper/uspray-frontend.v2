@@ -14,7 +14,7 @@ const BackgroundInput = styled.div`
     position : relative;
     padding: 0px 24px 12px 35px;
     background: white;
-    z-index: 10;  
+    z-index: 102;  
     border-bottom: 1px solid white;
     box-sizing: border-box;
     align-items : center;
@@ -122,7 +122,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                 </div>
             </BackgroundInput>
             {visible && <DayButton dayInfo = {dayInfo}/>}
-            {visible && <BackgroundBright onClick={changeCheckTop}/>}
+            {visible && <BackgroundBright style = {{animation : "fadein 7s ease-in-out"}}onClick={changeCheckTop}/>}
             <BackGround>{children}</BackGround>
         </div>
     )

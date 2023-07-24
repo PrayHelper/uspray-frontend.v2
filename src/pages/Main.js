@@ -7,7 +7,6 @@ import { useCompletePrayList } from '../hooks/useCompletePrayList';
 import { usePrayDelete } from '../hooks/usePrayDelete';
 import { useChangeValue } from '../hooks/useChangeValue';
 import { useSendPrayItem } from '../hooks/useSendPrayItem';
-import { compareAsc } from 'date-fns';
 
 const Main = () => {
   const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
@@ -33,37 +32,52 @@ const Main = () => {
   const [loading , setisloading] = useState(true);
   const [Sharelist, setShareList] = useState([]);
 
-  const renderingData = async (result) => {
+  const renderingData = async (result, sticker) => {
     setisloading(true);
     let uncompletedList = [];
     let completedList = [];
-    result.data.uncompleted.map((uncompletedItem) => {
-      let dDay = dDayCalculate(uncompletedItem.deadline);
-      uncompletedList.push({
-        id : uncompletedItem.id,
-        name:uncompletedItem.target,
-        dday: dDay,
-        text: uncompletedItem.title,
-        checked : false,
-        count : uncompletedItem.pray_cnt
-      })
-    });
-    result.data.completed.map((completedItem) => {
-      let dDay = dDayCalculate(completedItem.deadline);
-      completedList.push({
-        id : completedItem.id,
-        name:completedItem.target,
-        dday: dDay,
-        text: completedItem.title,
-        checked : false,
-        count : completedItem.pray_cnt
-      })
-    });
-    console.log(upPosition);
-    console.log(DownPosition);
-    upPosition && setUncompletedList(uncompletedList);
-    DownPosition && setCompletedList(completedList);
-    setisloading(false);
+    if(sticker == true){
+      result.data.completed.map((completedItem) => {
+        let dDay = dDayCalculate(completedItem.deadline);
+        completedList.push({
+          id : completedItem.id,
+          name:completedItem.target,
+          dday: dDay,
+          text: completedItem.title,
+          checked : false,
+          count : completedItem.pray_cnt
+        })
+      });      
+    }
+    else{
+      result.data.uncompleted.map((uncompletedItem) => {
+        let dDay = dDayCalculate(uncompletedItem.deadline);
+        uncompletedList.push({
+          id : uncompletedItem.id,
+          name:uncompletedItem.target,
+          dday: dDay,
+          text: uncompletedItem.title,
+          checked : false,
+          count : uncompletedItem.pray_cnt
+        })
+      });
+      result.data.completed.map((completedItem) => {
+        let dDay = dDayCalculate(completedItem.deadline);
+        completedList.push({
+          id : completedItem.id,
+          name:completedItem.target,
+          dday: dDay,
+          text: completedItem.title,
+          checked : false,
+          count : completedItem.pray_cnt
+        })
+      });
+    }
+      console.log(upPosition);
+      console.log(DownPosition);
+      upPosition && setUncompletedList(uncompletedList);
+      DownPosition && setCompletedList(completedList);
+      setisloading(false);
   }
 
   const sortUpPosition = (result) =>{
@@ -78,7 +92,7 @@ const Main = () => {
       return;
     }
     console.log("prayList")
-    renderingData(prayList);
+    renderingData(prayList, false);
   },[prayList]);
 
   useEffect(()=>{
@@ -87,7 +101,7 @@ const Main = () => {
       return;
     }
     console.log("pray_List")
-    renderingData(pray_List);
+    renderingData(pray_List,false);
   },[pray_List])
 
   const {mutate: mutateCountUpdate} = useCountUpdate();
@@ -132,14 +146,14 @@ const Main = () => {
   }
   
   const countUpdate = async (id) => {
+    setUpPosition(false);
+    setDownPosition(true);
     mutateCountUpdate({id: id}, {
       onSuccess: (res) => {
-        setUpPosition(true);
-        setDownPosition(true);
-        console.log(res);
-        refetchPrayList();
-        refetch_PrayList();
-        renderingData(res);
+        dayToggleBottomDay && refetchPrayList();
+        dayToggleBottomPrayer && refetch_PrayList();
+        renderingData(res, true);
+        setUncompletedList(uncompletedList.filter(prayer => prayer.id !== id));        
       }
     });
   };
@@ -179,7 +193,7 @@ const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
   changeCheck();
   mutateComplete({id:id}, {
     onSuccess: (res) => {
-      renderingData(res);
+      renderingData(res, true);
       feedbackHandler("기도를 완료하였습니다.");
     }
   })

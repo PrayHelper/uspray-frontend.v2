@@ -290,8 +290,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     return(
         <div> 
             {isModify && <BackgroundBright onClick={onModify}></BackgroundBright>}
-            {isDeleted && <BackgroundBright onClick={onDeleted}></BackgroundBright>}
-            {isChecked && <BackgroundBright style = {{zIndex: "11"}} onClick={changeCheck}></BackgroundBright>}
+            {isDeleted && <BackgroundBright style = {{zIndex: "102"}}onClick={onDeleted}></BackgroundBright>}
+            {isChecked && <BackgroundBright style = {{zIndex: "103"}} onClick={changeCheck}></BackgroundBright>}
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>

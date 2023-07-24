@@ -8,19 +8,20 @@ const Delete_btn = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 88.83%;
-    z-index: 7;
+    width: calc(100vw - 48px);
+    z-index: 103;
     background: #FFFFFF;
     border-radius: 16px;
+    padding: 24px 16px 16px 16px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
 `
 const DeleteImg = styled(Logo)`
-    margin-top: 24px;
-    margin-bottom: 8px;
     width: 40px;
     height: 40px;
+    margin-bottom: 8px;
     align-self: center;
 `;
 
@@ -29,16 +30,14 @@ const Deletefont = styled.div`
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
-    line-height: 35px;
     text-align: center;
     letter-spacing: -0.02em;
     color: #FF6B6B;
 `
 const Btn_set = styled.button`
-    width: 44.76%;
     background: #F0F0F0;
     border-radius: 16px;
-    border: 1px solid white;
+    border: none;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 500;
@@ -47,17 +46,18 @@ const Btn_set = styled.button`
     text-align: center;
     color: #808080;
     padding: 16px 0px;
+    flex-grow: 1;
 `
 
 const DeleteBar = ({deleteBtnClick, onDeleted, id}) => {
     return (
         <Delete_btn>
             <DeleteImg src={delete_btn}/>
-            <Deletefont>정말 삭제하시겠습니까?</Deletefont>
-            <Deletefont style={{fontWeight: "400", fontSize:'18px', lineHeight:'26px', marginTop:'2px', marginBottom:'42px'}}>다른 목록에서 확인할 수 었습니다.</Deletefont>
-            <div style={{width: '88.83%',marginBottom:'16px', display:'flex'}}>
-                <Btn_set style={{marginLeft:'16px', marginRight:'8px'}} onClick={onDeleted}>취소</Btn_set>
-                <Btn_set style={{marginRight: '16px', background:"#FF6B6B", color:'#FFFFFF'}} onClick={() => deleteBtnClick(id)}>삭제</Btn_set>
+            <Deletefont style={{marginBottom: "2px"}}>정말 삭제하시겠습니까?</Deletefont>
+            <Deletefont style={{fontWeight: "400", fontSize:'18px', lineHeight:'26px', marginBottom: "42px"}}>다른 목록에서 확인할 수 었습니다.</Deletefont>
+            <div style={{display:'flex', gap:"8px"}}>
+                <Btn_set onClick={onDeleted}>취소</Btn_set>
+                <Btn_set style={{background:"#FF6B6B", color:'#FFFFFF'}} onClick={() => deleteBtnClick(id)}>삭제</Btn_set>
             </div>
         </Delete_btn>
     );
