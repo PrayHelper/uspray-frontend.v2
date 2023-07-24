@@ -10,6 +10,13 @@ import { style } from "@mui/system";
 
 let init = 0;
 
+const SubLink = styled.a`
+  color: #7bab6e;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
 const FindId = () => {
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -230,6 +237,9 @@ const FindId = () => {
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
+        <div style={{ textAlign: "center", marginBottom: "16px" }}>
+          <SubLink href="http://pf.kakao.com/_UgxhYxj">전화번호를 변경하셨나요?</SubLink>
+        </div>
         <div
           style={{
             position: "absolute",
