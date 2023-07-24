@@ -34,6 +34,20 @@ const BoldText = styled.span`
   font-weight: bold;
 `;
 
+const BoxSettingError = styled.div`
+  color: #7bab6e;
+  text-align: center;
+  margin-bottom: 16px;
+
+  font-family: Noto Sans KR;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const isValid = true;
+
 const FindIdResult = () => {
   // const location = useLocation();
   // const userInfo = location.state.userInfo;
@@ -58,7 +72,8 @@ const FindIdResult = () => {
         console.log(res.data);
       }
     } catch (err) {
-      setText("해당 정보와 일치하는 유저가 없습니다.");
+      // setText("해당 정보와 일치하는 유저가 없습니다.");
+      isValid = false;
       console.log(data);
       console.log(err);
     }
@@ -72,17 +87,24 @@ const FindIdResult = () => {
     <div>
       <UserHeader children={"아이디 찾기"} />
       <Box>
-        <BoxSetting>{name}님의 아이디는 <BoldText children={id}/> 입니다.</BoxSetting>
+        {
+          isValid ?
+          <BoxSetting>{name}님의 아이디는 <BoldText children={id}/> 입니다.</BoxSetting> :
+          <BoxSettingError>일치하는 정보가 없습니다.</BoxSettingError>
+        }
       </Box>
       <Link to="/findPW" style={{ textDecoration: "none" }}>
-        <FindButton
-          children={"비밀번호 찾기"}
+        <Button
           buttonSize={ButtonSize.LARGE}
-          buttonTheme={ButtonTheme.RED}
-        />
+          buttonTheme={ButtonTheme.WHITE}
+        >
+          비밀번호 찾기
+        </Button>
       </Link>
       <Link to="/" style={{ textDecoration: "none" }}>
-        <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>
+        <Button 
+          buttonSize={ButtonSize.LARGE} 
+          buttonTheme={ButtonTheme.GREEN}>
           메인화면으로 이동
         </Button>
       </Link>
