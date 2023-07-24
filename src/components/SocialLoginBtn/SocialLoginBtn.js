@@ -23,6 +23,7 @@ export const SocialLoginBtnStyle = styled.button`
 
 // theme: "kakao" | "naver" | "apple"
 const SocialLoginBtn = ({ theme, children, ...props }) => {
+  "";
   const options = {
     kakao: {
       bgColor: "rgba(254, 229, 0, 1)",
