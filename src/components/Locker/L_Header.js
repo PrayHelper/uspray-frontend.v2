@@ -6,18 +6,27 @@ const LockerHeader = (props) => {
     <div style={{ width: "100%" }}>
       <StyledHeader>
         <Title>보관함</Title>
-        <SelectGroup>
-          {!props.isClicked && (
-            <div onClick={props.onClickSelectAll}>전체 선택</div>
-          )}
-          {props.isClicked && (
-            <>
-              <div onClick={props.onClickSelectAll}>전체 취소</div>
-              <div onClick={props.saveSharedList}>저장</div>
-              <div onClick={props.deleteSharedList}>삭제</div>
-            </>
-          )}
-        </SelectGroup>
+        {!props.isEmptyData && (
+          <SelectGroup>
+            {!props.isClicked && (
+              <div onClick={props.onClickSelectAll}>
+                <img
+                  src="../images/ic_select_all.svg"
+                  alt="icon_selectAll"
+                  style={{ marginRight: "4px" }}
+                />
+                전체 선택
+              </div>
+            )}
+            {props.isClicked && (
+              <>
+                <div onClick={props.onClickSelectAll}>전체 취소</div>
+                <div onClick={props.saveSharedList}>저장</div>
+                <div onClick={props.deleteSharedList}>삭제</div>
+              </>
+            )}
+          </SelectGroup>
+        )}
       </StyledHeader>
     </div>
   );

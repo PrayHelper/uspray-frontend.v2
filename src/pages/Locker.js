@@ -91,16 +91,30 @@ const Locker = () => {
 
   const { mutateAsync: deleteListData } = useDeleteSharedList();
 
-  const deleteSharedList = async () => {
-    try {
-      await deleteListData({
+  const deleteSharedList = () => {
+    deleteListData(
+      {
         pray_id_list: selectedID,
-      });
-      setShowDeleteToast(true);
-    } catch (error) {
-      console.log(error); // 삭제 요청 실패 시 에러 처리
-    }
+      },
+      {
+        onSuccess: () => {
+          setShowSaveToast(true);
+          fetchSharedList();
+        },
+      }
+    );
   };
+
+  // const deleteSharedList = async () => {
+  //   try {
+  //     await deleteListData({
+  //       pray_id_list: selectedID,
+  //     });
+  //     setShowDeleteToast(true);
+  //   } catch (error) {
+  //     console.log(error); // 삭제 요청 실패 시 에러 처리
+  //   }
+  // };
 
   // 공유 기도 삭제
   // const deleteSharedList = async () => {
