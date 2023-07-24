@@ -13,6 +13,7 @@ const Locker = () => {
   const [selectedID, setSelectedID] = useState([]);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
+  const [test, setTest] = useState([]);
 
   // Toast 창 띄우기
   useEffect(() => {
@@ -80,7 +81,8 @@ const Locker = () => {
   };
 
   // 공유 리스트 읽기
-  const { data: sharedListData } = useFetchSharedList();
+  const { data: sharedListData, refetch: refetchSharedListData } =
+    useFetchSharedList();
 
   const fetchSharedList = () => {
     setData(sharedListData.data);
@@ -92,14 +94,25 @@ const Locker = () => {
   const { mutateAsync: deleteListData } = useDeleteSharedList();
 
   const deleteSharedList = () => {
+    let pray_id_list = []; // 빈 배열을 초기화하여 pray_id_list를 설정합니다.
+
+    if (isClicked.every((clicked) => clicked)) {
+      // 모든 항목이 선택된 경우 모든 pray_id를 배열에 추가합니다.
+      pray_id_list = data.map((item) => item.pray_id);
+      console.log("전체선택");
+    } else {
+      // 선택된 항목만 배열에 추가합니다.
+      pray_id_list = selectedID;
+    }
+
     deleteListData(
       {
-        pray_id_list: selectedID,
+        pray_id_list: pray_id_list,
       },
       {
         onSuccess: () => {
           setShowSaveToast(true);
-          fetchSharedList();
+          refetchSharedListData();
         },
       }
     );
@@ -157,13 +170,25 @@ const Locker = () => {
   const { mutate: updateListData } = useUpdateSharedList();
 
   const saveSharedList = () => {
+    let pray_id_list = []; // 빈 배열을 초기화하여 pray_id_list를 설정합니다.
+
+    if (isClicked.every((clicked) => clicked)) {
+      // 모든 항목이 선택된 경우 모든 pray_id를 배열에 추가합니다.
+      pray_id_list = data.map((item) => item.pray_id);
+      console.log("전체선택");
+    } else {
+      // 선택된 항목만 배열에 추가합니다.
+      pray_id_list = selectedID;
+    }
+
     updateListData(
       {
-        pray_id_list: selectedID,
+        pray_id_list: pray_id_list,
       },
       {
         onSuccess: () => {
           setShowSaveToast(true);
+          refetchSharedListData();
         },
       }
     );
@@ -207,23 +232,10 @@ const Locker = () => {
     }
   }, [sharedListData]);
 
-  // 삭제 함수 호출 후 데이터를 다시 읽어오는 useEffect
-  useEffect(() => {
-    if (showDeleteToast) {
-      fetchSharedList();
-    }
-  }, [showDeleteToast]);
-
-  // 저장 함수 호출 후 데이터를 다시 읽어오는 useEffect
-  useEffect(() => {
-    if (showSaveToast) {
-      fetchSharedList();
-    }
-  }, [showSaveToast]);
-
   return (
     <LockerWrapper>
       <LockerHeader
+        isEmptyData={isEmptyData(data)}
         isClicked={isClicked.some((clicked) => clicked)}
         onClickSelectAll={onClickSelectAll}
         deleteSharedList={deleteSharedList}
