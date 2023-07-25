@@ -69,6 +69,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
+    const [Toggle, setToggle] = useState(true);
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -104,7 +105,10 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setDay(7);
     }
     const changeCheckTop = () =>{
-        setVisible(false);
+        setVisible(!visible);
+        if(Toggle == false){
+            setToggle(!Toggle);
+        }
     }
     
     return(
@@ -119,7 +123,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                         : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
                     </div>
                 </BackgroundInput>
-                <DayButton dayInfo = {dayInfo} visible={visible}/>
+                <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
             </div>
             {visible && <BackgroundBright onClick={changeCheckTop}/>}
             {children}

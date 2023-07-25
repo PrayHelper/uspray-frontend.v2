@@ -9,17 +9,15 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction : column;
     position: fixed;
-    padding: 0px 24px;
+    padding: 0px 24px 34px 24px;
     box-sizing: border-box;
     top: 1;
-    bottom: 0;
-    right: 0;
-    left: 0;  
+    bottom:0;
     width: 100%; 
-    height: 153px;
     z-index: 1000;
     background-color: white;
     border-radius: 24px 24px 0px 0px;
+    transition: all 0.3s;
 `
 
 const BoxContainer = styled.div`
@@ -61,9 +59,9 @@ const ImgContainer = styled(Logo)`
     margin-bottom: 4px;
 `;
 
-const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck}) =>{
+const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck, isChecked}) =>{
     return(
-        <MainContainer>
+        <MainContainer style={{opacity: isChecked  ? "0" : "1", bottom : isChecked ? "0" : "1"}}> 
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px',marginTop:"12px",marginBottom:"25px", backgroundColor:"#EEEEEE", borderRadius:"4px"}} 
             onClick={changeCheck}></div></div>
             <SubContainer>

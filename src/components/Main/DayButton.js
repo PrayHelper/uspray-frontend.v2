@@ -26,7 +26,7 @@ const DayBtn = styled.button`
 const DayCalender = styled(Logo)`
 `;
 
-const Day_Button = ({dayInfo, visible}) =>{
+const Day_Button = ({dayInfo, visible, Toggle, setToggle,setVisible}) =>{
     const [colorThree ,setColorThree] = useState('white');
     const [colorSeven ,setColorSeven] = useState('#75BD62');
     const [colorThirty ,setColorThirty] = useState('white');
@@ -35,13 +35,14 @@ const Day_Button = ({dayInfo, visible}) =>{
     const [fontSeven ,setFontSeven] = useState('white');
     const [fontThirty ,setFontThirty] = useState('#75BD62');
     const [fontHundred ,setFontHundred] = useState('#75BD62');
-    const [Toggle, setToggle] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
-    const [dayToggle, setDayToggle] = useState(false);
     const [dayText, setDayText] = useState("");
+    const [dayToggle, setDayToggle] = useState(false);
+
     const dateClick = (date) =>{
         setStartDate(date);
         colorChange(date);
+        setToggle(!Toggle);
         setColorThree('white');
         setColorSeven('white');
         setColorThirty('white');
@@ -129,7 +130,6 @@ const Day_Button = ({dayInfo, visible}) =>{
         }
     }
     const onToggle = () =>{
-        // setVisible(!visible);
         setToggle(!Toggle);
     }
     return(
@@ -138,15 +138,13 @@ const Day_Button = ({dayInfo, visible}) =>{
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
-            <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}></DayCalender>
+            <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
             {dayToggle ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
-        </DayBtnSet>: 
-        <DayBtnSet>
-        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> 
+        </DayBtnSet> : 
+        <DayBtnSet style={{opacity : visible ? "1" : "0"}}>
+        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick} visible={visible}/> 
         {dayToggle ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
         </DayBtnSet> 
-
-
     )
 }
 
