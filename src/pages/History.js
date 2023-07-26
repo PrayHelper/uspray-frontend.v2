@@ -15,7 +15,7 @@ import { useHistoryModify } from "../hooks/useHistoryModify";
 const History = () => {
   const [isOnDate, setIsOnDate] = useState(true);
   const [isOnPray, setIsOnPray] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
   const [page, setPage] = useState(1);
@@ -140,6 +140,7 @@ const History = () => {
     if (!historyData) return;
     console.log("useEffect 실행은 되니?");
     console.log(historyData);
+    console.log(historyLoading);
     setLoading(historyLoading);
     setData((prev) => [...prev, ...historyData.data.res]);
     if (historyData.data.res.length === 0) {
@@ -173,7 +174,8 @@ const History = () => {
   return (
     <HistoryWrapper>
       <Header>히스토리</Header>
-      {isEmptyData(data) && (
+      {historyLoading && <div>로딩중</div>}
+      {!historyLoading && isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
