@@ -232,22 +232,22 @@ const onDeleted = () =>{
 } 
 
 const valueChange = async (id, value, name) => {
-  if(value === ""){
-    return alert("이대로")
+  if(value == ""){
+    console.log(clickText)
   }
-  else {
-    mutateChangeValue(
-      {
-        id : id,
-        data : {target : name,
-        title : value},
-      },{
-        onSuccess: () => {
-          console.log("Value_Change");
-          feedbackHandler("기도제목이 수정되었어요.");
-        },
-      }
-    );
+  else{
+      mutateChangeValue(
+        {
+          id : id,
+          data : {target : name,
+          title : value},
+        },{
+          onSuccess: () => {
+            console.log("Value_Change");
+            feedbackHandler("기도제목이 수정되었어요.");
+          },
+        }
+      );
   }
   setUncompletedList(uncompletedList => uncompletedList.map(uncompletedList => 
     (uncompletedList.id === id ? {...uncompletedList, text: value} : uncompletedList)));

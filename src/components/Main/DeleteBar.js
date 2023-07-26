@@ -17,6 +17,7 @@ const Delete_btn = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    transition: all 0.3s ease-in-out;
 `
 const DeleteImg = styled(Logo)`
     width: 40px;
@@ -49,9 +50,9 @@ const Btn_set = styled.button`
     flex-grow: 1;
 `
 
-const DeleteBar = ({deleteBtnClick, onDeleted, id}) => {
+const DeleteBar = ({deleteBtnClick, onDeleted, id, isDeleted}) => {
     return (
-        <Delete_btn>
+        <Delete_btn style={{opacity : isDeleted ? "1" : "0", top : isDeleted ? "50%" : "100%", zIndex: isDeleted ? "103" : "0"}}>
             <DeleteImg src={delete_btn}/>
             <Deletefont style={{marginBottom: "2px"}}>정말 삭제하시겠습니까?</Deletefont>
             <Deletefont style={{fontWeight: "400", fontSize:'18px', lineHeight:'26px', marginBottom: "42px"}}>다른 목록에서 확인할 수 었습니다.</Deletefont>

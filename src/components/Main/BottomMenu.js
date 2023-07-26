@@ -17,7 +17,7 @@ const MainContainer = styled.div`
     z-index: 1000;
     background-color: white;
     border-radius: 24px 24px 0px 0px;
-    transition: all 0.3s;
+    transition: all 0.3s ease-in-out;
 `
 
 const BoxContainer = styled.div`
@@ -61,7 +61,7 @@ const ImgContainer = styled(Logo)`
 
 const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck, isChecked}) =>{
     return(
-        <MainContainer style={{opacity: isChecked  ? "0" : "1", bottom : isChecked ? "0" : "1"}}> 
+        <MainContainer style={{opacity: isChecked  ? "1" : "0", transform : isChecked ? "translateY(0%)" : "translateY(100%)"}}> 
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px',marginTop:"12px",marginBottom:"25px", backgroundColor:"#EEEEEE", borderRadius:"4px"}} 
             onClick={changeCheck}></div></div>
             <SubContainer>

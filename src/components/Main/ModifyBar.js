@@ -17,7 +17,7 @@ const ModifyStyle = styled.div`
     width: 100%;
     background-color: #FFFFFF;
     border: 0px solid #FFFFFF;
-    z-index: 1000;
+    z-index: 104;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -73,14 +73,13 @@ const StyleName = styled.input`
     border-bottom: 1px solid #EEEEEE;
 `
 
-const ModifyBar = ({id, valueChange, onModify, clickText}) =>{
+const ModifyBar = ({id, valueChange, onModify, clickText, isModify}) =>{
     const [value , setValue] = useState(clickText);
     const [Toggle, setToggle] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
     const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
     const [name, setName] = useState("김정묵");
-    console.log()
     const onChangeValue = (e) =>{
         setValue(e.target.value);
     }
