@@ -5,8 +5,7 @@ import Input from "../Input/Input";
 import styled from "styled-components";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
-import { Link, useNavigate } from "react-router-dom";
-import { style } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 let init = 0;
 
@@ -31,6 +30,7 @@ const FindId = () => {
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const navigate = useNavigate();
+
   const moveToResult = () => {
     navigate("/FindIdResult", { state: { userInfo: userInfo } });
   };
@@ -237,9 +237,7 @@ const FindId = () => {
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
-        <div style={{ textAlign: "center", marginBottom: "16px" }}>
-          <SubLink href="http://pf.kakao.com/_UgxhYxj">전화번호를 변경하셨나요?</SubLink>
-        </div>
+
         <div
           style={{
             position: "absolute",
@@ -249,6 +247,11 @@ const FindId = () => {
             flexDirection: "column",
           }}
         >
+          <div style={{ textAlign: "center", marginBottom: "16px" }}>
+            <SubLink href="http://pf.kakao.com/_UgxhYxj">
+              전화번호를 변경하셨나요?
+            </SubLink>
+          </div>
           <Button
             disabled={!isAllValid}
             buttonSize={ButtonSize.LARGE}

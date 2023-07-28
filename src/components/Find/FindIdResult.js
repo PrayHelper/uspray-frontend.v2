@@ -19,7 +19,6 @@ const Title = styled.div`
   color: #7BAB6E;
   font-weight: bold;
 `
-
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -41,10 +40,6 @@ const BoxSetting = styled.div`
   font-weight: 400;
   line-height: normal;
 `;
-const BoldText = styled.span`
-  font-weight: bold;
-`;
-
 const BoxSettingError = styled.div`
   color: #FF6B6B;
   text-align: center;
@@ -56,7 +51,6 @@ const BoxSettingError = styled.div`
   font-weight: 400;
   line-height: normal;
 `;
-
 const BoxError = styled.div`
   display: flex;
   justify-content: center;
@@ -66,6 +60,9 @@ const BoxError = styled.div`
   margin-bottom: 12px;
   border-bottom: 1px solid #FF6B6B;
   contents-align: center;
+`;
+const BoldText = styled.span`
+  font-weight: bold;
 `;
 
 const FindIdResult = () => {

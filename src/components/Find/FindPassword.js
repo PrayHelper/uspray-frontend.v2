@@ -5,11 +5,17 @@ import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
 import Toast, { ToastTheme } from "../Toast/Toast";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BlackScreen from "../BlackScreen/BlackScreen";
 
 let init = 0;
 
+const SubLink = styled.a`
+  color: #7bab6e;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+`;
 const ModalContent = styled.div`
   position: fixed;
   top: 50%;
@@ -60,17 +66,19 @@ const FindPassword = () => {
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
-  const [isPhoneNumVerficationButtonClicked, setIsPhoneNumVerficationButtonClickClick] = useState(false);
+  const [
+    isPhoneNumVerficationButtonClicked,
+    setIsPhoneNumVerficationButtonClickClick,
+  ] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
-
-  const isAllValid =
-    isCetrificated &&
-    isCertificateButtonClicked;
+  const isAllValid = isCetrificated && isCertificateButtonClicked;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
+
+  const navigate = useNavigate();
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -118,25 +126,22 @@ const FindPassword = () => {
     }
   };
 
-  // const findPassword = async () => {
-  //   const api = "/user/signup";
-  //   const data = {
-  //     id: userInfo.id,
-  //     password: userInfo.pwd,
-  //     name: userInfo.name,
-  //     gender: gender,
-  //     birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
-  //     phone: userInfo.phoneNumber.replace(/-/g, ""),
-  //   };
-  //   try {
-  //     const res = await serverapi.post(api, data);
-  //     if (res.status === 200) {
-  //       alert("회원가입이 완료되었습니다.");
-  //     }
-  //   } catch (e) {
-  //     alert("error occured");
-  //   }
-  // };
+  const findPassword = async () => {
+    const api = "/user/check/inform";
+    const data = {
+      id: userInfo.id,
+      phone: userInfo.phoneNumber.replace(/-/g, ""),
+    };
+    console.log(data);
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+    } catch (e) {
+      alert("error occured");
+    }
+  };
 
   const idChangeHandler = async (e) => {
     setUserInfo({ ...userInfo, id: e.target.value });
@@ -228,7 +233,15 @@ const FindPassword = () => {
   }, [showToast]);
 
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        position: "relative",
+        flexDirection: "column",
+      }}
+    >
       <UserHeader children={"비밀번호 찾기"} />
       <div
         style={{
@@ -242,7 +255,7 @@ const FindPassword = () => {
           label="아이디"
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
-          description={invalidIdInfo}
+          // description={invalidIdInfo}
         />
         <Input
           label="이름"
@@ -308,7 +321,9 @@ const FindPassword = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0 || !isPhoneNumVerficationButtonClicked
+                  (isCetrificated && isCertificateButtonClicked) ||
+                  time === 0 ||
+                  !isPhoneNumVerficationButtonClicked
                 }
                 handler={() => {
                   console.log(isCetrificated && isCertificateButtonClicked);
@@ -328,18 +343,34 @@ const FindPassword = () => {
             </div>
           }
         />
-        <Link to="/FindPasswordResult" style={{ textDecoration: "none" }}>
-        <Button
-          disabled={!isAllValid}
-          buttonSize={ButtonSize.LARGE}
-          buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-          handler={() => {
-            // findPassword();
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: "40px",
+            width: "calc(100% - 48px)",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          비밀번호 찾기
-        </Button>
-        </Link>
+          <div style={{ textAlign: "center", marginBottom: "16px" }}>
+            <SubLink href="http://pf.kakao.com/_UgxhYxj">
+              전화번호를 변경하셨나요?
+            </SubLink>
+          </div>
+          {/* <Link to="/FindPWResult" style={{ textDecoration: "none" }}> */}
+            <Button
+              disabled={!isAllValid}
+              buttonSize={ButtonSize.LARGE}
+              buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
+              handler={() => {
+                findPassword();
+              }}
+            >
+              비밀번호 찾기
+            </Button>
+          {/* </Link> */}
+        </div>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}

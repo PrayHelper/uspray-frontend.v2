@@ -5,6 +5,7 @@ import UserHeader from "../UserHeader";
 import styled from 'styled-components';
 import BlackScreen from "../BlackScreen/BlackScreen";
 import { useResetPw } from "../../hooks/useResetPw";
+import { useLocation } from "react-router-dom";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -42,10 +43,12 @@ const FindPasswordResult = () => {
   const [invalidPwInfo, setInvalidPwInfo] = useState("");
   const [invalidMatchingPwInfo, setInvalidMatchingPwInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const location = useLocation();
+  const token = location.state.token;
 
   const handleCloseModal = () =>{
     setShowModal(false);
-    window.location.href = '/settings';
+    window.location.href = '/login';
   };
 
   const isAllValid = pw && matchingPw && !invalidPwInfo && !invalidMatchingPwInfo;
@@ -110,6 +113,7 @@ const FindPasswordResult = () => {
     >
       {showModal && (
         <>
+        console.log{token}
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
           <ModalContent onClick={(e) => e.stopPropagation()}>
             <img src="images/lock.svg" alt="lock" style={{marginTop: "8px"}}/>
