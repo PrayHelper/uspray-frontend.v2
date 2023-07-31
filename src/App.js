@@ -29,6 +29,8 @@ import { refresh } from "./hooks/api";
 import { useRecoilState } from "recoil";
 import { tokenState } from "./recoil/accessToken";
 import SocialLogin from "./pages/SocialLogin";
+import SocialSignup from "./pages/SocialSignup";
+import OAuth from "./pages/OAuth";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -87,12 +89,14 @@ function MainApp() {
             <Route path="/tos" element={<ToS />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/social" element={<SocialLogin />} />
+            <Route path="temp" element={<SocialSignup />} />
           </Route>
 
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/signup" element={<Signup />} />
+          <Route path="/OAuth" element={<OAuth />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>

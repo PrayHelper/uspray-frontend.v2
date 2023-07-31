@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import SocialLoginBtn from "../components/SocialLoginBtn";
-import { useState } from "react";
 import { useEffect } from "react";
 
 const SocialLoginWrapper = styled.div`
@@ -82,6 +81,7 @@ const SocialLogin = () => {
     REACT_APP_KAKAO_API_KEY,
     REACT_APP_KAKAO_CLIENT_SECRET,
     REACT_APP_KAKAO_URI,
+    REACT_APP_API_INTG,
   } = process.env;
 
   useEffect(() => {
@@ -93,17 +93,28 @@ const SocialLogin = () => {
       "REACT_APP_KAKAO_CLIENT_SECRET: ",
       process.env.REACT_APP_KAKAO_CLIENT_SECRET
     );
+    console.log(
+      "REACT_APP_KAKAO_API_KEY: ",
+      process.env.REACT_APP_KAKAO_API_KEY
+    );
+    console.log(
+      "REACT_APP_KAKAO_CLIENT_SECRET: ",
+      process.env.REACT_APP_KAKAO_CLIENT_SECRET
+    );
   }, [process.env]);
 
-  const kakaoReq = async () => {
-    await fetch(
-      `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-      }
+  const kakaoReq = () => {
+    window.open(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
     );
+    // await fetch(
+    //   `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    //     },
+    //   }
+    // );
   };
 
   return (

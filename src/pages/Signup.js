@@ -67,7 +67,10 @@ const Signup = () => {
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
-  const [isPhoneNumVerficationButtonClicked, setIsPhoneNumVerficationButtonClickClick] = useState(false);
+  const [
+    isPhoneNumVerficationButtonClicked,
+    setIsPhoneNumVerficationButtonClickClick,
+  ] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [tos1Checked, setTos1Checked] = useState(false);
   const [tos2Checked, setTos2Checked] = useState(false);
@@ -162,7 +165,7 @@ const Signup = () => {
         setToastTheme(ToastTheme.SUCCESS);
         setShowToast(true);
         setTimeout(() => {
-          navigate('/');
+          navigate("/");
         }, 2000);
       }
     } catch (e) {
@@ -314,29 +317,27 @@ const Signup = () => {
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-            <ModalContent onClick={(e) => e.stopPropagation()}>
-              <img src="images/icon_notice.svg" alt="icon_notice" />
-              <div
-                style={{
-                  fontSize: "20px",
-                  color: "#7BAB6E",
-                  fontWeight: "700",
-                  paddingBottom: "2px",
-                }}
-              >
-                이름은 실명으로 설정해주세요!
-              </div>
-              <div
-                style={{
-                  marginBottom: "28px",
-                }}
-              >
-                기도제목 공유 시 이름으로 전달됩니다.
-              </div>
-              <ModalButton onClick={handleCloseModal}>
-                네, 그렇게 할게요.
-              </ModalButton>
-            </ModalContent>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <img src="images/icon_notice.svg" alt="icon_notice" />
+            <div
+              style={{
+                fontSize: "20px",
+                color: "#7BAB6E",
+                fontWeight: "700",
+                paddingBottom: "2px",
+              }}>
+              이름은 실명으로 설정해주세요!
+            </div>
+            <div
+              style={{
+                marginBottom: "28px",
+              }}>
+              기도제목 공유 시 이름으로 전달됩니다.
+            </div>
+            <ModalButton onClick={handleCloseModal}>
+              네, 그렇게 할게요.
+            </ModalButton>
+          </ModalContent>
         </>
       )}
       <div
@@ -345,8 +346,7 @@ const Signup = () => {
           flexDirection: "column",
           gap: "27px",
           padding: "20px 27px",
-        }}
-      >
+        }}>
         <Input
           label="아이디"
           onChangeHandler={idChangeHandler}
@@ -386,16 +386,14 @@ const Signup = () => {
               paddingLeft: "16px",
               position: "absolute",
               top: "-14px",
-            }}
-          >
+            }}>
             성별
           </div>
           <div
             style={{
               display: "flex",
               textAlign: "center",
-            }}
-          >
+            }}>
             <ToggleButton contents="남자" item={gender} setter={setGender} />
             <ToggleButton contents="여자" item={gender} setter={setGender} />
           </div>
@@ -428,8 +426,7 @@ const Signup = () => {
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
                 setIsPhoneNumVerficationButtonClickClick(true);
-              }}
-            >
+              }}>
               {time ? "진행 중" : "전송"}
             </Button>
           }
@@ -464,7 +461,9 @@ const Signup = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0 || !isPhoneNumVerficationButtonClicked
+                  (isCetrificated && isCertificateButtonClicked) ||
+                  time === 0 ||
+                  !isPhoneNumVerficationButtonClicked
                 }
                 handler={() => {
                   console.log(isCetrificated && isCertificateButtonClicked);
@@ -478,8 +477,7 @@ const Signup = () => {
                     setShowToast(true);
                     alert("인증에 실패하였습니다.");
                   }
-                }}
-              >
+                }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
               </Button>
             </div>
@@ -511,16 +509,11 @@ const Signup = () => {
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
             signup();
-          }}
-        >
+          }}>
           회원가입
         </Button>
-        {showToast && (
-          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
-        )}
-        {showToast && (
-          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
-        )}
+        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
+        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
     </div>
   );
