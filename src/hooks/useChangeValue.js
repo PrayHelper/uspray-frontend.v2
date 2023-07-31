@@ -1,23 +1,24 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { putFetcher, refresh } from "./api";
+import { putFetcher } from "./api";
 import { useMutation } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const putChangeValue = async (accessToken, id, data) => {
+
+const putChangeValue = async (getAccessToken, id, data) => {
   return await putFetcher(`/pray/my/${id}`, data ,{
-    Authorization: accessToken,
+    Authorization: getAccessToken(),
   });
 };
 
 export const useChangeValue = () => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
+
   return useMutation(({id, data}) => {
-    return putChangeValue(accessToken, id, data)}, {
-      onError: (e) => {
+    return putChangeValue(getAccessToken, id, data)}, {
+      onError: async (e) => {
         if (e.status === 403) {
-          const data = refresh();
-          if (typeof(data) === "string")
-            setAccessToken(data);
+          await refresh();
         }
         console.log(e);
       },

@@ -1,23 +1,22 @@
 import { useQuery } from 'react-query';
-import { useRecoilState } from "recoil";
-import { getFetcher, refresh } from "./api";
-import { tokenState } from "../recoil/accessToken";
+import { getFetcher } from "./api";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const getPrayList = async (accessToken,sort_by) => {
+const getPrayList = async (getAccessToken,sort_by) => {
   return await getFetcher(`/pray?sort_by=${sort_by}`, {
-    Authorization: accessToken,
+    Authorization: getAccessToken(),
   });
 
 }
 
 export const usePrayList = (sort_by) => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useQuery(['prayList','sort_by', accessToken],() => {return getPrayList(accessToken,sort_by)} ,  {
-    onError: (e) => {
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
+  return useQuery(['prayList','sort_by'],() => {return getPrayList(getAccessToken,sort_by)} ,  {
+    onError: async (e) => {
       if (e.status === 403) {
-        const data = refresh();
-        if (typeof(data) === "string")
-          setAccessToken(data);
+       await refresh();
       }
     },
     onSuccess: (res) => {

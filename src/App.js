@@ -24,11 +24,10 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
 import ChangePhoneNumber from "./pages/ChangePhoneNumber";
-import { useEffect, useState } from "react";
-import { refresh } from "./hooks/api";
-import { useRecoilState } from "recoil";
-import { tokenState } from "./recoil/accessToken";
 import SocialLogin from "./pages/SocialLogin";
+import useAuthToken from "./hooks/useAuthToken";
+import useRefresh from "./hooks/useRefresh";
+import { useEffect } from "react";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -45,24 +44,32 @@ const Container = styled.div`
 `;
 
 function MainApp() {
-  function PrivateRoute() {
-    const refreshToken = localStorage.getItem("refreshToken");
-    const [accessToken, setAccessToken] = useRecoilState(tokenState);
-    console.log("refresh : ", refreshToken);
-    console.log("access : ", accessToken);
+  function PrivateRoute () {
+    const { getAccessToken, getRefreshToken } = useAuthToken();
+    const { refresh } = useRefresh();
 
-    // if (!refreshToken){
-    //   return <Navigate replace to ='/' />
-    // }
-    // if (!accessToken){
-    //   const getToken = async () => {
-    //     const token = await refresh();
-    //     setAccessToken(token);
-    //   };
-    //   getToken();
-    // }
+    console.log("refresh : ", await getRefreshToken());
+    console.log("access : ", getAccessToken());
 
-    return <Outlet />;
+    useEffect(() => {
+      if (!getRefreshToken()){
+        console.log("aa");
+        return <Navigate replace to ='/' />
+      }
+      if (!getAccessToken()){
+        console.log("bb");
+        console.log("accessToken: ", getAccessToken());
+        console.log("refresh:" , await getRefreshToken());
+        const getToken = async () => {
+          await refresh();
+        };
+        getToken();
+      }
+  
+      return <Outlet />;
+    })
+
+    return <Login />;
   }
 
   return (
