@@ -193,7 +193,8 @@ const completeBtnClick = async(id) =>{ // 완료하기 관련 코드
   changeCheck();
   mutateComplete({id:id}, {
     onSuccess: (res) => {
-      renderingData(res, true);
+      setUncompletedList(uncompletedList.filter(prayer => prayer.id !== id));
+      setCompletedList(completedList.filter(prayer => prayer.id !== id));
       feedbackHandler("기도를 완료하였습니다.");
     }
   })
