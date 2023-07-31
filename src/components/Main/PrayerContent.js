@@ -10,7 +10,8 @@ const MainContent = styled.div`
     align-items: center;
     margin: 16px 12px 0 16px;
     border-bottom : 1px solid #B3D1AB;
-    // transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    padding-bottom: 8px;
 `
 
 const NameContent = styled.div`
@@ -66,14 +67,15 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
         }
     }
     return(
-        <MainContent style={{paddingBottom : (bottom || isShare) ? "16px" : "8px"}}>
+        <MainContent>
             {isShare && (!bottom ?         
             <ShareCheckBox id = {id} checked={checked} handler = {clickHandler} /> : 
             <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}} onClick={() =>contentClick(id, checked)}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>}
+            {(!isShare && !bottom) ? <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>
+            :<div style={{height:"24px"}}></div>}
         </MainContent>
     )
 }
