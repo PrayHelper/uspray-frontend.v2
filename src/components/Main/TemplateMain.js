@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
-
+import HoverImamge from "../../images/ic_hover_img.svg";
 
 const BackgroundInput = styled.div`
     display : flex;
@@ -24,6 +24,11 @@ const BtnSend = styled.button`
     border: 1px solid #EBF7E8;
     border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
+    background-color : white;
+    &:active{
+        transition : all 0.1s ease-in-out; 
+        background-color: #75BD62;
+    }
 `;
 
 const SendImg = styled(Logo)`
@@ -70,6 +75,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const [Toggle, setToggle] = useState(true);
+    const [isHover, setIsHover] = useState(false);
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -103,6 +109,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         console.log(day);
         onInsert(text, day, value);
         setDay(7);
+        setIsHover(false);
     }
     const changeCheckTop = () =>{
         setVisible(!visible);
@@ -110,7 +117,15 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
             setToggle(!Toggle);
         }
     }
+    const MouseOver = (e) =>{
+        setIsHover(true);
+        console.log(e);
+    }
     
+    const MouseOut = (e) =>{
+        setIsHover(false);
+        console.log(e);
+    }
     return(
         <div style={{width:"100%"}}>
             <div style={{position:"relative"}}>
@@ -119,8 +134,9 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                     onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
-                        {(value === "") ? <BtnSend style={{backgroundColor:"white"}}><SendImg src={DisableImage}/></BtnSend>
-                        : <BtnSend style={{backgroundColor:'white'}} onClick={() => submit()}><SendImg src={click_search}/></BtnSend>}
+                        {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
+                        : <BtnSend onClick={() => submit()}>
+                            <SendImg src={isHover ? HoverImamge : click_search}/></BtnSend>}
                     </div>
                 </BackgroundInput>
                 <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>

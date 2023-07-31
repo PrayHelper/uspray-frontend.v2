@@ -10,6 +10,7 @@ const MainContent = styled.div`
     align-items: center;
     margin: 16px 12px 0 16px;
     border-bottom : 1px solid #B3D1AB;
+    // transition: all 0.3s ease-in-out;
 `
 
 const NameContent = styled.div`

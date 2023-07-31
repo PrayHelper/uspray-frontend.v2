@@ -356,7 +356,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 }
                 </PrayerContentStyle>
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
-               shareLength = {shareLength}></Share>}
+               shareLength = {shareLength} setshareToggle = {setshareToggle}></Share>}
                 {modalToggle && <AnimationModal modalText = {modalText} />}
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked}/>

@@ -10,6 +10,7 @@ const ShareImg = styled(Share_Logo)`
     bottom: 72px;
     border-radius: 50%;
     box-shadow: 0px 4px 8px #00000080;
+    z-index : 4;
 `;
 const Container = styled.div`
     display : flex;
@@ -22,12 +23,12 @@ const Container = styled.div`
     margin-bottom: 40px;
     z-index: 6;
 `
-function Share({onShare, onMove , shareToggle, onCheck, isShare, shareLength}){
+function Share({onShare, onMove , shareToggle, onCheck, isShare, shareLength, setshareToggle}){
     return(
         <Container style={{zIndex : shareToggle ? "10000" : "4"}}>
             {!shareToggle && <ShareImg  onClick={onMove} src={share_img}/>}
-            {shareToggle && <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare} 
-            shareLength = {shareLength}/>}
+            <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare} 
+            shareLength = {shareLength} shareToggle ={shareToggle} setshareToggle ={setshareToggle}/>
         </Container>
     )
 }
