@@ -12,7 +12,9 @@ const HisContent = (props) => {
           <Content>{props.content}</Content>
         </div>
       </TopContentWrapper>
-      <Date>{props.date}</Date>
+      <Date>
+        {props.isOnPray ? `${props.pray_cnt}회` : props.date.replace(/-/g, "/")}
+      </Date>
       <Hline />
     </ContentWrapper>
   );
@@ -25,6 +27,8 @@ const Hline = styled.hr`
   color: "#CECECE";
   size: 1px;
   opacity: 0.5;
+  border-right: 0;
+  border-left: 0;
 `;
 
 const Vline = styled.div`

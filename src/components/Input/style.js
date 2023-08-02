@@ -29,8 +29,9 @@ export const LabelStyle = styled.span`
     padding: 0px 5px;
     z-index: ${props => props.isFocused ? "0" : "-1"};
 
-    background-color: white;
-    transition: 0.2s;
+    background-color: ${props => props.isFocused ? "#FFFFFFFF" : "#FFFFFF00"};
+    transition: all 0.2s;
+    border-radius: 8px;
 `;
 
 export const InputStyle = styled.input`
@@ -47,9 +48,10 @@ export const InputStyle = styled.input`
 `;
 
 export const DescriptionStyle = styled.div`
+    position: absolute;
+    right: 12px;
     font-size: 10px;
     font-weight: 500;
-    margin-right: 12px;
     white-space: nowrap;
     color: ${props => props.isError ? "#FF6B6B" : "#7BAB6E"};
 `;

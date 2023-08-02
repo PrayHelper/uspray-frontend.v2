@@ -21,6 +21,7 @@ export const CheckboxStyle = styled.input`
   background-size: 0px 0px;
   background-repeat: no-repeat;
   background-position: 50%;
+  flex-shrink: 0;
 
   &:checked {
     transition: all 0.2s;

@@ -6,6 +6,7 @@ import LoginButton from "../components/Login/LoginButton/LoginButton";
 import UserHeader from "../components/UserHeader";
 import styled from 'styled-components';
 import serverapi from "../api/serverapi";
+import { useDeleteUser } from "../hooks/useDeleteUser";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -57,24 +58,18 @@ const ChangeInfo = () => {
     setShowModal(false);
   };
 
-  const accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMwOTkwYzRhLTkzY2QtNDUzNi04YWE2LWNkYzhkNTJhNDlkYiIsImFjY2Vzc190b2tlbl9leHAiOiIyMDIzLTA1LTE5VDE2OjEwOjAxLjY5NzY4OSJ9.ZSFK5Haqqj3MpY1p6-4eD-8nCy-TyuaSZ5lwo3Ouxcc";
+  const {mutate: mutateDeleteUser} = useDeleteUser();
 
-  const withdrawal = async () => {
-    const api = "/user/withdrawal";
-    try {
-      const res = await serverapi.delete(api,{
-        headers: {
-          Authorization: `${accessToken}`,
+  const withdrawal = () => {
+    mutateDeleteUser(null,
+      {
+        onSuccess: (res) => {
+          navigate("/");
+          console.log(res);
         }
-      });
-      if (res.status === 200) {
-        window.location.href = '/';
-        console.log(res);
       }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    );
+  }
 
   return (
     <div
@@ -151,7 +146,7 @@ const ChangeInfo = () => {
             전화번호 변경
           </Button>
           <LoginButton
-            backgrond={"#ffffff"}
+            background={"#ffffff"}
             context={"회원탈퇴"}
             color={"#7bab6e"}
             borderColor={"#7bab6e"}

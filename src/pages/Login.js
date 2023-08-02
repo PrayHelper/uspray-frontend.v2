@@ -14,8 +14,8 @@ const Login = () => {
       <BottomBtnWrapper>
         <Link to="/login" style={{ textDecoration: "none" }}>
           <LoginButton
-            backgrond={"#7bab6e"}
-            context={"로그인하기"}
+            background={"#7bab6e"}
+            context={"로그인"}
             color={"#ffffff"}
             arrowColor={"#ffffff"}
             margin={"0px 24px 12px 24px"}
@@ -23,8 +23,8 @@ const Login = () => {
         </Link>
         <Link to="/signup" style={{ textDecoration: "none" }}>
           <LoginButton
-            backgrond={"#ffffff"}
-            context={"회원가입하기"}
+            background={"#ffffff"}
+            context={"회원가입"}
             color={"#7bab6e"}
             borderColor={"#7bab6e"}
             arrowColor={"#7bab6e"}
@@ -73,5 +73,5 @@ const LogoSubTitle = styled.div`
 
 const BottomBtnWrapper = styled.div`
   width: 100%;
-  padding: 8px 0px;
+  padding: 10px 0px;
 `;
