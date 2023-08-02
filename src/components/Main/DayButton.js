@@ -2,31 +2,31 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import Day_Calender from '../../images/day_calender.svg';
+import Day_Calender_hover from "../../images/DayCalender_hover.svg";
 import DatePickerComponent from "./DatePickerComponent";
-import { getMonth, getYear, getDate } from "date-fns"
+import { getMonth, getYear, getDate } from "date-fns";
 const DayBtnSet = styled.div`
     display: flex;
     position: absolute;
-    height: 42px;
     background-color: white;
-    // margin-left: 20px;
     width: 100%;
-    z-index: 1000;
-    border: 0px solid white;
+    border-bottom: 1px solid white;
+    padding-bottom: 26px;
+    transition: all 0.3s ease-in-out;
+    z-index: 102;
 `
 const DayBtn = styled.button`
-    width : 48px;
-    height : 25px;
     font-size: 10px;
     margin-right : 8px;
     border: 1px solid #75BD62;
     border-radius: 8px;
+    padding: 4px 15px;
 `
 
 const DayCalender = styled(Logo)`
 `;
 
-const Day_Button = ({dayInfo}) =>{
+const Day_Button = ({dayInfo, visible, Toggle, setToggle,setVisible}) =>{
     const [colorThree ,setColorThree] = useState('white');
     const [colorSeven ,setColorSeven] = useState('#75BD62');
     const [colorThirty ,setColorThirty] = useState('white');
@@ -35,10 +35,10 @@ const Day_Button = ({dayInfo}) =>{
     const [fontSeven ,setFontSeven] = useState('white');
     const [fontThirty ,setFontThirty] = useState('#75BD62');
     const [fontHundred ,setFontHundred] = useState('#75BD62');
-    const [Toggle, setToggle] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
-    const [dayToggle, setDayToggle] = useState(false);
     const [dayText, setDayText] = useState("");
+    const [dayToggle, setDayToggle] = useState(false);
+
     const dateClick = (date) =>{
         setStartDate(date);
         colorChange(date);
@@ -52,7 +52,7 @@ const Day_Button = ({dayInfo}) =>{
         setFontThirty('#75BD62');
         setFontHundred('#75BD62');
         var year = getYear(date);
-        var month = ((getMonth(date)+1) <= 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : (getMonth(date)+1);
         var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
         let res_data = year + "/" +  month + "/" + date;
         setDayText(res_data);
@@ -130,23 +130,21 @@ const Day_Button = ({dayInfo}) =>{
         }
     }
     const onToggle = () =>{
-        // setVisible(!visible);
         setToggle(!Toggle);
     }
     return(
-        Toggle ? <DayBtnSet>
+        Toggle ? <DayBtnSet style={{opacity : visible ? "1" : "0" , top: visible ? "100%" : "50%"}}>
             <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
-            <DayCalender src={Day_Calender} onClick={onToggle}></DayCalender>
+            <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
             {dayToggle ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
-        </DayBtnSet>: 
-        <DayBtnSet>
-        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/> 
+        </DayBtnSet> : 
+        <DayBtnSet style={{opacity : visible ? "1" : "0"}}>
+        <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick} visible={visible}/> 
+        {dayToggle ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
         </DayBtnSet> 
-
-
     )
 }
 

@@ -7,37 +7,27 @@ import HeartImage from "../../images/ic_heart_image.svg";
 
 const MainContent = styled.div`
     display: flex;
-    justify-content: space-between;
-    height: 25px;
-    margin-top: 16px;
-    margin-left: 12px; 
-    margin-right: 12px;
+    align-items: center;
+    margin: 16px 12px 0 16px;
     border-bottom : 1px solid #B3D1AB;
-    padding-right: 4px;
-    padding-bottom : 8px;
+    transition: all 0.3s ease-in-out;
+    padding-bottom: 8px;
 `
 
 const NameContent = styled.div`
-    // width: 42px;
-    // display: ;
-    width: 15%;
-    height: 17px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     border-right: 1px solid #CECECE;
+    padding-right: 8px;
     font-size: 12px;
     line-height: 17px;
-
 `;
 
 const TextContent = styled.div`
-    // width: 263px;
-    width: 70.571%;
-    height: 17px;
     padding : 0px;
-    margin-left: 6px;
-    // margin-right: 8px;
+    margin-left: 8px;
+    flex-grow : 1;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -46,21 +36,22 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
-    width : 45px;
-    font-size : 10px;
-    heigth : 17px;
-    text-align : center;
+    font-size : 12px;
+    text-align : right;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     line-height: 17px;
-    // margin-left: 4px;
     margin-right: 4px;
-    margin-top : 4px;
 `;
 const ClickImg = styled(Logo)`
     width: 24px;
     height: 24px;
+    transition: all 0.3s;
+    &:active {
+        filter: brightness(0.9);
+        transform: scale(0.9);
+    }
 `;
 
 
@@ -80,10 +71,11 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             {isShare && (!bottom ?         
             <ShareCheckBox id = {id} checked={checked} handler = {clickHandler} /> : 
             <ShareBotCheckBox id={id} checked={checked} handler={clickHandler}/>)}
-            <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}}>{name}</NameContent>
-            <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id)}>{text}</TextContent>
-            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "10px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {!isShare && !bottom && <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)} style={{width:'24px', height:'24px'}}/></div>}
+            <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}} onClick={() =>contentClick(id, checked)}>{name}</NameContent>
+            <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked)}>{text}</TextContent>
+            {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
+            {(!isShare && !bottom) ? <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>
+            :<div style={{height:"24px"}}></div>}
         </MainContent>
     )
 }

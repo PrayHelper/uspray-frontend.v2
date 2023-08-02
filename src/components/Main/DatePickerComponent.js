@@ -11,13 +11,12 @@ const DateStyle = styled.div`
 
 const MydatePicker = styled(DatePicker)`
   font-weight:bold;
-  // background-color:transparent;
   color: #B7CEB0;
   border: 1px solid ;
 `
-const DatePickerComponent = ({startDate, dateClick}) => {
+const DatePickerComponent = ({startDate, dateClick, visible}) => {
     return(
-      <DateStyle>
+      <DateStyle style={{opacity: visible ? "1" : "0"}}>
 			 <MydatePicker
         locale={ko}    // 언어설정 기본값은 영어
         dateFormat="yyyy-MM-dd"    // 날짜 형식 설정
