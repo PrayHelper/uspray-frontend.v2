@@ -137,6 +137,7 @@ const FindPassword = () => {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
         console.log(res.data);
+        navigate("/FindPWResult", { state: res.data.token });
       }
     } catch (e) {
       alert("error occured");
@@ -358,7 +359,6 @@ const FindPassword = () => {
               전화번호를 변경하셨나요?
             </SubLink>
           </div>
-          {/* <Link to="/FindPWResult" style={{ textDecoration: "none" }}> */}
             <Button
               disabled={!isAllValid}
               buttonSize={ButtonSize.LARGE}
@@ -369,7 +369,6 @@ const FindPassword = () => {
             >
               비밀번호 찾기
             </Button>
-          {/* </Link> */}
         </div>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
