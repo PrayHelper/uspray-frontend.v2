@@ -4,9 +4,10 @@ import Input from "../Input/Input";
 import UserHeader from "../UserHeader";
 import styled from 'styled-components';
 import BlackScreen from "../BlackScreen/BlackScreen";
-import { useResetPw } from "../../hooks/useResetPw";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import serverapi from "../../api/serverapi";
+import { set } from "date-fns";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -46,8 +47,8 @@ const FindPasswordResult = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const token = location.state;
-    console.log("Token:", token);
+    const pwToken = location.state;
+    console.log("Token:", pwToken);
   }, [location]);
 
   const handleCloseModal = () =>{
@@ -88,21 +89,23 @@ const FindPasswordResult = () => {
     setInvalidMatchingPwInfo("");
   };
 
-  const {mutate} = useResetPw({
-    password: pw
-  });
-
-  const resetPw = () => {
-    mutate(null, {
-      onSuccess: (res) => {
+  const resetFindPw = async () => {
+    const pwToken = location.state;
+    const api = `/user/find/password?token=${pwToken}`;
+    const data = {
+      password: pw,
+    };
+    try {
+      const res = await serverapi.put(api, data);
+      if (res.status === 200) {
         setShowModal(true);
-        console.log(res);
-      },
-      onError: (e) => {
-        console.log(e);
+        console.log(res.data);
       }
-    });
-  };
+    } catch (e) {
+      setShowModal(false);
+      console.log(e);
+    }
+  }
 
   return (
     <div
@@ -163,7 +166,7 @@ const FindPasswordResult = () => {
               buttonSize={ButtonSize.LARGE}
               buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
               handler={() => {
-                resetPw();
+                resetFindPw();
               }}
             >
               재설정하기

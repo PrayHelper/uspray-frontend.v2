@@ -132,12 +132,16 @@ const FindPassword = () => {
       id: userInfo.id,
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
-    console.log(data);
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        console.log(res.data);
-        navigate("/FindPWResult", { state: res.data.token });
+        if(res.data.message === "true"){
+          console.log(res.data.toen);
+          navigate("/FindPWResult", { state: res.data.token });
+        }
+        else{
+          alert("입력하신 정보가 일치하지 않습니다.");
+        }
       }
     } catch (e) {
       alert("error occured");
