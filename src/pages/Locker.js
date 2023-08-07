@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import serverapi from "../api/serverapi";
 import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
-
-const accessToken = "";
+import { useDeleteSharedList } from "../hooks/useDeleteSharedList";
+import { useFetchSharedList } from "../hooks/useFetchSharedList";
+import { useUpdateSharedList } from "../hooks/useUpdateSharedList";
 
 const Locker = () => {
   const [data, setData] = useState([]);
@@ -13,6 +13,7 @@ const Locker = () => {
   const [selectedID, setSelectedID] = useState([]);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
+  const [test, setTest] = useState([]);
 
   // Toast 창 띄우기
   useEffect(() => {
@@ -80,102 +81,161 @@ const Locker = () => {
   };
 
   // 공유 리스트 읽기
-  const fetchSharedList = async () => {
-    const api = "/share";
-    try {
-      const res = await serverapi.get(api, {
-        headers: {
-          Authorization: `${accessToken}`,
-        },
-      });
-      if (res.status === 200) {
-        setData(res.data);
-        console.log(data);
-        setIsClicked(new Array(res.data.length).fill(false));
-        console.log(isClicked);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  const { data: sharedListData, refetch: refetchSharedListData } =
+    useFetchSharedList();
+
+  const fetchSharedList = () => {
+    setData(sharedListData.data);
+    setIsClicked(new Array(sharedListData.data.length).fill(false));
+    console.log(sharedListData);
+    console.log("리스트 읽기");
   };
 
-  // 공유 기도 삭제
-  const deleteSharedList = async () => {
-    const api = "/share";
-    try {
-      if (isClicked.every((clicked) => clicked)) {
-        // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 삭제
-        const res = await serverapi.delete(api, {
-          headers: {
-            Authorization: `${accessToken}`,
-          },
-          data: {
-            pray_id_list: data.map((item) => item.pray_id),
-          },
-        });
-        if (res.status === 200) {
-          setShowDeleteToast(true);
-          fetchSharedList();
-        }
-      } else {
-        // 선택된 항목만 삭제
-        const res = await serverapi.delete(api, {
-          headers: {
-            Authorization: `${accessToken}`,
-          },
-          data: {
-            pray_id_list: selectedID,
-          },
-        });
-        if (res.status === 200) {
-          setShowDeleteToast(true);
-          fetchSharedList();
-        }
-      }
-    } catch (e) {
-      console.log(e);
+  const { mutateAsync: deleteListData } = useDeleteSharedList();
+
+  const deleteSharedList = () => {
+    let pray_id_list = []; // 빈 배열을 초기화하여 pray_id_list를 설정합니다.
+
+    if (isClicked.every((clicked) => clicked)) {
+      // 모든 항목이 선택된 경우 모든 pray_id를 배열에 추가합니다.
+      pray_id_list = data.map((item) => item.pray_id);
+      console.log("전체선택");
+    } else {
+      // 선택된 항목만 배열에 추가합니다.
+      pray_id_list = selectedID;
     }
+
+    deleteListData(
+      {
+        pray_id_list: pray_id_list,
+      },
+      {
+        onSuccess: () => {
+          setShowSaveToast(true);
+          refetchSharedListData();
+        },
+      }
+    );
+  };
+
+  // const deleteSharedList = async () => {
+  //   try {
+  //     await deleteListData({
+  //       pray_id_list: selectedID,
+  //     });
+  //     setShowDeleteToast(true);
+  //   } catch (error) {
+  //     console.log(error); // 삭제 요청 실패 시 에러 처리
+  //   }
+  // };
+
+  // 공유 기도 삭제
+  // const deleteSharedList = async () => {
+  //   const api = "/share";
+  //   try {
+  //     if (isClicked.every((clicked) => clicked)) {
+  //       // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 삭제
+  //       const res = await serverapi.delete(api, {
+  //         headers: {
+  //           Authorization: `${accessToken}`,
+  //         },
+  //         data: {
+  //           pray_id_list: data.map((item) => item.pray_id),
+  //         },
+  //       });
+  //       if (res.status === 200) {
+  //         setShowDeleteToast(true);
+  //         fetchSharedList();
+  //       }
+  //     } else {
+  //       // 선택된 항목만 삭제
+  //       const res = await serverapi.delete(api, {
+  //         headers: {
+  //           Authorization: `${accessToken}`,
+  //         },
+  //         data: {
+  //           pray_id_list: selectedID,
+  //         },
+  //       });
+  //       if (res.status === 200) {
+  //         setShowDeleteToast(true);
+  //         fetchSharedList();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  const { mutate: updateListData } = useUpdateSharedList();
+
+  const saveSharedList = () => {
+    let pray_id_list = []; // 빈 배열을 초기화하여 pray_id_list를 설정합니다.
+
+    if (isClicked.every((clicked) => clicked)) {
+      // 모든 항목이 선택된 경우 모든 pray_id를 배열에 추가합니다.
+      pray_id_list = data.map((item) => item.pray_id);
+      console.log("전체선택");
+    } else {
+      // 선택된 항목만 배열에 추가합니다.
+      pray_id_list = selectedID;
+    }
+
+    updateListData(
+      {
+        pray_id_list: pray_id_list,
+      },
+      {
+        onSuccess: () => {
+          setShowSaveToast(true);
+          refetchSharedListData();
+        },
+      }
+    );
   };
 
   // 공유 기도 저장
-  const saveSharedList = async () => {
-    const api = "/share/save";
-    try {
-      if (isClicked.every((clicked) => clicked)) {
-        // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
-        const res = await serverapi.post(
-          api,
-          { pray_id_list: data.map((item) => item.pray_id) },
-          { headers: { Authorization: `${accessToken}` } }
-        );
-        if (res.status === 200) {
-          setShowSaveToast(true);
-          fetchSharedList();
-        }
-      } else {
-        // 선택된 항목만 저장
-        const res = await serverapi.post(
-          api,
-          { pray_id_list: selectedID },
-          { headers: { Authorization: `${accessToken}` } }
-        );
-        if (res.status === 200) {
-          setShowSaveToast(true);
-          fetchSharedList();
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const saveSharedList = async () => {
+  //   const api = "/share/save";
+  //   try {
+  //     if (isClicked.every((clicked) => clicked)) {
+  //       // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
+  //       const res = await serverapi.post(
+  //         api,
+  //         { pray_id_list: data.map((item) => item.pray_id) },
+  //         { headers: { Authorization: `${accessToken}` } }
+  //       );
+  //       if (res.status === 200) {
+  //         setShowSaveToast(true);
+  //         fetchSharedList();
+  //       }
+  //     } else {
+  //       // 선택된 항목만 저장
+  //       const res = await serverapi.post(
+  //         api,
+  //         { pray_id_list: selectedID },
+  //         { headers: { Authorization: `${accessToken}` } }
+  //       );
+  //       if (res.status === 200) {
+  //         setShowSaveToast(true);
+  //         fetchSharedList();
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchSharedList();
-  }, []);
+    if (sharedListData) {
+      fetchSharedList();
+    }
+  }, [sharedListData]);
 
   return (
     <LockerWrapper>
       <LockerHeader
+        isEmptyData={isEmptyData(data)}
         isClicked={isClicked.some((clicked) => clicked)}
         onClickSelectAll={onClickSelectAll}
         deleteSharedList={deleteSharedList}
