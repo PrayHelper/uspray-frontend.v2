@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import useSleep from "./useSleep";
 
 
+let accessToken = {
+  current : ""
+}
 
 
 const useAuthToken = () => {
-
-  const accessToken = useRef(null);
 
   const getAccessToken = () => {
     return accessToken.current;
