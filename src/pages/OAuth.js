@@ -7,7 +7,7 @@ const OAuth = () => {
     const execute = async () => {
       try {
         // prefix url이 달라서 fetch 사용. 이후 변경 필요.
-        const url = `http://api.intg.uspray.kr/api/user/oauth/kakao/${code}`;
+        const url = `https://api.intg.uspray.kr/api/user/oauth/kakao/${code}`;
         console.log("url: ", url);
 
         const a = await fetch(url, { headers: { "content-type": "json" } });
