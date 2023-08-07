@@ -6,6 +6,8 @@ import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useDeleteSharedList } from "../hooks/useDeleteSharedList";
 import { useFetchSharedList } from "../hooks/useFetchSharedList";
 import { useUpdateSharedList } from "../hooks/useUpdateSharedList";
+import Lottie from "react-lottie";
+import LottieData from "../components/Main/json/uspray.json";
 
 const Locker = () => {
   const [data, setData] = useState([]);
@@ -13,6 +15,17 @@ const Locker = () => {
   const [selectedID, setSelectedID] = useState([]);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const defaultOptions = {
+    //예제1
+    loop: true,
+    autoplay: true,
+    animationData: LottieData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   // Toast 창 띄우기
   useEffect(() => {
@@ -145,10 +158,17 @@ const Locker = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (sharedListData) {
       fetchSharedList();
+      setIsLoading(false);
     }
   }, [sharedListData]);
+  // useEffect(() => {
+  //   if (sharedListData) {
+  //     fetchSharedList();
+  //   }
+  // }, [sharedListData]);
 
   return (
     <LockerWrapper>
@@ -159,13 +179,22 @@ const Locker = () => {
         deleteSharedList={deleteSharedList}
         saveSharedList={saveSharedList}
       />
-      {isEmptyData(data) && (
+      {isLoading && (
+        <Lottie
+          style={{ scale: "0.5" }}
+          options={defaultOptions}
+          height={300}
+          width={300}
+          isClickToPauseDisabled={true}
+        />
+      )}
+      {!isLoading && isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>공유받은 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>공유받으면 보관함에 저장됩니다!</NoDataContent>
         </NoDataWrapper>
       )}
-      {!isEmptyData(data) && (
+      {!isLoading && !isEmptyData(data) && (
         <LockerList>
           {data.map((item, index) => (
             <div
