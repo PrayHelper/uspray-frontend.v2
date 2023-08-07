@@ -20,6 +20,7 @@ import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import PrivacyProcessAgreement from "./pages/PrivacyProcessAgreement";
 import Find from "./pages/Find";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
@@ -47,9 +48,6 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-
-
-
 const RouteHandler = () => {
 
   const navigate = useNavigate()
@@ -76,7 +74,6 @@ const RouteHandler = () => {
       <Route path="/changeInfo" element={<ChangeInfo />} />
       <Route path="/changePw" element={<ChangePw />} />
       <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
-      <Route path="/tos" element={<ToS />} />
       <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
       <Route path="/social" element={<SocialLogin />} />
     </Route>
@@ -88,6 +85,8 @@ const RouteHandler = () => {
       <Route path="/signup" element={<Signup />} />
       <Route path="/loading" element={<SplashScreen />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="/tos" element={<ToS />} />
+      <Route path="/privacyProcessAgreement" element={<PrivacyProcessAgreement />} />
     </Route>
   </Routes>
   )
