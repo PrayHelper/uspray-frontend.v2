@@ -1,19 +1,22 @@
 import { useEffect } from "react";
+import serverapi from "../api/serverapi";
 
-const OAuth = () => {
+const KakaoOAuth = () => {
   let code = new URL(window.location.href).searchParams.get("code");
 
   useEffect(() => {
     const execute = async () => {
       try {
         // prefix url이 달라서 fetch 사용. 이후 변경 필요.
-        const url = `https://api.intg.uspray.kr/api/user/oauth/kakao/${code}`;
-        console.log("url: ", url);
+        // const url = `https://api.intg.uspray.kr/api/user/oauth/kakao/${code}`;
 
-        const a = await fetch(url, { headers: { "content-type": "json" } });
-        console.log(a);
+        // // const res = await fetch(url, { headers: { "content-type": "json" } });
 
-        const json = await a.json();
+        const api = `/user/oauth/kakao/${code}`;
+
+        const res = serverapi.get(api);
+
+        const json = await res.json();
         console.log("json: ", json);
 
         // const ACCESS_TOKEN = json.data.accessToken;
@@ -29,7 +32,7 @@ const OAuth = () => {
     execute();
   }, []);
 
-  return <div>OAuth</div>;
+  return <div>KakaoOAuth</div>;
 };
 
-export default OAuth;
+export default KakaoOAuth;

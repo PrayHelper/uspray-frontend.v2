@@ -1,15 +1,12 @@
 import React, { useState } from "react";
-import serverapi from "../api/serverapi";
 import Input from "../components/Input/Input";
 import ToggleButton from "../components/ToggleButton";
 import InputBirth from "../components/InputBirth";
 import UserHeader from "../components/UserHeader";
-import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
-import Signup from "./Signup";
 
 let init = 0;
 
-const SocialSignup = () => {
+const KakaoSignup = () => {
   const [gender, setGender] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -19,8 +16,6 @@ const SocialSignup = () => {
     day: "",
     phoneNumber: "",
   });
-
-  const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
   const nameChangeHandler = (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
@@ -151,4 +146,4 @@ const SocialSignup = () => {
   );
 };
 
-export default SocialSignup;
+export default KakaoSignup;
