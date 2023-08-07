@@ -5,8 +5,7 @@ import Input from "../Input/Input";
 import styled from "styled-components";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
-import { useNavigate } from "react-router-dom";
-import FindIdResult from "./IdResult";
+import IdResult from "./IdResult";
 
 let init = 0;
 
@@ -31,11 +30,15 @@ const FindId = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const navigate = useNavigate();
 
   const moveToResult = () => {
-    navigate("/FindIdResult", { state: { userInfo: userInfo } });
+    setShowRestultPage(true)
   };
+  const userData = { 
+    name: userInfo.name, 
+    phoneNumber: userInfo.phoneNumber.replace(/-/g, "")
+  };
+
 
   const isAllValid = isCetrificated && isCertificateButtonClicked;
 
@@ -146,7 +149,7 @@ const FindId = () => {
 
   return (
     <div style={{ width: "100%", height: "100vh", position: "relative" }}>
-      {showResultPage && (<FindIdResult/>)}
+      {showResultPage && <IdResult userData={userData} />}
       <UserHeader children={"아이디 찾기"} />
       <div
         style={{
@@ -256,7 +259,7 @@ const FindId = () => {
             </SubLink>
           </div>
           <Button
-            disabled={!isAllValid}
+            // disabled={!isAllValid}
             buttonSize={ButtonSize.LARGE}
             buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
             handler={() => {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import serverapi from "../../api/serverapi";
 
@@ -92,29 +93,30 @@ const AnimationContainer = styled.div`
   animation: ${fadeIn} 0.3s ease-in-out;
 `;
 
-const IdResult = ( {userData} ) => {
+const PwError = () => {
+  const result = useLocation();
   const [id, setText] = useState("");
   const [name, setText1] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const showId = async () => {
-    console.log(userData);
     const api = "/user/find/id";
-    const data = {name: userData.name, phoneNumber: userData.phoneNumber.replace(/-/g, "")}  
-    console.log(data);
+    const data = {
+      name: result.state.userInfo.name,
+      phone: result.state.userInfo.phoneNumber.replace(/-/g, ""),
+    };
     try {
-      const res = await serverapi.post(api, userData);
-      console.log(data);
+      const res = await serverapi.post(api, data);
       if (res.status === 200) {
         setText(res.data.message);
         setText1(data.name);
         console.log(res.data);
       }
     } catch (err) {
+      setText("해당 정보와 일치하는 유저가 없습니다.");
       setIsValid(false);
-      // setText("해당 정보와 일치하는 유저가 없습니다.");
-      // console.log(data);
-      // console.log(err);
+      console.log(data);
+      console.log(err);
     }
   };
 
@@ -125,9 +127,9 @@ const IdResult = ( {userData} ) => {
   return (
     <AnimationContainer>
       <StyledHeader>
-        <Title>아이디 찾기</Title>
+        <Title>비밀번호 찾기</Title>
       </StyledHeader>
-      {isValid ? (
+      {!isValid ? (
         <Box>
           <BoxSetting>
             {name}님의 아이디는 <BoldText children={id} />
@@ -150,11 +152,6 @@ const IdResult = ( {userData} ) => {
           alignSelf: "center",
         }}
       >
-        <Link to="/findPW" style={{ textDecoration: "none" }}>
-          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.WHITE}>
-            비밀번호 찾기
-          </Button>
-        </Link>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>
             메인화면으로 이동
@@ -165,4 +162,4 @@ const IdResult = ( {userData} ) => {
   );
 };
 
-export default IdResult;
+export default PwError;

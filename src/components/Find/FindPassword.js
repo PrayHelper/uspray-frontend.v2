@@ -6,8 +6,7 @@ import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import PwResult from "./PwResult";
-import IdResult from "./IdResult";
-
+import PwError from "./PwError";
 let init = 0;
 
 const SubLink = styled.a`
@@ -142,7 +141,6 @@ const FindPassword = () => {
           setUseToken(res.data.token);
           setShowRestultPage(true);
         } else {
-          alert("입력하신 정보가 일치하지 않습니다.");
           setShowErrorPage(true);
         }
       }
@@ -251,7 +249,7 @@ const FindPassword = () => {
       }}
     >
       {showResultPage && <PwResult pwToken={pwToken} />}
-      {showErrorPage && <IdResult/>}
+      {showErrorPage && <PwError/>}
       <UserHeader children={"비밀번호 찾기"} />
       <div
         style={{
