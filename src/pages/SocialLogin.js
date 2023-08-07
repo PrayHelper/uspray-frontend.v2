@@ -105,16 +105,9 @@ const SocialLogin = () => {
 
   const kakaoReq = () => {
     window.open(
+      // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth&response_type=code`
       `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
     );
-    // await fetch(
-    //   `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`,
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    //     },
-    //   }
-    // );
   };
 
   return (

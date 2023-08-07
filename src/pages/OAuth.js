@@ -3,22 +3,30 @@ import { useEffect } from "react";
 const OAuth = () => {
   let code = new URL(window.location.href).searchParams.get("code");
 
-  useEffect(async () => {
-    try {
-      // prefix url이 달라서 fetch 사용. 이후 변경 필요.
-      const url = `${process.env.REACT_APP_API_INTG}/oauth/kakao/${code}`;
-      const a = await fetch(url);
+  useEffect(() => {
+    const execute = async () => {
+      try {
+        // prefix url이 달라서 fetch 사용. 이후 변경 필요.
+        const url = `http://${process.env.REACT_APP_API_INTG}/api/user/oauth/kakao/${code}`;
+        console.log("url: ", url);
 
-      const json = await a.json();
+        const a = await fetch(url, { headers: { "content-type": "json" } });
+        console.log(a);
 
-      const ACCESS_TOKEN = json.data.accesToken;
+        const json = await a.json();
+        console.log(json);
 
-      console.log(ACCESS_TOKEN);
-    } catch (err) {
-      console.log(err);
+        const ACCESS_TOKEN = json.data.accesToken;
 
-      alert("로그인 실패");
-    }
+        console.log(ACCESS_TOKEN);
+      } catch (err) {
+        console.log(err);
+
+        alert("로그인 실패");
+      }
+    };
+
+    execute();
   }, []);
 
   return <div>OAuth</div>;
