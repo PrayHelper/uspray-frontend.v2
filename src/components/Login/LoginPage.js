@@ -9,13 +9,14 @@ import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import { AxiosError } from "axios";
+import useAuthToken from "../../hooks/useAuthToken";
 
 const LoginPage = () => {
 
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
-  const setTokenState = useSetRecoilState(tokenState);
-  const accessToken = useRecoilValue(tokenState);
+  const { setAccessToken, setRefreshToken, getAccessToken, getRefreshToken } = useAuthToken();
+
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -74,9 +75,16 @@ const LoginPage = () => {
 
         navigate("/main");
 
-        storeAuthToken(res.data.access_token);
+        console.log("access: ",  res.data.access_token)
+        console.log("refresh: ", res.data.refresh_token)
+
+        setAccessToken(res.data.access_token)
+        await setRefreshToken(res.data.refresh_token)
+
+        console.log("access: ",  getAccessToken())
+        console.log("refresh: ", await getRefreshToken())
+        
         // need to fixed: use storeAuthToken() int the useAuthToken hook instead.
-        setTokenState(res.data.access_token);
       }
 
     } catch (e) {
