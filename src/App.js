@@ -19,6 +19,7 @@ import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import PrivacyProcessAgreement from "./pages/PrivacyProcessAgreement";
 import Find from "./pages/Find";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
@@ -45,7 +46,7 @@ const Container = styled.div`
 `;
 
 function MainApp() {
-  function PrivateRoute () {
+  function PrivateRoute() {
     const { getAccessToken, getRefreshToken } = useAuthToken();
     const { refresh } = useRefresh();
 
@@ -66,9 +67,9 @@ function MainApp() {
       //   };
       //   getToken();
       // }
-  
+
       return <Outlet />;
-    })
+    });
 
     return <Login />;
   }
@@ -92,7 +93,7 @@ function MainApp() {
             <Route path="/changeInfo" element={<ChangeInfo />} />
             <Route path="/changePw" element={<ChangePw />} />
             <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
-            <Route path="/tos" element={<ToS />} />
+
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/social" element={<SocialLogin />} />
           </Route>
@@ -102,6 +103,11 @@ function MainApp() {
           <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/splash" element={<SplashScreen />} />
+          <Route path="/tos" element={<ToS />} />
+          <Route
+            path="/privacyProcessAgreement"
+            element={<PrivacyProcessAgreement />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>
