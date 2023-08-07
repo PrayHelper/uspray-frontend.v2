@@ -5,6 +5,7 @@ import Day_Calender from '../../images/day_calender.svg';
 import Day_Calender_hover from "../../images/DayCalender_hover.svg";
 import DatePickerComponent from "./DatePickerComponent";
 import { getMonth, getYear, getDate } from "date-fns";
+
 const DayBtnSet = styled.div`
     display: flex;
     position: absolute;
@@ -12,7 +13,7 @@ const DayBtnSet = styled.div`
     width: 100%;
     border-bottom: 1px solid white;
     padding-bottom: 26px;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
     z-index: 102;
 `
 const DayBtn = styled.button`
@@ -21,6 +22,7 @@ const DayBtn = styled.button`
     border: 1px solid #75BD62;
     border-radius: 8px;
     padding: 4px 15px;
+    transition: all 0.3s ease-in-out;
 `
 
 const DayCalender = styled(Logo)`
@@ -57,6 +59,7 @@ const Day_Button = ({dayInfo, visible, Toggle, setToggle,setVisible}) =>{
         let res_data = year + "/" +  month + "/" + date;
         setDayText(res_data);
         setDayToggle(true);
+        console.log(date);
       }
     const colorChange = (e) =>{
         if(e.target == undefined){

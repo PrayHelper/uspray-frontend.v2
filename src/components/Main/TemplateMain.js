@@ -1,12 +1,10 @@
 import React,{ useState} from "react";
 import styled from "styled-components";
-import click_search from '../../images/click_search.svg';
 import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
-import HoverImamge from "../../images/ic_hover_img.svg";
-
+import noClickImage from "../../images/no_click_image.svg";
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
@@ -25,8 +23,8 @@ const BtnSend = styled.button`
     border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
     background-color : white;
+    transition: all 0.3s ease-in-out;
     &:active{
-        transition : all 0.1s ease-in-out; 
         background-color: #75BD62;
     }
 `;
@@ -38,6 +36,10 @@ const SendImg = styled(Logo)`
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: all 0.3s ease-in-out;
+    &:active{
+        filter: brightness(5);
+    }
 `;
 
 const StyleInput = styled.input`
@@ -75,7 +77,6 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const [Toggle, setToggle] = useState(true);
-    const [isHover, setIsHover] = useState(false);
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -109,22 +110,12 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         console.log(day);
         onInsert(text, day, value);
         setDay(7);
-        setIsHover(false);
     }
     const changeCheckTop = () =>{
         setVisible(!visible);
         if(Toggle == false){
             setToggle(!Toggle);
         }
-    }
-    const MouseOver = (e) =>{
-        setIsHover(true);
-        console.log(e);
-    }
-    
-    const MouseOut = (e) =>{
-        setIsHover(false);
-        console.log(e);
     }
     return(
         <div style={{width:"100%"}}>
@@ -136,7 +127,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                         {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
                         : <BtnSend onClick={() => submit()}>
-                            <SendImg src={isHover ? HoverImamge : click_search}/></BtnSend>}
+                            <SendImg src={noClickImage}/></BtnSend>}
                     </div>
                 </BackgroundInput>
                 <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
