@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
 import { useNavigate } from "react-router-dom";
+import FindIdResult from "./IdResult";
 
 let init = 0;
 
@@ -25,6 +26,7 @@ const FindId = () => {
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [showResultPage, setShowRestultPage] = useState(false);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
@@ -144,6 +146,7 @@ const FindId = () => {
 
   return (
     <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+      {showResultPage && (<FindIdResult/>)}
       <UserHeader children={"아이디 찾기"} />
       <div
         style={{

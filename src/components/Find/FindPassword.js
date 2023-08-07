@@ -5,8 +5,8 @@ import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
 import Toast, { ToastTheme } from "../Toast/Toast";
-import { useNavigate } from "react-router-dom";
-import BlackScreen from "../BlackScreen/BlackScreen";
+import PwResult from "./PwResult";
+import IdResult from "./IdResult";
 
 let init = 0;
 
@@ -16,6 +16,7 @@ const SubLink = styled.a`
   text-decoration: underline;
   cursor: pointer;
 `;
+
 const ModalContent = styled.div`
   position: fixed;
   top: 50%;
@@ -47,6 +48,9 @@ const ModalButton = styled.button`
 `;
 
 const FindPassword = () => {
+  const [useToken, setUseToken] = useState("");
+  const [showResultPage, setShowRestultPage] = useState(false);
+  const [showErrorPage, setShowErrorPage] = useState(false);
   const [userInfo, setUserInfo] = useState({
     id: "",
     pwd: "",
@@ -77,8 +81,6 @@ const FindPassword = () => {
   const idRegEx = /^[a-z0-9]{6,15}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
-
-  const navigate = useNavigate();
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -135,19 +137,20 @@ const FindPassword = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        if(res.data.message === "true"){
-          console.log(res.data.toen);
-          navigate("/FindPWResult", { state: res.data.token });
-        }
-        else{
+        if (res.data.message === true) {
+          console.log(res.data);
+          setUseToken(res.data.token);
+          setShowRestultPage(true);
+        } else {
           alert("입력하신 정보가 일치하지 않습니다.");
+          setShowErrorPage(true);
         }
       }
     } catch (e) {
       alert("error occured");
     }
   };
-
+  const pwToken = useToken;
   const idChangeHandler = async (e) => {
     setUserInfo({ ...userInfo, id: e.target.value });
     if (!idCheck(e.target.value)) {
@@ -247,6 +250,8 @@ const FindPassword = () => {
         flexDirection: "column",
       }}
     >
+      {showResultPage && <PwResult pwToken={pwToken} />}
+      {showErrorPage && <IdResult/>}
       <UserHeader children={"비밀번호 찾기"} />
       <div
         style={{
@@ -260,7 +265,6 @@ const FindPassword = () => {
           label="아이디"
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
-          // description={invalidIdInfo}
         />
         <Input
           label="이름"
@@ -363,16 +367,16 @@ const FindPassword = () => {
               전화번호를 변경하셨나요?
             </SubLink>
           </div>
-            <Button
-              disabled={!isAllValid}
-              buttonSize={ButtonSize.LARGE}
-              buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-              handler={() => {
-                findPassword();
-              }}
-            >
-              비밀번호 찾기
-            </Button>
+          <Button
+            disabled={!isAllValid}
+            buttonSize={ButtonSize.LARGE}
+            buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
+            handler={() => {
+              findPassword();
+            }}
+          >
+            비밀번호 찾기
+          </Button>
         </div>
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>

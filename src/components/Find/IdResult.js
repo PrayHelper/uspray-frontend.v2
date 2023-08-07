@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import serverapi from "../../api/serverapi";
-import { set } from "date-fns";
 
 const StyledHeader = styled.div`
   display: flex;
@@ -13,12 +12,12 @@ const StyledHeader = styled.div`
   width: 100%;
   height: 50px;
   margin-top: 20px;
-`
+`;
 const Title = styled.div`
   margin: 0 auto;
-  color: #7BAB6E;
+  color: #7bab6e;
   font-weight: bold;
-`
+`;
 const Box = styled.div`
   display: flex;
   justify-content: center;
@@ -41,7 +40,7 @@ const BoxSetting = styled.div`
   line-height: normal;
 `;
 const BoxSettingError = styled.div`
-  color: #FF6B6B;
+  color: #ff6b6b;
   text-align: center;
   margin-bottom: 16px;
 
@@ -58,14 +57,42 @@ const BoxError = styled.div`
   margin: 0 16px;
   margin-top: 66px;
   margin-bottom: 12px;
-  border-bottom: 1px solid #FF6B6B;
+  border-bottom: 1px solid #ff6b6b;
   contents-align: center;
 `;
 const BoldText = styled.span`
   font-weight: bold;
 `;
 
-const FindIdResult = () => {
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+`;
+
+const AnimationContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  z-index: 101;
+  transition: all 0.3s ease-in-out;
+  animation: ${fadeIn} 0.3s ease-in-out;
+`;
+
+const IdResult = () => {
   const result = useLocation();
   const [id, setText] = useState("");
   const [name, setText1] = useState("");
@@ -85,7 +112,7 @@ const FindIdResult = () => {
         console.log(res.data);
       }
     } catch (err) {
-      // setText("해당 정보와 일치하는 유저가 없습니다.");
+      setText("해당 정보와 일치하는 유저가 없습니다.");
       setIsValid(false);
       console.log(data);
       console.log(err);
@@ -97,44 +124,46 @@ const FindIdResult = () => {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: "100vh", display: "flex", position: "relative", flexDirection: "column"}}>
+    <AnimationContainer>
       <StyledHeader>
         <Title>아이디 찾기</Title>
       </StyledHeader>
-        {
-          isValid ?
-          <Box><BoxSetting>{name}님의 아이디는 <BoldText children={id}/>입니다.</BoxSetting></Box> :
-          <BoxError><BoxSettingError children="해당 정보와 일치하는 유저가 없습니다."/></BoxError> 
-        }
+      {!isValid ? (
+        <Box>
+          <BoxSetting>
+            {name}님의 아이디는 <BoldText children={id} />
+            입니다.
+          </BoxSetting>
+        </Box>
+      ) : (
+        <BoxError>
+          <BoxSettingError children="해당 정보와 일치하는 유저가 없습니다." />
+        </BoxError>
+      )}
       <div
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            width: "calc(100% - 48px)",
-            display: "flex",
-            flexDirection: "column",
-            gap: "16px",
-            alignSelf: "center"
-          }}
+        style={{
+          position: "absolute",
+          bottom: "40px",
+          width: "calc(100% - 48px)",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          alignSelf: "center",
+        }}
       >
-      <Link to="/findPW" style={{ textDecoration: "none" }}>
-        <Button
-          buttonSize={ButtonSize.LARGE}
-          buttonTheme={ButtonTheme.WHITE}
-        >
-          비밀번호 찾기
-        </Button>
-      </Link>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <Button 
-          buttonSize={ButtonSize.LARGE} 
-          buttonTheme={ButtonTheme.GREEN}>
-          메인화면으로 이동
-        </Button>
-      </Link>
+        <Link to="/findPW" style={{ textDecoration: "none" }}>
+          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.WHITE}>
+            비밀번호 찾기
+          </Button>
+        </Link>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>
+            메인화면으로 이동
+          </Button>
+        </Link>
       </div>
-    </div>
+    </AnimationContainer>
   );
 };
 
-export default FindIdResult;
+export default IdResult;

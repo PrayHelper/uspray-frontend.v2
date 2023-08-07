@@ -2,12 +2,9 @@ import { useState } from "react";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Input from "../Input/Input";
 import UserHeader from "../UserHeader";
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import BlackScreen from "../BlackScreen/BlackScreen";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
 import serverapi from "../../api/serverapi";
-import { set } from "date-fns";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -28,6 +25,34 @@ const ModalContent = styled.div`
   z-index: 500;
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+`;
+
+const AnimationContainer = styled.div`
+width: 100%;
+height: 100vh;
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: #FFFFFF;
+z-index: 101;
+transition: all 0.3s ease-in-out;
+animation: ${fadeIn} 0.3s ease-in-out;
+`;
+
 const ModalButton1 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
@@ -38,18 +63,12 @@ const ModalButton1 = styled.button`
   color: #FFFFFF;
   font-size: 18px;
 `;
-const FindPasswordResult = () => {
-  const location = useLocation();
+const PwResult = ({pwToken}) => {
   const [pw, setPw] = useState("");
   const [matchingPw, setMatchingPw] = useState("");
   const [invalidPwInfo, setInvalidPwInfo] = useState("");
   const [invalidMatchingPwInfo, setInvalidMatchingPwInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const pwToken = location.state;
-    console.log("Token:", pwToken);
-  }, [location]);
 
   const handleCloseModal = () =>{
     setShowModal(false);
@@ -90,7 +109,6 @@ const FindPasswordResult = () => {
   };
 
   const resetFindPw = async () => {
-    const pwToken = location.state;
     const api = `/user/find/password?token=${pwToken}`;
     const data = {
       password: pw,
@@ -108,16 +126,7 @@ const FindPasswordResult = () => {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <AnimationContainer>
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
@@ -174,8 +183,8 @@ const FindPasswordResult = () => {
           </div>
         </div>
       </div>
-    </div>
+    </AnimationContainer>
   );
 };
 
-export default FindPasswordResult;
+export default PwResult;
