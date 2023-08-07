@@ -28,6 +28,7 @@ import SocialLogin from "./pages/SocialLogin";
 import useAuthToken from "./hooks/useAuthToken";
 import useRefresh from "./hooks/useRefresh";
 import { useEffect } from "react";
+import SplashScreen from "./pages/SplashScreen";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -48,23 +49,23 @@ function MainApp() {
     const { getAccessToken, getRefreshToken } = useAuthToken();
     const { refresh } = useRefresh();
 
-    console.log("refresh : ", await getRefreshToken());
-    console.log("access : ", getAccessToken());
+    // console.log("refresh : ", await getRefreshToken());
+    // console.log("access : ", getAccessToken());
 
     useEffect(() => {
-      if (!getRefreshToken()){
-        console.log("aa");
-        return <Navigate replace to ='/' />
-      }
-      if (!getAccessToken()){
-        console.log("bb");
-        console.log("accessToken: ", getAccessToken());
-        console.log("refresh:" , await getRefreshToken());
-        const getToken = async () => {
-          await refresh();
-        };
-        getToken();
-      }
+      // if (!getRefreshToken()){
+      //   console.log("aa");
+      //   return <Navigate replace to ='/' />
+      // }
+      // if (!getAccessToken()){
+      //   console.log("bb");
+      //   console.log("accessToken: ", getAccessToken());
+      //   console.log("refresh:" , await getRefreshToken());
+      //   const getToken = async () => {
+      //     await refresh();
+      //   };
+      //   getToken();
+      // }
   
       return <Outlet />;
     })
@@ -100,6 +101,7 @@ function MainApp() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/signup" element={<Signup />} />
+          <Route path="/splash" element={<SplashScreen />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>
