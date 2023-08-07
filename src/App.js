@@ -89,7 +89,7 @@ function MainApp() {
             <Route path="/tos" element={<ToS />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/social" element={<SocialLogin />} />
-            <Route path="temp" element={<SocialSignup />} />
+            <Route path="/temp" element={<SocialSignup />} />
           </Route>
 
           <Route path="/" element={<Login />} />
