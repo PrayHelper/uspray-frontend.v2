@@ -1,24 +1,23 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { putFetcher, refresh } from "./api";
+import { putFetcher } from "./api";
 import { useMutation } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const putResetPw = async (data, accessToken) => {
+const putResetPw = async (data, getAccessToken) => {
   return await putFetcher('/user/reset/password', data, {
-    Authorization: accessToken
+    Authorization: getAccessToken()
   });
 };
 
 export const useResetPw = (data) => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
   return useMutation(() => {
-    return putResetPw(data, accessToken)
+    return putResetPw(data, getAccessToken)
   }, {
-    onError: (e) => {
+    onError: async (e) => {
       if (e.status === 403) {
-        const data = refresh();
-        if (typeof(data) === "string")
-          setAccessToken(data);
+        await refresh();
       }
       console.log(e);
     },

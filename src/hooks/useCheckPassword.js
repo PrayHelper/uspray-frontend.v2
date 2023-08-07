@@ -1,24 +1,22 @@
-import { postFetcher, refresh } from "./api";
+import { postFetcher } from "./api";
 import { useMutation } from "react-query";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const postCheckPassword = async (data, accessToken) => {
+const postCheckPassword = async (data, getAccessToken) => {
   return await postFetcher('/user/check/pw', data, {
-    Authorization: accessToken,
+    Authorization: getAccessToken(),
   });
 };
 
 export const useCheckPassword = (data) => {
-  const accessToken = useRecoilValue(tokenState);
-  const setAccessToken = useSetRecoilState(tokenState);
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
   return useMutation(() => {
-    return postCheckPassword(data, accessToken)}, {
-      onError: (e) => {
+    return postCheckPassword(data, getAccessToken)}, {
+      onError: async (e) => {
         if (e.status === 403) {
-          const data = refresh();
-          if (typeof(data) === "string")
-            setAccessToken(data);
+          await refresh();
         }
         console.log(e);
       },
