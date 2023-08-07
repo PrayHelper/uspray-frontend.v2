@@ -16,7 +16,7 @@ const OAuth = () => {
         const json = await a.json();
         console.log(json);
 
-        const ACCESS_TOKEN = json.data.accesToken;
+        const ACCESS_TOKEN = json.data.accessToken;
 
         console.log(ACCESS_TOKEN);
       } catch (err) {
