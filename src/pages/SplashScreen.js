@@ -1,6 +1,60 @@
 import styled from 'styled-components';
+import useAuthToken from '../hooks/useAuthToken';
+import { useRecoilState } from 'recoil';
+import { authValueState } from '../recoil/user';
+import useRefresh from '../hooks/useRefresh';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const SplashScreen = () => {
+
+  const { getAccessToken, getRefreshToken } = useAuthToken();
+  const { refresh } = useRefresh();
+  const [authValue, setAuthValue] = useRecoilState(authValueState)
+
+  const navigate = useNavigate()
+
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const url = query.get('redirect')
+
+  console.log(url)
+
+  useEffect(() => {
+
+    const run = async () => {
+
+      const accessToken = getAccessToken()
+      const refreshToken = await getRefreshToken()
+
+      console.log("access : ", accessToken);
+      console.log("refresh : ", refreshToken);
+      console.log(authValue)
+
+  
+      if (refreshToken == undefined || refreshToken == "") {
+        console.log("refreshToken is nil, go to login page")
+        setAuthValue(0)
+        navigate("/login")
+        return
+      }
+  
+      try {
+        await refresh()
+        console.log("refresh is called. if error is not occured, login is successed")
+        setAuthValue(1)
+        navigate(`/${url}`)
+      } catch {
+        console.log("failed to refresh token, go to login page")
+        setAuthValue(0)
+        navigate("/login")
+      }
+    }
+    run()
+
+  }, [])
+
+
 
   return (
     <BackgroundStyle>
