@@ -42,6 +42,7 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  background-color: white;
 `;
 
 const Title = styled.div`

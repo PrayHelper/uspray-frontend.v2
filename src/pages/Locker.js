@@ -13,7 +13,6 @@ const Locker = () => {
   const [selectedID, setSelectedID] = useState([]);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [showDeleteToast, setShowDeleteToast] = useState(false);
-  const [test, setTest] = useState([]);
 
   // Toast 창 띄우기
   useEffect(() => {
@@ -111,61 +110,12 @@ const Locker = () => {
       },
       {
         onSuccess: () => {
-          setShowSaveToast(true);
+          setShowDeleteToast(true);
           refetchSharedListData();
         },
       }
     );
   };
-
-  // const deleteSharedList = async () => {
-  //   try {
-  //     await deleteListData({
-  //       pray_id_list: selectedID,
-  //     });
-  //     setShowDeleteToast(true);
-  //   } catch (error) {
-  //     console.log(error); // 삭제 요청 실패 시 에러 처리
-  //   }
-  // };
-
-  // 공유 기도 삭제
-  // const deleteSharedList = async () => {
-  //   const api = "/share";
-  //   try {
-  //     if (isClicked.every((clicked) => clicked)) {
-  //       // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 삭제
-  //       const res = await serverapi.delete(api, {
-  //         headers: {
-  //           Authorization: `${accessToken}`,
-  //         },
-  //         data: {
-  //           pray_id_list: data.map((item) => item.pray_id),
-  //         },
-  //       });
-  //       if (res.status === 200) {
-  //         setShowDeleteToast(true);
-  //         fetchSharedList();
-  //       }
-  //     } else {
-  //       // 선택된 항목만 삭제
-  //       const res = await serverapi.delete(api, {
-  //         headers: {
-  //           Authorization: `${accessToken}`,
-  //         },
-  //         data: {
-  //           pray_id_list: selectedID,
-  //         },
-  //       });
-  //       if (res.status === 200) {
-  //         setShowDeleteToast(true);
-  //         fetchSharedList();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   const { mutate: updateListData } = useUpdateSharedList();
 
@@ -193,38 +143,6 @@ const Locker = () => {
       }
     );
   };
-
-  // 공유 기도 저장
-  // const saveSharedList = async () => {
-  //   const api = "/share/save";
-  //   try {
-  //     if (isClicked.every((clicked) => clicked)) {
-  //       // 모든 항목이 선택된 경우 모든 pray_id를 전달하여 저장
-  //       const res = await serverapi.post(
-  //         api,
-  //         { pray_id_list: data.map((item) => item.pray_id) },
-  //         { headers: { Authorization: `${accessToken}` } }
-  //       );
-  //       if (res.status === 200) {
-  //         setShowSaveToast(true);
-  //         fetchSharedList();
-  //       }
-  //     } else {
-  //       // 선택된 항목만 저장
-  //       const res = await serverapi.post(
-  //         api,
-  //         { pray_id_list: selectedID },
-  //         { headers: { Authorization: `${accessToken}` } }
-  //       );
-  //       if (res.status === 200) {
-  //         setShowSaveToast(true);
-  //         fetchSharedList();
-  //       }
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
 
   useEffect(() => {
     if (sharedListData) {
@@ -290,6 +208,7 @@ const LockerWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  background-color: #d0e8cb;
 `;
 
 const NoDataWrapper = styled.div`
@@ -316,7 +235,6 @@ const NoDataContent = styled.div`
 
 const LockerList = styled.div`
   padding-top: 6px;
-  background-color: #d0e8cb;
   display: flex;
   flex-direction: column;
   align-items: center;
