@@ -3,7 +3,7 @@ import { useMutation } from "react-query";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const putNotifyEnable = async (data, getAccessToken) => {
+const putNotifyEnable = async (getAccessToken, data) => {
   return await putFetcher("/user/notification/" + data + "/enable", data, {
     Authorization: getAccessToken(),
   });
@@ -14,8 +14,8 @@ export const useNotificationEnable = (data) => {
   const { refresh } = useRefresh();
 
   return useMutation(
-    () => {
-      return putNotifyEnable(data.id, getAccessToken);
+    (data) => {
+      return putNotifyEnable(getAccessToken, data.id);
     },
     {
       onError: async (e) => {

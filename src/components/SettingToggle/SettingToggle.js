@@ -4,17 +4,16 @@ import { useNotificationEnable } from "../../hooks/useNotificationEnable";
 import { Toggle, ToggleButton, ToggleWrap } from "./style";
 
 const SettingToggle = (props) => {
-  const [isToggleOn, setIsToggleOn] = useState(false);
-
   const { mutate: mutateNotifyEnable } = useNotificationEnable();
   const { mutate: mutateNotifyDisable } = useNotificationDisable();
 
   const enableNotify = async () => {
+    console.log(props.id);
     mutateNotifyEnable(
       { id: props.id },
       {
         onSuccess: (res) => {
-          setIsToggleOn(true);
+          props.refetchIsNotifiedData();
           console.log(res);
         },
         onError: (e) => {
@@ -29,7 +28,7 @@ const SettingToggle = (props) => {
       { id: props.id },
       {
         onSuccess: (res) => {
-          setIsToggleOn(false);
+          props.refetchIsNotifiedData();
           console.log(res);
         },
         onError: (e) => {
@@ -40,9 +39,11 @@ const SettingToggle = (props) => {
   };
 
   return (
-    <ToggleWrap onClick={() => (isToggleOn ? disableNotify : enableNotify)}>
-      <Toggle isToggleOn={isToggleOn}>
-        <ToggleButton isToggleOn={isToggleOn}></ToggleButton>
+    <ToggleWrap
+      onClick={() => (props.isAbledData ? disableNotify() : enableNotify())}
+    >
+      <Toggle isToggleOn={props.isAbledData}>
+        <ToggleButton isToggleOn={props.isAbledData}></ToggleButton>
       </Toggle>
     </ToggleWrap>
   );

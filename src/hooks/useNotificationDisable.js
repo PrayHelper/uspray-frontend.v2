@@ -14,7 +14,7 @@ export const useNotificationDisable = (data) => {
   const { refresh } = useRefresh();
 
   return useMutation(
-    () => {
+    (data) => {
       return putNotifyDisable(data.id, getAccessToken);
     },
     {
