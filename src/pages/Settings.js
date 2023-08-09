@@ -8,7 +8,7 @@ import { tokenState } from "../recoil/accessToken";
 import { useSetRecoilState } from "recoil";
 import { useFetchNotifications } from "../hooks/useFetchNotifications";
 import { useEffect } from "react";
-import { useNotificationEnable } from "../hooks/useNotificationEnable";
+// import { useNotificationEnable } from "../hooks/useNotificationEnable";
 
 const Container = styled.div`
   width: 100%;
@@ -105,6 +105,7 @@ const ModalButton2 = styled.button`
 
 const Settings = () => {
   const [showModal, setShowModal] = useState(false);
+  const [isAbledData, setIsAbledData] = useState([]);
   const setTokenState = useSetRecoilState(tokenState);
   const navigate = useNavigate();
 
@@ -142,20 +143,22 @@ const Settings = () => {
     navigate("/privacyPolicy");
   };
 
-  const { data: isNotifiedData } = useFetchNotifications();
+  const { data: isNotifiedData, refetch: refetchIsNotifiedData } =
+    useFetchNotifications();
 
-  const isAbledData = [];
-
-  const fetchNotifications = () => {
-    console.log(isNotifiedData);
-    isNotifiedData.data.forEach((i) => {
-      isAbledData.push(i.is_enabled);
-    });
+  const fetchNotifications = async () => {
+    try {
+      const sortedData = isNotifiedData.data.sort((a, b) => a.id - b.id);
+      const enabledData = sortedData.map((item) => item.is_enabled);
+      setIsAbledData(enabledData);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
     fetchNotifications();
-  }, []);
+  }, [isNotifiedData]);
 
   return (
     <Container>
@@ -215,17 +218,29 @@ const Settings = () => {
         </WhiteBox>
         <WhiteBox>
           <SubTitle>알림</SubTitle>
-          <StyledItem noActive={isAbledData[0] ? false : true}>
+          <StyledItem noActive={true}>
             <div>기도 시간 - 오전 8시</div>
-            <SettingToggle id={0}></SettingToggle>
+            <SettingToggle
+              refetchIsNotifiedData={refetchIsNotifiedData}
+              isAbledData={isAbledData[0]}
+              id={1}
+            ></SettingToggle>
           </StyledItem>
-          <StyledItem noActive={isAbledData[2] ? false : true}>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
-            <SettingToggle id={2}></SettingToggle>
+            <SettingToggle
+              refetchIsNotifiedData={refetchIsNotifiedData}
+              isAbledData={isAbledData[1]}
+              id={2}
+            ></SettingToggle>
           </StyledItem>
-          <StyledItem noActive={isAbledData[1] ? false : true}>
+          <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
-            <SettingToggle id={1}></SettingToggle>
+            <SettingToggle
+              refetchIsNotifiedData={refetchIsNotifiedData}
+              isAbledData={isAbledData[2]}
+              id={3}
+            ></SettingToggle>
           </StyledItem>
         </WhiteBox>
         <WhiteBox>

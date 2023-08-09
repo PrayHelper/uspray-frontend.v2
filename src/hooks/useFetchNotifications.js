@@ -3,23 +3,19 @@ import { useQuery } from "react-query";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const getNotifyInfo = async (accessToken, params) => {
-  return await getFetcher(
-    "/user/notifications",
-    {
-      Authorization: accessToken(),
-    },
-    params
-  );
+const getNotifyInfo = async (getAccessToken) => {
+  return await getFetcher("/user/notifications", {
+    Authorization: getAccessToken(),
+  });
 };
 
-export const useFetchNotifications = (params) => {
-  const { accessToken } = useAuthToken();
+export const useFetchNotifications = () => {
+  const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
   return useQuery(
-    ["FetchNotifications", params],
+    ["FetchNotifications"],
     () => {
-      return getNotifyInfo(accessToken, params);
+      return getNotifyInfo(getAccessToken);
     },
     {
       onError: async (e) => {
