@@ -100,21 +100,20 @@ const IdResult = ( {userData} ) => {
   const showId = async () => {
     console.log(userData);
     const api = "/user/find/id";
-    const data = {name: userData.name, phoneNumber: userData.phoneNumber.replace(/-/g, "")}  
-    console.log(data);
+    const data = {
+      name: userData.name,
+      phone: userData.phoneNumber.replace(/-/g, ""),
+    };
     try {
-      const res = await serverapi.post(api, userData);
-      console.log(data);
+      const res = await serverapi.post(api, data);
       if (res.status === 200) {
         setText(res.data.message);
-        setText1(data.name);
+        setText1(userData.name);
         console.log(res.data);
       }
-    } catch (err) {
+    } catch (e) {
       setIsValid(false);
-      // setText("해당 정보와 일치하는 유저가 없습니다.");
-      // console.log(data);
-      // console.log(err);
+      console.log(e);
     }
   };
 
