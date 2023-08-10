@@ -42,7 +42,8 @@ const Day_Button = ({dayInfo, visible, Toggle, setToggle,setVisible}) =>{
     const [dayToggle, setDayToggle] = useState(false);
 
     const dateClick = (date) =>{
-        setStartDate(date);
+        // setStartDate(date);
+        console.log(date);
         colorChange(date);
         setToggle(!Toggle);
         setColorThree('white');
@@ -143,7 +144,8 @@ const Day_Button = ({dayInfo, visible, Toggle, setToggle,setVisible}) =>{
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
             {dayToggle ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}
-        </DayBtnSet> : 
+        </DayBtnSet> 
+        : 
         <DayBtnSet style={{opacity : visible ? "1" : "0"}}>
         <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick} visible={visible}/> 
         {dayToggle ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + dayText}</div> : ""}

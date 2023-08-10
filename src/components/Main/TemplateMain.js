@@ -126,8 +126,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                     onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                         {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
-                        : <BtnSend onClick={() => submit()}>
-                            <SendImg src={noClickImage}/></BtnSend>}
+                        : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}
                     </div>
                 </BackgroundInput>
                 <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
