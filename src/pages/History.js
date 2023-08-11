@@ -1,7 +1,6 @@
 import Header from "../components/Header/Header";
 import styled, { css } from "styled-components";
 import HisContent from "../components/History/HisContent";
-import serverapi from "../api/serverapi";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
@@ -11,11 +10,11 @@ import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
+import Lottie from "react-lottie";
+import LottieData from "../components/Main/json/uspray.json";
 
 const History = () => {
-  const [isOnDate, setIsOnDate] = useState(true);
-  const [isOnPray, setIsOnPray] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
   const [page, setPage] = useState(1);
@@ -33,6 +32,16 @@ const History = () => {
   const [ref, inView] = useInView({
     triggerOnce: true, // 한 번만 트리거되도록 설정
   });
+
+  const defaultOptions = {
+    //예제1
+    loop: true,
+    autoplay: true,
+    animationData: LottieData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   useEffect(() => {
     if (showToast) {
@@ -67,24 +76,6 @@ const History = () => {
 
   const handleButtonClick = () => {
     setShowDatePicker(true);
-  };
-
-  const onClickDate = () => {
-    if (isOnDate) return; // 이미 선택된 버튼이면 함수 종료
-    setIsOnDate(true);
-    setIsOnPray(false);
-    setPage(1);
-    setHasMore(true);
-    setData([]);
-  };
-
-  const onClickPray = () => {
-    if (isOnPray) return; // 이미 선택된 버튼이면 함수 종료
-    setIsOnDate(false);
-    setIsOnPray(true);
-    setPage(1);
-    setHasMore(true);
-    setData([]);
   };
 
   const isEmptyData = (data) => {
@@ -127,7 +118,7 @@ const History = () => {
   } = useFetchHistory({
     page: page,
     per_page: 15,
-    sort_by: isOnPray ? "cnt" : "date",
+    sort_by: "date",
   });
 
   // flag 변경 시 historyData를 새로 받아오는 함수
@@ -140,12 +131,13 @@ const History = () => {
     if (!historyData) return;
     console.log("useEffect 실행은 되니?");
     console.log(historyData);
+    console.log(historyLoading);
     setLoading(historyLoading);
     setData((prev) => [...prev, ...historyData.data.res]);
     if (historyData.data.res.length === 0) {
       setHasMore(false);
     }
-  }, [page, isOnPray, historyData]);
+  }, [page, historyData]);
 
   const onClickHistory = async (e) => {
     setShowModal(true);
@@ -173,7 +165,16 @@ const History = () => {
   return (
     <HistoryWrapper>
       <Header>히스토리</Header>
-      {isEmptyData(data) && (
+      {historyLoading && (
+        <Lottie
+          style={{ scale: "0.5" }}
+          options={defaultOptions}
+          height={300}
+          width={300}
+          isClickToPauseDisabled={true}
+        />
+      )}
+      {!historyLoading && isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
@@ -276,21 +277,6 @@ const History = () => {
           </SubModalWrapper>
         )}
       </div>
-      {!isEmptyData(data) && (
-        <>
-          <ToggleWrapper>
-            <ToggleButton>
-              <ToggleText isOnDate={isOnDate} onClick={onClickDate}>
-                날짜순
-              </ToggleText>
-              <ToggleText isOnPray={isOnPray} onClick={onClickPray}>
-                기도순
-              </ToggleText>
-            </ToggleButton>
-          </ToggleWrapper>
-          <Hline />
-        </>
-      )}
       {data.map((el, index) => (
         <div onClick={onClickHistory} key={index} id={el.id}>
           <HisContent
@@ -298,7 +284,6 @@ const History = () => {
             content={el.title}
             date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
             pray_cnt={el.pray_cnt}
-            isOnPray={isOnPray}
           />
           <div ref={ref}></div>
         </div>
@@ -343,43 +328,6 @@ const NoDataContent = styled.div`
   font-size: 20px;
   line-height: 29px;
   color: #cecece;
-`;
-
-const Hline = styled.hr`
-  width: 100%;
-  color: "#CECECE";
-  size: 1px;
-  opacity: 0.5;
-  margin: 0;
-  border-right: 0;
-  border-left: 0;
-`;
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-`;
-
-const ToggleButton = styled.div`
-  margin: 20px 16px 16px 0px;
-  background: #7bab6e;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  padding: 4px;
-`;
-
-const ToggleText = styled.div`
-  font-weight: 700;
-  font-size: 10px;
-  border-radius: 2px;
-  color: ${(props) =>
-    props.isOnDate || props.isOnPray ? "#7BAB6E" : "#ebf7e8"};
-  padding: 6px;
-  cursor: pointer;
-  background-color: ${(props) =>
-    props.isOnDate || props.isOnPray ? "#EBF7E8" : "none"};
-  /* background-color: #ebf7e8; */
 `;
 
 const ModalWrapper = styled.div`

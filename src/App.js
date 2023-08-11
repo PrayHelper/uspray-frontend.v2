@@ -4,8 +4,9 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
+  useNavigate,
   Outlet,
+  useLocation,
 } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";
@@ -19,16 +20,19 @@ import History from "./pages/History";
 import BottomNav from "./components/BottomNav/BottomNav";
 import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
+import PrivacyProcessAgreement from "./pages/PrivacyProcessAgreement";
 import Find from "./pages/Find";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
 import ChangePhoneNumber from "./pages/ChangePhoneNumber";
-import { useEffect, useState } from "react";
-import { refresh } from "./hooks/api";
-import { useRecoilState } from "recoil";
-import { tokenState } from "./recoil/accessToken";
 import SocialLogin from "./pages/SocialLogin";
+import useAuthToken from "./hooks/useAuthToken";
+import useRefresh from "./hooks/useRefresh";
+import { useEffect } from "react";
+import SplashScreen from "./pages/SplashScreen";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { authValueState } from "./recoil/user";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -44,66 +48,61 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-function MainApp() {
-  function PrivateRoute() {
-    const refreshToken = localStorage.getItem("refreshToken");
-    const [accessToken, setAccessToken] = useRecoilState(tokenState);
-    console.log("refresh : ", refreshToken);
-    console.log("access : ", accessToken);
+const RouteHandler = () => {
 
-    // if (!refreshToken){
-    //   return <Navigate replace to ='/' />
-    // }
-    // if (!accessToken){
-    //   const getToken = async () => {
-    //     const token = await refresh();
-    //     setAccessToken(token);
-    //   };
-    //   getToken();
-    // }
+  const navigate = useNavigate()
 
-    return <Outlet />;
-  }
+  const location = useLocation();
+
+  const currentPath = encodeURIComponent(location.pathname.slice(1));
+
+  useEffect(() => {
+    navigate(`/loading?redirect=${currentPath}`)
+  }, [])
 
   return (
-    <ContainerWrapper>
-      <Container>
-        <Reset />
-        <Routes>
-          {/* 로그인해야지 접근 가능 */}
-          <Route element={<PrivateRoute />}>
-            {/* 바텀바가 보이는 페이지들 */}
-            <Route element={<BottomNav />}>
-              <Route path="/main" element={<Main />} />
-              <Route path="/history" element={<History />} />
-              <Route path="/locker" element={<Locker />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
+  <Routes>
+    <Route element={<Outlet/>}>
+      <Route element={<BottomNav />}>
+        <Route path="/main" element={<Main />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/locker" element={<Locker />} />
+        <Route path="/settings" element={<Settings />} />
+      </Route>
 
-            <Route path="/checkInfo" element={<CheckInfo />} />
-            <Route path="/changeInfo" element={<ChangeInfo />} />
-            <Route path="/changePw" element={<ChangePw />} />
-            <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
-            <Route path="/tos" element={<ToS />} />
-            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            <Route path="/social" element={<SocialLogin />} />
-          </Route>
+      <Route path="/checkInfo" element={<CheckInfo />} />
+      <Route path="/changeInfo" element={<ChangeInfo />} />
+      <Route path="/changePw" element={<ChangePw />} />
+      <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
+      <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+      <Route path="/social" element={<SocialLogin />} />
+    </Route>
 
-          <Route path="/" element={<Login />} />
-          <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/findAccount" element={<Find />}></Route>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Container>
-    </ContainerWrapper>
-  );
+    <Route element={<Outlet/>}>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/findAccount" element={<Find />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/loading" element={<SplashScreen />} />
+      <Route path="*" element={<NotFound />} />
+      <Route path="/tos" element={<ToS />} />
+      <Route path="/privacyProcessAgreement" element={<PrivacyProcessAgreement />} />
+    </Route>
+  </Routes>
+  )
 }
+
+
 
 function App() {
   return (
     <BrowserRouter>
-      <MainApp />
+      <ContainerWrapper>
+        <Container>
+        <Reset />
+        <RouteHandler/>
+        </Container>
+      </ContainerWrapper>
     </BrowserRouter>
   );
 }

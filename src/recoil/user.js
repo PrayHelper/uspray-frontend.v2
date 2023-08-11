@@ -11,3 +11,9 @@ export const userState = atom({
   },
   effects_UNSTABLE: [persistAtom],
 });
+
+
+export const authValueState = atom({
+  key: 'authValueState',
+  default: -1
+})

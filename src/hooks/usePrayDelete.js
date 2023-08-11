@@ -1,24 +1,24 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { deleteFetcher, refresh } from "./api";
+import { deleteFetcher } from "./api";
 import { useMutation } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const deletePrayItem = async (accessToken, id) => {
+
+const deletePrayItem = async (getAccessToken, id) => {
   return await deleteFetcher(`/pray/${id}`, {
-    Authorization: accessToken,
+    Authorization: getAccessToken(),
   });
 };
 
 export const usePrayDelete = () => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
   return useMutation((data) => {
-    return deletePrayItem(accessToken, data.id)
+    return deletePrayItem(getAccessToken, data.id)
   }, {
-    onError: (e) => {
+    onError: async (e) => {
       if (e.status === 403) {
-        const data = refresh();
-        if (typeof(data) === "string")
-          setAccessToken(data);
+        await refresh();
       }
       console.log(e);
     },

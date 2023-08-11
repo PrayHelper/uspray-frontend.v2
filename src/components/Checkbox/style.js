@@ -1,17 +1,18 @@
-import styled from 'styled-components';
-import IcGrayCheck from '../../images/ic_gray_check.svg';
+import styled from "styled-components";
+import IcGrayCheck from "../../images/ic_gray_check.svg";
+import { Link } from "react-router-dom";
 
 export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  width: calc(100vw - 64px);
 `;
 
 export const CheckboxStyle = styled.input`
   appearance: none;
   width: 16px;
   height: 16px;
-  border: 1px solid #CECECE;
+  border: 1px solid #cecece;
   border-radius: 3px;
   transition: all 0.2s;
   display: flex;
@@ -22,16 +23,23 @@ export const CheckboxStyle = styled.input`
   background-repeat: no-repeat;
   background-position: 50%;
   flex-shrink: 0;
+  margin-right: 8px;
 
   &:checked {
     transition: all 0.2s;
     border-color: transparent;
     background-size: 10px 7px;
-    background-color: #CECECE;
+    background-color: #cecece;
   }
 `;
 
+export const StyledLinkLabel = styled(Link)`
+  color: #a0a0a0;
+  font-size: 14px;
+  text-decoration: underline;
+`;
+
 export const StyledLabel = styled.div`
-  color: #A0A0A0;
+  color: #a0a0a0;
   font-size: 14px;
 `;

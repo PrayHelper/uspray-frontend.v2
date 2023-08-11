@@ -1,24 +1,23 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { putFetcher, refresh } from "./api";
+import { putFetcher } from "./api";
 import { useMutation } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const putResetPhoneNumber = async (data, accessToken) => {
+const putResetPhoneNumber = async (data, getAccessToken) => {
   return await putFetcher('/user/reset/phone', data, {
-    Authorization: accessToken
+    Authorization: getAccessToken()
   });
 };
 
 export const useResetPhoneNumber = (data) => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
   return useMutation(() => {
-    return putResetPhoneNumber(data, accessToken)
+    return putResetPhoneNumber(data, getAccessToken)
   }, {
-    onError: (e) => {
+    onError: async (e) => {
       if (e.status === 403) {
-        const data = refresh();
-        if (typeof(data) === "string")
-          setAccessToken(data);
+        await refresh();
       }
       console.log(e);
     },
