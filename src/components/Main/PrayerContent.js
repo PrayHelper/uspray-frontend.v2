@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import ShareCheckBox from "./ShareCheckBox";
 import ShareBotCheckBox from "./ShareBotCheckBox";
-import HeartImage from "../../images/ic_heart_image.svg";
+import {ReactComponent as HeartImage} from "../../images/ic_full_heart_image.svg";
 
 const MainContent = styled.div`
     display: flex;
@@ -45,14 +45,22 @@ const DdayContent = styled.div`
     line-height: 17px;
     margin-right: 8px;
 `;
-const ClickImg = styled(Logo)`
-    flex-shrink: 0;
+const ClickImg = styled(HeartImage)`
     width: 24px;
     height: 24px;
     transition: all 0.3s;
+    path{
+        fill: none;
+        stroke: #FF8989;
+        stroke-width: 1;
+    }
     &:active {
         filter: brightness(0.9);
         transform: scale(0.9);
+        path{
+            fill : #FF8989;
+            stroke : none;
+        }
     }
 `;
 
@@ -76,7 +84,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}} onClick={() =>contentClick(id, checked)}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {(!isShare && !bottom) ? <ClickImg src={HeartImage} onClick={() => countUpdate(id)}/>
+            {(!isShare && !bottom) ? <div className="image"><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>
             :<div style={{height:"24px"}}></div>}
         </MainContent>
     )
