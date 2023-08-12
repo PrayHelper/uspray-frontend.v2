@@ -102,6 +102,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [colorFirstBottom, setColorFirstBottom] = useState('#EBF6E8');
     const [colorSecondBottom, setColorSecondBottom] = useState('#7BAB6E');
     const padding = (isChecked || isModify) ? "0px" : "24px";
+    const [query, setQuery] = useState("");
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
     const {mutate: mutateSharePrayItem} = useShare();
@@ -248,14 +249,15 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 onSuccess: (e) => {
                   console.log("sendShareList");
                   console.log(e.data);
-                  if (navigator.share) {
-                    navigator.share({
-                        title: 'Web_share',
-                        url: e.data,
-                    });
-                }else{
-                    alert("공유하기가 지원되지 않는 환경 입니다.")
-                }
+                //   if (navigator.share) {
+                //     navigator.share({
+                //         title: 'Web_share',
+                //         url: e.data,
+                //     });
+                // }else{
+                //     alert("공유하기가 지원되지 않는 환경 입니다.")
+                // }
+                   
                 },
               });
             setShareList([]);

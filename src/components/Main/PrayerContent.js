@@ -15,18 +15,18 @@ const MainContent = styled.div`
 `
 
 const NameContent = styled.div`
+    flex-shrink: 0;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    border-right: 1px solid #CECECE;
-    padding-right: 8px;
     font-size: 12px;
     line-height: 17px;
+    padding-right: 8px;
+    border-right: 1px solid #CECECE;
 `;
 
 const TextContent = styled.div`
-    padding : 0px;
-    margin-left: 8px;
+    margin: 0px 8px;
     flex-grow : 1;
     font-family: 'Noto Sans KR';
     font-style: normal;
@@ -36,15 +36,17 @@ const TextContent = styled.div`
 `;
 
 const DdayContent = styled.div`
+    flex-shrink: 0;
     font-size : 12px;
     text-align : right;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
     line-height: 17px;
-    margin-right: 4px;
+    margin-right: 8px;
 `;
 const ClickImg = styled(Logo)`
+    flex-shrink: 0;
     width: 24px;
     height: 24px;
     transition: all 0.3s;
@@ -74,7 +76,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}} onClick={() =>contentClick(id, checked)}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {(!isShare && !bottom) ? <div className="image" style={{}}><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>
+            {(!isShare && !bottom) ? <ClickImg src={HeartImage} onClick={() => countUpdate(id)}/>
             :<div style={{height:"24px"}}></div>}
         </MainContent>
     )

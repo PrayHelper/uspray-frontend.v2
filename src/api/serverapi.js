@@ -5,7 +5,6 @@ import axios from "axios";
 const onErrorResponse = async (error) => {
   if (axios.isAxiosError(error)) {
     const { status } = error.response;
-
     switch (status) {
       case 401: {
         console.log("refresh token is expired");

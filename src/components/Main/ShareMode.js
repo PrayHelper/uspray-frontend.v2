@@ -74,7 +74,7 @@ const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, shareToggle,
         }
     } 
     return(
-        <MainContainer style={{opacity : shareToggle ? "1" : "0", right : shareToggle ?  "0" : "50%"}}>
+        <MainContainer style={{opacity : shareToggle ? "1" : "0", transform : shareToggle ?   "translateY(0%)" : "translateY(100%)"}}>
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', marginTop:"12px", backgroundColor:"#F0F0F0", borderRadius:"4px"}} 
             onClick={() => onCancle()}></div></div>
             <div style={{display:"flex", flexDirection:"row-reverse"}}>
