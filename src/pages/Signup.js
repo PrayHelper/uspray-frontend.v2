@@ -178,7 +178,9 @@ const Signup = () => {
         }, 2000);
       }
     } catch (e) {
-      alert("error occured");
+      console.log(e);
+      if (e.response.data.dev_message === "SignUpFail error")
+        alert(e.response.data.message);
     }
   };
 
