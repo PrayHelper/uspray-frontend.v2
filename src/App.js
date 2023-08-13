@@ -89,7 +89,6 @@ function MainApp() {
             <Route path="/tos" element={<ToS />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
             <Route path="/socialLogin" element={<SocialLogin />} />
-            <Route path="/kakaoSignup" element={<KakaoSignup />} />
           </Route>
 
           <Route path="/" element={<Login />} />
@@ -97,6 +96,7 @@ function MainApp() {
           <Route path="/findAccount" element={<Find />}></Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/kakaoOAuth" element={<KakaoOAuth />} />
+          <Route path="/kakaoSignup" element={<KakaoSignup />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Container>

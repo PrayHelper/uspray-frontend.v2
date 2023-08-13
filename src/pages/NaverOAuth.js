@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import serverapi from "../api/serverapi";
 
-const KakaoOAuth = () => {
+const NaverOAuth = () => {
   let code = new URL(window.location.href).searchParams.get("code");
 
   useEffect(() => {
@@ -19,8 +19,9 @@ const KakaoOAuth = () => {
         const json = await res.json();
         console.log("json: ", json);
 
-        const userId = json.userId;
-        console.log("userId: ", userId);
+        // const ACCESS_TOKEN = json.data.accessToken;
+
+        // console.log(ACCESS_TOKEN);
       } catch (err) {
         console.log(err);
 
@@ -31,7 +32,7 @@ const KakaoOAuth = () => {
     execute();
   }, []);
 
-  return <div>KakaoOAuth</div>;
+  return <div>NaverOAuth</div>;
 };
 
-export default KakaoOAuth;
+export default NaverOAuth;

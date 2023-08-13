@@ -103,7 +103,14 @@ const SocialLogin = () => {
     );
   }, [process.env]);
 
-  const kakaoReq = () => {
+  const kakaoLink = () => {
+    window.open(
+      // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth&response_type=code`
+      `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
+    );
+  };
+
+  const naverLink = () => {
     window.open(
       // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth&response_type=code`
       `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
@@ -119,11 +126,11 @@ const SocialLogin = () => {
       </LogoWrapper>
       <BottomWrapper>
         <BtnWrapper>
-          <SocialLoginBtn onClick={kakaoReq} theme={"kakao"}>
+          <SocialLoginBtn onClick={kakaoLink} theme={"kakao"}>
             <IconWrapper src="images/ic_kakao.svg" />
             카카오로 계속하기
           </SocialLoginBtn>
-          <SocialLoginBtn theme={"naver"}>
+          <SocialLoginBtn onClick={naverLink} theme={"naver"}>
             <IconWrapper src="images/ic_naver.svg" />
             네이버로 계속하기
           </SocialLoginBtn>
