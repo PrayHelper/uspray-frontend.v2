@@ -3,6 +3,7 @@ import Input from "../components/Input/Input";
 import ToggleButton from "../components/ToggleButton";
 import InputBirth from "../components/InputBirth";
 import UserHeader from "../components/UserHeader";
+import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 
 let init = 0;
 
@@ -14,8 +15,14 @@ const KakaoSignup = () => {
     year: "",
     month: "",
     day: "",
-    phoneNumber: "",
+    // phoneNumber: "",
   });
+
+  const checkEmptyUserInfoValue = Object.values(userInfo).some(
+    (data) => data === ""
+  );
+
+  const isAllValid = gender && !checkEmptyUserInfoValue;
 
   const nameChangeHandler = (e) => {
     setUserInfo({ ...userInfo, name: e.target.value });
@@ -61,52 +68,66 @@ const KakaoSignup = () => {
   };
 
   return (
-    <div style={{ width: "100%" }}>
+    <div
+      style={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}>
       <UserHeader>회원가입</UserHeader>
       <div
         style={{
+          flex: 1,
           display: "flex",
           flexDirection: "column",
-          gap: "27px",
-          padding: "20px 27px",
+          justifyContent: "space-between",
+          padding: "20px 24px 40px 24px",
+          height: "100%",
         }}>
-        <Input
-          label="이름"
-          onChangeHandler={nameChangeHandler}
-          value={userInfo.name}
-          isError={false}
-          description=""
-          onFocusHandler={nameFocusHandler}
-        />
-        <div style={{ position: "relative" }}>
-          <div
-            style={{
-              fontSize: "12px",
-              color: "#7BAB6E",
-              paddingLeft: "16px",
-              position: "absolute",
-              top: "-14px",
-            }}>
-            성별
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "27px",
+          }}>
+          <Input
+            label="이름"
+            onChangeHandler={nameChangeHandler}
+            value={userInfo.name}
+            isError={false}
+            description=""
+            onFocusHandler={nameFocusHandler}
+          />
+          <div style={{ position: "relative" }}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#7BAB6E",
+                paddingLeft: "16px",
+                position: "absolute",
+                top: "-14px",
+              }}>
+              성별
+            </div>
+            <div
+              style={{
+                display: "flex",
+                textAlign: "center",
+              }}>
+              <ToggleButton contents="남자" item={gender} setter={setGender} />
+              <ToggleButton contents="여자" item={gender} setter={setGender} />
+            </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              textAlign: "center",
-            }}>
-            <ToggleButton contents="남자" item={gender} setter={setGender} />
-            <ToggleButton contents="여자" item={gender} setter={setGender} />
-          </div>
-        </div>
-        <InputBirth
-          yearValue={userInfo.year}
-          monthValue={userInfo.month}
-          dayValue={userInfo.day}
-          yearChangeHandler={yearChangeHandler}
-          monthChangeHandler={monthChangeHandler}
-          dayChangeHandler={dayChangeHandler}
-        />
-        <Input
+          <InputBirth
+            yearValue={userInfo.year}
+            monthValue={userInfo.month}
+            dayValue={userInfo.day}
+            yearChangeHandler={yearChangeHandler}
+            monthChangeHandler={monthChangeHandler}
+            dayChangeHandler={dayChangeHandler}
+          />
+          {/* <Input
           label="전화번호"
           onChangeHandler={phoneNumberChangeHandler}
           value={userInfo.phoneNumber}
@@ -130,18 +151,19 @@ const KakaoSignup = () => {
           //     {time ? "진행 중" : "전송"}
           //   </Button>
           // }
-        />
+        /> */}
+        </div>
+        <Button
+          // disabled={!isAllValid}
+          buttonSize={ButtonSize.LARGE}
+          buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
+          // handler={() => {
+          //   Signup();
+          // }}
+        >
+          회원가입
+        </Button>
       </div>
-      {/* <Button
-        disabled={!isAllValid}
-        buttonSize={ButtonSize.LARGE}
-        buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-        handler={() => {
-          Signup();
-        }}>
-        회원가입
-      </Button> */}
-      회원가입
     </div>
   );
 };
