@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../components/Input/Input";
 import ToggleButton from "../components/ToggleButton";
 import InputBirth from "../components/InputBirth";
 import UserHeader from "../components/UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
+import { useLocation } from "react-router-dom";
 
 let init = 0;
 
@@ -17,6 +18,12 @@ const KakaoSignup = () => {
     day: "",
     // phoneNumber: "",
   });
+
+  const { userId } = useLocation();
+
+  useEffect(() => {
+    userId;
+  }, []);
 
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ""

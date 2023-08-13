@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import serverapi from "../api/serverapi";
+import { useNavigate } from "react-router";
 
 const KakaoOAuth = () => {
   let code = new URL(window.location.href).searchParams.get("code");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const execute = async () => {
@@ -21,6 +23,8 @@ const KakaoOAuth = () => {
 
         const userId = json.userId;
         console.log("userId: ", userId);
+
+        navigate("/kakaoSignup", { userId });
       } catch (err) {
         console.log(err);
 
@@ -31,6 +35,7 @@ const KakaoOAuth = () => {
     execute();
   }, []);
 
+  // LoadingSpinner가 있어야 함
   return <div>KakaoOAuth</div>;
 };
 
