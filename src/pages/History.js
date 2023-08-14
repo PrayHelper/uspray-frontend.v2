@@ -91,6 +91,30 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
+  const {
+    data: historyData,
+    isLoading: historyLoading,
+    refetch: refetchHistory,
+  } = useFetchHistory({
+    page: page,
+    per_page: 15,
+    sort_by: "date",
+  });
+
+  const fetchHistory = () => {
+    setLoading(historyLoading);
+    const newData = [historyData.data.res];
+    const filteredData = newData[0].filter(
+      (newItem) => !data.some((existingItem) => existingItem.id === newItem.id)
+    );
+    console.log(filteredData);
+    setData((prev) => [...prev, ...filteredData]);
+    // setData();
+    if (historyData.data.res.length === 0) {
+      setHasMore(false);
+    }
+  };
+
   const { mutate: mutateHistoryModify } = useHistoryModify({
     pray_id: currentId,
     deadline: updateDate,
@@ -105,56 +129,27 @@ const History = () => {
         setPage(1);
         setHasMore(true);
         setData([]);
-        updateHistoryData();
+        refetchHistory();
       },
     });
   };
-  const { data: currentHistoryData } = useFetchHistory();
-
-  const {
-    data: historyData,
-    isLoading: historyLoading,
-    refetch: refetchHistory,
-  } = useFetchHistory({
-    page: page,
-    per_page: 15,
-    sort_by: "date",
-  });
-
-  // flag 변경 시 historyData를 새로 받아오는 함수
-  const updateHistoryData = () => {
-    console.log("함수 실행은 되니?");
-    refetchHistory();
-  };
-
-  useEffect(() => {
-    if (!historyData) return;
-    console.log("useEffect 실행은 되니?");
-    console.log(historyData);
-    console.log(historyLoading);
-    setLoading(historyLoading);
-    setData((prev) => [...prev, ...historyData.data.res]);
-    if (historyData.data.res.length === 0) {
-      setHasMore(false);
-    }
-  }, [page, historyData]);
 
   const onClickHistory = async (e) => {
     setShowModal(true);
     const id = e.currentTarget.id;
     const currentData = data.find((item) => item.id === Number(id));
-    if (currentData) {
-      console.log(currentData);
-      setCurrentData(currentData);
-      setCurrentId(Number(id));
-    } else {
-      const currentData = currentHistoryData.data.res.filter(
-        (item) => item.id === Number(id)
-      )[0];
-      setCurrentId(Number(id));
-      setCurrentData(currentData);
-    }
+    console.log(currentData);
+    setCurrentData(currentData);
+    setCurrentId(Number(id));
   };
+
+  useEffect(() => {
+    // setLoading(true);
+    if (historyData) {
+      fetchHistory();
+      setLoading(false);
+    }
+  }, [historyData]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
