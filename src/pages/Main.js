@@ -99,6 +99,7 @@ const Main = () => {
     renderingData(prayList, false);
   }, [prayList]);
 
+
   useEffect(() => {
     if (!pray_List) {
       setisloading(true);
@@ -108,6 +109,7 @@ const Main = () => {
     renderingData(pray_List, false);
   }, [pray_List]);
 
+  
   useEffect(() =>{
     if(url){
       console.log(url);

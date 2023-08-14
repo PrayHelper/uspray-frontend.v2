@@ -123,7 +123,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                 <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "12px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
                     <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                    onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
+                    onClick={(!visible) ? ()=> widthChange() : onSubmit()}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                         {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
                         : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}

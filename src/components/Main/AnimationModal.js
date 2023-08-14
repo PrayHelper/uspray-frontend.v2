@@ -13,7 +13,7 @@ const AnimationStyle = styled.div`
     right: 0;
     left: 0;
     background-color: #78AB6E;
-    z-index: 102;
+    z-index: 99;
     transition: all 0.3s ease-in-out;
 `
 const SubAnimation = styled.div`

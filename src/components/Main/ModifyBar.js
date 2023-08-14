@@ -17,7 +17,7 @@ const ModifyStyle = styled.div`
     width: 100%;
     background-color: #FFFFFF;
     border: 0px solid #FFFFFF;
-    z-index: 104;
+    z-index: 103;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ const TopContainer = styled.div`
     display: flex;
     flex-direction: row-reverse;
     width: 100%;
-    borderBottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid #EEEEEE;
     padding: 12px 16px 12px 0px;
     box-sizing: border-box;
 `
@@ -63,8 +63,7 @@ const StyleName = styled.input`
     width: 60px;
     height: 23px;
     font-size: 16px;
-    margin-right: 31px;
-    margin-top: 15px;
+    text-align: center;
     font-family: Noto Sans KR;
     font-weight: 400;
     color: #75BD62;
@@ -107,9 +106,9 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         <TopContainer>
             <X_Image src={X_image} onClick={onModify}></X_Image>
         </TopContainer>
-        <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"31px",boxSizing:"border-box"}}>
+        <div style={{width: '100%', display: 'flex',padding: "16px 11px 0px 12px", boxSizing:"border-box"}}>
         <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
-            <textarea style={{display:"flex",flexGrow:"1", minHeight:'75px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
+            <textarea style={{display:"flex",flexGrow:"1", minHeight:'85px',marginLeft:"20px",border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
             onChange={onChangeValue}></textarea>
         </div>

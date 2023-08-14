@@ -29,7 +29,7 @@ const MainContainer = styled.div`
     border: none;
     background-color : white;
     border-radius: 24px 24px 0px 0px;
-    z-index : 2001;
+    z-index : 103;
     box-sizing : border-box;
     transition : all 0.3s ease-in-out;
 `
@@ -40,7 +40,7 @@ const SubContainer = styled.div`
     width : 100%;
     heigth: 75px;
     border: none;
-    z-index: 10001;
+    z-index: 101;
     gap: 14px;
     margin-top: 8px;
     padding : 0px 24px 12px 24px;
