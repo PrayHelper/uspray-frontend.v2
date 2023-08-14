@@ -4,8 +4,9 @@ import ToggleButton from "../components/ToggleButton";
 import InputBirth from "../components/InputBirth";
 import UserHeader from "../components/UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastTheme } from "../components/Toast/Toast";
+import serverapi from "../api/serverapi";
 
 let init = 0;
 
@@ -25,6 +26,7 @@ const KakaoSignup = () => {
   });
 
   const { userId } = useLocation();
+  const navigate = useNavigate();
 
   const KakaoSignupHandler = async () => {
     const api = "/user/oauth/signup";
