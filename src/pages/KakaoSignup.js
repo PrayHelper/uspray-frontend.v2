@@ -22,7 +22,7 @@ const KakaoSignup = () => {
   const { userId } = useLocation();
 
   useEffect(() => {
-    userId;
+    console.log(userId);
   }, []);
 
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
