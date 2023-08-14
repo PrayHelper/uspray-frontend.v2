@@ -5,10 +5,15 @@ import InputBirth from "../components/InputBirth";
 import UserHeader from "../components/UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import { useLocation } from "react-router-dom";
+import { ToastTheme } from "../components/Toast/Toast";
 
 let init = 0;
 
 const KakaoSignup = () => {
+  const [showToast, setShowToast] = useState(false);
+  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
+  const [toastMessage, setToastMessage] = useState("");
+
   const [gender, setGender] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [userInfo, setUserInfo] = useState({
@@ -21,9 +26,28 @@ const KakaoSignup = () => {
 
   const { userId } = useLocation();
 
-  useEffect(() => {
-    console.log(userId);
-  }, []);
+  const KakaoSignupHandler = async () => {
+    const api = "/user/oauth/signup";
+    const data = {
+      name: userInfo.name,
+      gender: gender,
+      birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
+      phone: userInfo.phoneNumber.replace(/-/g, ""),
+      user_id: userId,
+    };
+    try {
+      const res = await serverapi.post(api, data);
+      if (res.status === 200) {
+        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
+        setShowToast(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+    } catch (e) {
+      alert("error occured");
+    }
+  };
 
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ""
@@ -161,13 +185,12 @@ const KakaoSignup = () => {
         /> */}
         </div>
         <Button
-          // disabled={!isAllValid}
+          disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
-          // handler={() => {
-          //   Signup();
-          // }}
-        >
+          handler={() => {
+            KakaoSignupHandler();
+          }}>
           회원가입
         </Button>
       </div>
