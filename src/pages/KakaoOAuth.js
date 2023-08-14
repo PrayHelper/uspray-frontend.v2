@@ -18,12 +18,9 @@ const KakaoOAuth = () => {
         console.log(api);
 
         const res = await serverapi.get(api);
-        console.log(res);
+        console.log("res: ", res);
 
-        const json = await res.json();
-        console.log("json: ", json);
-
-        const userId = json.userId;
+        const userId = res.data.user_id;
         console.log("userId: ", userId);
 
         navigate("/kakaoSignup", { userId });
