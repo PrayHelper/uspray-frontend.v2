@@ -35,7 +35,7 @@ const SplashScreen = () => {
       if (refreshToken == undefined || refreshToken == "") {
         console.log("refreshToken is nil, go to login page")
         setAuthValue(0)
-        navigate("/login")
+        navigate("/")
         return
       }
   
