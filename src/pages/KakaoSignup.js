@@ -36,6 +36,9 @@ const KakaoSignup = () => {
       user_id: userId,
     };
     try {
+      console.log("api: ", api);
+      console.log("data: ", data);
+
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
         setToastMessage("회원가입이 성공적으로 완료되었습니다.");
