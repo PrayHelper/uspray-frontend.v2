@@ -41,7 +41,6 @@ const CheckboxStyle = styled.input`
   background-repeat: no-repeat;
   background-position: 50%;
   margin: 0px;
-  margin-bottom: 14px;
   &:checked {
     transition: all 0.2s;
     border-color: transparent;

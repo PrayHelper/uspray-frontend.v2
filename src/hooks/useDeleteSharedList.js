@@ -1,19 +1,22 @@
-import { putFetcher } from "./api";
+import { deleteDataFetcher } from "./api";
 import { useMutation } from "react-query";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const putHistory = async (getAccessToken, data) => {
-  return await putFetcher('/history/modify', data, {
+const deleteSharedList = async (getAccessToken, data) => {
+  return await deleteDataFetcher("/share", data, {
     Authorization: getAccessToken(),
   });
 };
 
-export const useHistoryModify = (data) => {
+export const useDeleteSharedList = () => {
   const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
-  return useMutation(() => {
-    return putHistory(getAccessToken, data)}, {
+  return useMutation(
+    (data) => {
+      return deleteSharedList(getAccessToken, data);
+    },
+    {
       onError: async (e) => {
         if (e.status === 403) {
           await refresh();
@@ -28,5 +31,6 @@ export const useHistoryModify = (data) => {
       },
       retryDelay: 300,
       refetchOnWindowFocus: false,
-    });
-}
+    }
+  );
+};

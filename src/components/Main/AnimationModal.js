@@ -8,7 +8,6 @@ const AnimationStyle = styled.div`
     display: flex;
     text-align: center;
     padding: 16px 30px;
-    // gap: 10px;
     border-radius: 16px;
     top: 1;
     bottom: 0;
@@ -18,7 +17,7 @@ const AnimationStyle = styled.div`
     height: 28px;
     background-color: #78AB6E;
     margin-bottom : 65px;
-    z-index: 100000;
+    z-index: 1000;
 `
 const SubAnimation = styled.div`
     display: flex;

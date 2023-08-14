@@ -6,12 +6,12 @@ import MoveLogo from "./MoveLogo";
 
 const BoxContainer = styled.div`
     margin-top: 8px;
-    width: 47%;
-    height: 63px;
+    flex-grow: 1;
     display: flex;
-    justify-content : center;
     align-items : center;
-    margin-bottom: 12px;
+    justify-content : space-between;
+    padding : 20px 12px;
+    margin: 0px 12px 12px;
     border : 1px solid #7BAB6E;
     border-radius: 16px;
     color: #7BAB6E;
@@ -20,26 +20,24 @@ const BoxContainer = styled.div`
     font-weight: 700;
     font-size: 16px;
     line-height: 23px;
+    margin-left: 12px;
 `;
 
 const MainContainer = styled.div`
     display: flex;
     flex-direction: column;
-    // justify-content: space-between;
     width : 100%;
+    gap: 14px;
     position: fixed; 
-    top:1;
+    top: 1;
     bottom: 0;
-    right: 0;
-    left: 0;
     heigth: 128px;
     border: none;
     background-color : white;
     border-radius: 24px 24px 0px 0px;
     z-index : 2001;
-    padding-right: 24px;
-    padding-left: 24px;
     box-sizing : border-box;
+    transition : all 0.3s ease-in-out;
 `
 
 const SubContainer = styled.div`
@@ -60,23 +58,24 @@ const NumberContainer = styled.div`
     font-size: 12px;
     line-height: 17px;
     color: #7BAB6E;
+    margin-right: 26px;
 `
 const ShareClickLogo = styled(MoveLogo)``;
 
 
-const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength}) =>{
-    const [cancelToggle, setCancleToggle] = useState(true);
+const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, shareToggle, setshareToggle}) =>{
+    // const [cancelToggle, setCancleToggle] = useState(true);
 
     const onCancle = () =>{
-        setCancleToggle(!cancelToggle);
+        setshareToggle(!shareToggle);
         onMove();
         if(isShare){
             onCheck();
         }
     } 
     return(
-        cancelToggle && <MainContainer>
-            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', paddingTop:"12px",borderBottom: "1px solid #F0F0F0"}} 
+        <MainContainer style={{opacity : shareToggle ? "1" : "0", transform : shareToggle ?   "translateY(0%)" : "translateY(100%)"}}>
+            <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px', marginTop:"12px", backgroundColor:"#F0F0F0", borderRadius:"4px"}} 
             onClick={() => onCancle()}></div></div>
             <div style={{display:"flex", flexDirection:"row-reverse"}}>
             {(shareLength == undefined) ? "" : <NumberContainer>{shareLength + "개 선택"}</NumberContainer>}</div>
