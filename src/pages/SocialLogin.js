@@ -105,15 +105,13 @@ const SocialLogin = () => {
 
   const kakaoLink = () => {
     window.open(
-      // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth&response_type=code`
       `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
     );
   };
 
   const naverLink = () => {
     window.open(
-      // `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=http://localhost:3000/oauth&response_type=code`
-      `https://kauth.kakao.com/oauth/authorize?client_id=${REACT_APP_KAKAO_API_KEY}&redirect_uri=${REACT_APP_KAKAO_URI}&response_type=code`
+      `https://nid.naver.com/oauth2.0/authorize?client_id=${REACT_APP_NAVER_API_KEY}&redirect_uri=${REACT_APP_NAVER_URI}&response_type=code`
     );
   };
 
