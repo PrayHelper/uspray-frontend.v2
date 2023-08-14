@@ -15,8 +15,10 @@ const KakaoOAuth = () => {
         // // const res = await fetch(url, { headers: { "content-type": "json" } });
 
         const api = `/user/oauth/kakao/${code}`;
+        console.log(api);
 
-        const res = serverapi.get(api);
+        const res = await serverapi.get(api);
+        console.log(res);
 
         const json = await res.json();
         console.log("json: ", json);
