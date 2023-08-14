@@ -22,19 +22,17 @@ const KakaoSignup = () => {
     year: "",
     month: "",
     day: "",
-    // phoneNumber: "",
   });
 
   const { userId } = useLocation();
   const navigate = useNavigate();
 
-  const KakaoSignupHandler = async () => {
+  const kakaoSignupHandler = async () => {
     const api = "/user/oauth/signup";
     const data = {
       name: userInfo.name,
       gender: gender,
       birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
-      phone: userInfo.phoneNumber.replace(/-/g, ""),
       user_id: userId,
     };
     try {
@@ -78,26 +76,6 @@ const KakaoSignup = () => {
 
   const dayChangeHandler = (e) => {
     setUserInfo({ ...userInfo, day: e.target.value.slice(0, 2) });
-  };
-
-  const phoneNumberChangeHandler = (e) => {
-    const value = e.target.value.replace(/[^0-9]/g, ""); // 숫자 이외의 문자 제거
-    let formattedValue = "";
-
-    if (value.length > 3) {
-      formattedValue += value.substring(0, 3) + "-";
-    }
-
-    if (value.length > 7) {
-      formattedValue += value.substring(3, 7) + "-";
-      formattedValue += value.substring(7, 11);
-    } else if (value.length > 3) {
-      formattedValue += value.substring(3, 7);
-    } else {
-      formattedValue += value;
-    }
-
-    setUserInfo({ ...userInfo, phoneNumber: formattedValue });
   };
 
   return (
@@ -160,38 +138,13 @@ const KakaoSignup = () => {
             monthChangeHandler={monthChangeHandler}
             dayChangeHandler={dayChangeHandler}
           />
-          {/* <Input
-          label="전화번호"
-          onChangeHandler={phoneNumberChangeHandler}
-          value={userInfo.phoneNumber}
-          isError={false}
-          // description={
-          //   <Button
-          //     buttonSize={ButtonSize.NORMAL}
-          //     buttonTheme={
-          //       phoneNumberCheck(userInfo.phoneNumber)
-          //         ? ButtonTheme.GREEN
-          //         : ButtonTheme.GRAY
-          //     }
-          //     disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
-          //     handler={() => {
-          //       phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
-          //       setIsCertificated(false);
-          //       setIsCertificateButtonClicked(false);
-          //       setUserInfo({ ...userInfo, certificateNumber: "" });
-          //       setIsPhoneNumVerficationButtonClickClick(true);
-          //     }}>
-          //     {time ? "진행 중" : "전송"}
-          //   </Button>
-          // }
-        /> */}
         </div>
         <Button
           disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
-            KakaoSignupHandler();
+            kakaoSignupHandler();
           }}>
           회원가입
         </Button>
