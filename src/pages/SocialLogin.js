@@ -82,26 +82,9 @@ const SocialLogin = () => {
     REACT_APP_KAKAO_CLIENT_SECRET,
     REACT_APP_KAKAO_URI,
     REACT_APP_API_INTG,
+    REACT_APP_NAVER_API_KEY,
+    REACT_APP_NAVER_URI,
   } = process.env;
-
-  useEffect(() => {
-    console.log(
-      "REACT_APP_KAKAO_API_KEY: ",
-      process.env.REACT_APP_KAKAO_API_KEY
-    );
-    console.log(
-      "REACT_APP_KAKAO_CLIENT_SECRET: ",
-      process.env.REACT_APP_KAKAO_CLIENT_SECRET
-    );
-    console.log(
-      "REACT_APP_KAKAO_API_KEY: ",
-      process.env.REACT_APP_KAKAO_API_KEY
-    );
-    console.log(
-      "REACT_APP_KAKAO_CLIENT_SECRET: ",
-      process.env.REACT_APP_KAKAO_CLIENT_SECRET
-    );
-  }, [process.env]);
 
   const kakaoLink = () => {
     window.open(
