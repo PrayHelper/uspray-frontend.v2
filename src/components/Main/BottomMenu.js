@@ -9,7 +9,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction : column;
     position: fixed;
-    padding: 0px 24px 34px 24px;
+    padding: 0px 24px 37px;
     box-sizing: border-box;
     top: 1;
     bottom:0;

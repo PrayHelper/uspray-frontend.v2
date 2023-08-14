@@ -9,15 +9,12 @@ const AnimationStyle = styled.div`
     text-align: center;
     padding: 16px 30px;
     border-radius: 16px;
-    top: 1;
-    bottom: 0;
+    bottom: 10%;
     right: 0;
     left: 0;
-    width: 88.837%;
-    height: 28px;
     background-color: #78AB6E;
-    margin-bottom : 65px;
-    z-index: 1000;
+    z-index: 102;
+    transition: all 0.3s ease-in-out;
 `
 const SubAnimation = styled.div`
     display: flex;
@@ -36,10 +33,9 @@ const AnimationCheck = styled(Logo)`
     height: 24px;
     margin-right: 8px;
 `
-const AnimationModal = ({modalText}) => {
-    console.log(modalText);
+const AnimationModal = ({modalText, modalToggle}) => {
     return (
-        <AnimationStyle>
+        <AnimationStyle style={{bottom: modalToggle ? "10%" : "0%" , opacity : modalToggle ? "1" : "0"}}>
             <SubAnimation>
                 <AnimationCheck src={Animation_check}/>
                 <AnimationText>{modalText}</AnimationText>

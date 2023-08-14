@@ -8,7 +8,8 @@ import { getMonth, getYear, getDate } from "date-fns";
 const DateStyle = styled.div`
   display: flex;
   height: 25px;
-  padding-left : 10px;
+  // padding-left : 10px;
+  position : fixed;
 `
 
 const DayPickers = styled(DayPicker)`

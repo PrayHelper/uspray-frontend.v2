@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "./Logo";
 import ShareCheckBox from "./ShareCheckBox";
 import ShareBotCheckBox from "./ShareBotCheckBox";
 import {ReactComponent as HeartImage} from "../../images/ic_full_heart_image.svg";
