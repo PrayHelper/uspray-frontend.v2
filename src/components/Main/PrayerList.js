@@ -88,7 +88,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
-    shareList, Sharelist, setShareList}){
+    shareList, Sharelist, setShareList,clickIsShare}){
 
     const defaultOptions = { 
         loop: true,
@@ -339,7 +339,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                             dayToggle={dayToggleTopDay}
                             countUpdate={countUpdate}
                             contentClick={contentClick}
-                            isShare={isShare}
+                            isShared={isShare}
                             shareList={shareList}
                             clickOff={clickOff}
                             bottom={false}
@@ -376,7 +376,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                shareLength = {shareLength} setshareToggle = {setshareToggle}></Share>}
                 <AnimationModal modalText = {modalText} modalToggle={modalToggle} />
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
-                bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked}/>
+                bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
                 {isModify && <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>}
                 <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId} isDeleted = {isDeleted}/>
             </Background>

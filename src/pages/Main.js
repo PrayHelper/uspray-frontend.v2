@@ -16,6 +16,7 @@ const Main = () => {
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
   const [clickId, setClickId] = useState(0);
+  const [clickIsShare, setClickIsShare] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isModify, setIsModify] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -54,6 +55,7 @@ const Main = () => {
           text: completedItem.title,
           checked: false,
           count: completedItem.pray_cnt,
+          isShare: completedItem.is_shared
         });
       });
     } else {
@@ -66,6 +68,7 @@ const Main = () => {
           text: uncompletedItem.title,
           checked: false,
           count: uncompletedItem.pray_cnt,
+          isShare: uncompletedItem.is_shared
         });
       });
       result.data.completed.map((completedItem) => {
@@ -77,6 +80,7 @@ const Main = () => {
           text: completedItem.title,
           checked: false,
           count: completedItem.pray_cnt,
+          isShare: completedItem.is_shared
         });
       });
     }
@@ -195,12 +199,13 @@ const Main = () => {
   };
 
   // 말그대로, 밑에 있는 내용을 클릭했을때, 사용되는 함수
-  const contentClick = (id, checked) => {
+  const contentClick = (id, checked, shareCheck) => {
     if (isChecked === isModify) {
       if (isShare) {
         shareList(id, !checked);
       } else {
         setIsChecked(!isChecked);
+        setClickIsShare(shareCheck);
       }
     } else {
       if (isChecked === true && isModify === false) {
@@ -427,6 +432,7 @@ const Main = () => {
         shareList={shareList}
         Sharelist={Sharelist}
         setShareList={setShareList}
+        clickIsShare={clickIsShare}
       />
     </TemplateMain>
   );
