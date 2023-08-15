@@ -269,7 +269,12 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                    
             //     },
             //   });
-            navigate("?share="+Sharelist.join("%"));
+
+            /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 */
+            const listJoin = Sharelist.join("&share=");
+            console.log(listJoin);
+            console.log("https://www.dev.uspray.kr/main?share=" + listJoin);
+            // navigate("?share=" + listJoin)
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
               prayerContent => ({...prayerContent, checked:false})

@@ -8,6 +8,7 @@ import { usePrayDelete } from "../hooks/usePrayDelete";
 import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
+import { useShareSocial } from "../hooks/useShareSocial";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -34,8 +35,10 @@ const Main = () => {
   const [Sharelist, setShareList] = useState([]);
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const url = query.get('share');
+  const shareData = query.getAll('share');
 
+  const { data: shareSocialList, refetch: refetch_shareSocialList} 
+  = useShareSocial(shareData);
 
   const renderingData = async (result, sticker) => {
     setisloading(true);
@@ -109,12 +112,14 @@ const Main = () => {
     renderingData(pray_List, false);
   }, [pray_List]);
 
-  
+
   useEffect(() =>{
-    if(url){
-      console.log(url);
+    if(Array.isArray(shareSocialList) && shareSocialList.length !== 0){
+      console.log(shareData);
+    }else{
+      refetch_shareSocialList();
     }
-  }, [url]);
+  }, [shareSocialList]);
 
   const { mutate: mutateCountUpdate } = useCountUpdate();
   const { mutate: mutateComplete } = useCompletePrayList();

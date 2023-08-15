@@ -3,17 +3,19 @@ import { getFetcher } from "./api";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const getInfo = async (getAccessToken) => {
-  return await getFetcher(`/user/info`, {
-    Authorization: getAccessToken(),
+const getShareSocial = async (getAccessToken, data) => {
+    const dataJoin = data.join("%2C")
+  return await getFetcher(`/share/social?pray_list=${dataJoin}`, {
+    Authorization: getAccessToken(), 
   });
 
 }
 
-export const useGetInfo = () => {
+export const useShareSocial = (data) => {
   const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
-  return useQuery([], () => {return getInfo(getAccessToken)} ,  {
+  return useQuery(["pray_list", data], () => 
+  {return getShareSocial(getAccessToken, data)} ,  {
     onError: async (e) => {
       if (e.status === 403) {
        await refresh();

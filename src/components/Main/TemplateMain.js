@@ -75,13 +75,6 @@ const StyleName = styled.input`
 const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
     const {data: userInfo, refetch: refetch_userInfo} = useGetInfo();
     const [name, setName] = useState("");
-    useEffect(()=>{
-        if(!userInfo){
-            refetch_userInfo();
-            return;
-        }
-        setName(userInfo.data.name)
-    },[userInfo])
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
@@ -126,6 +119,15 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
             setToggle(!Toggle);
         }
     }
+
+    useEffect(()=>{
+        if(!userInfo){
+            refetch_userInfo();
+            return;
+        }
+        setName(userInfo.data.name)
+    },[userInfo])
+    
     return(
         <div style={{width:"100%"}}>
             <div style={{position:"relative"}}>

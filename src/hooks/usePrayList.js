@@ -4,6 +4,7 @@ import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
 const getPrayList = async (getAccessToken,sort_by) => {
+  console.log(getAccessToken())
   return await getFetcher(`/pray?sort_by=${sort_by}`, {
     Authorization: getAccessToken(),
   });

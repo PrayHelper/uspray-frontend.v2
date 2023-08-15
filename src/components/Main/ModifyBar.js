@@ -117,7 +117,8 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
         <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
-        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>
+        {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
+        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>}
         </ModifyStyle>
     )
 }
