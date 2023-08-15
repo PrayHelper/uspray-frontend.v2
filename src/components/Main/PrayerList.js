@@ -88,7 +88,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
-    shareList, Sharelist, setShareList,clickIsShare}){
+    shareList, Sharelist, setShareList,clickIsShare, clickOff}){
 
     const defaultOptions = { 
         loop: true,
@@ -295,14 +295,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
           ))
     }
 
-    const clickOff = (id) =>{
-        setShareLength(shareLength-1);
-        setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
-            (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
-        setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
-            (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
-    }
-
 
     return(
         <div> 
@@ -367,7 +359,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                     ) : (
                         (prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
                             <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
-                            isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
+                            isShared = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
                         ))
                         )
                 }

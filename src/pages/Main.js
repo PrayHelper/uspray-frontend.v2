@@ -202,16 +202,27 @@ const Main = () => {
   const contentClick = (id, checked, shareCheck) => {
     if (isChecked === isModify) {
       if (isShare) {
+        if(checked){
+          clickOff(id);
+        }else{
         shareList(id, !checked);
+        }
+        
       } else {
         setIsChecked(!isChecked);
         setClickIsShare(shareCheck);
+        console.log("2")
+
       }
     } else {
       if (isChecked === true && isModify === false) {
         setIsChecked(!isChecked);
+        console.log("3")
+
       } else {
         setIsModify(!isModify);
+        console.log("4")
+
       }
     }
     setClickId(id);
@@ -380,6 +391,16 @@ const Main = () => {
     }
   };
 
+  // 공유모드에서 체크를 누르고 다시 체크를 눌렀을 때
+  const clickOff = (id) =>{
+    setShareLength(shareLength-1);
+    setUncompletedList(prayerContent => prayerContent.map(PrayerContent => 
+        (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
+    setCompletedList(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
+        (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
+}
+
+
   return (
     <TemplateMain
       onInsert={onInsert}
@@ -433,6 +454,7 @@ const Main = () => {
         Sharelist={Sharelist}
         setShareList={setShareList}
         clickIsShare={clickIsShare}
+        clickOff = {clickOff}
       />
     </TemplateMain>
   );
