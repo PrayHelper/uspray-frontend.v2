@@ -59,7 +59,7 @@ const ImgContainer = styled(Logo)`
     margin-bottom: 4px;
 `;
 
-const BottomText = styled.text`
+const BottomText = styled.div`
     padding-top: 8px;
     text-align: center;
     font-family: Noto Sans KR;

@@ -84,8 +84,8 @@ const Main = () => {
         });
       });
     }
-    console.log(upPosition);
-    console.log(DownPosition);
+    // console.log(upPosition);
+    // console.log(DownPosition);
     upPosition && setUncompletedList(uncompletedList);
     DownPosition && setCompletedList(completedList);
     setisloading(false);
@@ -102,7 +102,7 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    console.log("prayList");
+    // console.log("prayList");
     renderingData(prayList, false);
   }, [prayList]);
 
@@ -112,7 +112,7 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    console.log("pray_List");
+    // console.log("pray_List");
     renderingData(pray_List, false);
   }, [pray_List]);
 
@@ -211,18 +211,13 @@ const Main = () => {
       } else {
         setIsChecked(!isChecked);
         setClickIsShare(shareCheck);
-        console.log("2")
 
       }
     } else {
       if (isChecked === true && isModify === false) {
         setIsChecked(!isChecked);
-        console.log("3")
-
       } else {
         setIsModify(!isModify);
-        console.log("4")
-
       }
     }
     setClickId(id);
@@ -261,7 +256,7 @@ const Main = () => {
   // 수정하기를 눌렀을 때, 나오는 함수
   const modifyBtnClick = (id) => {
     // 수정하기 관련 코드
-    console.log(id);
+    // console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
     var returnValue = uncompletedList.find(function (data) {
