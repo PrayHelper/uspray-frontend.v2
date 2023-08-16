@@ -118,12 +118,12 @@ const Main = () => {
 
 
   useEffect(() =>{
-    if(Array.isArray(shareSocialList) && shareSocialList.length !== 0){
-      console.log(shareData);
-    }else{
-      refetch_shareSocialList();
+    if(Array.isArray(shareData) && shareData.length !== 0){
+      setTimeout(()=>{
+        refetch_shareSocialList();
+      },1000) // 근데 이부분 시간 이렇게 적용해도 괜찮은건지?
     }
-  }, [shareSocialList]);
+  }, [shareData]);
 
   const { mutate: mutateCountUpdate } = useCountUpdate();
   const { mutate: mutateComplete } = useCompletePrayList();
