@@ -105,8 +105,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const padding = (isChecked || isModify) ? "0px" : "24px";
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
-    const {mutate: mutateSharePrayItem} = useShare();
-    const navigate = useNavigate();
+    // const {mutate: mutateSharePrayItem} = useShare();
+    // const navigate = useNavigate();
 
     const praySort = (praylist) =>{
         let uncompletedsortedList = [];
@@ -244,35 +244,16 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         if(isShare){
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
+            const listJoin = Sharelist.join("&share=");
             if (navigator.share) {
                 navigator.share({
                     title: 'Web_share',
-                    url: "https://www.dev.uspray.kr/main?share=" + Sharelist.join("%"),
+                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
                 });
             }else{
                 // alert("공유하기가 지원되지 않는 환경 입니다.")
             }
-            // mutateSharePrayItem({
-            //     pray_id_list : Sharelist
-            //   },{
-            //     onSuccess: (e) => {
-            //       console.log("sendShareList");
-            //       console.log(e.data);
-            //       if (navigator.share) {
-            //         navigator.share({
-            //             title: 'Web_share',
-            //             url: e.data,
-            //         });
-            //     }else{
-            //         alert("공유하기가 지원되지 않는 환경 입니다.")
-            //     }
-                   
-            //     },
-            //   });
-
-            /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 */
-            const listJoin = Sharelist.join("&share=");
-            console.log(listJoin);
+            /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
             console.log("https://www.dev.uspray.kr/main?share=" + listJoin);
             // navigate("?share=" + listJoin)
             setShareList([]);
