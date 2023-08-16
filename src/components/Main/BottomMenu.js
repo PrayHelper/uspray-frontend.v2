@@ -9,7 +9,7 @@ const MainContainer = styled.div`
     display: flex;
     flex-direction : column;
     position: fixed;
-    padding: 0px 24px 34px 24px;
+    padding: 0px 24px 37px;
     box-sizing: border-box;
     top: 1;
     bottom:0;
@@ -59,16 +59,29 @@ const ImgContainer = styled(Logo)`
     margin-bottom: 4px;
 `;
 
-const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck, isChecked}) =>{
+const BottomText = styled.div`
+    padding-top: 8px;
+    text-align: center;
+    font-family: Noto Sans KR;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    color : #A0A0A0;
+`
+
+const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clickId, changeCheck, isChecked, clickIsShare}) =>{
+
     return(
-        <MainContainer style={{opacity: isChecked  ? "1" : "0", transform : isChecked ? "translateY(0%)" : "translateY(100%)"}}> 
+        <MainContainer style={{opacity: isChecked  ? "1" : "0", transform : isChecked ? "translateY(0%)" : "translateY(100%)", paddingBottom: clickIsShare ? "12px" : "24px"}}> 
             <div style={{display:"flex", justifyContent:"center"}}><div style={{display: "flex",width:"52px", height:'4px',marginTop:"12px",marginBottom:"25px", backgroundColor:"#EEEEEE", borderRadius:"4px"}} 
             onClick={changeCheck}></div></div>
             <SubContainer>
                 <BoxContainer style={{color: '#27CD2F'}} onClick = {() => completeBtnClick(clickId)}><ImgContainer src ={check_img}/><TextContainer>완료하기</TextContainer></BoxContainer>
-                <BoxContainer style={{color: '#408CFF'}} onClick = {() => modifyBtnClick(clickId)}><ImgContainer src={modify_img}/><TextContainer>수정하기</TextContainer></BoxContainer>
+                {!clickIsShare && <BoxContainer style={{color: '#408CFF'}} onClick = {() => modifyBtnClick(clickId)}><ImgContainer src={modify_img}/><TextContainer>수정하기</TextContainer></BoxContainer>}
                 <BoxContainer style={{color: '#FF4F4F'}} onClick = {() => bottom_delete_click()}><ImgContainer src={delete_img}/><TextContainer>삭제하기</TextContainer></BoxContainer>
             </SubContainer>
+            {clickIsShare && <BottomText>공유된 기도제목은 수정할 수 없습니다</BottomText>}
         </MainContainer>
     )
 }

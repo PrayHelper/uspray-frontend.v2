@@ -17,7 +17,7 @@ const ModifyStyle = styled.div`
     width: 100%;
     background-color: #FFFFFF;
     border: 0px solid #FFFFFF;
-    z-index: 104;
+    z-index: 103;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ const TopContainer = styled.div`
     display: flex;
     flex-direction: row-reverse;
     width: 100%;
-    borderBottom: 1px solid #EEEEEE;
+    border-bottom: 1px solid #EEEEEE;
     padding: 12px 16px 12px 0px;
     box-sizing: border-box;
 `
@@ -63,8 +63,7 @@ const StyleName = styled.input`
     width: 60px;
     height: 23px;
     font-size: 16px;
-    margin-right: 31px;
-    margin-top: 15px;
+    text-align: center;
     font-family: Noto Sans KR;
     font-weight: 400;
     color: #75BD62;
@@ -73,13 +72,14 @@ const StyleName = styled.input`
     border-bottom: 1px solid #EEEEEE;
 `
 
-const ModifyBar = ({id, valueChange, onModify, clickText, isModify}) =>{
-    const [value , setValue] = useState(clickText);
+const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
+    const [value , setValue] = useState(clickData.text);
     const [Toggle, setToggle] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
     const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
-    const [name, setName] = useState("김정묵");
+    const [name, setName] = useState(clickData.name);
+
     const onChangeValue = (e) =>{
         setValue(e.target.value);
     }
@@ -90,11 +90,11 @@ const ModifyBar = ({id, valueChange, onModify, clickText, isModify}) =>{
         setStartDate(date);
         setToggle(!Toggle);
         var year = getYear(date);
-        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : getMonth(date);
+        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : (getMonth(date)+1);
         var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
         let res_data = year + "/" +  month + "/" + date;
         setDayText(res_data);
-        setDayToggle(!dayToggle);
+        setDayToggle(true);
       }
 
     const onName = (e) =>{
@@ -102,13 +102,13 @@ const ModifyBar = ({id, valueChange, onModify, clickText, isModify}) =>{
     }
     return(
         <ModifyStyle>
-        {Toggle ? <div><DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick}/></div> : ""}
+        {Toggle ? <DatePickerComponent startDate = {startDate} setStartDate ={setStartDate} dateClick={dateClick} visible={Toggle}/> : ""}
         <TopContainer>
             <X_Image src={X_image} onClick={onModify}></X_Image>
         </TopContainer>
-        <div style={{width: '100%', display: 'flex', paddingLeft: "27px", paddingRight:"31px",boxSizing:"border-box"}}>
+        <div style={{width: '100%', display: 'flex',padding: "16px 11px 0px 12px", boxSizing:"border-box"}}>
         <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
-            <textarea style={{display:"flex",flexGrow:"1", minHeight:'92px', marginTop:'15px',border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
+            <textarea style={{display:"flex",flexGrow:"1", minHeight:'85px',marginLeft:"20px",border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
             fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
             onChange={onChangeValue}></textarea>
         </div>
@@ -117,7 +117,8 @@ const ModifyBar = ({id, valueChange, onModify, clickText, isModify}) =>{
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ dayText}</div> : ""}
         <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
-        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>
+        {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
+        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>}
         </ModifyStyle>
     )
 }

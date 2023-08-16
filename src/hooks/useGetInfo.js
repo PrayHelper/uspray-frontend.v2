@@ -3,25 +3,24 @@ import { getFetcher } from "./api";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const getPrayList = async (getAccessToken,sort_by) => {
-  console.log(getAccessToken())
-  return await getFetcher(`/pray?sort_by=${sort_by}`, {
+const getInfo = async (getAccessToken) => {
+  return await getFetcher(`/user/info`, {
     Authorization: getAccessToken(),
   });
 
 }
 
-export const usePrayList = (sort_by) => {
+export const useGetInfo = () => {
   const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
-  return useQuery(['prayList','sort_by'],() => {return getPrayList(getAccessToken,sort_by)} ,  {
+  return useQuery([], () => {return getInfo(getAccessToken)} ,  {
     onError: async (e) => {
       if (e.status === 403) {
        await refresh();
       }
     },
     onSuccess: (res) => {
-      console.log(res);
+    //   console.log(res);
     },
     retry: (cnt) => {
       return cnt < 3;

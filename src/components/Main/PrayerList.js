@@ -12,6 +12,7 @@ import { usePrayList } from "../../hooks/usePrayList";
 import { useShare } from "../../hooks/useShare";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
+import { useNavigate } from "react-router";
 
 const Background = styled.div`
   width: 100%;
@@ -82,14 +83,14 @@ const PrayerContentStyle = styled.div`
 
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
-    modifyBtnClick, deleteBtnClick, isChecked, clickId,clickText, contentClick, isModify, onModify, isDeleted, onDeleted,
+    modifyBtnClick, deleteBtnClick, isChecked, clickId,clickData, contentClick, isModify, onModify, isDeleted, onDeleted,
     valueChange,changeCheck, dDayCalculate, modalToggle, modalText,sortUpPosition,sortDownPosition,
     onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
-    shareList, Sharelist, setShareList}){
+    shareList, Sharelist, setShareList,clickIsShare, clickOff}){
 
-    const defaultOptions = { //예제1
+    const defaultOptions = { 
         loop: true,
         autoplay: true,
         animationData: LottieData,
@@ -102,10 +103,10 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const [colorFirstBottom, setColorFirstBottom] = useState('#EBF6E8');
     const [colorSecondBottom, setColorSecondBottom] = useState('#7BAB6E');
     const padding = (isChecked || isModify) ? "0px" : "24px";
-    const [query, setQuery] = useState("");
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
-    const {mutate: mutateSharePrayItem} = useShare();
+    // const {mutate: mutateSharePrayItem} = useShare();
+    // const navigate = useNavigate();
 
     const praySort = (praylist) =>{
         let uncompletedsortedList = [];
@@ -243,23 +244,18 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         if(isShare){
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
-            mutateSharePrayItem({
-                pray_id_list : Sharelist
-              },{
-                onSuccess: (e) => {
-                  console.log("sendShareList");
-                  console.log(e.data);
-                //   if (navigator.share) {
-                //     navigator.share({
-                //         title: 'Web_share',
-                //         url: e.data,
-                //     });
-                // }else{
-                //     alert("공유하기가 지원되지 않는 환경 입니다.")
-                // }
-                   
-                },
-              });
+            const listJoin = Sharelist.join("&share=");
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Web_share',
+                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                });
+            }else{
+                // alert("공유하기가 지원되지 않는 환경 입니다.")
+            }
+            /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
+            console.log("https://www.dev.uspray.kr/main?share=" + listJoin);
+            // navigate("?share=" + listJoin)
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
               prayerContent => ({...prayerContent, checked:false})
@@ -278,14 +274,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
         setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(
             prayerMoreContent => ({...prayerMoreContent, checked:false})
           ))
-    }
-
-    const clickOff = (id) =>{
-        setShareLength(shareLength-1);
-        setPrayerContent(prayerContent => prayerContent.map(PrayerContent => 
-            (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
-        setPrayerMoreContent(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
-            (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
     }
 
 
@@ -324,7 +312,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                             dayToggle={dayToggleTopDay}
                             countUpdate={countUpdate}
                             contentClick={contentClick}
-                            isShare={isShare}
+                            isShared={isShare}
                             shareList={shareList}
                             clickOff={clickOff}
                             bottom={false}
@@ -352,17 +340,17 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                     ) : (
                         (prayerMoreContent.length === 0) ? <EmptySpace color={false}/> : prayerMoreContent.map((content,index) =>(
                             <PrayerContent key={index} content = {content} dayToggle ={dayToggleBottomDay} countUpdate = {countUpdate} contentClick = {contentClick}
-                            isShare = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
+                            isShared = {isShare} shareList={shareList} clickOff = {clickOff} bottom = {true}/>
                         ))
                         )
                 }
                 </PrayerContentStyle>
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
                shareLength = {shareLength} setshareToggle = {setshareToggle}></Share>}
-                {modalToggle && <AnimationModal modalText = {modalText} />}
+                <AnimationModal modalText = {modalText} modalToggle={modalToggle} />
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
-                bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked}/>
-                {isModify && <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickText = {clickText} isModify={isModify}/>}
+                bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
+                {isModify && <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>}
                 <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId} isDeleted = {isDeleted}/>
             </Background>
         </div>

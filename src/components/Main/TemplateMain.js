@@ -1,10 +1,11 @@
-import React,{ useState} from "react";
+import React,{ useEffect, useState} from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
 import noClickImage from "../../images/no_click_image.svg";
+import { useGetInfo } from "../../hooks/useGetInfo";
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
@@ -72,7 +73,8 @@ const StyleName = styled.input`
 `
 
 const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare}) =>{
-    const [text, setText] = useState("김정묵");
+    const {data: userInfo, refetch: refetch_userInfo} = useGetInfo();
+    const [name, setName] = useState("");
     const [visible, setVisible] = useState(false);
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
@@ -101,14 +103,14 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     }
     const onName = (e) =>{
         if(e.target.value.length < 5){
-        setText(e.target.value);
+        setName(e.target.value);
         }
     }
     const submit = () =>{
         setVisible(!visible);
         setValue("");
         console.log(day);
-        onInsert(text, day, value);
+        onInsert(name, day, value);
         setDay(7);
     }
     const changeCheckTop = () =>{
@@ -117,13 +119,22 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
             setToggle(!Toggle);
         }
     }
+
+    useEffect(()=>{
+        if(!userInfo){
+            refetch_userInfo();
+            return;
+        }
+        setName(userInfo.data.name)
+    },[userInfo])
+    
     return(
         <div style={{width:"100%"}}>
             <div style={{position:"relative"}}>
                 <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "12px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
-                    <StyleName placeholder = {text} type="text" value = {text} onChange={onName}></StyleName>
+                    <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
-                    onClick={(!visible) ? ()=> widthChange() : onSubmit}></StyleInput>
+                    onClick={(!visible) ? ()=> widthChange() : onSubmit()}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
                         {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
                         : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}
