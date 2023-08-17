@@ -101,6 +101,7 @@ const History = () => {
     sort_by: "date",
   });
 
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
   const fetchHistory = async () => {
     // setLoading(historyLoading);
     console.log(data);
@@ -109,8 +110,11 @@ const History = () => {
       (newItem) => !data.some((existingItem) => existingItem.id === newItem.id)
     );
     console.log(filteredData);
-    setData((prev) => [...prev, ...filteredData]);
+    console.log(deletedItemIds);
+    const dData = [...data, ...filteredData].filter((item) => !deletedItemIds.some((dItem) => dItem === item.id));
+    setData(dData);
     console.log("리스트 읽기");
+    
     // setData();
     if (newData.length === 0) {
       setHasMore(false);
@@ -126,13 +130,15 @@ const History = () => {
         deadline: updateDate,
       },
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
           setShowToast(true);
           setShowModal(false);
           setShowSubModal(false);
           setData([]);
           setPage(0);
           setHasMore(true);
+          setDeletedItemIds((prev)=>[...prev,res.data.id]);
+
           // fetchHistory();
           refetchHistory();
         },
