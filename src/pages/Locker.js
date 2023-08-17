@@ -241,7 +241,6 @@ const LockerWrapper = styled.div`
 `;
 
 const NoDataWrapper = styled.div`
-  background-color: #d0e8cb;
   display: flex;
   flex-direction: column;
   align-items: center;
