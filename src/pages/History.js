@@ -93,7 +93,7 @@ const History = () => {
 
   const {
     data: historyData,
-    isLoading: historyLoading,
+    // isLoading: historyLoading,
     refetch: refetchHistory,
   } = useFetchHistory({
     page: page,
@@ -101,37 +101,43 @@ const History = () => {
     sort_by: "date",
   });
 
-  const fetchHistory = () => {
-    setLoading(historyLoading);
-    const newData = [historyData.data.res];
-    const filteredData = newData[0].filter(
+  const fetchHistory = async () => {
+    // setLoading(historyLoading);
+    console.log(data);
+    const newData = await historyData.data.res;
+    const filteredData = newData.filter(
       (newItem) => !data.some((existingItem) => existingItem.id === newItem.id)
     );
     console.log(filteredData);
     setData((prev) => [...prev, ...filteredData]);
+    console.log("리스트 읽기");
     // setData();
-    if (historyData.data.res.length === 0) {
+    if (newData.length === 0) {
       setHasMore(false);
     }
   };
 
-  const { mutate: mutateHistoryModify } = useHistoryModify({
-    pray_id: currentId,
-    deadline: updateDate,
-  });
+  const { mutate: mutateHistoryModify } = useHistoryModify();
 
   const onClickModify = () => {
-    mutateHistoryModify(null, {
-      onSuccess: () => {
-        setShowToast(true);
-        setShowModal(false);
-        setShowSubModal(false);
-        setPage(1);
-        setHasMore(true);
-        setData([]);
-        refetchHistory();
+    mutateHistoryModify(
+      {
+        pray_id: currentId,
+        deadline: updateDate,
       },
-    });
+      {
+        onSuccess: () => {
+          setShowToast(true);
+          setShowModal(false);
+          setShowSubModal(false);
+          setData([]);
+          setPage(0);
+          setHasMore(true);
+          // fetchHistory();
+          refetchHistory();
+        },
+      }
+    );
   };
 
   const onClickHistory = async (e) => {
@@ -144,10 +150,11 @@ const History = () => {
   };
 
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     if (historyData) {
       fetchHistory();
       setLoading(false);
+      console.log(historyData);
     }
   }, [historyData]);
 
@@ -160,7 +167,7 @@ const History = () => {
   return (
     <HistoryWrapper>
       <Header>히스토리</Header>
-      {historyLoading && (
+      {loading && (
         <Lottie
           style={{ scale: "0.5" }}
           options={defaultOptions}
@@ -169,7 +176,7 @@ const History = () => {
           isClickToPauseDisabled={true}
         />
       )}
-      {!historyLoading && isEmptyData(data) && (
+      {!loading && isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
@@ -272,17 +279,18 @@ const History = () => {
           </SubModalWrapper>
         )}
       </div>
-      {data.map((el, index) => (
-        <div onClick={onClickHistory} key={index} id={el.id}>
-          <HisContent
-            name={el.target}
-            content={el.title}
-            date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
-            pray_cnt={el.pray_cnt}
-          />
-          <div ref={ref}></div>
-        </div>
-      ))}
+      {!loading &&
+        data.map((el) => (
+          <div onClick={onClickHistory} key={el.id} id={el.id}>
+            <HisContent
+              name={el.target}
+              content={el.title}
+              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+              pray_cnt={el.pray_cnt}
+            />
+            <div ref={ref}></div>
+          </div>
+        ))}
       <div style={{ marginTop: "20px" }}>.</div>
       <ToastWrapper>
         {showToast && (

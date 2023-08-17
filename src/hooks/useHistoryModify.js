@@ -4,16 +4,19 @@ import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
 const putHistory = async (getAccessToken, data) => {
-  return await putFetcher('/history/modify', data, {
+  return await putFetcher("/history/modify", data, {
     Authorization: getAccessToken(),
   });
 };
 
-export const useHistoryModify = (data) => {
+export const useHistoryModify = () => {
   const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
-  return useMutation(() => {
-    return putHistory(getAccessToken, data)}, {
+  return useMutation(
+    (data) => {
+      return putHistory(getAccessToken, data);
+    },
+    {
       onError: async (e) => {
         if (e.status === 403) {
           await refresh();
@@ -28,5 +31,6 @@ export const useHistoryModify = (data) => {
       },
       retryDelay: 300,
       refetchOnWindowFocus: false,
-    });
-}
+    }
+  );
+};
