@@ -307,7 +307,7 @@ const History = () => {
             <div ref={ref}></div>
           </div>
         ))}
-      <div style={{ marginTop: "20px" }}>.</div>
+      <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -326,6 +326,8 @@ const HistoryWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  position: relative;
+  padding-top: 65px;
 `;
 
 const NoDataWrapper = styled.div`
