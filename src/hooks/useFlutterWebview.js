@@ -99,8 +99,9 @@ const useAuthToken = () => {
 
 const useShareLink = () => {
     const shareLink = ({title, url}) => {
+        const data = JSON.stringify({title, url})
         //eslint-disable-next-line
-        FlutterStoreAuthToken.postMessage({title, url});
+        FlutterShareLink.postMessage(data);
     }
 
     return {
