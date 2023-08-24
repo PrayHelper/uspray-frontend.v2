@@ -75,16 +75,16 @@ const useAuthToken = () => {
 
   
   useEffect(() => {
-    window.onReceiveAuthTokenFalse = (token) => {
+    window.onReceiveAuthToken = (token) => {
       authToken.current = token
       muLockGetter.current = false;
 
       console.log(`onReceiveAuthToken(${token}) called`)
     }
 
-    window.onReceiveTokenStoredMsg = () => {
+    window.onReceiveTokenStoredAck = () => {
       muLockSetter.current = false;
-      console.log(`onReceiveTokenStoredMsg() called`)
+      console.log(`onReceiveTokenStoredAck() called`)
     }
   }, []);
   
@@ -93,6 +93,19 @@ const useAuthToken = () => {
     getAuthToken,
     storeAuthToken
   }
+}
+
+
+
+const useShareLink = () => {
+    const shareLink = ({title, url}) => {
+        //eslint-disable-next-line
+        FlutterStoreAuthToken.postMessage({title, url});
+    }
+
+    return {
+        shareLink
+    }
 }
 
 
@@ -117,12 +130,14 @@ const useFlutterWebview = () => {
 
   const { getDeviceToken } = useDeviceToken();
   const { getAuthToken, storeAuthToken } = useAuthToken();
+  const { shareLink } = useShareLink();
 
   return {
     isMobile,
     getDeviceToken,
     getAuthToken,
-    storeAuthToken
+    storeAuthToken,
+    shareLink
   }
 }
 
