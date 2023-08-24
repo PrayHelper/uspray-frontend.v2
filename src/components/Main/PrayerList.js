@@ -13,6 +13,7 @@ import { useShare } from "../../hooks/useShare";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import { useNavigate } from "react-router";
+import useFlutterWebview from "../../hooks/useFlutterWebview";
 
 const Background = styled.div`
   width: 100%;
@@ -105,6 +106,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const padding = (isChecked || isModify) ? "0px" : "24px";
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
+    const { shareLink } = useFlutterWebview();
     // const {mutate: mutateSharePrayItem} = useShare();
     // const navigate = useNavigate();
 
