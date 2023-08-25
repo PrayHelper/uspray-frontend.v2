@@ -115,7 +115,7 @@ const History = () => {
     setData(dData);
     console.log("리스트 읽기");
     
-    // setData();
+    
     if (newData.length === 0) {
       setHasMore(false);
     }
@@ -285,7 +285,7 @@ const History = () => {
           </SubModalWrapper>
         )}
       </div>
-      {!loading &&
+      {
         data.map((el) => (
           <div onClick={onClickHistory} key={el.id} id={el.id}>
             <HisContent
