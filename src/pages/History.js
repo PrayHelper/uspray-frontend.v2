@@ -72,6 +72,7 @@ const History = () => {
     const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
     setUpdateDate(formattedDate); // formattedDate를 업데이트
     setShowDatePicker(false); // DatePicker 닫기
+    setIsClickedDay(true);
   };
 
   const handleButtonClick = () => {
@@ -83,6 +84,10 @@ const History = () => {
   };
 
   const onClickExitModal = () => {
+    setSelectedBtn("");
+    setSelectedDate(null);
+    setShowDatePicker(false);
+    setIsClickedDay(false);
     setShowModal(false);
     setShowSubModal(false);
   };
@@ -111,7 +116,9 @@ const History = () => {
     );
     console.log(filteredData);
     console.log(deletedItemIds);
-    const dData = [...data, ...filteredData].filter((item) => !deletedItemIds.some((dItem) => dItem === item.id));
+    const dData = [...data, ...filteredData].filter(
+      (item) => !deletedItemIds.some((dItem) => dItem === item.id)
+    );
     setData(dData);
     console.log("리스트 읽기");
     
@@ -137,8 +144,11 @@ const History = () => {
           setData([]);
           setPage(0);
           setHasMore(true);
-          setDeletedItemIds((prev)=>[...prev,res.data.id]);
-
+          setDeletedItemIds((prev) => [...prev, res.data.id]);
+          setSelectedBtn("");
+          setSelectedDate(null);
+          setShowDatePicker(false);
+          setIsClickedDay(false);
           // fetchHistory();
           refetchHistory();
         },
@@ -297,7 +307,7 @@ const History = () => {
             <div ref={ref}></div>
           </div>
         ))}
-      <div style={{ marginTop: "20px" }}>.</div>
+      <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -316,6 +326,8 @@ const HistoryWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  position: relative;
+  padding-top: 65px;
 `;
 
 const NoDataWrapper = styled.div`
