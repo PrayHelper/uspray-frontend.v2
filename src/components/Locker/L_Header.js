@@ -43,6 +43,10 @@ const StyledHeader = styled.div`
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   background-color: white;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background-color: white;
 `;
 
 const Title = styled.div`

@@ -213,7 +213,7 @@ const Locker = () => {
           ))}
         </LockerList>
       )}
-      <div style={{ marginTop: "20px" }}>.</div>
+      <div style={{ marginTop: "20px", color: "white" }}>.</div>
       <ToastWrapper>
         {showSaveToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -233,6 +233,7 @@ const Locker = () => {
 export default Locker;
 
 const LockerWrapper = styled.div`
+  padding-top: 65px;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -241,7 +242,6 @@ const LockerWrapper = styled.div`
 `;
 
 const NoDataWrapper = styled.div`
-  background-color: #d0e8cb;
   display: flex;
   flex-direction: column;
   align-items: center;

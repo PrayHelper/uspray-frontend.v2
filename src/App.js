@@ -22,6 +22,10 @@ import CheckInfo from "./pages/CheckInfo";
 import ToS from "./pages/ToS";
 import PrivacyProcessAgreement from "./pages/PrivacyProcessAgreement";
 import Find from "./pages/Find";
+import FindId from "./components/Find/FindId";
+import FindIdResult from "./components/Find/IdResult";
+import FindPassword from "./components/Find/FindPassword";
+import FindPasswordResult from "./components/Find/PwResult";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ChangeInfo from "./pages/ChangeInfo";
 import ChangePw from "./pages/ChangePw";
@@ -33,6 +37,7 @@ import { useEffect } from "react";
 import SplashScreen from "./pages/SplashScreen";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authValueState } from "./recoil/user";
+
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -82,6 +87,10 @@ const RouteHandler = () => {
       <Route path="/" element={<Login />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/findAccount" element={<Find />} />
+      <Route path="/findID" element={<FindId />}></Route>
+      <Route path="/findIDResult" element={<FindIdResult />}></Route>
+      <Route path="/findPW" element={<FindPassword />}></Route>
+      <Route path="/findPWResult" element={<FindPasswordResult />}></Route>
       <Route path="/signup" element={<Signup />} />
       <Route path="/loading" element={<SplashScreen />} />
       <Route path="*" element={<NotFound />} />
@@ -90,6 +99,7 @@ const RouteHandler = () => {
     </Route>
   </Routes>
   )
+
 }
 
 

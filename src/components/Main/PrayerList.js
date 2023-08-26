@@ -247,7 +247,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
             const listJoin = Sharelist.join("&share=");
-            const joinUrl = "https://www.dev.uspray.kr/main?share=" + listJoin;
             if (/android/i.test(navigator.userAgent)) {
                 shareLink({
                     title: 'Web_share',
@@ -260,6 +259,10 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                     title: 'Web_share',
                     url: "https://www.dev.uspray.kr/main?share=" + listJoin,
                 });
+            }
+
+            else{
+                // alert("공유하기가 지원되지 않는 환경 입니다.")
             }
 
             /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
