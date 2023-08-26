@@ -106,7 +106,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
     const { shareLink } = useFlutterWebview();
-    const navigate = useNavigate();
 
     const praySort = (praylist) =>{
         let uncompletedsortedList = [];
