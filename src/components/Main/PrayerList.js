@@ -13,6 +13,7 @@ import { useShare } from "../../hooks/useShare";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import { useNavigate } from "react-router";
+import useFlutterWebview from "../../hooks/useFlutterWebview";
 
 const Background = styled.div`
   width: 100%;
@@ -105,6 +106,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const padding = (isChecked || isModify) ? "0px" : "24px";
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
+    const { shareLink } = useFlutterWebview();
     // const {mutate: mutateSharePrayItem} = useShare();
     const navigate = useNavigate();
 
@@ -246,19 +248,20 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             setIsShare(!isShare);
             const listJoin = Sharelist.join("&share=");
             const joinUrl = "https://www.dev.uspray.kr/main?share=" + listJoin;
-            if (navigator.share) {
+            if (/android/i.test(navigator.userAgent)) {
+                shareLink({
+                    title: 'Web_share',
+                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                })
+            }
+            
+            else if (/iPad|iPhone|iPod/.test(navigator.userAgent) || navigator.share) {
                 navigator.share({
                     title: 'Web_share',
-                    url: joinUrl,
-                }).then(()=>{
-                    console.log("https://www.dev.uspray.kr/main?share=" + listJoin);                   
-                }).catch((e)=> console.log(e));
-            }else{
-                await navigator.clipboard.writeText(joinUrl).then(()=>{
-                    console.log(joinUrl);
+                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
                 });
-                alert("주소가 복사 되었습니다.")
             }
+
             /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
             // navigate("?share=" + listJoin)
             setShareList([]);
