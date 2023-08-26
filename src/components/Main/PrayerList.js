@@ -9,7 +9,6 @@ import EmptySpace from "./EmptySpace";
 import DeleteBar from "./DeleteBar";
 import AnimationModal from "./AnimationModal";
 import { usePrayList } from "../../hooks/usePrayList";
-import { useShare } from "../../hooks/useShare";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import { useNavigate } from "react-router";
@@ -107,7 +106,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
     const { shareLink } = useFlutterWebview();
-    // const {mutate: mutateSharePrayItem} = useShare();
     const navigate = useNavigate();
 
     const praySort = (praylist) =>{
