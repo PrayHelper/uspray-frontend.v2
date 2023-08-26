@@ -9,6 +9,7 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
+import Share from "../components/Main/Share";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -119,9 +120,9 @@ const Main = () => {
 
   useEffect(() =>{
     if(Array.isArray(shareData) && shareData.length !== 0){
-      setTimeout(()=>{
+      // setTimeout(()=>{
         refetch_shareSocialList();
-      },1000) // 근데 이부분 시간 이렇게 적용해도 괜찮은건지?
+      // },1000) // 근데 이부분 시간 이렇게 적용해도 괜찮은건지?
     }
   }, [shareData]);
 
@@ -393,6 +394,8 @@ const Main = () => {
         (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
     setCompletedList(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
         (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
+    let filtered = Sharelist.filter((element) => Number(element) !== Number(id));
+    setShareList(filtered);
 }
 
 

@@ -11,7 +11,6 @@ import AnimationModal from "./AnimationModal";
 import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
-import { useNavigate } from "react-router";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 
 const Background = styled.div`
@@ -105,7 +104,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const padding = (isChecked || isModify) ? "0px" : "24px";
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
-    const { shareLink } = useFlutterWebview();
+    const { shareLink, isMobile } = useFlutterWebview();
 
     const praySort = (praylist) =>{
         let uncompletedsortedList = [];
@@ -244,22 +243,25 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             setshareToggle(!shareToggle);
             setIsShare(!isShare);
             const listJoin = Sharelist.join("&share=");
-            if (/android/i.test(navigator.userAgent)) {
-                shareLink({
-                    title: 'Web_share',
-                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
-                })
+            if(isMobile()){
+                if (/android/i.test(navigator.userAgent)) {
+                    shareLink({
+                        title: 'Web_share',
+                        url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                    })
+                }
+                else if (/iPad|iPhone|iPod/.test(navigator.userAgent) || navigator.share) {
+                    navigator.share({
+                        title: 'Web_share',
+                        url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                    });
+                }
+                else{
+                    alert("공유하기가 지원되지 않는 환경 입니다.")
+                }
             }
-            
-            else if (/iPad|iPhone|iPod/.test(navigator.userAgent) || navigator.share) {
-                navigator.share({
-                    title: 'Web_share',
-                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
-                });
-            }
-
             else{
-                // alert("공유하기가 지원되지 않는 환경 입니다.")
+                console.log(listJoin);
             }
 
             /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
