@@ -36,7 +36,7 @@ import useRefresh from "./hooks/useRefresh";
 import { useEffect } from "react";
 import SplashScreen from "./pages/SplashScreen";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { authValueState } from "./recoil/user";
+import useAuthorized from "./hooks/useAuthorized";
 
 
 const ContainerWrapper = styled.div`
@@ -55,15 +55,25 @@ const Container = styled.div`
 
 const RouteHandler = () => {
 
+  const {isUndefined} = useAuthorized();
+
   const navigate = useNavigate()
 
   const location = useLocation();
 
   const currentPath = encodeURIComponent(location.pathname.slice(1));
 
-  useEffect(() => {
-    navigate(`/loading?redirect=${currentPath}`)
-  }, [])
+  if (isUndefined()) {
+    return (
+      <Routes>
+        <Route path="*" element={<SplashScreen url={currentPath}/>} />
+      </Routes>
+    )
+  }
+
+  //useEffect(() => {
+  //  navigate(`/loading?redirect=${currentPath}`)
+  //}, [])
 
   return (
   <Routes>

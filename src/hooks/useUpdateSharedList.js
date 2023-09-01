@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
+import { tokenState } from "../recoil/auth";
 import { postFetcher, refresh } from "./api";
 import { useMutation } from "react-query";
 import useAuthToken from "./useAuthToken";

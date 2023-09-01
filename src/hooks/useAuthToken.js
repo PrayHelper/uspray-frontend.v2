@@ -4,18 +4,19 @@ import { useEffect } from "react";
 import useSleep from "./useSleep";
 
 
-let accessToken = {
-  current : ""
+const accessToken = {
+    current: "",
 }
-
 
 const useAuthToken = () => {
 
   const getAccessToken = () => {
+    //console.log(`getAccessToken: ${accessToken.current}`)
     return accessToken.current;
   }
 
   const setAccessToken = (token) => {
+    //console.log(`setAccessToken: ${token}`)
     accessToken.current = token;
   }
 
