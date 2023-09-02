@@ -4,7 +4,7 @@ import { useState } from "react";
 import SettingToggle from "../components/SettingToggle/SettingToggle";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
-import { tokenState } from "../recoil/accessToken";
+import { tokenState } from "../recoil/auth";
 import { useSetRecoilState } from "recoil";
 import { useFetchNotifications } from "../hooks/useFetchNotifications";
 import { useEffect } from "react";

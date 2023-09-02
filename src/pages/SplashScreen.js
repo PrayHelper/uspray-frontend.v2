@@ -1,60 +1,54 @@
 import styled from 'styled-components';
 import useAuthToken from '../hooks/useAuthToken';
 import { useRecoilState } from 'recoil';
-import { authValueState } from '../recoil/user';
 import useRefresh from '../hooks/useRefresh';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import useAuthorized from '../hooks/useAuthorized';
 
-const SplashScreen = () => {
+const SplashScreen = ({url}) => {
 
-  const { getAccessToken, getRefreshToken } = useAuthToken();
+  const { getRefreshToken } = useAuthToken();
   const { refresh } = useRefresh();
-  const [authValue, setAuthValue] = useRecoilState(authValueState)
-
+  const {setAutorized, setUnAuthorized} = useAuthorized()
   const navigate = useNavigate()
 
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const url = query.get('redirect')
+  //const location = useLocation();
+  //const query = new URLSearchParams(location.search);
+  //const url = query.get('redirect')
 
-  console.log(url)
-
+  console.log(`splash screen url: ${url}`)
   useEffect(() => {
 
     const run = async () => {
 
-      const accessToken = getAccessToken()
       const refreshToken = await getRefreshToken()
-
-      console.log("access : ", accessToken);
-      console.log("refresh : ", refreshToken);
-      console.log(authValue)
-
-  
+ 
       if (refreshToken == undefined || refreshToken == "") {
+        setUnAuthorized()
+
         console.log("refreshToken is nil, go to login page")
         navigate("/")
 
-        setAuthValue(0)
         return
       }
   
       try {
         await refresh()
         console.log("refresh is called. if error is not occured, login is successed")
+        setAutorized()
+
         if (url === "") {
             navigate("/main")
         } else {
             navigate(`/${url}`)
         }
-        setAuthValue(1)
 
       } catch {
         console.log("failed to refresh token, go to login page")
-        navigate("/")
+        setUnAuthorized()
 
-        setAuthValue(0)
+        navigate("/")
       }
     }
     run()
