@@ -7,6 +7,7 @@ export const getFetcher = async (url, headers, params) => {
     headers: { ...headers, "Content-Type": "application/json" },
     params: params,
   });
+  console.log(headers.Authorization)
   return response;
 };
 

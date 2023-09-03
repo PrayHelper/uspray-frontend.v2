@@ -80,8 +80,6 @@ const LoginPage = () => {
 
         console.log("access: ", getAccessToken());
         console.log("refresh: ", await getRefreshToken());
-
-        // need to fixed: use storeAuthToken() int the useAuthToken hook instead.
       }
     } catch (e) {
       if (e.response.status === 400) {

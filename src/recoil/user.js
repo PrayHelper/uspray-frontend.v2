@@ -13,7 +13,3 @@ export const userState = atom({
 });
 
 
-export const authValueState = atom({
-  key: 'authValueState',
-  default: -1
-})
