@@ -7,6 +7,7 @@ import {
   useNavigate,
   Outlet,
   useLocation,
+  useParams,
 } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";
@@ -60,20 +61,15 @@ const RouteHandler = () => {
   const navigate = useNavigate()
 
   const location = useLocation();
-
-  const currentPath = encodeURIComponent(location.pathname.slice(1));
+  const fullPath = location.pathname + location.search + location.hash;
 
   if (isUndefined()) {
     return (
       <Routes>
-        <Route path="*" element={<SplashScreen url={currentPath}/>} />
+        <Route path="*" element={<SplashScreen url={fullPath}/>} />
       </Routes>
     )
   }
-
-  //useEffect(() => {
-  //  navigate(`/loading?redirect=${currentPath}`)
-  //}, [])
 
   return (
   <Routes>

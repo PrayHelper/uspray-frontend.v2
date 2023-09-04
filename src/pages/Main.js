@@ -9,7 +9,6 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
-import Share from "../components/Main/Share";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -85,8 +84,6 @@ const Main = () => {
         });
       });
     }
-    // console.log(upPosition);
-    // console.log(DownPosition);
     upPosition && setUncompletedList(uncompletedList);
     DownPosition && setCompletedList(completedList);
     setisloading(false);
@@ -103,7 +100,6 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    // console.log("prayList");
     renderingData(prayList, false);
   }, [prayList]);
 
@@ -113,16 +109,13 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    // console.log("pray_List");
     renderingData(pray_List, false);
   }, [pray_List]);
 
 
   useEffect(() =>{
     if(Array.isArray(shareData) && shareData.length !== 0){
-      // setTimeout(()=>{
         refetch_shareSocialList();
-      // },1000) // 근데 이부분 시간 이렇게 적용해도 괜찮은건지?
     }
   }, [shareData]);
 
