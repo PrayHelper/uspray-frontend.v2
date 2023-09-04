@@ -41,7 +41,7 @@ const SplashScreen = ({url}) => {
         if (url === "") {
             navigate("/main")
         } else {
-            navigate(`/${url}`)
+            navigate(`/${url.substring(1)}`)
         }
 
       } catch {

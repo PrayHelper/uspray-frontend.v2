@@ -9,7 +9,6 @@ const useRefresh = () => {
   const refresh = async () => {
 
   try {
-    console.log(`is it called ...?`)
     const refreshToken = await getRefreshToken();
     const res = await serverapi.get('/user/token', {
       headers: {
