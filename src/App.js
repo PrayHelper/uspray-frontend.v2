@@ -63,8 +63,6 @@ const RouteHandler = () => {
   const location = useLocation();
   const fullPath = location.pathname + location.search + location.hash;
 
-  console.log(fullPath)
-
   if (isUndefined()) {
     return (
       <Routes>
