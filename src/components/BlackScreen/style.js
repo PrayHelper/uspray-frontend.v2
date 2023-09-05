@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const BlackScreenStyle = styled.div`
   transition: all 0.3s ease-in-out;
@@ -12,6 +12,6 @@ export const BlackScreenStyle = styled.div`
   align-items: center;
   position: fixed;
   z-index: 200;
-  opacity: ${props => props.isModalOn ? '1' :'0'};
-  pointer-events: ${props => props.isModalOn ? 'auto' :'none'};
+  opacity: ${(props) => (props.isModalOn ? "1" : "0")};
+  pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
 `;

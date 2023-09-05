@@ -198,9 +198,9 @@ const History = () => {
         </NoDataWrapper>
       )}
       <div>
+        <BlackScreen isModalOn={showModal} />
         {!isEmptyData(data) && showModal && (
           <>
-            <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
             <ModalWrapper showSubModal={showSubModal}>
               <ModalHeader>
                 <ModalTitleWrapper>
@@ -231,101 +231,101 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        {showSubModal && (
-          <SubModalWrapper>
-            <SubModalTop>
-              <SubModalBtn
-                isSelected={selectedBtn === 3}
-                onClick={() => onClickUpdateDate(3)}
-              >
-                3일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 7}
-                onClick={() => onClickUpdateDate(7)}
-              >
-                7일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 30}
-                onClick={() => onClickUpdateDate(30)}
-              >
-                30일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 100}
-                onClick={() => onClickUpdateDate(100)}
-              >
-                100일
-              </SubModalBtn>
-              {showDatePicker ? (
-                <img
-                  src="../images/icon_calender_filled.svg"
-                  alt="icon_calender"
-                />
-              ) : (
-                <img
-                  src="../images/icon_calender.svg"
-                  alt="icon_calender"
-                  onClick={handleButtonClick}
-                />
-              )}
-              {showDatePicker && (
-                <DatePickerContainer>
-                  <DatePicker
-                    renderCustomHeader={({
-                      date,
-                      decreaseMonth,
-                      increaseMonth,
-                      prevMonthButtonDisabled,
-                      nextMonthButtonDisabled,
-                    }) => (
-                      <DatePickerHeader>
-                        <DatePickerHeaderDate>
-                          {date.getFullYear()}년 {date.getMonth() + 1}월
-                        </DatePickerHeaderDate>
-                        <div style={{ gap: "12px", display: "flex" }}>
-                          {!prevMonthButtonDisabled && (
-                            <img
-                              onClick={
-                                !prevMonthButtonDisabled
-                                  ? decreaseMonth
-                                  : undefined
-                              }
-                              disabled={prevMonthButtonDisabled}
-                              src="../images/ic_left_arrow.svg"
-                              alt="icon_left_arrow"
-                            />
-                          )}
+        {/* {showSubModal && ( */}
+        <SubModalWrapper showSubModal={showSubModal}>
+          <SubModalTop>
+            <SubModalBtn
+              isSelected={selectedBtn === 3}
+              onClick={() => onClickUpdateDate(3)}
+            >
+              3일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 7}
+              onClick={() => onClickUpdateDate(7)}
+            >
+              7일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 30}
+              onClick={() => onClickUpdateDate(30)}
+            >
+              30일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 100}
+              onClick={() => onClickUpdateDate(100)}
+            >
+              100일
+            </SubModalBtn>
+            {showDatePicker ? (
+              <img
+                src="../images/icon_calender_filled.svg"
+                alt="icon_calender"
+              />
+            ) : (
+              <img
+                src="../images/icon_calender.svg"
+                alt="icon_calender"
+                onClick={handleButtonClick}
+              />
+            )}
+            {showDatePicker && (
+              <DatePickerContainer>
+                <DatePicker
+                  renderCustomHeader={({
+                    date,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                  }) => (
+                    <DatePickerHeader>
+                      <DatePickerHeaderDate>
+                        {date.getFullYear()}년 {date.getMonth() + 1}월
+                      </DatePickerHeaderDate>
+                      <div style={{ gap: "12px", display: "flex" }}>
+                        {!prevMonthButtonDisabled && (
                           <img
-                            onClick={increaseMonth}
-                            disabled={nextMonthButtonDisabled}
-                            src="../images/ic_right_arrow.svg"
-                            alt="icon_right_arrow"
+                            onClick={
+                              !prevMonthButtonDisabled
+                                ? decreaseMonth
+                                : undefined
+                            }
+                            disabled={prevMonthButtonDisabled}
+                            src="../images/ic_left_arrow.svg"
+                            alt="icon_left_arrow"
                           />
-                        </div>
-                      </DatePickerHeader>
-                    )}
-                    selected={selectedDate}
-                    onChange={(date) => onChangeDatePicker(date)}
-                    minDate={new Date()}
-                    dateFormat="yyyy-MM-dd"
-                    popperPlacement="bottom-start"
-                    onClickOutside={() => setShowDatePicker(false)}
-                    locale={ko}
-                    inline
-                  />
-                </DatePickerContainer>
-              )}
-              {isClickedDay && (
-                <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
-              )}
-            </SubModalTop>
-            <SubModalBottom onClick={() => onClickModify()}>
-              오늘의 기도에 추가하기
-            </SubModalBottom>
-          </SubModalWrapper>
-        )}
+                        )}
+                        <img
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
+                          src="../images/ic_right_arrow.svg"
+                          alt="icon_right_arrow"
+                        />
+                      </div>
+                    </DatePickerHeader>
+                  )}
+                  selected={selectedDate}
+                  onChange={(date) => onChangeDatePicker(date)}
+                  minDate={new Date()}
+                  dateFormat="yyyy-MM-dd"
+                  popperPlacement="bottom-start"
+                  onClickOutside={() => setShowDatePicker(false)}
+                  locale={ko}
+                  inline
+                />
+              </DatePickerContainer>
+            )}
+            {isClickedDay && (
+              <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
+            )}
+          </SubModalTop>
+          <SubModalBottom onClick={() => onClickModify()}>
+            오늘의 기도에 추가하기
+          </SubModalBottom>
+        </SubModalWrapper>
+        {/* )} */}
       </div>
       {data.map((el) => (
         <div onClick={onClickHistory} key={el.id} id={el.id}>
@@ -396,6 +396,7 @@ const ModalWrapper = styled.div`
   /* gap: 8px; */
   border-radius: 16px;
   z-index: 300;
+  transition: all 0.3s ease-in-out;
 `;
 
 const ModalHeader = styled.div`
@@ -470,7 +471,6 @@ const ModalButton2 = styled.button`
 
 const SubModalWrapper = styled.div`
   position: fixed;
-  top: 63%;
   left: 50%;
   transform: translate(-50%, -40%);
   width: calc(100vw - 64px);
@@ -480,6 +480,10 @@ const SubModalWrapper = styled.div`
   background-color: white;
   border-radius: 16px;
   z-index: 300;
+  top: 63%;
+  opacity: ${(props) => (props.showSubModal ? "1" : "0")};
+  transition: all 0.3s ease-in-out;
+  visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
 `;
 
 const SubModalTop = styled.div`
@@ -520,7 +524,7 @@ const SubModalBottom = styled.div`
   font-size: 16px;
   text-align: center;
   color: #ffffff;
-  padding: 25px 0px;
+  padding: 20px 0px;
 `;
 
 const DatePickerContainer = styled.div`
