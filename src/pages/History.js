@@ -12,6 +12,7 @@ import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
+import "../components/Calender/Calender.css";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const History = () => {
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
-    triggerOnce: true, // 한 번만 트리거되도록 설정
+    // triggerOnce: true, // 한 번만 트리거되도록 설정
   });
 
   const defaultOptions = {
@@ -94,6 +95,7 @@ const History = () => {
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
+    onClickUpdateDate(7);
   };
 
   const {
@@ -121,8 +123,9 @@ const History = () => {
     );
     setData(dData);
     console.log("리스트 읽기");
-    
-    
+    console.log("페이지 :" + page);
+    console.log("hasmore? :" + hasMore);
+    console.log("inview? :" + inView);
     if (newData.length === 0) {
       setHasMore(false);
     }
@@ -141,15 +144,11 @@ const History = () => {
           setShowToast(true);
           setShowModal(false);
           setShowSubModal(false);
-          setData([]);
-          setPage(0);
-          setHasMore(true);
           setDeletedItemIds((prev) => [...prev, res.data.id]);
           setSelectedBtn("");
           setSelectedDate(null);
           setShowDatePicker(false);
           setIsClickedDay(false);
-          // fetchHistory();
           refetchHistory();
         },
       }
@@ -274,6 +273,39 @@ const History = () => {
               {showDatePicker && (
                 <DatePickerContainer>
                   <DatePicker
+                    renderCustomHeader={({
+                      date,
+                      decreaseMonth,
+                      increaseMonth,
+                      prevMonthButtonDisabled,
+                      nextMonthButtonDisabled,
+                    }) => (
+                      <DatePickerHeader>
+                        <DatePickerHeaderDate>
+                          {date.getFullYear()}년 {date.getMonth() + 1}월
+                        </DatePickerHeaderDate>
+                        <div style={{ gap: "12px", display: "flex" }}>
+                          {!prevMonthButtonDisabled && (
+                            <img
+                              onClick={
+                                !prevMonthButtonDisabled
+                                  ? decreaseMonth
+                                  : undefined
+                              }
+                              disabled={prevMonthButtonDisabled}
+                              src="../images/ic_left_arrow.svg"
+                              alt="icon_left_arrow"
+                            />
+                          )}
+                          <img
+                            onClick={increaseMonth}
+                            disabled={nextMonthButtonDisabled}
+                            src="../images/ic_right_arrow.svg"
+                            alt="icon_right_arrow"
+                          />
+                        </div>
+                      </DatePickerHeader>
+                    )}
                     selected={selectedDate}
                     onChange={(date) => onChangeDatePicker(date)}
                     minDate={new Date()}
@@ -295,18 +327,17 @@ const History = () => {
           </SubModalWrapper>
         )}
       </div>
-      {
-        data.map((el) => (
-          <div onClick={onClickHistory} key={el.id} id={el.id}>
-            <HisContent
-              name={el.target}
-              content={el.title}
-              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
-              pray_cnt={el.pray_cnt}
-            />
-            <div ref={ref}></div>
-          </div>
-        ))}
+      {data.map((el) => (
+        <div onClick={onClickHistory} key={el.id} id={el.id}>
+          <HisContent
+            name={el.target}
+            content={el.title}
+            date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+            pray_cnt={el.pray_cnt}
+          />
+          <div ref={ref}></div>
+        </div>
+      ))}
       <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
@@ -497,6 +528,21 @@ const DatePickerContainer = styled.div`
   top: -150%;
   left: 40%;
   z-index: 400;
+`;
+
+const DatePickerHeader = styled.div`
+  /* background: #7bab6e; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 15px 16px 12px;
+  /* align-items: center; */
+`;
+
+const DatePickerHeaderDate = styled.div`
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
 `;
 
 const ToastWrapper = styled.div`
