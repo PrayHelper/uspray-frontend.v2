@@ -43,11 +43,11 @@ const LoginPage = () => {
     };
     try {
       const res = await serverapi.post(api, data);
-      console.log(
+      alert(
         `sendDeviceToken(${token}) called, with response status ${res.status}`
       );
     } catch (e) {
-      console.log(
+      alert(
         `sendDeviceToken(${token}) called, with response status failed`
       );
     }
