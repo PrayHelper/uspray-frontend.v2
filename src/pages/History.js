@@ -4,15 +4,16 @@ import HisContent from "../components/History/HisContent";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import "../components/Calender/Calender.css";
+import Calender from "../components/Calender/Calender";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -272,48 +273,10 @@ const History = () => {
             )}
             {showDatePicker && (
               <DatePickerContainer>
-                <DatePicker
-                  renderCustomHeader={({
-                    date,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }) => (
-                    <DatePickerHeader>
-                      <DatePickerHeaderDate>
-                        {date.getFullYear()}년 {date.getMonth() + 1}월
-                      </DatePickerHeaderDate>
-                      <div style={{ gap: "12px", display: "flex" }}>
-                        {!prevMonthButtonDisabled && (
-                          <img
-                            onClick={
-                              !prevMonthButtonDisabled
-                                ? decreaseMonth
-                                : undefined
-                            }
-                            disabled={prevMonthButtonDisabled}
-                            src="../images/ic_left_arrow.svg"
-                            alt="icon_left_arrow"
-                          />
-                        )}
-                        <img
-                          onClick={increaseMonth}
-                          disabled={nextMonthButtonDisabled}
-                          src="../images/ic_right_arrow.svg"
-                          alt="icon_right_arrow"
-                        />
-                      </div>
-                    </DatePickerHeader>
-                  )}
-                  selected={selectedDate}
-                  onChange={(date) => onChangeDatePicker(date)}
-                  minDate={new Date()}
-                  dateFormat="yyyy-MM-dd"
-                  popperPlacement="bottom-start"
-                  onClickOutside={() => setShowDatePicker(false)}
-                  locale={ko}
-                  inline
+                <Calender
+                  selectedDate={selectedDate}
+                  onChangeDatePicker={onChangeDatePicker}
+                  setShowDatePicker={setShowDatePicker}
                 />
               </DatePickerContainer>
             )}
@@ -532,21 +495,6 @@ const DatePickerContainer = styled.div`
   top: -150%;
   left: 40%;
   z-index: 400;
-`;
-
-const DatePickerHeader = styled.div`
-  /* background: #7bab6e; */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 16px 15px 16px 12px;
-  /* align-items: center; */
-`;
-
-const DatePickerHeaderDate = styled.div`
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
 `;
 
 const ToastWrapper = styled.div`
