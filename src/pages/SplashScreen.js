@@ -38,13 +38,7 @@ const SplashScreen = ({url}) => {
         console.log("refresh is called. if error is not occured, login is successed")
         setAutorized()
 
-        console.log(`url: ${url}`)
-
-        if (url === "/") {
-            navigate("/main")
-        } else {
-            navigate(`/${url.substring(1)}`)
-        }
+        (url === "/") ? navigate("/main") : navigate(`${url}`)
 
       } catch {
         console.log("failed to refresh token, go to login page")
