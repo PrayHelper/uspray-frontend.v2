@@ -8,6 +8,8 @@ import { tokenState } from "../recoil/auth";
 import { useSetRecoilState } from "recoil";
 import { useFetchNotifications } from "../hooks/useFetchNotifications";
 import { useEffect } from "react";
+import useAuthToken from "../hooks/useAuthToken";
+import { setRef } from "@mui/material";
 // import { useNotificationEnable } from "../hooks/useNotificationEnable";
 
 const Container = styled.div`
@@ -106,7 +108,7 @@ const ModalButton2 = styled.button`
 const Settings = () => {
   const [showModal, setShowModal] = useState(false);
   const [isAbledData, setIsAbledData] = useState([]);
-  const setTokenState = useSetRecoilState(tokenState);
+  const { setRefreshToken } = useAuthToken();
   const navigate = useNavigate();
 
   const openModalHandler = () => {
@@ -123,7 +125,7 @@ const Settings = () => {
 
   const logout = () => {
     localStorage.setItem("refreshToken", "");
-    setTokenState("");
+    setRefreshToken("");
     navigate("/");
   };
 
