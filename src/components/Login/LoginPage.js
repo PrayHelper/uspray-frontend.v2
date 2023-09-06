@@ -64,6 +64,7 @@ const LoginPage = () => {
       if (res.status === 200) {
         if (isMobile()) {
           const deviceToken = await getDeviceToken();
+          alert(deviceToken)
           await sendDeviceToken(deviceToken);
         } else {
           setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
@@ -71,9 +72,6 @@ const LoginPage = () => {
         }
 
         navigate("/main");
-
-        console.log("access: ", res.data.access_token);
-        console.log("refresh: ", res.data.refresh_token);
 
         setAccessToken(res.data.access_token);
         await setRefreshToken(res.data.refresh_token);
