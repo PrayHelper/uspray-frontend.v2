@@ -13,7 +13,8 @@ const postShareItem = async (getAccessToken, data) => {
 export const useShare = () =>{
   const { getAccessToken } = useAuthToken();
   const { refresh } = useRefresh();
-  return useMutation((data) => {
+  return useMutation(
+    (data) => {
     return postShareItem(getAccessToken, data)}, {
     onError: async (e) => {
       if (e.status === 500) {
