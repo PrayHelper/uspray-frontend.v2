@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import useAuthToken from "../hooks/useAuthToken";
 import { setRef } from "@mui/material";
 import useAuthorized from "../hooks/useAuthorized";
+import useSleep from "../hooks/useSleep";
 
 // import { useNotificationEnable } from "../hooks/useNotificationEnable";
 
@@ -125,11 +126,10 @@ const Settings = () => {
     navigate("/checkInfo");
   };
 
-  const logout = () => {
-    localStorage.setItem("refreshToken", "");
+  const logout = async () => {
     
     setRefreshToken("");
-    navigate(-window.history.state.idx+1)
+    window.location.reload()
   };
 
   const moveToKakao = () => {
