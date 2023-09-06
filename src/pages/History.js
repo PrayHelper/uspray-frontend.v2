@@ -290,17 +290,19 @@ const History = () => {
         </SubModalWrapper>
         {/* )} */}
       </div>
-      {data.map((el) => (
-        <div onClick={onClickHistory} key={el.id} id={el.id}>
-          <HisContent
-            name={el.target}
-            content={el.title}
-            date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
-            pray_cnt={el.pray_cnt}
-          />
-          <div ref={ref}></div>
-        </div>
-      ))}
+      <div style={{ paddingTop: "65px" }}>
+        {data.map((el) => (
+          <div onClick={onClickHistory} key={el.id} id={el.id}>
+            <HisContent
+              name={el.target}
+              content={el.title}
+              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+              pray_cnt={el.pray_cnt}
+            />
+            <div ref={ref}></div>
+          </div>
+        ))}
+      </div>
       <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
@@ -321,7 +323,7 @@ const HistoryWrapper = styled.div`
   height: 100vh;
   width: 100%;
   position: relative;
-  padding-top: 65px;
+  /* padding-top: 65px; */
 `;
 
 const NoDataWrapper = styled.div`
