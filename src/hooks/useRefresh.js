@@ -15,6 +15,7 @@ const useRefresh = () => {
         Authorization: `${refreshToken}`,
       }
     });
+    console.log(`access_token: ${res.data.access_token}`);
     setAccessToken(res.data.access_token);
 
   } catch (e) {
