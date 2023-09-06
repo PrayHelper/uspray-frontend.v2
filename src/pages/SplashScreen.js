@@ -38,7 +38,9 @@ const SplashScreen = ({url}) => {
         console.log("refresh is called. if error is not occured, login is successed")
         setAutorized()
 
-        if (url === "") {
+        console.log(`url: ${url}`)
+
+        if (url === "/") {
             navigate("/main")
         } else {
             navigate(`/${url.substring(1)}`)
