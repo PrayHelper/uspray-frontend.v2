@@ -7,6 +7,45 @@ import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import useAuthToken from "../../hooks/useAuthToken";
+import { postFetcher } from "../../hooks/api";
+import useRefresh from "../../hooks/useRefresh";
+import { useMutation } from "react-query";
+
+
+
+
+const sendDeviceTokenFunc = async (getAccessToken, data) => {
+  return await postFetcher("/user/device/token", data, {
+    Authorization: getAccessToken(),
+  });
+};
+  
+const useSendDeviceToken = () => {
+    const { getAccessToken } = useAuthToken();
+    const { refresh } = useRefresh();
+    return useMutation(
+      (data) => {
+        return sendDeviceTokenFunc(getAccessToken, data)
+      },
+      {
+        onError: async (e) => {
+          if (e.status === 403) {
+            await refresh();
+          }
+          console.log(e);
+        },
+        onSuccess: (res) => {
+          console.log(res);
+        },
+        retry: (cnt) => {
+          return cnt < 3;
+        },
+        retryDelay: 300,
+        refetchOnWindowFocus: false,
+      }
+    );
+  };
+  
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
@@ -36,22 +75,8 @@ const LoginPage = () => {
     }
   }, [showToast]);
 
-  const sendDeviceToken = async (token) => {
-    const api = "/user/device/token";
-    const data = {
-      device_token: token,
-    };
-    try {
-      const res = await serverapi.post(api, data);
-      alert(
-        `sendDeviceToken(${token}) called, with response status ${res.status}`
-      );
-    } catch (e) {
-      alert(
-        `sendDeviceToken(${token}) called, with response status failed`
-      );
-    }
-  };
+  const { mutate: sendDeviceToken } = useSendDeviceToken();
+  
 
   const login = async () => {
     const api = `/user/login`;
@@ -64,8 +89,16 @@ const LoginPage = () => {
       if (res.status === 200) {
         if (isMobile()) {
           const deviceToken = await getDeviceToken();
-          alert(deviceToken)
-          await sendDeviceToken(deviceToken);
+
+          sendDeviceToken(
+            {
+              device_token: deviceToken,
+            },
+            {
+              onSuccess: (res) => alert(res.status),
+              onError: (e) => alert(e.status),
+            }
+          )
         } else {
           setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
           setShowToast(true);
