@@ -119,6 +119,17 @@ const Main = () => {
     }
   }, [shareData]);
 
+  // 모달 메세지 띄우는 거 하는 useEffect
+  useEffect(() => {
+    if (modalText) {
+      const timer = setTimeout(() => {
+        setmodalToggle(false);
+        setModalText("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [modalText]);
+
   const { mutate: mutateCountUpdate } = useCountUpdate();
   const { mutate: mutateComplete } = useCompletePrayList();
   const { mutate: mutateDeletePrayItem } = usePrayDelete();
@@ -241,7 +252,8 @@ const Main = () => {
             uncompletedList.filter((prayer) => prayer.id !== id)
           );
           setCompletedList(completedList.filter((prayer) => prayer.id !== id));
-          feedbackHandler("기도를 완료하였습니다.");
+          setmodalToggle(true);
+          setModalText("기도제목을 완료했어요.")
         },
       }
     );
@@ -289,7 +301,8 @@ const Main = () => {
             uncompletedList.filter((prayer) => prayer.id !== id)
           );
           setCompletedList(completedList.filter((prayer) => prayer.id !== id));
-          feedbackHandler("기도제목이 삭제되었어요.");
+          setmodalToggle(true);
+          setModalText("기도제목이 삭제되었어요.")
         },
       }
     );
@@ -314,7 +327,8 @@ const Main = () => {
         },
         {
           onSuccess: () => {
-            feedbackHandler("기도제목이 수정되었어요.");
+            setmodalToggle(true);
+            setModalText("기도제목이 수정되었어요.")
           },
         }
       );

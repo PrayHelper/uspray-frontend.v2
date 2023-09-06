@@ -10,7 +10,7 @@ const ShareImg = styled(Share_Logo)`
     bottom: 72px;
     border-radius: 50%;
     box-shadow: 0px 4px 8px #00000080;
-    z-index : 4;
+    z-index : 0;
 `;
 const Container = styled.div`
     display : flex;

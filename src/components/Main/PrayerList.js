@@ -12,6 +12,8 @@ import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
+import Toast, { ToastTheme } from "../../components/Toast/Toast";
+
 
 const Background = styled.div`
   width: 100%;
@@ -78,6 +80,12 @@ const PrayerContentStyle = styled.div`
     border: 1px solid #7BAB6F;
     min-height: 244px;
     padding-bottom: 20px;
+`;
+
+const ToastWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 
@@ -357,7 +365,9 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </PrayerContentStyle>
                 {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
                shareLength = {shareLength} setshareToggle = {setshareToggle}></Share>}
-                <AnimationModal modalText = {modalText} modalToggle={modalToggle} />
+                <ToastWrapper>
+                    {modalToggle && <Toast>{modalText}</Toast>}
+                </ToastWrapper>
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
                 {isModify && <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>}
