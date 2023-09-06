@@ -10,6 +10,8 @@ import { useFetchNotifications } from "../hooks/useFetchNotifications";
 import { useEffect } from "react";
 import useAuthToken from "../hooks/useAuthToken";
 import { setRef } from "@mui/material";
+import useAuthorized from "../hooks/useAuthorized";
+
 // import { useNotificationEnable } from "../hooks/useNotificationEnable";
 
 const Container = styled.div`
@@ -125,8 +127,9 @@ const Settings = () => {
 
   const logout = () => {
     localStorage.setItem("refreshToken", "");
+    
     setRefreshToken("");
-    navigate("/");
+    navigate(-window.history.state.idx+1)
   };
 
   const moveToKakao = () => {

@@ -19,11 +19,16 @@ const useAuthorized = () => {
         authorized = false;
     }
 
+    const setUndefined = () => {
+        authorized = null
+    }
+
     return {
         isUndefined,
         isAuthrozed,
         setAutorized,
         setUnAuthorized,
+        setUndefined
     }
 }
 
