@@ -196,21 +196,23 @@ const Locker = () => {
       )}
       {!isLoading && !isEmptyData(data) && (
         <LockerList>
-          {data.map((item, index) => (
-            <div
-              style={{ width: "100%" }}
-              onClick={() => onClickContent(index, item.pray_id)}
-            >
-              <LockerContent
-                isClicked={isClicked[index]}
-                name={item.share_name}
-                title={item.title}
-                target={item.target}
-                dday={calculateDday(item.shared_at)}
-                key={item.pray_id}
-              />
-            </div>
-          ))}
+          <div style={{ paddingTop: "65px", width: "100%" }}>
+            {data.map((item, index) => (
+              <div
+                // style={{ width: "100%" }}
+                onClick={() => onClickContent(index, item.pray_id)}
+              >
+                <LockerContent
+                  isClicked={isClicked[index]}
+                  name={item.share_name}
+                  title={item.title}
+                  target={item.target}
+                  dday={calculateDday(item.shared_at)}
+                  key={item.pray_id}
+                />
+              </div>
+            ))}
+          </div>
         </LockerList>
       )}
       <div style={{ marginTop: "20px", color: "white" }}>.</div>
@@ -233,7 +235,7 @@ const Locker = () => {
 export default Locker;
 
 const LockerWrapper = styled.div`
-  padding-top: 65px;
+  /* padding-top: 65px; */
   display: flex;
   flex-direction: column;
   height: 100vh;
