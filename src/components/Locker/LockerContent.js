@@ -19,12 +19,13 @@ export default LockerContent;
 const LockerContentWrapper = styled.div`
   cursor: pointer;
   padding: 16px;
-  background: ${(props) =>
+  background-color: ${(props) =>
     props.isClicked ? "rgba(255, 255, 255, 0.75)" : "#ffffff"};
   box-shadow: 0px 2px 8px rgba(49, 65, 44, 0.25);
   border-radius: 16px;
   margin: 12px 24px;
-  outline: ${(props) => (props.isClicked ? "2px solid #7BAB6E" : "")};
+  outline: ${(props) => (props.isClicked ? "2px solid #7BAB6E" : "#ffffff")};
+  transition: all 0.3s ease-in-out;
 `;
 
 const TopContentWrapper = styled.div`
