@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
-
+import "./Calender.css";
 // props 넘겨받을 목록
 // 1. selectedDate 변수 (현재 선택된 날짜)
 // 2. onChangeDatePicker 함수 (날짜 선택시 반영)

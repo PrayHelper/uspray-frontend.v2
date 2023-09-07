@@ -12,7 +12,6 @@ import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
-import "../components/Calender/Calender.css";
 import Calender from "../components/Calender/Calender";
 
 const History = () => {
@@ -432,6 +431,12 @@ const ModalButton2 = styled.button`
   color: #ffffff;
   font-size: 18px;
   cursor: pointer;
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => (props.disabled ? "1" : "0.98")};
+  }
 `;
 
 const SubModalWrapper = styled.div`
@@ -474,6 +479,12 @@ const SubModalBtn = styled.div`
       background-color: #75bd62;
       color: #ffffff;
     `}
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => (props.disabled ? "1" : "0.90")};
+  }
 `;
 
 const SubModalDate = styled.div`
@@ -490,6 +501,11 @@ const SubModalBottom = styled.div`
   text-align: center;
   color: #ffffff;
   padding: 20px 0px;
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+  }
 `;
 
 const DatePickerContainer = styled.div`
