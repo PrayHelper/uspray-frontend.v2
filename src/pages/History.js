@@ -373,13 +373,13 @@ const NoDataTitle = styled.div`
   font-weight: 700;
   font-size: 28px;
   line-height: 41px;
-  color: #a0a0a0;
+  color: var(--color-grey);
 `;
 const NoDataContent = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  color: #cecece;
+  color: var(--color-secondary-grey);
 `;
 
 const ModalWrapper = styled.div`
@@ -392,7 +392,7 @@ const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
+  background-color: var(--color-white);
   /* gap: 8px; */
   border-radius: 16px;
   z-index: 300;
@@ -408,7 +408,7 @@ const ModalHeader = styled.div`
 const ModalTitleWrapper = styled.div``;
 
 const ModalTitle = styled.div`
-  color: #606060;
+  color: var(--color-dark-grey);
   font-weight: 700;
   font-size: 16px;
   line-height: 23px;
@@ -416,12 +416,12 @@ const ModalTitle = styled.div`
 `;
 
 const ModalTarget = styled.span`
-  color: #7bab6e;
+  color: var(--color-dark-green);
   font-size: 20px;
 `;
 
 const ModalDate = styled.div`
-  color: #7bab6e;
+  color: var(--color-dark-green);
   font-size: 12px;
   line-height: 17px;
 `;
@@ -430,7 +430,7 @@ const ModalContent = styled.div`
   padding: 0px 28px 12px 28px;
   font-size: 16px;
   line-height: 23px;
-  color: #606060;
+  color: var(--color-dark-grey);
 `;
 
 const ModalWriter = styled.div`
@@ -438,7 +438,7 @@ const ModalWriter = styled.div`
   flex-direction: row-reverse;
   padding: 0px 20px 11px 0px;
   font-size: 12px;
-  color: #a0a0a0;
+  color: var(--color-grey);
 `;
 
 const ModalButtonWrapper = styled.div`
@@ -449,22 +449,24 @@ const ModalButtonWrapper = styled.div`
 
 const ModalButton1 = styled.button`
   width: 100%;
-  background-color: ${(props) => (props.showSubModal ? "#D0E8CB" : "#ffffff")};
+  background-color: var(
+    ${(props) => (props.showSubModal ? "--color-light-green" : "--color-white")}
+  );
   border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
   border-radius: 16px;
   padding: 16px 0;
-  color: #7bab6e;
+  color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;
 `;
 
 const ModalButton2 = styled.button`
   width: 100%;
-  background-color: #7bab6e;
+  background-color: var(--color-dark-green);
   border-style: none;
   border-radius: 16px;
   padding: 16px 0;
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 18px;
   cursor: pointer;
 `;
@@ -495,35 +497,35 @@ const SubModalTop = styled.div`
 `;
 
 const SubModalBtn = styled.div`
-  border: 1px solid #75bd62;
+  border: 1px solid var(--color-green);
   border-radius: 8px;
   padding: 4px 8px;
   word-break: keep-all;
   font-size: 12px;
   line-height: 17px;
-  color: #75bd62;
+  color: var(--color-green);
   cursor: pointer;
   ${(props) =>
     props.isSelected &&
     css`
-      background-color: #75bd62;
-      color: #ffffff;
+      background-color: var(--color-green);
+      color: var(--color-white);
     `}
 `;
 
 const SubModalDate = styled.div`
   font-size: 12px;
-  color: #75bd62;
+  color: var(--color-green);
   transform: translateX(-4px);
 `;
 
 const SubModalBottom = styled.div`
-  background: #7bab6e;
+  background: var(--color-dark-green);
   border-radius: 0px 0px 16px 16px;
   font-weight: 700;
   font-size: 16px;
   text-align: center;
-  color: #ffffff;
+  color: var(--color-white);
   padding: 20px 0px;
 `;
 
@@ -544,7 +546,7 @@ const DatePickerHeader = styled.div`
 `;
 
 const DatePickerHeaderDate = styled.div`
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 16px;
   font-weight: 700;
 `;
