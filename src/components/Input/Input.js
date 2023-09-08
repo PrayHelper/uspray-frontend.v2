@@ -15,6 +15,7 @@ const Input = ({
   onChangeHandler,
   onFocusHandler,
   value,
+  showInput = true,
 }) => {
   if (!type) type = "text";
   if (!label) label = "";
@@ -22,6 +23,9 @@ const Input = ({
     onFocusHandler = () => {
     };
   const [isFocused, setIsFocused] = useState(false);
+  if (!showInput) {
+    return (null);
+  }
 
   return (
     <WrapperStyle isFocused={isFocused} isError={isError}>
@@ -34,6 +38,7 @@ const Input = ({
         placeholder={isFocused ? placeholder : ""}
         isError={isError}
         onChange={onChangeHandler}
+        showInput={showInput}
         onFocus={() => {
           setIsFocused(true);
           onFocusHandler();

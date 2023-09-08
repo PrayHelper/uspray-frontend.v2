@@ -205,6 +205,7 @@ const FindId = () => {
           isError={
             (!isCetrificated && isCertificateButtonClicked) || time === 0
           }
+          showInput={false} // 여기에요 여기!!!!!
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               {time !== "" && <span>{changeTimeFormat(time)}</span>}
