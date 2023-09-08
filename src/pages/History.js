@@ -1,7 +1,6 @@
 import Header from "../components/Header/Header";
 import styled, { css } from "styled-components";
 import HisContent from "../components/History/HisContent";
-import serverapi from "../api/serverapi";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
@@ -11,11 +10,12 @@ import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
+import Lottie from "react-lottie";
+import LottieData from "../components/Main/json/uspray.json";
+import "../components/Calender/Calender.css";
 
 const History = () => {
-  const [isOnDate, setIsOnDate] = useState(true);
-  const [isOnPray, setIsOnPray] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
   const [page, setPage] = useState(1);
@@ -31,8 +31,18 @@ const History = () => {
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
-    triggerOnce: true, // 한 번만 트리거되도록 설정
+    // triggerOnce: true, // 한 번만 트리거되도록 설정
   });
+
+  const defaultOptions = {
+    //예제1
+    loop: true,
+    autoplay: true,
+    animationData: LottieData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   useEffect(() => {
     if (showToast) {
@@ -63,28 +73,11 @@ const History = () => {
     const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
     setUpdateDate(formattedDate); // formattedDate를 업데이트
     setShowDatePicker(false); // DatePicker 닫기
+    setIsClickedDay(true);
   };
 
   const handleButtonClick = () => {
     setShowDatePicker(true);
-  };
-
-  const onClickDate = () => {
-    if (isOnDate) return; // 이미 선택된 버튼이면 함수 종료
-    setIsOnDate(true);
-    setIsOnPray(false);
-    setPage(1);
-    setHasMore(true);
-    setData([]);
-  };
-
-  const onClickPray = () => {
-    if (isOnPray) return; // 이미 선택된 버튼이면 함수 종료
-    setIsOnDate(false);
-    setIsOnPray(true);
-    setPage(1);
-    setHasMore(true);
-    setData([]);
   };
 
   const isEmptyData = (data) => {
@@ -92,77 +85,93 @@ const History = () => {
   };
 
   const onClickExitModal = () => {
+    setSelectedBtn("");
+    setSelectedDate(null);
+    setShowDatePicker(false);
+    setIsClickedDay(false);
     setShowModal(false);
     setShowSubModal(false);
   };
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
+    onClickUpdateDate(7);
   };
-
-  const { mutate: mutateHistoryModify } = useHistoryModify({
-    pray_id: currentId,
-    deadline: updateDate,
-  });
-
-  const onClickModify = () => {
-    mutateHistoryModify(null, {
-      onSuccess: () => {
-        setShowToast(true);
-        setShowModal(false);
-        setShowSubModal(false);
-        setPage(1);
-        setHasMore(true);
-        setData([]);
-        updateHistoryData();
-      },
-    });
-  };
-  const { data: currentHistoryData } = useFetchHistory();
 
   const {
     data: historyData,
-    isLoading: historyLoading,
+    // isLoading: historyLoading,
     refetch: refetchHistory,
   } = useFetchHistory({
     page: page,
     per_page: 15,
-    sort_by: isOnPray ? "cnt" : "date",
+    sort_by: "date",
   });
 
-  // flag 변경 시 historyData를 새로 받아오는 함수
-  const updateHistoryData = () => {
-    console.log("함수 실행은 되니?");
-    refetchHistory();
-  };
-
-  useEffect(() => {
-    if (!historyData) return;
-    console.log("useEffect 실행은 되니?");
-    console.log(historyData);
-    setLoading(historyLoading);
-    setData((prev) => [...prev, ...historyData.data.res]);
-    if (historyData.data.res.length === 0) {
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
+  const fetchHistory = async () => {
+    // setLoading(historyLoading);
+    console.log(data);
+    const newData = await historyData.data.res;
+    const filteredData = newData.filter(
+      (newItem) => !data.some((existingItem) => existingItem.id === newItem.id)
+    );
+    console.log(filteredData);
+    console.log(deletedItemIds);
+    const dData = [...data, ...filteredData].filter(
+      (item) => !deletedItemIds.some((dItem) => dItem === item.id)
+    );
+    setData(dData);
+    console.log("리스트 읽기");
+    console.log("페이지 :" + page);
+    console.log("hasmore? :" + hasMore);
+    console.log("inview? :" + inView);
+    if (newData.length === 0) {
       setHasMore(false);
     }
-  }, [page, isOnPray, historyData]);
+  };
+
+  const { mutate: mutateHistoryModify } = useHistoryModify();
+
+  const onClickModify = () => {
+    mutateHistoryModify(
+      {
+        pray_id: currentId,
+        deadline: updateDate,
+      },
+      {
+        onSuccess: (res) => {
+          setShowToast(true);
+          setShowModal(false);
+          setShowSubModal(false);
+          setDeletedItemIds((prev) => [...prev, res.data.id]);
+          setSelectedBtn("");
+          setSelectedDate(null);
+          setShowDatePicker(false);
+          setIsClickedDay(false);
+          refetchHistory();
+        },
+      }
+    );
+  };
 
   const onClickHistory = async (e) => {
     setShowModal(true);
     const id = e.currentTarget.id;
     const currentData = data.find((item) => item.id === Number(id));
-    if (currentData) {
-      console.log(currentData);
-      setCurrentData(currentData);
-      setCurrentId(Number(id));
-    } else {
-      const currentData = currentHistoryData.data.res.filter(
-        (item) => item.id === Number(id)
-      )[0];
-      setCurrentId(Number(id));
-      setCurrentData(currentData);
-    }
+    console.log(currentData);
+    setCurrentData(currentData);
+    setCurrentId(Number(id));
   };
+
+  useEffect(() => {
+    setLoading(true);
+    if (historyData) {
+      fetchHistory();
+      setLoading(false);
+      console.log(historyData);
+    }
+  }, [historyData]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
@@ -173,16 +182,25 @@ const History = () => {
   return (
     <HistoryWrapper>
       <Header>히스토리</Header>
-      {isEmptyData(data) && (
+      {loading && (
+        <Lottie
+          style={{ scale: "0.5" }}
+          options={defaultOptions}
+          height={300}
+          width={300}
+          isClickToPauseDisabled={true}
+        />
+      )}
+      {!loading && isEmptyData(data) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
         </NoDataWrapper>
       )}
       <div>
+        <BlackScreen isModalOn={showModal} />
         {!isEmptyData(data) && showModal && (
           <>
-            <BlackScreen isModalOn={showModal} onClick={onClickExitModal} />
             <ModalWrapper showSubModal={showSubModal}>
               <ModalHeader>
                 <ModalTitleWrapper>
@@ -213,97 +231,114 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        {showSubModal && (
-          <SubModalWrapper>
-            <SubModalTop>
-              <SubModalBtn
-                isSelected={selectedBtn === 3}
-                onClick={() => onClickUpdateDate(3)}
-              >
-                3일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 7}
-                onClick={() => onClickUpdateDate(7)}
-              >
-                7일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 30}
-                onClick={() => onClickUpdateDate(30)}
-              >
-                30일
-              </SubModalBtn>
-              <SubModalBtn
-                isSelected={selectedBtn === 100}
-                onClick={() => onClickUpdateDate(100)}
-              >
-                100일
-              </SubModalBtn>
-              {showDatePicker ? (
-                <img
-                  src="../images/icon_calender_filled.svg"
-                  alt="icon_calender"
+        {/* {showSubModal && ( */}
+        <SubModalWrapper showSubModal={showSubModal}>
+          <SubModalTop>
+            <SubModalBtn
+              isSelected={selectedBtn === 3}
+              onClick={() => onClickUpdateDate(3)}
+            >
+              3일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 7}
+              onClick={() => onClickUpdateDate(7)}
+            >
+              7일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 30}
+              onClick={() => onClickUpdateDate(30)}
+            >
+              30일
+            </SubModalBtn>
+            <SubModalBtn
+              isSelected={selectedBtn === 100}
+              onClick={() => onClickUpdateDate(100)}
+            >
+              100일
+            </SubModalBtn>
+            {showDatePicker ? (
+              <img
+                src="../images/icon_calender_filled.svg"
+                alt="icon_calender"
+              />
+            ) : (
+              <img
+                src="../images/icon_calender.svg"
+                alt="icon_calender"
+                onClick={handleButtonClick}
+              />
+            )}
+            {showDatePicker && (
+              <DatePickerContainer>
+                <DatePicker
+                  renderCustomHeader={({
+                    date,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                  }) => (
+                    <DatePickerHeader>
+                      <DatePickerHeaderDate>
+                        {date.getFullYear()}년 {date.getMonth() + 1}월
+                      </DatePickerHeaderDate>
+                      <div style={{ gap: "12px", display: "flex" }}>
+                        {!prevMonthButtonDisabled && (
+                          <img
+                            onClick={
+                              !prevMonthButtonDisabled
+                                ? decreaseMonth
+                                : undefined
+                            }
+                            disabled={prevMonthButtonDisabled}
+                            src="../images/ic_left_arrow.svg"
+                            alt="icon_left_arrow"
+                          />
+                        )}
+                        <img
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
+                          src="../images/ic_right_arrow.svg"
+                          alt="icon_right_arrow"
+                        />
+                      </div>
+                    </DatePickerHeader>
+                  )}
+                  selected={selectedDate}
+                  onChange={(date) => onChangeDatePicker(date)}
+                  minDate={new Date()}
+                  dateFormat="yyyy-MM-dd"
+                  popperPlacement="bottom-start"
+                  onClickOutside={() => setShowDatePicker(false)}
+                  locale={ko}
+                  inline
                 />
-              ) : (
-                <img
-                  src="../images/icon_calender.svg"
-                  alt="icon_calender"
-                  onClick={handleButtonClick}
-                />
-              )}
-              {showDatePicker && (
-                <DatePickerContainer>
-                  <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => onChangeDatePicker(date)}
-                    minDate={new Date()}
-                    dateFormat="yyyy-MM-dd"
-                    popperPlacement="bottom-start"
-                    onClickOutside={() => setShowDatePicker(false)}
-                    locale={ko}
-                    inline
-                  />
-                </DatePickerContainer>
-              )}
-              {isClickedDay && (
-                <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
-              )}
-            </SubModalTop>
-            <SubModalBottom onClick={() => onClickModify()}>
-              오늘의 기도에 추가하기
-            </SubModalBottom>
-          </SubModalWrapper>
-        )}
+              </DatePickerContainer>
+            )}
+            {isClickedDay && (
+              <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
+            )}
+          </SubModalTop>
+          <SubModalBottom onClick={() => onClickModify()}>
+            오늘의 기도에 추가하기
+          </SubModalBottom>
+        </SubModalWrapper>
+        {/* )} */}
       </div>
-      {!isEmptyData(data) && (
-        <>
-          <ToggleWrapper>
-            <ToggleButton>
-              <ToggleText isOnDate={isOnDate} onClick={onClickDate}>
-                날짜순
-              </ToggleText>
-              <ToggleText isOnPray={isOnPray} onClick={onClickPray}>
-                기도순
-              </ToggleText>
-            </ToggleButton>
-          </ToggleWrapper>
-          <Hline />
-        </>
-      )}
-      {data.map((el, index) => (
-        <div onClick={onClickHistory} key={index} id={el.id}>
+      {data.map((el) => (
+        <div onClick={onClickHistory} key={el.id} id={el.id}>
           <HisContent
             name={el.target}
             content={el.title}
             date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
             pray_cnt={el.pray_cnt}
-            isOnPray={isOnPray}
           />
           <div ref={ref}></div>
         </div>
       ))}
-      <div style={{ marginTop: "20px" }}>.</div>
+      <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -322,6 +357,8 @@ const HistoryWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
+  position: relative;
+  padding-top: 65px;
 `;
 
 const NoDataWrapper = styled.div`
@@ -345,43 +382,6 @@ const NoDataContent = styled.div`
   color: #cecece;
 `;
 
-const Hline = styled.hr`
-  width: 100%;
-  color: "#CECECE";
-  size: 1px;
-  opacity: 0.5;
-  margin: 0;
-  border-right: 0;
-  border-left: 0;
-`;
-
-const ToggleWrapper = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-`;
-
-const ToggleButton = styled.div`
-  margin: 20px 16px 16px 0px;
-  background: #7bab6e;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  padding: 4px;
-`;
-
-const ToggleText = styled.div`
-  font-weight: 700;
-  font-size: 10px;
-  border-radius: 2px;
-  color: ${(props) =>
-    props.isOnDate || props.isOnPray ? "#7BAB6E" : "#ebf7e8"};
-  padding: 6px;
-  cursor: pointer;
-  background-color: ${(props) =>
-    props.isOnDate || props.isOnPray ? "#EBF7E8" : "none"};
-  /* background-color: #ebf7e8; */
-`;
-
 const ModalWrapper = styled.div`
   position: fixed;
   /* top: ${(props) => (props.showSubModal ? `40%` : `50%`)}; */
@@ -396,6 +396,7 @@ const ModalWrapper = styled.div`
   /* gap: 8px; */
   border-radius: 16px;
   z-index: 300;
+  transition: all 0.3s ease-in-out;
 `;
 
 const ModalHeader = styled.div`
@@ -470,7 +471,6 @@ const ModalButton2 = styled.button`
 
 const SubModalWrapper = styled.div`
   position: fixed;
-  top: 63%;
   left: 50%;
   transform: translate(-50%, -40%);
   width: calc(100vw - 64px);
@@ -480,6 +480,10 @@ const SubModalWrapper = styled.div`
   background-color: white;
   border-radius: 16px;
   z-index: 300;
+  top: 63%;
+  opacity: ${(props) => (props.showSubModal ? "1" : "0")};
+  transition: all 0.3s ease-in-out;
+  visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
 `;
 
 const SubModalTop = styled.div`
@@ -520,7 +524,7 @@ const SubModalBottom = styled.div`
   font-size: 16px;
   text-align: center;
   color: #ffffff;
-  padding: 25px 0px;
+  padding: 20px 0px;
 `;
 
 const DatePickerContainer = styled.div`
@@ -528,6 +532,21 @@ const DatePickerContainer = styled.div`
   top: -150%;
   left: 40%;
   z-index: 400;
+`;
+
+const DatePickerHeader = styled.div`
+  /* background: #7bab6e; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 15px 16px 12px;
+  /* align-items: center; */
+`;
+
+const DatePickerHeaderDate = styled.div`
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
 `;
 
 const ToastWrapper = styled.div`

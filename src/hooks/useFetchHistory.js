@@ -1,23 +1,30 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { getFetcher, refresh } from "./api";
+import { getFetcher } from "./api";
 import { useQuery } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const getHis = async (accessToken, params) => {
-  return await getFetcher('/history', {
-    Authorization: accessToken,
-  }, params);
+const getHis = async (getAccessToken, params) => {
+  return await getFetcher(
+    "/history",
+    {
+      Authorization: getAccessToken(),
+    },
+    params
+  );
 };
 
 export const useFetchHistory = (params) => {
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useQuery(["History", accessToken, params], () => {
-    return getHis(accessToken, params)}, {
-      onError: (e) => {
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
+  return useQuery(
+    ["History", params],
+    () => {
+      return getHis(getAccessToken, params);
+    },
+    {
+      onError: async (e) => {
         if (e.status === 403) {
-          const data = refresh();
-          if (typeof(data) === "string")
-            setAccessToken(data);
+          await refresh();
         }
         console.log(e);
       },
@@ -29,5 +36,6 @@ export const useFetchHistory = (params) => {
       },
       retryDelay: 300,
       refetchOnWindowFocus: false,
-    });
-}
+    }
+  );
+};

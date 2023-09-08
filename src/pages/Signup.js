@@ -14,12 +14,12 @@ import { useNavigate } from "react-router-dom";
 let init = 0;
 
 const ModalContent = styled.div`
-
   transition: all 0.3s ease-in-out;
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: ${props => props.isModalOn ? 'translate(-50%, -50%' : 'translate(-50%, -40%'});
+  transform: ${(props) =>
+    props.isModalOn ? "translate(-50%, -50%)" : "translate(-50%, -40%)"};
   width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
@@ -31,8 +31,8 @@ const ModalContent = styled.div`
   color: #7bab6e;
   z-index: 500;
 
-  opacity: ${props => props.isModalOn ? '1' :'0'};
-  pointer-events: ${props => props.isModalOn ? 'auto' :'none'};
+  opacity: ${(props) => (props.isModalOn ? "1" : "0")};
+  pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
 `;
 
 const ModalButton = styled.button`
@@ -76,7 +76,10 @@ const Signup = () => {
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
-  const [isPhoneNumVerficationButtonClicked, setIsPhoneNumVerficationButtonClickClick] = useState(false);
+  const [
+    isPhoneNumVerficationButtonClicked,
+    setIsPhoneNumVerficationButtonClickClick,
+  ] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [tos1Checked, setTos1Checked] = useState(false);
   const [tos2Checked, setTos2Checked] = useState(false);
@@ -171,11 +174,13 @@ const Signup = () => {
         setToastTheme(ToastTheme.SUCCESS);
         setShowToast(true);
         setTimeout(() => {
-          navigate('/');
+          navigate("/");
         }, 2000);
       }
     } catch (e) {
-      alert("error occured");
+      console.log(e);
+      if (e.response.data.dev_message === "SignUpFail error")
+        alert(e.response.data.message);
     }
   };
 
@@ -320,36 +325,34 @@ const Signup = () => {
   return (
     <div>
       <UserHeader>회원가입</UserHeader>
-        <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-        <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
-          <img
-            src="images/icon_notice.svg"
-            alt="icon_notice"
-            style={{
-              marginBottom: "8px",
-            }}
-          />
-          <div
-            style={{
-              fontSize: "20px",
-              color: "#7BAB6E",
-              fontWeight: "700",
-              marginBottom: "2px",
-            }}
-          >
-            이름은 실명으로 설정해주세요!
-          </div>
-          <div
-            style={{
-              marginBottom: "36px",
-            }}
-          >
-            기도제목 공유 시 이름으로 전달됩니다.
-          </div>
-          <ModalButton onClick={handleCloseModal}>
-            네, 그렇게 할게요.
-          </ModalButton>
-        </ModalContent>
+      <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
+      <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
+        <img
+          src="images/icon_notice.svg"
+          alt="icon_notice"
+          style={{
+            marginBottom: "8px",
+          }}
+        />
+        <div
+          style={{
+            fontSize: "20px",
+            color: "#7BAB6E",
+            fontWeight: "700",
+            marginBottom: "2px",
+          }}
+        >
+          이름은 실명으로 설정해주세요!
+        </div>
+        <div
+          style={{
+            marginBottom: "36px",
+          }}
+        >
+          기도제목 공유 시 이름으로 전달됩니다.
+        </div>
+        <ModalButton onClick={handleCloseModal}>네, 그렇게 할게요.</ModalButton>
+      </ModalContent>
       <div
         style={{
           display: "flex",
@@ -475,7 +478,9 @@ const Signup = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0 || !isPhoneNumVerficationButtonClicked
+                  (isCetrificated && isCertificateButtonClicked) ||
+                  time === 0 ||
+                  !isPhoneNumVerficationButtonClicked
                 }
                 handler={() => {
                   console.log(isCetrificated && isCertificateButtonClicked);
@@ -496,7 +501,7 @@ const Signup = () => {
             </div>
           }
         />
-        <div>
+        <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
           <Checkbox
             id="tos1"
             label={"만 14세 이상입니다."}
@@ -504,14 +509,18 @@ const Signup = () => {
             handler={handleTos1Change}
           />
           <Checkbox
+            link={"/tos"}
             id="tos2"
-            label={"이용약관을 모두 확인하였으며 이에 동의합니다."}
+            label={"에 동의합니다."}
+            linklabel={"서비스 이용약관"}
             checked={tos2Checked}
             handler={handleTos2Change}
           />
           <Checkbox
+            link={"/privacyProcessAgreement"}
             id="tos3"
-            label={"개인정보 처리방침을 모두 확인하였으며 이에 동의합니다."}
+            label={"에 동의합니다."}
+            linklabel={"개인정보 수집 및 이용"}
             checked={tos3Checked}
             handler={handleTos3Change}
           />
@@ -526,13 +535,9 @@ const Signup = () => {
         >
           회원가입
         </Button>
-        
-        {showToast && (
-          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
-        )}
-        {showToast && (
-          <Toast toastTheme={toastTheme}>{toastMessage}</Toast>
-        )}
+
+        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
+        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
     </div>
   );

@@ -5,13 +5,26 @@ import useSleep from './useSleep';
 
 const nil = {isnil: true}
 
+let deviceToken = {
+    current: null
+}
+
+let authToken = {
+    current: null
+}
+
+let deviceLock = {
+    current: null
+}
+
+let authLock = {
+    current: null
+}
+
 
 const useDeviceToken = () => {
 
   const { sleepWithCondition } = useSleep();
-
-  const muLock = useRef(false);
-  const deviceToken = useRef(null);
 
   const getDeviceToken = async () => {
     if (deviceToken.current != null) {
@@ -20,8 +33,8 @@ const useDeviceToken = () => {
     //eslint-disable-next-line
     FlutterGetDeviceToken.postMessage(nil);
 
-    muLock.current = true;
-    await sleepWithCondition(() => muLock.current === false)
+    deviceLock.current = true;
+    await sleepWithCondition(() => deviceLock.current === false)
 
     console.log(`getDeviceToken() returned ${deviceToken.current}`)
     return deviceToken.current;
@@ -31,7 +44,7 @@ const useDeviceToken = () => {
     // name should be modified to onReceiveDeviceToken
     window.onReceiveDeviceToken = (token) => {
       deviceToken.current = token
-      muLock.current = false;
+      deviceLock.current = false;
 
       console.log(`onReceiveDeviceToken(${token}) called`)
     }
@@ -48,20 +61,16 @@ const useAuthToken = () => {
 
   const { sleepWithCondition } = useSleep();
 
-  const muLockGetter = useRef(false);
-  const muLockSetter = useRef(false);
-  const authToken = useRef(null);
-
   // Return nullstring if there is no auth token stored in device.
   const getAuthToken = async () => {
     if (authToken.current != null) {
       return authToken.current
     }
     //eslint-disable-next-line
-    await FlutterGetAuthToken.postMessage();
+    FlutterGetAuthToken.postMessage(nil);
 
-    muLockGetter.current = true;
-    sleepWithCondition(() => muLockGetter.current === false)
+    authLock.current = true;
+    await sleepWithCondition(() => authLock.current === false)
 
     console.log(`getAuthToken() returned ${authToken.current}`)
     return authToken.current;
@@ -75,16 +84,15 @@ const useAuthToken = () => {
 
   
   useEffect(() => {
-    window.onReceiveAuthTokenFalse = (token) => {
+    window.onReceiveAuthToken = (token) => {
       authToken.current = token
-      muLockGetter.current = false;
+      authLock.current = false;
 
       console.log(`onReceiveAuthToken(${token}) called`)
     }
 
-    window.onReceiveTokenStoredMsg = () => {
-      muLockSetter.current = false;
-      console.log(`onReceiveTokenStoredMsg() called`)
+    window.onReceiveTokenStoredAck = () => {
+      console.log(`onReceiveTokenStoredAck() called`)
     }
   }, []);
   
@@ -93,6 +101,20 @@ const useAuthToken = () => {
     getAuthToken,
     storeAuthToken
   }
+}
+
+
+
+const useShareLink = () => {
+    const shareLink = ({title, url}) => {
+        const data = JSON.stringify({title, url})
+        //eslint-disable-next-line
+        FlutterShareLink.postMessage(data);
+    }
+
+    return {
+        shareLink
+    }
 }
 
 
@@ -117,12 +139,14 @@ const useFlutterWebview = () => {
 
   const { getDeviceToken } = useDeviceToken();
   const { getAuthToken, storeAuthToken } = useAuthToken();
+  const { shareLink } = useShareLink();
 
   return {
     isMobile,
     getDeviceToken,
     getAuthToken,
-    storeAuthToken
+    storeAuthToken,
+    shareLink
   }
 }
 

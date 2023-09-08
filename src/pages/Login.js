@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import LoginButton from "../components/Login/LoginButton/LoginButton";
+import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 
 const Login = () => {
   return (
@@ -12,25 +13,31 @@ const Login = () => {
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
       <BottomBtnWrapper>
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <LoginButton
-            background={"#7bab6e"}
-            context={"로그인"}
-            color={"#ffffff"}
-            arrowColor={"#ffffff"}
-            margin={"0px 24px 12px 24px"}
-          />
-        </Link>
-        <Link to="/signup" style={{ textDecoration: "none" }}>
-          <LoginButton
-            background={"#ffffff"}
-            context={"회원가입"}
-            color={"#7bab6e"}
-            borderColor={"#7bab6e"}
-            arrowColor={"#7bab6e"}
-            margin={"0px 24px 12px 24px"}
-          />
-        </Link>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            padding: "20px 24px",
+          }}
+        >
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <Button
+              buttonSize={ButtonSize.LARGE}
+              buttonTheme={ButtonTheme.GREEN}
+            >
+              로그인
+            </Button>
+          </Link>
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Button
+              buttonSize={ButtonSize.LARGE}
+              buttonTheme={ButtonTheme.WHITE}
+            >
+              회원가입
+            </Button>
+          </Link>
+        </div>
       </BottomBtnWrapper>
     </LoginWrapper>
   );

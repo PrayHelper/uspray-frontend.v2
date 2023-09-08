@@ -4,18 +4,55 @@ import styled from "styled-components";
 import serverapi from "../../api/serverapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
-import { tokenState } from "../../recoil/accessToken";
-import { useRecoilCallback, useRecoilValue, useSetRecoilState } from 'recoil';
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
-import { AxiosError } from "axios";
+import useAuthToken from "../../hooks/useAuthToken";
+import { postFetcher } from "../../hooks/api";
+import useRefresh from "../../hooks/useRefresh";
+import { useMutation } from "react-query";
+
+
+
+
+const sendDeviceTokenFunc = async (getAccessToken, data) => {
+  return await postFetcher("/user/device/token", data, {
+    Authorization: getAccessToken(),
+  });
+};
+  
+const useSendDeviceToken = () => {
+    const { getAccessToken } = useAuthToken();
+    const { refresh } = useRefresh();
+    return useMutation(
+      (data) => {
+        return sendDeviceTokenFunc(getAccessToken, data)
+      },
+      {
+        onError: async (e) => {
+          if (e.status === 403) {
+            await refresh();
+          }
+          console.log(e);
+        },
+        onSuccess: (res) => {
+          console.log(res);
+        },
+        retry: (cnt) => {
+          return cnt < 3;
+        },
+        retryDelay: 300,
+        refetchOnWindowFocus: false,
+      }
+    );
+  };
+  
 
 const LoginPage = () => {
-
   const [idValue, setIdValue] = useState("");
   const [pwdValue, setPwdValue] = useState("");
-  const setTokenState = useSetRecoilState(tokenState);
-  const accessToken = useRecoilValue(tokenState);
+  const { setAccessToken, setRefreshToken, getAccessToken, getRefreshToken } =
+    useAuthToken();
+
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
@@ -38,22 +75,9 @@ const LoginPage = () => {
     }
   }, [showToast]);
 
-  const sendDeviceToken = async (token)=> {
-    const api = '/user/device/token';
-    const data = {
-      device_token: token
-    };
-    try {
-      const res = await serverapi.post(api, data);
-      console.log(`sendDeviceToken(${token}) called, with response status ${res.status}`)
-
-    } catch (e) {
-      console.log(`sendDeviceToken(${token}) called, with response status failed`)
-    }
-
-  };
-
+  const { mutate: sendDeviceToken } = useSendDeviceToken();
   
+
   const login = async () => {
     const api = `/user/login`;
     const data = {
@@ -62,11 +86,23 @@ const LoginPage = () => {
     };
     try {
       const res = await serverapi.post(api, data);
-      if (res.status === 200){
+      if (res.status === 200) {
+        if (true) {
+        //if (isMobile()) {
+          //const deviceToken = await getDeviceToken();
+          const deviceToken = "test"
 
-        if (isMobile()) {
-          const deviceToken = await getDeviceToken()
-          await sendDeviceToken(deviceToken);
+          sendDeviceToken(
+            {
+              device_token: deviceToken,
+            },
+            {
+              onSuccess: (res) => alert(res.status),
+              onError: (e) => alert(e.status),
+            }
+          )
+
+          alert("send device token is successfully sended")
         } else {
           setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
           setShowToast(true);
@@ -74,13 +110,14 @@ const LoginPage = () => {
 
         navigate("/main");
 
-        storeAuthToken(res.data.access_token);
-        // need to fixed: use storeAuthToken() int the useAuthToken hook instead.
-        setTokenState(res.data.access_token);
-      }
+        setAccessToken(res.data.access_token);
+        await setRefreshToken(res.data.refresh_token);
 
+        console.log("access: ", getAccessToken());
+        console.log("refresh: ", await getRefreshToken());
+      }
     } catch (e) {
-      if (e.response.status === 400){
+      if (e.response.status === 400) {
         setToastMessage("회원정보가 일치하지 않습니다.");
         setShowToast(true);
       }
@@ -112,11 +149,13 @@ const LoginPage = () => {
             />
           </div>
 
-          <div style={{ margin: "0px 24px 12px 24px"}}>
+          <div style={{ margin: "0px 24px 12px 24px" }}>
             <Button
               buttonSize={ButtonSize.LARGE}
               ButtonTheme={ButtonTheme.GREEN}
-              disabled={idValue.length > 0 && pwdValue.length > 0 ? false : true}
+              disabled={
+                idValue.length > 0 && pwdValue.length > 0 ? false : true
+              }
               handler={() => {
                 login();
               }}
@@ -129,11 +168,9 @@ const LoginPage = () => {
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
-        </div> 
+        </div>
       </BottomBtnWrapper>
-      {showToast && (
-          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
-        )}
+      {showToast && <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>}
     </LoginWrapper>
   );
 };

@@ -1,24 +1,24 @@
-import { useRecoilState } from "recoil";
-import { tokenState } from "../recoil/accessToken";
-import { postFetcher, refresh } from "./api";
+import { postFetcher } from "./api";
 import { useMutation } from "react-query";
+import useAuthToken from "./useAuthToken";
+import useRefresh from "./useRefresh";
 
-const postShareItem = async (accessToken, data) => {
+const postShareItem = async (getAccessToken, data) => {
     return await postFetcher('/share', data, {
-      Authorization: accessToken,
+      Authorization: getAccessToken(),
     });
   };
   
 
 export const useShare = () =>{
-  const [accessToken, setAccessToken] = useRecoilState(tokenState);
-  return useMutation((data) => {
-    return postShareItem(accessToken, data)}, {
-    onError: (e) => {
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
+  return useMutation(
+    (data) => {
+    return postShareItem(getAccessToken, data)}, {
+    onError: async (e) => {
       if (e.status === 500) {
-        const data = refresh();
-        if (typeof(data) === "string")
-          setAccessToken(data);
+        await refresh();
       }
       console.log(e);
     },
