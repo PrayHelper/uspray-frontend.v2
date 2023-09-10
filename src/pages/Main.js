@@ -228,17 +228,17 @@ const Main = () => {
     setClickId(id);
   };
 
-  // 완료, 수정, 삭제등을 하게 되었을 때, 나오는 모달창을 실행시키는 함수 
-  const feedbackHandler = (text) => {
-    // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며
-    // 일정시간후 모달창을 안보이는 상태로 변경
-    setmodalToggle(true);
-    setModalText(text);
-    setTimeout(() => {
-      setmodalToggle(false);
-      setModalText("");
-    }, 1000);
-  };
+  // // 완료, 수정, 삭제등을 하게 되었을 때, 나오는 모달창을 실행시키는 함수 
+  // const feedbackHandler = (text) => {
+  //   // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며
+  //   // 일정시간후 모달창을 안보이는 상태로 변경
+  //   setmodalToggle(true);
+  //   setModalText(text);
+  //   setTimeout(() => {
+  //     setmodalToggle(false);
+  //     setModalText("");
+  //   }, 1000);
+  // };
 
   // 완료하기를 눌렀을 때, 나오는 함수
   const completeBtnClick = async (id) => {
@@ -354,7 +354,9 @@ const Main = () => {
   const dDayCalculate = (res_data) => {
     var today = new Date();
     var dday = new Date(res_data);
-    var result = Math.ceil((dday - today) / (1000 * 60 * 60 * 24));
+    dday.setHours(23,59,59);
+    var diff = dday.getTime() - today.getTime();
+    var result = Math.floor(diff/ (1000 * 60 * 60 * 24));
     return result;
   };
 
