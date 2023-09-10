@@ -74,8 +74,8 @@ const StyleName = styled.input`
 
 const DatePickerContainer = styled.div`
   position: absolute;
-  top: -92%;
-  left: 20%;
+  top: calc(-32% - 4px);
+  left: calc(38% - 8px);
   z-index: 400;
 `;
 
@@ -93,6 +93,7 @@ const DatePickerHeaderDate = styled.div`
   font-size: 16px;
   font-weight: 700;
 `;
+
 
 const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     const [value , setValue] = useState(clickData.text);
@@ -205,7 +206,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
-        <ModifyBtn onClick={() => valueChange(id, value, name)}>수정 완료하기</ModifyBtn>}
+        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate)}>수정 완료하기</ModifyBtn>}
         </ModifyStyle>
     )
 }

@@ -32,6 +32,7 @@ const Main = () => {
   const [dayToggleTopPrayer, setDayToggleTopPrayer] = useState(false);
   const [dayToggleBottomDay, setDayToggleBottomDay] = useState(true);
   const [dayToggleBottomPrayer, setDayToggleBottomPrayer] = useState(false);
+  const [modifyToggle, setModifyToggle] = useState(true);
   const [loading, setisloading] = useState(true);
   const [Sharelist, setShareList] = useState([]);
   const location = useLocation();
@@ -266,9 +267,11 @@ const Main = () => {
     setIsModify(!isModify);
     setIsChecked(!isChecked);
     var returnValue = uncompletedList.find(function (data) {
+      setModifyToggle(true);
       return data.id === id;
     });
     var returnValue_ = completedList.find(function (data) {
+      setModifyToggle(false);
       return data.id === id;
     });
     var data = returnValue ? returnValue : returnValue_;
@@ -315,38 +318,32 @@ const Main = () => {
   };
 
   // 궁극적으로 수정하기를 눌렀을 때, 실행되는 함수
-  const valueChange = async (id, value, name) => {
+  const valueChange = async (id, value, name, updateDate) => {
     console.log(value)
+    console.log(updateDate)
     if (value == "") {
       console.log(clickData);
     } else {
       mutateChangeValue(
         {
           id: id,
-          data: { target: name, title: value },
+          data: { target: name, title: value, deadline : updateDate},
         },
         {
           onSuccess: () => {
+            if(modifyToggle){
+              dayToggleTopDay && refetchPrayList();
+              dayToggleTopPrayer && refetch_PrayList();
+            }else{
+              dayToggleBottomDay && refetchPrayList();
+              dayToggleBottomPrayer && refetch_PrayList();
+            }
             setmodalToggle(true);
             setModalText("기도제목이 수정되었어요.")
           },
         }
       );
     }
-    setUncompletedList((uncompletedList) =>
-      uncompletedList.map((uncompletedList) =>
-        uncompletedList.id === id
-          ? { ...uncompletedList, text: value }
-          : uncompletedList
-      )
-    );
-    setCompletedList((completedList) =>
-      completedList.map((completedList) =>
-        completedList.id === id
-          ? { ...completedList, text: value }
-          : completedList
-      )
-    );
     setIsModify(!isModify);
   };
 
