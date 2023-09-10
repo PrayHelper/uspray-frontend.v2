@@ -267,14 +267,18 @@ const Main = () => {
     setIsModify(!isModify);
     setIsChecked(!isChecked);
     var returnValue = uncompletedList.find(function (data) {
-      setModifyToggle(true);
       return data.id === id;
     });
     var returnValue_ = completedList.find(function (data) {
-      setModifyToggle(false);
       return data.id === id;
     });
-    var data = returnValue ? returnValue : returnValue_;
+    if(returnValue){
+      var data = returnValue
+      setModifyToggle(true);
+    }else{
+      var data = returnValue_
+      setModifyToggle(false);
+    }
     var temp = {
       // id: data.id,
       name: data.name,
