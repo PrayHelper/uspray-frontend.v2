@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
 import IdResult from "./IdResult";
+import { set } from "date-fns";
 
 let init = 0;
 
@@ -30,6 +31,7 @@ const FindId = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [phoneNumberValid, setPhoneNumberValid] = useState(false);
 
   const moveToResult = () => {
     setShowRestultPage(true)
@@ -100,8 +102,8 @@ const FindId = () => {
     }
 
     setUserInfo({ ...userInfo, phoneNumber: formattedValue });
+    setPhoneNumberValid(phoneNumberCheck(formattedValue)); // 유효한 전화번호일때 phoneNumberValid를 true로 바꿔줌
   };
-
   const certificateNumberChangeHandler = (e) => {
     setUserInfo({ ...userInfo, certificateNumber: e.target.value });
   };
@@ -180,7 +182,7 @@ const FindId = () => {
                   ? ButtonTheme.GREEN
                   : ButtonTheme.GRAY
               }
-              disabled={!phoneNumberCheck(userInfo.phoneNumber) || time}
+              disabled={!phoneNumberValid || time}
               handler={() => {
                 phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
                 setIsCertificated(false);
@@ -205,7 +207,7 @@ const FindId = () => {
           isError={
             (!isCetrificated && isCertificateButtonClicked) || time === 0
           }
-          showInput={false} // 여기에요 여기!!!!!
+          showInput={phoneNumberValid} // 여기에요 여기!!!!!
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               {time !== "" && <span>{changeTimeFormat(time)}</span>}
