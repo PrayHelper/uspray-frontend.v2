@@ -84,7 +84,7 @@ function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, 
             <NameContent style={{color : bottom ? '#FFFFFF' : '#7BAB6F'}} onClick={() =>contentClick(id, checked, isShare)}>{name}</NameContent>
             <TextContent style={{color: bottom ? '#D0E8CB' : '#496143'}}onClick={() => contentClick(id, checked,isShare)}>{text}</TextContent>
             {dayToggle ? <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398', fontSize: "12px"}}>{(dday !== 0) ? "D-"+ dday : "D-Day"}</DdayContent> : <DdayContent style={{color : bottom ? '#FFFFFF' : '#A1B398'}}>{count + "회"}</DdayContent>}
-            {(!isShared && !bottom) ? <div className="image"><ClickImg src={HeartImage} onClick={() => countUpdate(id)}/></div>
+            {(!isShared && !bottom) ? <ClickImg src={HeartImage} onClick={() => countUpdate(id)}/>
             :<div style={{height:"24px"}}></div>}
         </MainContent>
     )
