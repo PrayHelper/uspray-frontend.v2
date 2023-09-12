@@ -44,7 +44,6 @@ const SplashScreen = ({url}) => {
         console.log(e)
         console.log(`failed to refresh token, to main page`)
         setUnAuthorized()
-
         navigate("/")
       }
     }
