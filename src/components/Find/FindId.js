@@ -32,6 +32,7 @@ const FindId = () => {
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
   const [phoneNumberValid, setPhoneNumberValid] = useState(false);
+  const [showCertificateInput, setShowCertificateInput] = useState(false);
 
   const moveToResult = () => {
     setShowRestultPage(true)
@@ -188,6 +189,7 @@ const FindId = () => {
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
+                setShowCertificateInput(true); // 버튼 클릭 시 "인증번호" Input 렌더링
               }}
             >
               {time ? "진행 중" : "전송"}
@@ -207,7 +209,7 @@ const FindId = () => {
           isError={
             (!isCetrificated && isCertificateButtonClicked) || time === 0
           }
-          showInput={phoneNumberValid} // 여기에요 여기!!!!!
+          showInput={showCertificateInput}
           description={
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               {time !== "" && <span>{changeTimeFormat(time)}</span>}

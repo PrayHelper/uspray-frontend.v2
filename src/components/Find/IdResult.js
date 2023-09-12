@@ -92,10 +92,12 @@ const AnimationContainer = styled.div`
   animation: ${fadeIn} 0.3s ease-in-out;
 `;
 
+
 const IdResult = ( {userData} ) => {
   const [id, setText] = useState("");
   const [name, setText1] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [showButton, setShowButton] = useState(true);
 
   const showId = async () => {
     console.log(userData);
@@ -113,6 +115,7 @@ const IdResult = ( {userData} ) => {
       }
     } catch (e) {
       setIsValid(false);
+      setShowButton(false);
       console.log(e);
     }
   };
@@ -150,7 +153,7 @@ const IdResult = ( {userData} ) => {
         }}
       >
         <Link to="/findPW" style={{ textDecoration: "none" }}>
-          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.WHITE}>
+          <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.WHITE} showButton={showButton}>
             비밀번호 찾기
           </Button>
         </Link>

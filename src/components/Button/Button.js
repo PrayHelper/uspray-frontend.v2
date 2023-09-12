@@ -19,18 +19,22 @@ export const ButtonTheme = {
   WHITE: 3,
 };
 
+
 Object.freeze(ButtonSize);
 Object.freeze(ButtonTheme);
 
-const Button = ({buttonSize, buttonTheme, disabled, handler ,children}) =>{
+const Button = ({buttonSize, buttonTheme, disabled, handler ,children, showButton}) =>{
   if (!buttonSize) {
     buttonSize = ButtonSize.NORMAL;
   }
   if (!buttonTheme) {
     buttonTheme = ButtonTheme.GREEN;
   }
+  if (showButton == false) {
+    return (null);
+  }
 
-  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme} disabled={disabled} onClick={handler}>
+  return <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme} disabled={disabled} onClick={handler} showButton={showButton}>
     {children}
     <NextArrowStyle buttonSize={buttonSize} buttonTheme={buttonTheme}>
       <NextArrow fill={buttonTheme === ButtonTheme.GREEN ? "#FFFFFF" : (buttonTheme === ButtonTheme.GRAY ? "#A0A0A0" : "#7BAB6E")} />
