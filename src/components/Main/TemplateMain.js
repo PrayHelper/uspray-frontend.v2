@@ -163,7 +163,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                 </BackgroundInput>
                 <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
             </div>
-            {visible && <BackgroundBright onClick={changeCheckTop}/>}
+            <BackgroundBright onClick={changeCheckTop} style={{opacity : visible ? "1" : "0", pointerEvents: visible ? "auto" : "none"}}/>
             {children}
         </div>
     )

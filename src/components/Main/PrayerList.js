@@ -7,7 +7,6 @@ import ModifyBar from "./ModifyBar";
 import BackgroundBright from "./BackgroundBright";
 import EmptySpace from "./EmptySpace";
 import DeleteBar from "./DeleteBar";
-import AnimationModal from "./AnimationModal";
 import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
@@ -297,9 +296,9 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
 
     return(
         <div> 
-            {isModify && <BackgroundBright style = {{zIndex:"103"}}onClick={onModify}></BackgroundBright>}
-            {isDeleted && <BackgroundBright style = {{zIndex: "103"}}onClick={onDeleted}></BackgroundBright>}
-            {isChecked && <BackgroundBright style = {{zIndex: "103"}} onClick={changeCheck}></BackgroundBright>}
+            <BackgroundBright style = {{zIndex:"103", opacity: isModify ? "1" : "0", pointerEvents: isModify ? "auto" : "none"}} onClick={onModify}></BackgroundBright>
+            <BackgroundBright style = {{zIndex: "103",  opacity: isDeleted ? "1" : "0", pointerEvents: isDeleted ? "auto" : "none"}} onClick={onDeleted}></BackgroundBright>
+            <BackgroundBright style = {{zIndex: "103",  opacity: isChecked ? "1" : "0", pointerEvents: isChecked ? "auto" : "none"}} onClick={changeCheck}></BackgroundBright>
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>
