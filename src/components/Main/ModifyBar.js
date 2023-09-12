@@ -18,6 +18,7 @@ const ModifyStyle = styled.div`
     background-color: #FFFFFF;
     border: 0px solid #FFFFFF;
     z-index: 103;
+    transition: all 0.5s ease-in-out;
 `;
 const ModifyBtn = styled.div`
     display: flex;
@@ -146,7 +147,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     }
 
     return(
-        <ModifyStyle>
+        <ModifyStyle style={{opacity : isModify ? "1" : "0", transform: isModify ? "translateY(0%)" : "translateY(100%)"}}>
         {showDatePicker ? 
         <DatePickerContainer ref={divRef}>
         <DatePicker

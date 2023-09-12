@@ -369,7 +369,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </ToastWrapper>
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
-                {isModify && <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>}
+                <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>
                 <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId} isDeleted = {isDeleted}/>
             </Background>
         </div>
