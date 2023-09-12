@@ -30,15 +30,14 @@ const FindId = () => {
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
+  const [showCertificatedInput, setShowCertificatedInput] = useState(false);
   const moveToResult = () => {
-    setShowRestultPage(true)
+    setShowRestultPage(true);
   };
-  const userData = { 
-    name: userInfo.name, 
-    phoneNumber: userInfo.phoneNumber.replace(/-/g, "")
+  const userData = {
+    name: userInfo.name,
+    phoneNumber: userInfo.phoneNumber.replace(/-/g, ""),
   };
-
 
   const isAllValid = isCetrificated && isCertificateButtonClicked;
 
@@ -185,6 +184,7 @@ const FindId = () => {
                 phoneNumVerfication(userInfo.phoneNumber.replace(/-/g, ""));
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
+                setShowCertificatedInput(true);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
               }}
             >
@@ -192,54 +192,62 @@ const FindId = () => {
             </Button>
           }
         />
-        <Input
-          label="인증번호"
-          onChangeHandler={certificateNumberChangeHandler}
-          value={
-            isCetrificated && isCertificateButtonClicked
-              ? "인증에 성공하였습니다."
-              : time === 0
-              ? "인증번호가 만료되었습니다."
-              : userInfo.certificateNumber
-          }
-          isError={
-            (!isCetrificated && isCertificateButtonClicked) || time === 0
-          }
-          description={
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              {time !== "" && <span>{changeTimeFormat(time)}</span>}
-              <Button
-                buttonSize={ButtonSize.NORMAL}
-                buttonTheme={
-                  certificateNumberCheck(userInfo.certificateNumber)
-                    ? !isCetrificated && isCertificateButtonClicked
-                      ? time === 0
-                        ? ButtonTheme.GRAY
-                        : ButtonTheme.RED
-                      : time === 0
-                      ? ButtonTheme.GRAY
-                      : ButtonTheme.GREEN
-                    : ButtonTheme.GRAY
-                }
-                disabled={
-                  (isCetrificated && isCertificateButtonClicked) || time === 0
-                }
-                handler={() => {
-                  setIsCertificateButtonClicked(true);
-                  if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    alert("인증에 성공하였습니다.");
-                  } else {
-                    setToastMessage("인증번호가 일치하지 않습니다.");
-                    setShowToast(true);
-                    alert("인증에 실패하였습니다.");
-                  }
-                }}
+        {showCertificatedInput ? (
+          <Input
+            label="인증번호"
+            onChangeHandler={certificateNumberChangeHandler}
+            value={
+              isCetrificated && isCertificateButtonClicked
+                ? "인증에 성공하였습니다."
+                : time === 0
+                ? "인증번호가 만료되었습니다."
+                : userInfo.certificateNumber
+            }
+            isError={
+              (!isCetrificated && isCertificateButtonClicked) || time === 0
+            }
+            description={
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "8px" }}
               >
-                {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
-              </Button>
-            </div>
-          }
-        />
+                {time !== "" && <span>{changeTimeFormat(time)}</span>}
+                <Button
+                  buttonSize={ButtonSize.NORMAL}
+                  buttonTheme={
+                    certificateNumberCheck(userInfo.certificateNumber)
+                      ? !isCetrificated && isCertificateButtonClicked
+                        ? time === 0
+                          ? ButtonTheme.GRAY
+                          : ButtonTheme.RED
+                        : time === 0
+                        ? ButtonTheme.GRAY
+                        : ButtonTheme.GREEN
+                      : ButtonTheme.GRAY
+                  }
+                  disabled={
+                    (isCetrificated && isCertificateButtonClicked) || time === 0
+                  }
+                  handler={() => {
+                    setIsCertificateButtonClicked(true);
+                    if (
+                      isCertificationNumberValid(userInfo.certificateNumber)
+                    ) {
+                      alert("인증에 성공하였습니다.");
+                    } else {
+                      setToastMessage("인증번호가 일치하지 않습니다.");
+                      setShowToast(true);
+                      alert("인증에 실패하였습니다.");
+                    }
+                  }}
+                >
+                  {isCetrificated || isCertificateButtonClicked
+                    ? "완료"
+                    : "확인"}
+                </Button>
+              </div>
+            }
+          />
+        ) : null}
         {showToast && (
           <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
         )}
