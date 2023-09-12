@@ -15,12 +15,11 @@ const Input = ({
   onChangeHandler,
   onFocusHandler,
   value,
+  onKeyPress,
 }) => {
   if (!type) type = "text";
   if (!label) label = "";
-  if (!onFocusHandler)
-    onFocusHandler = () => {
-    };
+  if (!onFocusHandler) onFocusHandler = () => {};
   const [isFocused, setIsFocused] = useState(false);
 
   return (
@@ -34,6 +33,7 @@ const Input = ({
         placeholder={isFocused ? placeholder : ""}
         isError={isError}
         onChange={onChangeHandler}
+        onKeyPress={onKeyPress}
         onFocus={() => {
           setIsFocused(true);
           onFocusHandler();

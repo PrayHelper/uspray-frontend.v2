@@ -4,15 +4,15 @@ import HisContent from "../components/History/HisContent";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+// import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
-import "../components/Calender/Calender.css";
+import Calender from "../components/Calender/Calender";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -272,48 +272,10 @@ const History = () => {
             )}
             {showDatePicker && (
               <DatePickerContainer>
-                <DatePicker
-                  renderCustomHeader={({
-                    date,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
-                  }) => (
-                    <DatePickerHeader>
-                      <DatePickerHeaderDate>
-                        {date.getFullYear()}년 {date.getMonth() + 1}월
-                      </DatePickerHeaderDate>
-                      <div style={{ gap: "12px", display: "flex" }}>
-                        {!prevMonthButtonDisabled && (
-                          <img
-                            onClick={
-                              !prevMonthButtonDisabled
-                                ? decreaseMonth
-                                : undefined
-                            }
-                            disabled={prevMonthButtonDisabled}
-                            src="../images/ic_left_arrow.svg"
-                            alt="icon_left_arrow"
-                          />
-                        )}
-                        <img
-                          onClick={increaseMonth}
-                          disabled={nextMonthButtonDisabled}
-                          src="../images/ic_right_arrow.svg"
-                          alt="icon_right_arrow"
-                        />
-                      </div>
-                    </DatePickerHeader>
-                  )}
-                  selected={selectedDate}
-                  onChange={(date) => onChangeDatePicker(date)}
-                  minDate={new Date()}
-                  dateFormat="yyyy-MM-dd"
-                  popperPlacement="bottom-start"
-                  onClickOutside={() => setShowDatePicker(false)}
-                  locale={ko}
-                  inline
+                <Calender
+                  selectedDate={selectedDate}
+                  onChangeDatePicker={onChangeDatePicker}
+                  setShowDatePicker={setShowDatePicker}
                 />
               </DatePickerContainer>
             )}
@@ -327,17 +289,19 @@ const History = () => {
         </SubModalWrapper>
         {/* )} */}
       </div>
-      {data.map((el) => (
-        <div onClick={onClickHistory} key={el.id} id={el.id}>
-          <HisContent
-            name={el.target}
-            content={el.title}
-            date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
-            pray_cnt={el.pray_cnt}
-          />
-          <div ref={ref}></div>
-        </div>
-      ))}
+      <div style={{ paddingTop: "65px" }}>
+        {data.map((el) => (
+          <div onClick={onClickHistory} key={el.id} id={el.id}>
+            <HisContent
+              name={el.target}
+              content={el.title}
+              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+              pray_cnt={el.pray_cnt}
+            />
+            <div ref={ref}></div>
+          </div>
+        ))}
+      </div>
       <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
       <ToastWrapper>
         {showToast && (
@@ -358,7 +322,7 @@ const HistoryWrapper = styled.div`
   height: 100vh;
   width: 100%;
   position: relative;
-  padding-top: 65px;
+  /* padding-top: 65px; */
 `;
 
 const NoDataWrapper = styled.div`
@@ -469,6 +433,12 @@ const ModalButton2 = styled.button`
   color: var(--color-white);
   font-size: 18px;
   cursor: pointer;
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => (props.disabled ? "1" : "0.98")};
+  }
 `;
 
 const SubModalWrapper = styled.div`
@@ -511,6 +481,12 @@ const SubModalBtn = styled.div`
       background-color: var(--color-green);
       color: var(--color-white);
     `}
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => (props.disabled ? "1" : "0.90")};
+  }
 `;
 
 const SubModalDate = styled.div`
@@ -527,6 +503,11 @@ const SubModalBottom = styled.div`
   text-align: center;
   color: var(--color-white);
   padding: 20px 0px;
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+  }
 `;
 
 const DatePickerContainer = styled.div`
@@ -546,7 +527,7 @@ const DatePickerHeader = styled.div`
 `;
 
 const DatePickerHeaderDate = styled.div`
-  color: var(--color-white);
+  color: white;
   font-size: 16px;
   font-weight: 700;
 `;

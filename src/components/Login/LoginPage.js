@@ -124,6 +124,12 @@ const LoginPage = () => {
     }
   };
 
+  const onPressEnter = (e) => {
+    if (e.key === "Enter") {
+      login();
+    }
+  };
+
   return (
     <LoginWrapper>
       <LogoWrapper>
@@ -146,6 +152,7 @@ const LoginPage = () => {
               value={pwdValue}
               type="password"
               onChangeHandler={onChangePwd}
+              onKeyPress={onPressEnter}
             />
           </div>
 

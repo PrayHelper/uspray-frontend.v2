@@ -26,6 +26,12 @@ const LockerContentWrapper = styled.div`
   margin: 12px 24px;
   outline: ${(props) => (props.isClicked ? "2px solid #7BAB6E" : "#ffffff")};
   transition: all 0.3s ease-in-out;
+  &:active {
+    transition: all 0.2s ease-in-out;
+    filter: ${(props) =>
+      props.disabled ? "brightness(1)" : "brightness(0.9)"};
+    scale: ${(props) => (props.disabled ? "1" : "0.98")};
+  }
 `;
 
 const TopContentWrapper = styled.div`
