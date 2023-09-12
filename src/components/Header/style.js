@@ -13,5 +13,5 @@ export const HeaderStyle = styled.div`
   position: fixed;
   top: 0;
   z-index: 1;
-  background-color: white;
+  background-color: var(--color-white);
 `;
