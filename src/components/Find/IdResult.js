@@ -96,6 +96,7 @@ const IdResult = ( {userData} ) => {
   const [id, setText] = useState("");
   const [name, setText1] = useState("");
   const [isValid, setIsValid] = useState(true);
+  const [isValidUser, setIsValidUser] = useState(true);
 
   const showId = async () => {
     console.log(userData);
@@ -113,6 +114,7 @@ const IdResult = ( {userData} ) => {
       }
     } catch (e) {
       setIsValid(false);
+      setIsValidUser(false);
       console.log(e);
     }
   };
@@ -149,11 +151,14 @@ const IdResult = ( {userData} ) => {
           alignSelf: "center",
         }}
       >
+        {isValidUser ? (
         <Link to="/findPW" style={{ textDecoration: "none" }}>
           <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.WHITE}>
             비밀번호 찾기
           </Button>
-        </Link>
+        </Link> 
+        ): null
+        }
         <Link to="/" style={{ textDecoration: "none" }}>
           <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}>
             메인화면으로 이동
