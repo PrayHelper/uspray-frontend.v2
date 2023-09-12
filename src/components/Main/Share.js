@@ -9,7 +9,7 @@ const ShareImg = styled(Share_Logo)`
     right: 24px;
     bottom: 72px;
     border-radius: 50%;
-    box-shadow: 0px 4px 8px #00000080;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.25);
     z-index : 0;
 `;
 const Container = styled.div`
