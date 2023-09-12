@@ -150,7 +150,7 @@ const Signup = () => {
         setToastMessage("인증번호가 전송되었습니다.");
         setToastTheme(ToastTheme.SUCCESS);
         setShowToast(true);
-        // console.log(res.data.code);
+        console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
