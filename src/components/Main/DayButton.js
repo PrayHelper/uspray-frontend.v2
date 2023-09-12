@@ -13,10 +13,11 @@ const DayBtnSet = styled.div`
     position: absolute;
     background-color: white;
     width: 100%;
-    border-bottom: 1px solid white;
+    border-top: 1px solid white;
     padding-bottom: 26px;
     transition: all 0.5s ease-in-out;
     z-index: 102;
+    box-shadow : 0 2px 4px rgba(0, 0, 0, 0.2);
 `
 const DayBtn = styled.button`
     font-size: 10px;

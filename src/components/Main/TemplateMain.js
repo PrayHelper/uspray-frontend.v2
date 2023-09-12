@@ -15,6 +15,7 @@ const BackgroundInput = styled.div`
     box-sizing: border-box;
     align-items : center;
     z-index: 103;
+    transition: all 0.5s ease-in-out;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -30,6 +31,16 @@ const BtnSend = styled.button`
     }
 `;
 
+const BlankBtnSend = styled.button`
+    marginTop: 65px;
+    width: 31px;
+    height : 31px;
+    border: 1px solid #EBF7E8;
+    border-radius: 6.261px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    background-color : white;
+`;
+
 const SendImg = styled(Logo)`
     width: 16.21px;
     height: 16.94px;
@@ -41,6 +52,16 @@ const SendImg = styled(Logo)`
     &:active{
         filter: brightness(5);
     }
+`;
+
+const BlankSendImg = styled(Logo)`
+    width: 16.21px;
+    height: 16.94px;
+    transform: scaleX(-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
 `;
 
 const StyleInput = styled.input`
@@ -136,7 +157,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                     onClick={(!visible) ? ()=> widthChange() : onSubmit()}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
-                        {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
+                        {(value === "") ? <BlankBtnSend><BlankSendImg src={DisableImage}/></BlankBtnSend>
                         : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}
                     </div>
                 </BackgroundInput>

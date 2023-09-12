@@ -140,9 +140,15 @@ const Main = () => {
 
   // 기도를 입력하는 코드
   const onInsert = async (name, Dday, text) => {
+    console.log(name);
     if (text === "") {
       return alert("기도제목이 입력이 되지 않았습니다.");
-    } else {
+    } 
+    if(name == ""){
+      return alert("이름이 입력되지 않았습니다!");
+    }
+    
+    else {
       var date = new Date();
       var day = addDay(date, Dday);
       var zeroTime = setZeroTime(day);
