@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
@@ -106,6 +106,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [updateDate, setUpdateDate] = useState(null);
 
+    const divRef = useRef(null);
 
     const onChangeValue = (e) =>{
         setValue(e.target.value);
@@ -143,10 +144,11 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
         setUpdateDate(formattedDate);   
     }
+
     return(
         <ModifyStyle>
         {showDatePicker ? 
-        <DatePickerContainer>
+        <DatePickerContainer ref={divRef}>
         <DatePicker
           renderCustomHeader={({
             date,
@@ -202,7 +204,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         </div>
         <DateSet>
         {dayToggle ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
-        fontSize:"16px", lineHeight:"23px", color:" #75BD62"}}>{"~"+ updateDate}</div> : ""}
+        fontSize:"16px", lineHeight:"23px", color:" #75BD62"}} onClick={onToggle}>{"~"+ updateDate}</div> : ""}
         <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 

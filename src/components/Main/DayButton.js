@@ -162,7 +162,8 @@ const Day_Button = ({dayInfo, visible}) =>{
     }
 
     const onToggle = () =>{
-        setShowDatePicker(!showDatePicker);
+      console.log("짜잔")
+      setShowDatePicker(!showDatePicker);
     }
 
     const onChangeDatePicker = (date) => {
@@ -202,11 +203,11 @@ const Day_Button = ({dayInfo, visible}) =>{
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
-            {updateDate != null ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + updateDate}</div> : ""}
+            {updateDate != null ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}} onClick={onToggle}>{"~" + updateDate}</div> : ""}
         </DayBtnSet> 
         : 
         <DayBtnSet style={{paddingBottom : "0px"}}>
-         { showDatePicker  &&  <DatePickerContainer>
+         <DatePickerContainer>
                 <DatePicker
                   renderCustomHeader={({
                     date,
@@ -250,7 +251,7 @@ const Day_Button = ({dayInfo, visible}) =>{
                   locale={ko}
                   inline
                 />
-              </DatePickerContainer>}
+              </DatePickerContainer>
         {!showDatePicker ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + updateDate}</div> : ""}
         </DayBtnSet> 
     )
