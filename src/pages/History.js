@@ -77,7 +77,9 @@ const History = () => {
   };
 
   const handleButtonClick = () => {
-    setShowDatePicker(true);
+    setShowDatePicker(!showDatePicker);
+    onClickUpdateDate("");
+    console.log("asd");
   };
 
   const isEmptyData = (data) => {
@@ -262,6 +264,7 @@ const History = () => {
               <img
                 src="../images/icon_calender_filled.svg"
                 alt="icon_calender"
+                onClick={handleButtonClick}
               />
             ) : (
               <img
@@ -511,25 +514,10 @@ const SubModalBottom = styled.div`
 `;
 
 const DatePickerContainer = styled.div`
-  position: absolute;
-  top: -150%;
-  left: 40%;
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 400;
-`;
-
-const DatePickerHeader = styled.div`
-  /* background: #7bab6e; */
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 16px 15px 16px 12px;
-  /* align-items: center; */
-`;
-
-const DatePickerHeaderDate = styled.div`
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
 `;
 
 const ToastWrapper = styled.div`
