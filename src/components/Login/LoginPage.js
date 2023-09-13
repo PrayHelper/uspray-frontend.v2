@@ -12,7 +12,7 @@ import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
 import useAuthorized from "../../hooks/useAuthorized";
 
-
+import LogoSVG from "../../images/logo_image.svg";
 
 
 const sendDeviceTokenFunc = async (getAccessToken, data) => {
@@ -131,7 +131,7 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
+        <LogoImg src={LogoSVG} alt="logo" />
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>

@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import useAuthorized from '../hooks/useAuthorized';
 
+import LogoSVG from '../images/logo_white.svg'
+
 const SplashScreen = ({url}) => {
 
   const { getRefreshToken } = useAuthToken();
@@ -48,7 +50,7 @@ const SplashScreen = ({url}) => {
 
   return (
     <BackgroundStyle>
-      <img src="images/logo_white.svg" alt="logo_white" />
+      <img src={LogoSVG} alt="logo_white" />
     </BackgroundStyle>
   );
 };

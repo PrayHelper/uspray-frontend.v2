@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import LoginButton from "../components/Login/LoginButton/LoginButton";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 
+import LogoSVG from "../images/logo_image.svg";
+
 const Login = () => {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
+        <LogoImg src={LogoSVG} alt="logo" />
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
