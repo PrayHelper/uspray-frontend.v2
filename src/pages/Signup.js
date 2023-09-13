@@ -10,6 +10,7 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import serverapi from "../api/serverapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal/Modal";
 
 let init = 0;
 
@@ -326,33 +327,15 @@ const Signup = () => {
     <div>
       <UserHeader>회원가입</UserHeader>
       <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-      <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
-        <img
-          src="images/icon_notice.svg"
-          alt="icon_notice"
-          style={{
-            marginBottom: "8px",
-          }}
-        />
-        <div
-          style={{
-            fontSize: "20px",
-            color: "#7BAB6E",
-            fontWeight: "700",
-            marginBottom: "2px",
-          }}
-        >
-          이름은 실명으로 설정해주세요!
-        </div>
-        <div
-          style={{
-            marginBottom: "36px",
-          }}
-        >
-          기도제목 공유 시 이름으로 전달됩니다.
-        </div>
-        <ModalButton onClick={handleCloseModal}>네, 그렇게 할게요.</ModalButton>
-      </ModalContent>
+      <Modal
+        isModalOn={showModal}
+        iconSrc={"images/icon_notice.svg"}
+        iconAlt={"icon_notice"}
+        mainContent={"이름은 실명으로 설정해주세요!"}
+        subContent={"기도제목 공유 시 이름으로 전달됩니다."}
+        btnContent={"네, 그렇게 할게요."}
+        onClickBtn={handleCloseModal}
+      />
       <div
         style={{
           display: "flex",
@@ -363,6 +346,7 @@ const Signup = () => {
       >
         <Input
           label="아이디"
+          btnContent2={"asd"}
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
           isError={!!invalidIdInfo}

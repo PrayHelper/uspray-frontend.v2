@@ -1,11 +1,11 @@
 import { BaseButtonStyle, ModalButton } from "./style";
-import styled from 'styled-components';
-import { ReactComponent as NextArrow} from "../../images/next_arrow.svg";
+import styled from "styled-components";
+import { ReactComponent as NextArrow } from "../../images/next_arrow.svg";
 
 const NextArrowStyle = styled.div`
-  display: ${props => (props.isArrow) ? "block" : "none"};
+  display: ${(props) => (props.isArrow ? "block" : "none")};
   marign-right: 10px;
-`
+`;
 
 export const ButtonSize = {
   NORMAL: 0,
@@ -24,7 +24,14 @@ export const ButtonTheme = {
 Object.freeze(ButtonSize);
 Object.freeze(ButtonTheme);
 
-const Button = ({buttonSize, buttonTheme, disabled, handler, isArrow = false, children}) =>{
+const Button = ({
+  buttonSize,
+  buttonTheme,
+  disabled,
+  handler,
+  isArrow = false,
+  children,
+}) => {
   if (!buttonSize) {
     buttonSize = ButtonSize.NORMAL;
   }
@@ -32,16 +39,32 @@ const Button = ({buttonSize, buttonTheme, disabled, handler, isArrow = false, ch
     buttonTheme = ButtonTheme.GREEN;
   }
 
-  return (
-    buttonSize === ButtonSize.MODAL ?
-    <ModalButton buttonSize={buttonSize} buttonTheme={buttonTheme}>
+  return buttonSize === ButtonSize.MODAL ? (
+    <ModalButton
+      buttonSize={buttonSize}
+      buttonTheme={buttonTheme}
+      onClick={handler}
+    >
       {children}
     </ModalButton>
-    :
-    <BaseButtonStyle buttonSize={buttonSize} buttonTheme={buttonTheme} disabled={disabled} onClick={handler}>
+  ) : (
+    <BaseButtonStyle
+      buttonSize={buttonSize}
+      buttonTheme={buttonTheme}
+      disabled={disabled}
+      onClick={handler}
+    >
       {children}
       <NextArrowStyle isArrow={isArrow}>
-        <NextArrow fill={buttonTheme === ButtonTheme.GREEN ? "#FFFFFF" : (buttonTheme === ButtonTheme.GRAY ? "#A0A0A0" : "#7BAB6E")} />
+        <NextArrow
+          fill={
+            buttonTheme === ButtonTheme.GREEN
+              ? "#FFFFFF"
+              : buttonTheme === ButtonTheme.GRAY
+              ? "#A0A0A0"
+              : "#7BAB6E"
+          }
+        />
       </NextArrowStyle>
     </BaseButtonStyle>
   );
