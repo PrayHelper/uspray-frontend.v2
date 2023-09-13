@@ -8,6 +8,7 @@ import {
   Outlet,
   useLocation,
   useParams,
+  Navigate,
 } from "react-router-dom";
 import styled from "styled-components";
 import NotFound from "./pages/NotFound";
@@ -54,10 +55,19 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-const RouteHandler = () => {
-  const { isUndefined } = useAuthorized();
 
-  const navigate = useNavigate();
+const PrivateRoute = () => {
+  const { isUnauthorized } = useAuthorized();
+
+  if (isUnauthorized()) {
+    return <Navigate to="/login" replace />;
+  }
+  return <Outlet />;
+}
+
+
+const CommonRoute = () => {
+  const { isUndefined } = useAuthorized();
 
   const location = useLocation();
   const fullPath = location.pathname + location.search + location.hash;
@@ -70,43 +80,7 @@ const RouteHandler = () => {
     );
   }
 
-  return (
-    <Routes>
-      <Route element={<Outlet />}>
-        <Route element={<BottomNav />}>
-          <Route path="/main" element={<Main />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/locker" element={<Locker />} />
-          <Route path="/settings" element={<Settings />} />
-        </Route>
-
-        <Route path="/checkInfo" element={<CheckInfo />} />
-        <Route path="/changeInfo" element={<ChangeInfo />} />
-        <Route path="/changePw" element={<ChangePw />} />
-        <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
-        <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-        <Route path="/social" element={<SocialLogin />} />
-      </Route>
-
-      <Route element={<Outlet />}>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/findAccount" element={<Find />} />
-        <Route path="/findID" element={<FindId />}></Route>
-        <Route path="/findIDResult" element={<FindIdResult />}></Route>
-        <Route path="/findPW" element={<FindPassword />}></Route>
-        <Route path="/findPWResult" element={<FindPasswordResult />}></Route>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/loading" element={<SplashScreen />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/tos" element={<ToS />} />
-        <Route
-          path="/privacyProcessAgreement"
-          element={<PrivacyProcessAgreement />}
-        />
-      </Route>
-    </Routes>
-  );
+  return <Outlet />;
 };
 
 function App() {
@@ -116,7 +90,41 @@ function App() {
         <Container>
           <GlobalStyle />
           <Reset />
-          <RouteHandler />
+          <Routes>
+            <Route element={<CommonRoute />}>
+              <Route element={<PrivateRoute />}>
+                <Route element={<BottomNav />}>
+                  <Route path="/main" element={<Main />} />
+                  <Route path="/history" element={<History />} />
+                  <Route path="/locker" element={<Locker />} />
+                  <Route path="/settings" element={<Settings />} />
+                </Route>
+                <Route path="/checkInfo" element={<CheckInfo />} />
+                <Route path="/changeInfo" element={<ChangeInfo />} />
+                <Route path="/changePw" element={<ChangePw />} />
+                <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
+                <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+                <Route path="/social" element={<SocialLogin />} />
+              </Route>
+              <Route element={<Outlet />}>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/findAccount" element={<Find />} />
+                <Route path="/findID" element={<FindId />}></Route>
+                <Route path="/findIDResult" element={<FindIdResult />}></Route>
+                <Route path="/findPW" element={<FindPassword />}></Route>
+                <Route path="/findPWResult" element={<FindPasswordResult />}></Route>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/loading" element={<SplashScreen />} />
+                <Route path="*" element={<NotFound />} />
+                <Route path="/tos" element={<ToS />} />
+                <Route
+                  path="/privacyProcessAgreement"
+                  element={<PrivacyProcessAgreement />}
+                />
+              </Route>
+            </Route>
+          </Routes>
         </Container>
       </ContainerWrapper>
     </BrowserRouter>

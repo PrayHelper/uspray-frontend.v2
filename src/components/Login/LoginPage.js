@@ -10,8 +10,9 @@ import useAuthToken from "../../hooks/useAuthToken";
 import { postFetcher } from "../../hooks/api";
 import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
+import useAuthorized from "../../hooks/useAuthorized";
 
-
+import LogoSVG from "../../images/logo_image.svg";
 
 
 const sendDeviceTokenFunc = async (getAccessToken, data) => {
@@ -73,7 +74,7 @@ const LoginPage = () => {
   }, [showToast]);
 
   const { mutate: sendDeviceToken } = useSendDeviceToken();
-  
+  const { setAutorized } = useAuthorized()
 
   const login = async () => {
     const api = `/user/login`;
@@ -105,6 +106,7 @@ const LoginPage = () => {
         }
 
         navigate("/main");
+        setAutorized()
 
         setAccessToken(res.data.access_token);
         await setRefreshToken(res.data.refresh_token);
@@ -129,7 +131,7 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
+        <LogoImg src={LogoSVG} alt="logo" />
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
@@ -167,7 +169,7 @@ const LoginPage = () => {
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
-            <SubLink href="/findAccount">
+            <SubLink to="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
@@ -180,7 +182,7 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-const SubLink = styled.a`
+const SubLink = styled(Link)`
   color: #7bab6e;
   font-size: 12px;
   text-decoration: underline;
