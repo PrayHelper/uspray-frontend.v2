@@ -4,6 +4,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    timeout-minutes: 20
+
 env:
   HOST:     ${{ secrets.HOST }}
   USERNAME: ${{ secrets.USERNAME }}

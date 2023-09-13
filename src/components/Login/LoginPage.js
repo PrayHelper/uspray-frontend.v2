@@ -23,11 +23,8 @@ const sendDeviceTokenFunc = async (getAccessToken, data) => {
 const useSendDeviceToken = () => {
     const { getAccessToken } = useAuthToken();
     const { refresh } = useRefresh();
-    return useMutation(
-      (data) => {
-        return sendDeviceTokenFunc(getAccessToken, data)
-      },
-      {
+    return useMutation((data) => {
+      return sendDeviceTokenFunc(getAccessToken, data)}, {
         onError: async (e) => {
           if (e.status === 403) {
             await refresh();
@@ -87,10 +84,9 @@ const LoginPage = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        if (true) {
-        //if (isMobile()) {
-          //const deviceToken = await getDeviceToken();
-          const deviceToken = "test"
+        if (isMobile()) {
+          const deviceToken = await getDeviceToken();
+          console.log(`deviceToken: ${deviceToken}`)
 
           sendDeviceToken(
             {
