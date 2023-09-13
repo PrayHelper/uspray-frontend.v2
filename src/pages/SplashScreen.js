@@ -13,44 +13,37 @@ const SplashScreen = ({url}) => {
   const {setAutorized, setUnAuthorized} = useAuthorized()
   const navigate = useNavigate()
 
-  //const location = useLocation();
-  //const query = new URLSearchParams(location.search);
-  //const url = query.get('redirect')
-
   console.log(`splash screen url: ${url}`)
   useEffect(() => {
 
     const run = async () => {
 
       const refreshToken = await getRefreshToken()
- 
-      if (refreshToken == undefined || refreshToken == "") {
+      if (refreshToken === undefined || refreshToken === "") {
+        console.log("refresh token is empty")
         setUnAuthorized()
-
-        console.log("refreshToken is nil, go to login page")
-        navigate("/")
-
+        navigate(url)
         return
       }
-  
+
       try {
         await refresh()
-        console.log("refresh is called. if error is not occured, login is successed")
         setAutorized()
-
-        url === "/" ? navigate("/main") : navigate(`${url}`)
-
+        console.log("success to refresh token")
       } catch (e) {
-        console.log(e)
-        console.log(`failed to refresh token, to main page`)
         setUnAuthorized()
-        navigate("/")
+        console.log("fail to refresh token")
+      }
+
+      if (url === "/") {
+        navigate("/main")
+      } else {
+        navigate(url)
       }
     }
+
     run()
-
   }, [])
-
 
 
   return (

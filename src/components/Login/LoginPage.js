@@ -10,6 +10,7 @@ import useAuthToken from "../../hooks/useAuthToken";
 import { postFetcher } from "../../hooks/api";
 import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
+import useAuthorized from "../../hooks/useAuthorized";
 
 
 
@@ -73,7 +74,7 @@ const LoginPage = () => {
   }, [showToast]);
 
   const { mutate: sendDeviceToken } = useSendDeviceToken();
-  
+  const { setAutorized } = useAuthorized()
 
   const login = async () => {
     const api = `/user/login`;
@@ -105,6 +106,7 @@ const LoginPage = () => {
         }
 
         navigate("/main");
+        setAutorized()
 
         setAccessToken(res.data.access_token);
         await setRefreshToken(res.data.refresh_token);
