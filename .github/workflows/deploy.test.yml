@@ -7,8 +7,6 @@ on:
       - feat/**
       - hotfix
 
-
-
 env:
   HOST:     ${{ secrets.HOST }}
   USERNAME: ${{ secrets.USERNAME }}
@@ -19,7 +17,7 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
 
     - name: Checkout repository
