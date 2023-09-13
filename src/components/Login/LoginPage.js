@@ -167,7 +167,7 @@ const LoginPage = () => {
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
-            <SubLink href="/findAccount">
+            <SubLink to="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
@@ -180,7 +180,7 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-const SubLink = styled.a`
+const SubLink = styled(Link)`
   color: #7bab6e;
   font-size: 12px;
   text-decoration: underline;
