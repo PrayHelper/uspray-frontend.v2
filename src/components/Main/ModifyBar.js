@@ -97,18 +97,22 @@ const DatePickerHeaderDate = styled.div`
 
 
 const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
-    const [value , setValue] = useState(clickData.text);
+    const [value , setValue] = useState("");
     const [Toggle, setToggle] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
     const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
-    const [name, setName] = useState(clickData.name);
+    const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [updateDate, setUpdateDate] = useState(null);
 
     const divRef = useRef(null);
 
+    useEffect(()=>{
+      setValue(clickData.text);
+      setName(clickData.name);
+    },[clickData]);
     const onChangeValue = (e) =>{
         setValue(e.target.value);
     }
@@ -147,7 +151,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     }
 
     return(
-        <ModifyStyle style={{opacity : isModify ? "1" : "0", transform: isModify ? "translateY(0%)" : "translateY(100%)"}}>
+        <ModifyStyle style={{opacity : isModify ? "1" : "0" , transform : isModify ? "translateY(0%)" : "translateY(100%)"}}>
         {showDatePicker ? 
         <DatePickerContainer ref={divRef}>
         <DatePicker

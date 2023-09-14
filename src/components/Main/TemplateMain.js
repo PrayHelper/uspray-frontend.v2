@@ -25,8 +25,9 @@ const BtnSend = styled.button`
     border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
     background-color : white;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
     &:active{
+        transition: all 0.5s ease-in-out;
         background-color: #75BD62;
     }
 `;
@@ -39,6 +40,7 @@ const BlankBtnSend = styled.button`
     border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
     background-color : white;
+    transition: all 0.5s ease-in-out;
 `;
 
 const SendImg = styled(Logo)`
@@ -48,8 +50,8 @@ const SendImg = styled(Logo)`
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease-in-out;
     &:active{
+        transition: all 0.5s ease-in-out;
         filter: brightness(5);
     }
 `;

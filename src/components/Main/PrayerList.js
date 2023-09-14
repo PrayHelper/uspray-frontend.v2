@@ -296,9 +296,9 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
 
     return(
         <div> 
-            <BackgroundBright style = {{zIndex:"103", opacity: isModify ? "1" : "0", pointerEvents: isModify ? "auto" : "none"}} onClick={onModify}></BackgroundBright>
-            <BackgroundBright style = {{zIndex: "103",  opacity: isDeleted ? "1" : "0", pointerEvents: isDeleted ? "auto" : "none"}} onClick={onDeleted}></BackgroundBright>
-            <BackgroundBright style = {{zIndex: "103",  opacity: isChecked ? "1" : "0", pointerEvents: isChecked ? "auto" : "none"}} onClick={changeCheck}></BackgroundBright>
+            {isModify && <BackgroundBright style = {{zIndex:"103"}} onClick={onModify}></BackgroundBright>}
+            {isDeleted && <BackgroundBright style = {{zIndex: "103"}} onClick={onDeleted}></BackgroundBright>}
+            {isChecked && <BackgroundBright style = {{zIndex: "103"}} onClick={changeCheck}></BackgroundBright>}
             <Background style={{paddingBottom: padding}}>
                 <TopContent>
                     <TodayPrayer>
@@ -362,8 +362,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                         )
                 }
                 </PrayerContentStyle>
-                {!isModify && !isChecked && <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
-               shareLength = {shareLength} setshareToggle = {setshareToggle}></Share>}
+                <Share onShare={onShare} onMove={onMove} shareToggle={shareToggle} onCheck={onCheck} isShare={isShare}
+               shareLength = {shareLength} setshareToggle = {setshareToggle} isModify={isModify} isChecked ={isChecked}></Share>
                 <ToastWrapper>
                     {modalToggle && <Toast>{modalText}</Toast>}
                 </ToastWrapper>
