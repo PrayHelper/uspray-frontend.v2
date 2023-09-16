@@ -305,7 +305,9 @@ const History = () => {
           </div>
         ))}
       </div>
-      <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
+      <div style={{ marginTop: "20px", color: `var(--color-light-green)` }}>
+        .
+      </div>
       <ToastWrapper>
         {showToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -419,7 +421,8 @@ const ModalButton1 = styled.button`
   background-color: var(
     ${(props) => (props.showSubModal ? "--color-light-green" : "--color-white")}
   );
-  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
+  border: ${(props) =>
+    props.showSubModal ? "none" : `1px solid var(--color-dark-green)`};
   border-radius: 16px;
   padding: 16px 0;
   color: var(--color-dark-green);
@@ -452,7 +455,7 @@ const SubModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: white;
+  background-color: var(--color-white);
   border-radius: 16px;
   z-index: 300;
   top: 63%;

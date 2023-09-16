@@ -13,6 +13,8 @@ const GlobalStyle = createGlobalStyle`
     --color-light-grey: #EEEEEE;
     --color-white: #FFFFFF;
     --color-red: #FF6B6B;
+    --color-black-screen: #00000080;
+    --color-calender-shadow: #13270e40;
   }
 `;
 

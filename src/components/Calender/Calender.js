@@ -63,7 +63,7 @@ const DatePickerHeader = styled.div`
 `;
 
 const DatePickerHeaderDate = styled.div`
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 16px;
   font-weight: 700;
 `;
