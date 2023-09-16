@@ -12,9 +12,12 @@ const GlobalStyle = createGlobalStyle`
     --color-dark-grey: #606060;
     --color-light-grey: #EEEEEE;
     --color-white: #FFFFFF;
+    --color-white-75: #ffffffbf;
+    --color-black-50: #00000080;
+    --color-black-25: #00000040;
     --color-red: #FF6B6B;
-    --color-black-screen: #00000080;
     --color-calender-shadow: #13270e40;
+    --color-locker-content-shadow: #31412c40;
   }
 `;
 
