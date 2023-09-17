@@ -87,7 +87,6 @@ const LoginPage = () => {
       if (res.status === 200) {
         if (isMobile()) {
           const deviceToken = await getDeviceToken();
-          console.log(`deviceToken: ${deviceToken}`)
 
           sendDeviceToken(
             {
@@ -99,7 +98,6 @@ const LoginPage = () => {
             }
           )
 
-          alert("send device token is successfully sended")
         } else {
           setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
           setShowToast(true);
