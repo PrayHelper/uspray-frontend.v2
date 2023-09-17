@@ -60,7 +60,7 @@ const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
 
   if (isUnauthorized()) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return <Outlet />;
 }
