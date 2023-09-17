@@ -9,7 +9,7 @@ import { useGetInfo } from "../../hooks/useGetInfo";
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    padding: 0px 24px 12px 35px;
+    padding: 0px 24px 24px 35px;
     background: white;
     border-bottom: 1px solid white;
     box-sizing: border-box;
@@ -51,7 +51,7 @@ const SendImg = styled(Logo)`
     justify-content: center;
     align-items: center;
     &:active{
-        transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out; 
         filter: brightness(5);
     }
 `;
@@ -63,6 +63,7 @@ const BlankSendImg = styled(Logo)`
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: white;
     transition: all 0.3s ease-in-out;
 `;
 

@@ -3,8 +3,8 @@ import { getFetcher } from "./api";
 import useAuthToken from "./useAuthToken";
 import useRefresh from "./useRefresh";
 
-const getPrayList = async (getAccessToken,sort_by) => {
-  return await getFetcher(`/pray?sort_by=${sort_by}`, {
+const getPrayList = (getAccessToken,sort_by) => {
+  return getFetcher(`/pray?sort_by=${sort_by}`, {
     Authorization: getAccessToken(),
   });
 

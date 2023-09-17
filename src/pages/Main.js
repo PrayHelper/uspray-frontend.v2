@@ -71,7 +71,7 @@ const Main = () => {
           count: uncompletedItem.pray_cnt,
           isShare: uncompletedItem.is_shared
         });
-      });
+      });     
       result.data.completed.map((completedItem) => {
         let dDay = dDayCalculate(completedItem.deadline);
         completedList.push({
@@ -234,18 +234,6 @@ const Main = () => {
     }
     setClickId(id);
   };
-
-  // // 완료, 수정, 삭제등을 하게 되었을 때, 나오는 모달창을 실행시키는 함수 
-  // const feedbackHandler = (text) => {
-  //   // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며
-  //   // 일정시간후 모달창을 안보이는 상태로 변경
-  //   setmodalToggle(true);
-  //   setModalText(text);
-  //   setTimeout(() => {
-  //     setmodalToggle(false);
-  //     setModalText("");
-  //   }, 1000);
-  // };
 
   // 완료하기를 눌렀을 때, 나오는 함수
   const completeBtnClick = async (id) => {
