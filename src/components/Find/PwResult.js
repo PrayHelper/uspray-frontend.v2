@@ -5,6 +5,7 @@ import UserHeader from "../UserHeader";
 import styled, { keyframes } from 'styled-components';
 import BlackScreen from "../BlackScreen/BlackScreen";
 import serverapi from "../../api/serverapi";
+import { useNavigate } from "react-router-dom";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -70,9 +71,11 @@ const PwResult = ({pwToken}) => {
   const [invalidMatchingPwInfo, setInvalidMatchingPwInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleCloseModal = () =>{
     setShowModal(false);
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   const isAllValid = pw && matchingPw && !invalidPwInfo && !invalidMatchingPwInfo;
