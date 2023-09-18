@@ -4,7 +4,6 @@ import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
 import Day_Calender from '../../images/day_calender.svg';
 import Day_Calender_hover from "../../images/DayCalender_hover.svg";
-import { getMonth, getYear, getDate } from "date-fns"
 import { ko } from "date-fns/esm/locale";
 import DatePicker from "react-datepicker";
 
@@ -96,15 +95,11 @@ const DatePickerHeaderDate = styled.div`
 `;
 
 
-const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
+const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,setUpdateDate,dayToggle, setDayToggle}) =>{
     const [value , setValue] = useState("");
-    const [dayToggle, setDayToggle] = useState(false);
     const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [updateDate, setUpdateDate] = useState(null);
-
-    const divRef = useRef(null);
 
     useEffect(()=>{
       setValue(clickData.text);
@@ -115,6 +110,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     }
     const onToggle = () =>{
         setShowDatePicker(!showDatePicker);
+        setUpdateDate(null);
     }
 
     const onName = (e) =>{
@@ -139,7 +135,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     return(
         <ModifyStyle style={{opacity : isModify ? "1" : "0" , transform : isModify ? "translateY(0%)" : "translateY(100%)"}}>
         {showDatePicker ? 
-        <DatePickerContainer ref={divRef}>
+        <DatePickerContainer>
         <DatePicker
           renderCustomHeader={({
             date,
@@ -194,7 +190,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
             onChange={onChangeValue}></textarea>
         </div>
         <DateSet>
-        {dayToggle ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
+        {(dayToggle && updateDate != null) ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}} onClick={onToggle}>{"~"+ updateDate}</div> : ""}
         <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>

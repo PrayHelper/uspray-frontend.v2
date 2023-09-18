@@ -94,7 +94,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     onMove, shareToggle, isShare, setIsShare, setshareToggle, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
-    shareList, Sharelist, setShareList,clickIsShare, clickOff}){
+    shareList, Sharelist, setShareList,clickIsShare, clickOff,updateDate,setUpdateDate,dayToggle, setDayToggle}){
 
     const defaultOptions = { 
         loop: true,
@@ -112,8 +112,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const {data: prayList, refetch: refetchPrayList} = usePrayList('date');
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
     const { shareLink, isMobile } = useFlutterWebview();
-    // const {mutate: mutateSharePrayItem} = useShare();
-    // const navigate = useNavigate();
     const WEB_ORIGIN = process.env.REACT_APP_WEB_ORIGIN;
 
     const getPrayList = (bool, pray) =>{ // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭 
@@ -300,7 +298,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </ToastWrapper>
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
-                <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>
+                <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify} updateDate={updateDate} setUpdateDate={setUpdateDate}
+                dayToggle={dayToggle} setDayToggle={setDayToggle}/>
                 <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId} isDeleted = {isDeleted}/>
             </Background>
         </div>
