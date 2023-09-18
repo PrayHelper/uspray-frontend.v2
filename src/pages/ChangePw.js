@@ -2,9 +2,10 @@ import { useState } from "react";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import UserHeader from "../components/UserHeader";
-import styled from 'styled-components';
+import styled from "styled-components";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useResetPw } from "../hooks/useResetPw";
+import Modal from "../components/Modal/Modal";
 
 const ModalContent = styled.div`
   position: fixed;
@@ -28,11 +29,11 @@ const ModalContent = styled.div`
 const ModalButton1 = styled.button`
   flex-grow: 1;
   flex-basis: 0;
-  background-color: #7BAB6E;
+  background-color: #7bab6e;
   border-style: none;
   border-radius: 16px;
   padding: 16px 0;
-  color: #FFFFFF;
+  color: #ffffff;
   font-size: 18px;
 `;
 
@@ -43,18 +44,19 @@ const ChangePw = () => {
   const [invalidMatchingPwInfo, setInvalidMatchingPwInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleCloseModal = () =>{
+  const handleCloseModal = () => {
     setShowModal(false);
-    window.location.href = '/settings';
+    window.location.href = "/settings";
   };
 
-  const isAllValid = pw && matchingPw && !invalidPwInfo && !invalidMatchingPwInfo;
+  const isAllValid =
+    pw && matchingPw && !invalidPwInfo && !invalidMatchingPwInfo;
 
   const pwRegEx = /^[a-zA-Z0-9!@#$%^&*()_+{}|:"<>?~\[\]\\;',./]{8,16}$/;
 
   const pwCheck = (pw) => {
     return pwRegEx.test(pw);
-  }
+  };
 
   const pwChangeHandler = (e) => {
     setPw(e.target.value);
@@ -81,8 +83,8 @@ const ChangePw = () => {
     setInvalidMatchingPwInfo("");
   };
 
-  const {mutate} = useResetPw({
-    password: pw
+  const { mutate } = useResetPw({
+    password: pw,
   });
 
   const resetPw = () => {
@@ -93,7 +95,7 @@ const ChangePw = () => {
       },
       onError: (e) => {
         console.log(e);
-      }
+      },
     });
   };
 
@@ -111,34 +113,17 @@ const ChangePw = () => {
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <img src="images/lock.svg" alt="lock" style={{marginTop: "8px"}}/>
-            <div
-              style={{
-                fontSize: "20px",
-                color: "#7BAB6E",
-                fontWeight: "700",
-                paddingBottom: "2px",
-              }}
-            >
-              비밀번호가 재설정 되었습니다.
-            </div>
-            <div
-              style={{
-                marginTop: "2px",
-                marginBottom: "28px",
-              }}
-            >
-              바뀐 비밀번호를 기억해둘게요!
-            </div>
-            <div style={{display: "flex", flexDirection: "row", width: "100%", gap: "8px"}}>
-              <ModalButton1 onClick={handleCloseModal}>
-                확인
-              </ModalButton1>
-            </div>
-          </ModalContent>
+          <Modal
+            // isModalOn={showModal}
+            iconSrc={"images/lock.svg"}
+            iconAlt={"lock"}
+            mainContent={"비밀번호가 재설정되었습니다."}
+            subContent={"바뀐 비밀번호로 로그인하세요."}
+            btnContent={"확인"}
+            onClickBtn={handleCloseModal}
+          />
         </>
-        )}
+      )}
       <UserHeader>비밀번호 변경</UserHeader>
       <div
         style={{
@@ -147,10 +132,39 @@ const ChangePw = () => {
           marginTop: "64px",
         }}
       >
-         <div style={{padding: "0 16px", display: "flex", flexDirection: "column", gap: "24px"}}>
-          <Input label="비밀번호" type="password" value={pw} onChangeHandler={pwChangeHandler} isError={!!invalidPwInfo} description={invalidPwInfo}/>
-          <Input label="비밀번호 확인" type="password" value={matchingPw} onChangeHandler={matchingPwChangeHandler} isError={!!invalidMatchingPwInfo} description={invalidMatchingPwInfo}/>
-          <div style={{ position: "absolute", bottom: "40px", width: "calc(100% - 32px)", display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            padding: "0 16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "24px",
+          }}
+        >
+          <Input
+            label="비밀번호"
+            type="password"
+            value={pw}
+            onChangeHandler={pwChangeHandler}
+            isError={!!invalidPwInfo}
+            description={invalidPwInfo}
+          />
+          <Input
+            label="비밀번호 확인"
+            type="password"
+            value={matchingPw}
+            onChangeHandler={matchingPwChangeHandler}
+            isError={!!invalidMatchingPwInfo}
+            description={invalidMatchingPwInfo}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: "40px",
+              width: "calc(100% - 32px)",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Button
               disabled={!isAllValid}
               buttonSize={ButtonSize.LARGE}
