@@ -63,8 +63,6 @@ const ShareClickLogo = styled(MoveLogo)``;
 
 
 const ShareMode = ({onMove, onShare, onCheck ,isShare, shareLength, shareToggle, setshareToggle}) =>{
-    // const [cancelToggle, setCancleToggle] = useState(true);
-
     const onCancle = () =>{
         setshareToggle(!shareToggle);
         onMove();

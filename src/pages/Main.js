@@ -32,6 +32,7 @@ const Main = () => {
   const [dayToggleTopPrayer, setDayToggleTopPrayer] = useState(false);
   const [dayToggleBottomDay, setDayToggleBottomDay] = useState(true);
   const [dayToggleBottomPrayer, setDayToggleBottomPrayer] = useState(false);
+  const [modifyToggle, setModifyToggle] = useState(true);
   const [loading, setisloading] = useState(true);
   const [Sharelist, setShareList] = useState([]);
   const location = useLocation();
@@ -70,7 +71,7 @@ const Main = () => {
           count: uncompletedItem.pray_cnt,
           isShare: uncompletedItem.is_shared
         });
-      });
+      });     
       result.data.completed.map((completedItem) => {
         let dDay = dDayCalculate(completedItem.deadline);
         completedList.push({
@@ -84,8 +85,6 @@ const Main = () => {
         });
       });
     }
-    // console.log(upPosition);
-    // console.log(DownPosition);
     upPosition && setUncompletedList(uncompletedList);
     DownPosition && setCompletedList(completedList);
     setisloading(false);
@@ -102,7 +101,6 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    // console.log("prayList");
     renderingData(prayList, false);
   }, [prayList]);
 
@@ -112,18 +110,26 @@ const Main = () => {
       setisloading(true);
       return;
     }
-    // console.log("pray_List");
     renderingData(pray_List, false);
   }, [pray_List]);
 
 
   useEffect(() =>{
     if(Array.isArray(shareData) && shareData.length !== 0){
-      setTimeout(()=>{
         refetch_shareSocialList();
-      },1000) // 근데 이부분 시간 이렇게 적용해도 괜찮은건지?
     }
   }, [shareData]);
+
+  // 모달 메세지 띄우는 거 하는 useEffect
+  useEffect(() => {
+    if (modalText) {
+      const timer = setTimeout(() => {
+        setmodalToggle(false);
+        setModalText("");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [modalText]);
 
   const { mutate: mutateCountUpdate } = useCountUpdate();
   const { mutate: mutateComplete } = useCompletePrayList();
@@ -134,9 +140,15 @@ const Main = () => {
 
   // 기도를 입력하는 코드
   const onInsert = async (name, Dday, text) => {
+    console.log(name);
     if (text === "") {
       return alert("기도제목이 입력이 되지 않았습니다.");
-    } else {
+    } 
+    if(name == ""){
+      return alert("이름이 입력되지 않았습니다!");
+    }
+    
+    else {
       var date = new Date();
       var day = addDay(date, Dday);
       var zeroTime = setZeroTime(day);
@@ -223,18 +235,6 @@ const Main = () => {
     setClickId(id);
   };
 
-  // 완료, 수정, 삭제등을 하게 되었을 때, 나오는 모달창을 실행시키는 함수 
-  const feedbackHandler = (text) => {
-    // 이벤트가 실행되면 모달창이 보이게되고 내부에서 setIimeout 함수가 실행되며
-    // 일정시간후 모달창을 안보이는 상태로 변경
-    setmodalToggle(true);
-    setModalText(text);
-    setTimeout(() => {
-      setmodalToggle(false);
-      setModalText("");
-    }, 1000);
-  };
-
   // 완료하기를 눌렀을 때, 나오는 함수
   const completeBtnClick = async (id) => {
     // 완료하기 관련 코드
@@ -247,7 +247,8 @@ const Main = () => {
             uncompletedList.filter((prayer) => prayer.id !== id)
           );
           setCompletedList(completedList.filter((prayer) => prayer.id !== id));
-          feedbackHandler("기도를 완료하였습니다.");
+          setmodalToggle(true);
+          setModalText("기도제목을 완료했어요.")
         },
       }
     );
@@ -256,7 +257,6 @@ const Main = () => {
   // 수정하기를 눌렀을 때, 나오는 함수
   const modifyBtnClick = (id) => {
     // 수정하기 관련 코드
-    // console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
     var returnValue = uncompletedList.find(function (data) {
@@ -265,9 +265,14 @@ const Main = () => {
     var returnValue_ = completedList.find(function (data) {
       return data.id === id;
     });
-    var data = returnValue ? returnValue : returnValue_;
+    if(returnValue){
+      var data = returnValue
+      setModifyToggle(true);
+    }else{
+      var data = returnValue_
+      setModifyToggle(false);
+    }
     var temp = {
-      // id: data.id,
       name: data.name,
       text: data.text
     }
@@ -295,7 +300,8 @@ const Main = () => {
             uncompletedList.filter((prayer) => prayer.id !== id)
           );
           setCompletedList(completedList.filter((prayer) => prayer.id !== id));
-          feedbackHandler("기도제목이 삭제되었어요.");
+          setmodalToggle(true);
+          setModalText("기도제목이 삭제되었어요.")
         },
       }
     );
@@ -308,37 +314,32 @@ const Main = () => {
   };
 
   // 궁극적으로 수정하기를 눌렀을 때, 실행되는 함수
-  const valueChange = async (id, value, name) => {
+  const valueChange = async (id, value, name, updateDate) => {
     console.log(value)
+    console.log(updateDate)
     if (value == "") {
       console.log(clickData);
     } else {
       mutateChangeValue(
         {
           id: id,
-          data: { target: name, title: value },
+          data: { target: name, title: value, deadline : updateDate},
         },
         {
           onSuccess: () => {
-            feedbackHandler("기도제목이 수정되었어요.");
+            if(modifyToggle){
+              dayToggleTopDay && refetchPrayList();
+              dayToggleTopPrayer && refetch_PrayList();
+            }else{
+              dayToggleBottomDay && refetchPrayList();
+              dayToggleBottomPrayer && refetch_PrayList();
+            }
+            setmodalToggle(true);
+            setModalText("기도제목이 수정되었어요.")
           },
         }
       );
     }
-    setUncompletedList((uncompletedList) =>
-      uncompletedList.map((uncompletedList) =>
-        uncompletedList.id === id
-          ? { ...uncompletedList, text: value }
-          : uncompletedList
-      )
-    );
-    setCompletedList((completedList) =>
-      completedList.map((completedList) =>
-        completedList.id === id
-          ? { ...completedList, text: value }
-          : completedList
-      )
-    );
     setIsModify(!isModify);
   };
 
@@ -346,7 +347,9 @@ const Main = () => {
   const dDayCalculate = (res_data) => {
     var today = new Date();
     var dday = new Date(res_data);
-    var result = Math.ceil((dday - today) / (1000 * 60 * 60 * 24));
+    dday.setHours(23,59,59);
+    var diff = dday.getTime() - today.getTime();
+    var result = Math.floor(diff/ (1000 * 60 * 60 * 24));
     return result;
   };
 
@@ -393,6 +396,8 @@ const Main = () => {
         (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
     setCompletedList(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
         (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
+    let filtered = Sharelist.filter((element) => Number(element) !== Number(id));
+    setShareList(filtered);
 }
 
 
