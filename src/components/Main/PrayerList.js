@@ -90,8 +90,8 @@ const ToastWrapper = styled.div`
 
 function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPrayerMoreContent, countUpdate, completeBtnClick, bottom_delete_click, 
     modifyBtnClick, deleteBtnClick, isChecked, clickId,clickData, contentClick, isModify, onModify, isDeleted, onDeleted,
-    valueChange,changeCheck, dDayCalculate, modalToggle, modalText,sortUpPosition,sortDownPosition,
-    onMove, shareToggle, isShare, setIsShare, setshareToggle, setShareLength, shareLength,
+    valueChange,changeCheck, modalToggle, modalText,sortUpPosition,sortDownPosition,
+    onMove, shareToggle, isShare, setIsShare, setshareToggle, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
     shareList, Sharelist, setShareList,clickIsShare, clickOff}){
@@ -113,90 +113,12 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const {data: pray_cnt_List, refetch: refetch_cnt_PrayList} = usePrayList('cnt');
     const { shareLink, isMobile } = useFlutterWebview();
 
-    // const praySort = (praylist) =>{
-    //     let uncompletedsortedList = [];
-    //     uncompletedsortedList = praylist.data.uncompleted.sort(function (a,b){
-    //         return a.pray_cnt - b.pray_cnt;
-    //     });
-    //     return uncompletedsortedList;
-    // }
-    
-    // const prayCompletedSort = (praylist) =>{
-    //     let completedsortedList = []
-    //     completedsortedList = praylist.data.completed.sort(function (a,b){
-    //         return a.pray_cnt - b.pray_cnt;
-    //     });
-    //     console.log(completedsortedList);
-    //     return completedsortedList;       
-    // }
     const getPrayList = (bool, pray) =>{ // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭 
-        // console.log(result);
         if(!bool){
-            // let uncompletedList = [];
-            // if(pray){
-            //     let sortedResult = [];
-            //     sortedResult = praySort(result); // cnt순으로 정리
-            //     sortedResult.map((uncompletedItem) => {
-            //     let dDay = dDayCalculate(uncompletedItem.deadline);
-            //     uncompletedList.push({
-            //     id : uncompletedItem.id,
-            //     name:uncompletedItem.target,
-            //     dday: dDay,
-            //     text: uncompletedItem.title,
-            //     checked : false,
-            //     count : uncompletedItem.pray_cnt
-            //     })
-            //     });
-            // }
-
-            // else{
-            //     result.data.uncompleted.map((uncompletedItem) => {
-            //         let dDay = dDayCalculate(uncompletedItem.deadline);
-            //         uncompletedList.push({
-            //         id : uncompletedItem.id,
-            //         name:uncompletedItem.target,
-            //         dday: dDay,
-            //         text: uncompletedItem.title,
-            //         checked : false,
-            //         count : uncompletedItem.pray_cnt
-            //         })
-            //         });
-            // }
-            // setPrayerContent(uncompletedList);
             sortUpPosition(true);
             sortDownPosition(false);
         }
         else{
-            // let completedList = [];
-            // if(pray){
-            //     let sortedResult = [];
-            //     sortedResult = prayCompletedSort(result);
-            //     sortedResult.map((completedItem) => {
-            //     let dDay = dDayCalculate(completedItem.deadline);
-            //     completedList.push({
-            //     id : completedItem.id,
-            //     name:completedItem.target,
-            //     dday: dDay,
-            //     text: completedItem.title,
-            //     checked : false,
-            //     count : completedItem.pray_cnt
-            //     })
-            //     });
-            // }
-            // else{
-            // result.data.completed.map((completedItem) => {
-            //     let dDay = dDayCalculate(completedItem.deadline);
-            //     completedList.push({
-            //       id : completedItem.id,
-            //       name:completedItem.target,
-            //       dday: dDay,
-            //       text: completedItem.title,
-            //       checked : false,
-            //       count : completedItem.pray_cnt
-            //     })
-            //   });
-            // }
-            // setPrayerMoreContent(completedList);
             sortUpPosition(false);
             sortDownPosition(true);
         }
@@ -205,17 +127,14 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const fetchData = async (top, pray) =>{
         // refetchPrayList() 함수가 완료될 때까지 대기
         pray ? await refetch_cnt_PrayList() : await refetchPrayList();
-        // refetchPrayList() 함수가 완료된 후 다음 코드 실행
         getPrayList(top, pray);
         if(top == false && pray == false){
-            console.log(prayList);
             setDayToggleTopDay(!dayToggleTopDay);
             setDayToggleTopPrayer(!dayToggleTopPrayer);
             setColorSecondTop('#7BAB6E');
             setColorFirstTop('#EBF6E8');
         }
         else if(top == false && pray == true){
-            console.log(pray_cnt_List);
             setDayToggleTopPrayer(!dayToggleTopPrayer);
             setDayToggleTopDay(!dayToggleTopDay);
             setColorFirstTop('#7BAB6E');
@@ -280,12 +199,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                     alert("공유하기가 지원되지 않는 환경 입니다.")
                 }
             }
-            else{
-                console.log(listJoin);
-            }
 
-            /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
-            // navigate("?share=" + listJoin)
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
               prayerContent => ({...prayerContent, checked:false})

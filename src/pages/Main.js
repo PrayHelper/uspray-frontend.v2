@@ -257,7 +257,6 @@ const Main = () => {
   // 수정하기를 눌렀을 때, 나오는 함수
   const modifyBtnClick = (id) => {
     // 수정하기 관련 코드
-    // console.log(id);
     setIsModify(!isModify);
     setIsChecked(!isChecked);
     var returnValue = uncompletedList.find(function (data) {
@@ -274,7 +273,6 @@ const Main = () => {
       setModifyToggle(false);
     }
     var temp = {
-      // id: data.id,
       name: data.name,
       text: data.text
     }

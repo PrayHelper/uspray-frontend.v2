@@ -98,9 +98,6 @@ const DatePickerHeaderDate = styled.div`
 
 const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
     const [value , setValue] = useState("");
-    const [Toggle, setToggle] = useState(false);
-    const [startDate, setStartDate] = useState(new Date());
-    const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
     const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
@@ -117,19 +114,8 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify}) =>{
         setValue(e.target.value);
     }
     const onToggle = () =>{
-        // setToggle(!Toggle);
         setShowDatePicker(!showDatePicker);
     }
-    const dateClick = (date) =>{
-        setStartDate(date);
-        setToggle(!Toggle);
-        var year = getYear(date);
-        var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : (getMonth(date)+1);
-        var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
-        let res_data = year + "/" +  month + "/" + date;
-        setDayText(res_data);
-        setDayToggle(true);
-      }
 
     const onName = (e) =>{
         setName(e.target.value)

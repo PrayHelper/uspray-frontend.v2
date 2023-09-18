@@ -110,7 +110,6 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
             setshareToggle(!shareToggle)
             setIsShare(!isShare)
         }
-        // setDoubleToggle(!doubleToggle);
     }
     const dayInfo = (e) =>{
         setDay(e);
@@ -133,7 +132,6 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const submit = () =>{
         setVisible(!visible);
         setValue("");
-        console.log(day);
         onInsert(name, day, value);
         setDay(7);
     }

@@ -61,8 +61,6 @@ const Day_Button = ({dayInfo, visible}) =>{
     const [fontSeven ,setFontSeven] = useState('white');
     const [fontThirty ,setFontThirty] = useState('#75BD62');
     const [fontHundred ,setFontHundred] = useState('#75BD62');
-    // const [startDate, setStartDate] = useState(new Date());
-    // const [dayText, setDayText] = useState("");
     const [dayToggle, setDayToggle] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
@@ -70,32 +68,9 @@ const Day_Button = ({dayInfo, visible}) =>{
     var nextDay = new Date();
 
 
-    // const dateClick = (date) =>{
-    //     // setStartDate(date);
-    //     console.log(date);
-    //     colorChange(date);
-    //     setToggle(!Toggle);
-    //     setColorThree('white');
-    //     setColorSeven('white');
-    //     setColorThirty('white');
-    //     setColorHundred('white');
-    //     setFontThree('#75BD62');
-    //     setFontSeven('#75BD62');
-    //     setFontThirty('#75BD62');
-    //     setFontHundred('#75BD62');
-    //     var year = getYear(date);
-    //     var month = ((getMonth(date)+1) < 10) ? "0" + (getMonth(date) + 1) : (getMonth(date)+1);
-    //     var date = (getDate(date) < 10) ? "0" + getDate(date) : getDate(date);
-    //     let res_data = year + "/" +  month + "/" + date;
-    //     setDayText(res_data);
-    //     setDayToggle(true);
-    //     console.log(date);
-    //   }
-
     const colorChange = (e) =>{
         if(e.target == undefined){
             let res_data = getYear(e) + "-" + (getMonth(e)+1) + "-" + getDate(e);
-            console.log(res_data)
             var today = new Date();
             var dday = new Date(res_data);
             var result = Math.ceil((dday - today)/(1000*60*60*24));
@@ -162,7 +137,6 @@ const Day_Button = ({dayInfo, visible}) =>{
     }
 
     const onToggle = () =>{
-      console.log("짜잔")
       setShowDatePicker(!showDatePicker);
     }
 
@@ -170,7 +144,6 @@ const Day_Button = ({dayInfo, visible}) =>{
         setSelectedDate(date); // 선택된 날짜 업데이트
         calculateDate(date);
         setShowDatePicker(false); // DatePicker 닫기
-        // setIsClickedDay(true);
         setDayToggle(true);
         setColorThree('white');
         setColorSeven('white');
@@ -187,7 +160,6 @@ const Day_Button = ({dayInfo, visible}) =>{
         var today = new Date();
         var gap = date.getTime() - today.getTime();
         var result = Math.ceil(gap / (1000 * 60 * 60 * 24))
-        console.log(result);
         dayInfo(result);
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, "0");
