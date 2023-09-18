@@ -67,7 +67,6 @@ const ClickImg = styled(HeartImage)`
 
 function PrayerContent({content, dayToggle , countUpdate, bottom, contentClick, isShared, shareList, clickOff}){
     const {id, dday,text,checked, name, count, isShare} = content;
-    // console.log(content);
     const clickHandler = (event) =>{
         if(!checked){
         return shareList(event.target.id, !checked);

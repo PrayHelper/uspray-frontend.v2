@@ -94,7 +94,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     onMove, shareToggle, isShare, setIsShare, setshareToggle, shareLength,
     dayToggleTopDay , setDayToggleTopDay, dayToggleTopPrayer , setDayToggleTopPrayer,
     dayToggleBottomDay , setDayToggleBottomDay, dayToggleBottomPrayer , setDayToggleBottomPrayer, loading,
-    shareList, Sharelist, setShareList,clickIsShare, clickOff}){
+    shareList, Sharelist, setShareList,clickIsShare, clickOff,updateDate,setUpdateDate,dayToggle, setDayToggle}){
 
     const defaultOptions = { 
         loop: true,
@@ -300,7 +300,8 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 </ToastWrapper>
                 <BottomMenu completeBtnClick = {completeBtnClick} modifyBtnClick = {modifyBtnClick} 
                 bottom_delete_click = {bottom_delete_click} clickId = {clickId} changeCheck = {changeCheck} isChecked = {isChecked} clickIsShare={clickIsShare}/>
-                <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify}/>
+                <ModifyBar id ={clickId} valueChange = {valueChange} onModify={onModify} clickData = {clickData} isModify={isModify} updateDate={updateDate} setUpdateDate={setUpdateDate}
+                dayToggle={dayToggle} setDayToggle={setDayToggle}/>
                 <DeleteBar deleteBtnClick = {deleteBtnClick} onDeleted={onDeleted} id ={clickId} isDeleted = {isDeleted}/>
             </Background>
         </div>

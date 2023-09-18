@@ -9,6 +9,7 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
+import { set } from "date-fns";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -35,6 +36,9 @@ const Main = () => {
   const [modifyToggle, setModifyToggle] = useState(true);
   const [loading, setisloading] = useState(true);
   const [Sharelist, setShareList] = useState([]);
+  const [updateDate, setUpdateDate] = useState(null);
+  const [dayToggle, setDayToggle] = useState(false);
+
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const shareData = query.getAll('share');
@@ -281,7 +285,10 @@ const Main = () => {
 
   // modify를 바꾸는 함수
   const onModify = () => {
+    console.log("이거 실행");
     setIsModify(!isModify);
+    setUpdateDate("");
+    setDayToggle(!dayToggle);
   };
 
   // BottomMene에서 삭제하기를 눌렀을 때 실행되는 함수 
@@ -455,6 +462,10 @@ const Main = () => {
         setShareList={setShareList}
         clickIsShare={clickIsShare}
         clickOff = {clickOff}
+        updateDate={updateDate}
+        setUpdateDate={setUpdateDate}
+        dayToggle={dayToggle} 
+        setDayToggle={setDayToggle}
       />
     </TemplateMain>
   );
