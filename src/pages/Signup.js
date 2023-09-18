@@ -323,7 +323,7 @@ const Signup = () => {
   }
 
   return (
-    <SigninPageWrapper>
+    <SignupPageWrapper>
       <UserHeader>회원가입</UserHeader>
       <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
       <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
@@ -531,12 +531,12 @@ const Signup = () => {
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
-    </SigninPageWrapper>
+    </SignupPageWrapper>
   );
 };
 
 export default Signup;
 
-const SigninPageWrapper = styled.div`
+const SignupPageWrapper = styled.div`
   width: 100%;
 `;
