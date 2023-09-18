@@ -3,6 +3,8 @@ import SocialLoginBtn from "../components/SocialLoginBtn";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import LogoSVG from "../images/logo_image.svg";
+
 const SocialLoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,7 +111,7 @@ const SocialLogin = () => {
   return (
     <SocialLoginWrapper>
       <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
+        <LogoImg src={LogoSVG} alt="logo" />
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>

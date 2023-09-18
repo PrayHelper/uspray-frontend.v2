@@ -215,7 +215,7 @@ const Locker = () => {
           </div>
         </LockerList>
       )}
-      <div style={{ marginTop: "20px", color: "white" }}>.</div>
+      <div style={{ marginTop: "20px", color: "var(--color-white)" }}>.</div>
       <ToastWrapper>
         {showSaveToast && (
           <Toast toastTheme={ToastTheme.SUCCESS}>
@@ -240,7 +240,7 @@ const LockerWrapper = styled.div`
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: #d0e8cb;
+  background-color: var(--color-light-green);
 `;
 
 const NoDataWrapper = styled.div`
@@ -255,13 +255,13 @@ const NoDataTitle = styled.div`
   font-weight: 700;
   font-size: 28px;
   line-height: 41px;
-  color: #7bab6e;
+  color: var(--color-dark-green);
 `;
 const NoDataContent = styled.div`
   font-weight: 400;
   font-size: 20px;
   line-height: 29px;
-  color: #b3d1ab;
+  color: var(--color-secondary-green);
 `;
 
 const LockerList = styled.div`

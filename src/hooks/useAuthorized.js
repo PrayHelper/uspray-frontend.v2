@@ -7,6 +7,10 @@ const useAuthorized = () => {
         return authorized === null;
     }
 
+    const isUnauthorized = () => {
+        return authorized === false;
+    }
+
     const isAuthrozed = () => {
         return authorized === true;
     }
@@ -25,6 +29,7 @@ const useAuthorized = () => {
 
     return {
         isUndefined,
+        isUnauthorized,
         isAuthrozed,
         setAutorized,
         setUnAuthorized,
