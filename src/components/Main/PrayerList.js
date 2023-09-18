@@ -109,6 +109,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const { shareLink } = useFlutterWebview();
     // const {mutate: mutateSharePrayItem} = useShare();
     // const navigate = useNavigate();
+    const WEB_ORIGIN = process.env.REACT_APP_WEB_ORIGIN;
 
     const praySort = (praylist) =>{
         let uncompletedsortedList = [];
@@ -251,14 +252,14 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
             if (/android/i.test(navigator.userAgent)) {
                 shareLink({
                     title: 'Web_share',
-                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                    url: `${WEB_ORIGIN}/main?share=` + listJoin,
                 })
             }
             
             else if (/iPad|iPhone|iPod/.test(navigator.userAgent) || navigator.share) {
                 navigator.share({
                     title: 'Web_share',
-                    url: "https://www.dev.uspray.kr/main?share=" + listJoin,
+                    url: `${WEB_ORIGIN}/main?share=` + listJoin,
                 });
             }
 
@@ -266,7 +267,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
                 // alert("공유하기가 지원되지 않는 환경 입니다.")
             }
             /* 이 라인에서 공유된 거는 isShare = true로 바꿔버리기 -> 이거는 서현이가 해둔듯.*/
-            console.log("https://www.dev.uspray.kr/main?share=" + listJoin);
+            console.log(`${WEB_ORIGIN}/main?share=` + listJoin);
             // navigate("?share=" + listJoin)
             setShareList([]);
             setPrayerContent(prayerContent => prayerContent.map(
