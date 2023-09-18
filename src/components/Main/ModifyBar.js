@@ -4,7 +4,6 @@ import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
 import Day_Calender from '../../images/day_calender.svg';
 import Day_Calender_hover from "../../images/DayCalender_hover.svg";
-import { getMonth, getYear, getDate, setDay } from "date-fns"
 import { ko } from "date-fns/esm/locale";
 import DatePicker from "react-datepicker";
 
@@ -98,12 +97,9 @@ const DatePickerHeaderDate = styled.div`
 
 const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,setUpdateDate,dayToggle, setDayToggle}) =>{
     const [value , setValue] = useState("");
-    // const [dayToggle, setDayToggle] = useState(false);
     const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-    // const [updateDate, setUpdateDate] = useState(null);
-    const divRef = useRef(null);
 
     useEffect(()=>{
       setValue(clickData.text);
@@ -139,7 +135,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
     return(
         <ModifyStyle style={{opacity : isModify ? "1" : "0" , transform : isModify ? "translateY(0%)" : "translateY(100%)"}}>
         {showDatePicker ? 
-        <DatePickerContainer ref={divRef}>
+        <DatePickerContainer>
         <DatePicker
           renderCustomHeader={({
             date,
