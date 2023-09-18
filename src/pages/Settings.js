@@ -12,6 +12,7 @@ import useAuthToken from "../hooks/useAuthToken";
 import { setRef } from "@mui/material";
 import useAuthorized from "../hooks/useAuthorized";
 import useSleep from "../hooks/useSleep";
+import Modal from "../components/Modal/Modal";
 
 // import { useNotificationEnable } from "../hooks/useNotificationEnable";
 
@@ -28,6 +29,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 4px;
   background-color: #f0f0f0;
+
+  margin-top: 65px;
+  margin-bottom: 65px;
 `;
 
 const WhiteBox = styled.div`
@@ -127,9 +131,8 @@ const Settings = () => {
   };
 
   const logout = async () => {
-    
     setRefreshToken("");
-    window.location.reload()
+    window.location.reload();
   };
 
   const moveToKakao = () => {
@@ -170,46 +173,22 @@ const Settings = () => {
       {showModal && (
         <>
           <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <img
-              src="images/ic_logout.svg"
-              alt="icon_logout"
-              style={{ marginTop: "8px" }}
-            />
-            <div
-              style={{
-                fontSize: "20px",
-                color: "#7BAB6E",
-                fontWeight: "700",
-                paddingBottom: "2px",
-              }}
-            >
-              로그아웃 하시겠습니까?
-            </div>
-            <div
-              style={{
-                marginTop: "2px",
-                marginBottom: "28px",
-              }}
-            >
-              보다 안전하게 로그아웃을 진행해 드릴게요.
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                gap: "8px",
-              }}
-            >
-              <ModalButton1 onClick={handleCloseModal}>취소</ModalButton1>
-              <ModalButton2 onClick={logout}>로그아웃</ModalButton2>
-            </div>
-          </ModalContent>
+          <Modal
+            isModalOn={showModal}
+            iconSrc={"images/ic_logout.svg"}
+            iconAlt={"icon_logout"}
+            mainContent={"로그아웃 하시겠습니까?"}
+            subContent={"보다 안전하게 로그아웃을 진행해 드릴게요."}
+            btnContent={"로그아웃"}
+            btnContent2={"취소"}
+            onClickBtn={logout}
+            onClickBtn2={handleCloseModal}
+            modalTheme={0}
+          />
         </>
       )}
       <Header>설정</Header>
-      <Wrapper style={{ marginTop: "10px" }}>
+      <Wrapper>
         <WhiteBox style={{ paddingTop: "-10px" }}>
           <SubTitle>계정</SubTitle>
           <StyledItem onClick={movePageHandler}>
@@ -228,24 +207,21 @@ const Settings = () => {
             <SettingToggle
               refetchIsNotifiedData={refetchIsNotifiedData}
               isAbledData={isAbledData[0]}
-              id={1}
-            ></SettingToggle>
+              id={1}></SettingToggle>
           </StyledItem>
           <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 기도 했을 때</div>
             <SettingToggle
               refetchIsNotifiedData={refetchIsNotifiedData}
               isAbledData={isAbledData[1]}
-              id={2}
-            ></SettingToggle>
+              id={2}></SettingToggle>
           </StyledItem>
           <StyledItem noActive={true}>
             <div>다른 사람이 내 기도 제목을 공유 받았을 때</div>
             <SettingToggle
               refetchIsNotifiedData={refetchIsNotifiedData}
               isAbledData={isAbledData[2]}
-              id={3}
-            ></SettingToggle>
+              id={3}></SettingToggle>
           </StyledItem>
         </WhiteBox>
         <WhiteBox>
@@ -272,8 +248,7 @@ const Settings = () => {
           <StyledItem noActive={true}>
             <div>현재 서비스 버전 확인</div>
             <div
-              style={{ color: "#7BAB6E", fontWeight: "700", fontSize: "15px" }}
-            >
+              style={{ color: "#7BAB6E", fontWeight: "700", fontSize: "15px" }}>
               0.1.2
             </div>
           </StyledItem>
