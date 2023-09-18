@@ -324,7 +324,7 @@ const Signup = () => {
   }
 
   return (
-    <div>
+    <SignupPageWrapper>
       <UserHeader>회원가입</UserHeader>
       <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
       <Modal
@@ -342,8 +342,7 @@ const Signup = () => {
           flexDirection: "column",
           gap: "27px",
           padding: "20px 27px",
-        }}
-      >
+        }}>
         <Input
           label="아이디"
           btnContent2={"asd"}
@@ -384,16 +383,14 @@ const Signup = () => {
               paddingLeft: "16px",
               position: "absolute",
               top: "-14px",
-            }}
-          >
+            }}>
             성별
           </div>
           <div
             style={{
               display: "flex",
               textAlign: "center",
-            }}
-          >
+            }}>
             <ToggleButton contents="남자" item={gender} setter={setGender} />
             <ToggleButton contents="여자" item={gender} setter={setGender} />
           </div>
@@ -426,8 +423,7 @@ const Signup = () => {
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
                 setIsPhoneNumVerficationButtonClickClick(true);
-              }}
-            >
+              }}>
               {time ? "진행 중" : "전송"}
             </Button>
           }
@@ -478,8 +474,7 @@ const Signup = () => {
                     setShowToast(true);
                     alert("인증에 실패하였습니다.");
                   }
-                }}
-              >
+                }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
               </Button>
             </div>
@@ -515,16 +510,19 @@ const Signup = () => {
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
             signup();
-          }}
-        >
+          }}>
           회원가입
         </Button>
 
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
-    </div>
+    </SignupPageWrapper>
   );
 };
 
 export default Signup;
+
+const SignupPageWrapper = styled.div`
+  width: 100%;
+`;
