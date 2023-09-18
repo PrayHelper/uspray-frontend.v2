@@ -60,3 +60,32 @@ export const BaseButtonStyle = styled.button`
     scale: ${(props) => props.disabled ? "1" : "0.98"};
   }
 `
+
+export const ModalButton = styled.button`
+  flex-grow: 1;
+  flex-basis: 0;
+  background-color: ${props => {
+    if (props.buttonTheme === ButtonTheme.WHITE)
+      return "#FFFFFF";
+    else if (props.buttonTheme === ButtonTheme.GRAY)
+      return "#f0f0f0";
+    else if (props.buttonTheme === ButtonTheme.RED)
+      return "#FF6B6B";
+    else if (props.buttonTheme === ButtonTheme.GREEN)
+        return "#7BAB6E";
+    else if (props.buttonTheme === ButtonTheme.LIGHT_GREEN)
+        return "#D0E8CB";
+  }};
+  border-style: ${props => (props.buttonTheme === ButtonTheme.WHITE) ? "1px solid #7bab6e" : "none"};
+  border-radius: 16px;
+  padding: 16px 0;
+  color: ${props => {
+    if (props.buttonTheme === ButtonTheme.WHITE || props.buttonTheme === ButtonTheme.LIGHT_GREEN)
+      return "#7BAB6E";
+    else if (props.buttonTheme === ButtonTheme.GRAY)
+      return "#808080";
+    else
+      return "#FFFFFF";
+  }};;
+  font-size: 18px;
+`;

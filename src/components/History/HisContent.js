@@ -22,7 +22,7 @@ export default HisContent;
 
 const Hline = styled.hr`
   width: 100%;
-  color: "#CECECE";
+  color: var(--color-secondary-grey);
   size: 1px;
   opacity: 0.5;
   border-right: 0;
@@ -30,7 +30,7 @@ const Hline = styled.hr`
 `;
 
 const Vline = styled.div`
-  border-left: 1px solid #cecece;
+  border-left: 1px solid var(--color-secondary-grey);
   height: 14px;
   margin-top: 4px;
 `;
@@ -50,7 +50,7 @@ const TopContentWrapper = styled.div`
 const NameWrapper = styled.div``;
 
 const Name = styled.div`
-  color: #7bab6e;
+  color: var(--color-dark-green);
   font-size: 14px;
   text-align: center;
   width: 71px;
@@ -59,7 +59,7 @@ const Name = styled.div`
 `;
 
 const Content = styled.div`
-  color: #606060;
+  color: var(--color-dark-grey);
   font-size: 14px;
   margin-left: 8px;
   line-height: 20px;
@@ -75,7 +75,7 @@ const Content = styled.div`
 const Date = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  color: #7bab6e;
+  color: var(--color-dark-green);
   font-size: 12px;
   margin: 8px 16px 12px 0px;
 `;

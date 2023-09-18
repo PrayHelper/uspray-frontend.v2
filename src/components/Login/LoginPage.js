@@ -10,8 +10,9 @@ import useAuthToken from "../../hooks/useAuthToken";
 import { postFetcher } from "../../hooks/api";
 import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
+import useAuthorized from "../../hooks/useAuthorized";
 
-
+import LogoSVG from "../../images/logo_image.svg";
 
 
 const sendDeviceTokenFunc = async (getAccessToken, data) => {
@@ -23,11 +24,8 @@ const sendDeviceTokenFunc = async (getAccessToken, data) => {
 const useSendDeviceToken = () => {
     const { getAccessToken } = useAuthToken();
     const { refresh } = useRefresh();
-    return useMutation(
-      (data) => {
-        return sendDeviceTokenFunc(getAccessToken, data)
-      },
-      {
+    return useMutation((data) => {
+      return sendDeviceTokenFunc(getAccessToken, data)}, {
         onError: async (e) => {
           if (e.status === 403) {
             await refresh();
@@ -76,7 +74,7 @@ const LoginPage = () => {
   }, [showToast]);
 
   const { mutate: sendDeviceToken } = useSendDeviceToken();
-  
+  const { setAutorized } = useAuthorized()
 
   const login = async () => {
     const api = `/user/login`;
@@ -87,10 +85,8 @@ const LoginPage = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        if (true) {
-        //if (isMobile()) {
-          //const deviceToken = await getDeviceToken();
-          const deviceToken = "test"
+        if (isMobile()) {
+          const deviceToken = await getDeviceToken();
 
           sendDeviceToken(
             {
@@ -102,13 +98,13 @@ const LoginPage = () => {
             }
           )
 
-          alert("send device token is successfully sended")
         } else {
           setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
           setShowToast(true);
         }
 
         navigate("/main");
+        setAutorized()
 
         setAccessToken(res.data.access_token);
         await setRefreshToken(res.data.refresh_token);
@@ -124,10 +120,16 @@ const LoginPage = () => {
     }
   };
 
+  const onPressEnter = (e) => {
+    if (e.key === "Enter") {
+      login();
+    }
+  };
+
   return (
     <LoginWrapper>
       <LogoWrapper>
-        <LogoImg src="images/logo_image.svg" alt="logo" />
+        <LogoImg src={LogoSVG} alt="logo" />
         <LogoTitle>Uspray</LogoTitle>
         <LogoSubTitle>너에게 기도를, 유스프레이</LogoSubTitle>
       </LogoWrapper>
@@ -146,6 +148,7 @@ const LoginPage = () => {
               value={pwdValue}
               type="password"
               onChangeHandler={onChangePwd}
+              onKeyPress={onPressEnter}
             />
           </div>
 
@@ -164,7 +167,7 @@ const LoginPage = () => {
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
-            <SubLink href="/findAccount">
+            <SubLink to="/findAccount">
               아이디 또는 비밀번호를 잊으셨나요?
             </SubLink>
           </div>
@@ -177,7 +180,7 @@ const LoginPage = () => {
 
 export default LoginPage;
 
-const SubLink = styled.a`
+const SubLink = styled(Link)`
   color: #7bab6e;
   font-size: 12px;
   text-decoration: underline;

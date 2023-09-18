@@ -10,6 +10,7 @@ import Checkbox from "../components/Checkbox/Checkbox";
 import serverapi from "../api/serverapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
+import Modal from "../components/Modal/Modal";
 
 let init = 0;
 
@@ -147,13 +148,17 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        alert("인증번호가 전송되었습니다.");
+        setToastMessage("인증번호가 전송되었습니다.");
+        setToastTheme(ToastTheme.SUCCESS);
+        setShowToast(true);
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      alert("error occured");
+      setToastMessage("error occured");
+      setToastTheme(ToastTheme.ERROR);
+      setShowToast(true);
     }
   };
 
@@ -170,8 +175,8 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
         setToastTheme(ToastTheme.SUCCESS);
+        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
         setShowToast(true);
         setTimeout(() => {
           navigate("/");
@@ -179,8 +184,11 @@ const Signup = () => {
       }
     } catch (e) {
       console.log(e);
-      if (e.response.data.dev_message === "SignUpFail error")
-        alert(e.response.data.message);
+      if (e.response.data.dev_message === "SignUpFail error") {
+        setToastMessage(e.response.data.message);
+        setToastTheme(ToastTheme.ERROR);
+        setShowToast(true);
+      }
     }
   };
 
@@ -323,46 +331,28 @@ const Signup = () => {
   }
 
   return (
-    <div>
+    <SignupPageWrapper>
       <UserHeader>회원가입</UserHeader>
       <BlackScreen isModalOn={showModal} onClick={handleCloseModal} />
-      <ModalContent isModalOn={showModal} onClick={(e) => e.stopPropagation()}>
-        <img
-          src="images/icon_notice.svg"
-          alt="icon_notice"
-          style={{
-            marginBottom: "8px",
-          }}
-        />
-        <div
-          style={{
-            fontSize: "20px",
-            color: "#7BAB6E",
-            fontWeight: "700",
-            marginBottom: "2px",
-          }}
-        >
-          이름은 실명으로 설정해주세요!
-        </div>
-        <div
-          style={{
-            marginBottom: "36px",
-          }}
-        >
-          기도제목 공유 시 이름으로 전달됩니다.
-        </div>
-        <ModalButton onClick={handleCloseModal}>네, 그렇게 할게요.</ModalButton>
-      </ModalContent>
+      <Modal
+        isModalOn={showModal}
+        iconSrc={"images/icon_notice.svg"}
+        iconAlt={"icon_notice"}
+        mainContent={"이름은 실명으로 설정해주세요!"}
+        subContent={"기도제목 공유 시 이름으로 전달됩니다."}
+        btnContent={"네, 그렇게 할게요."}
+        onClickBtn={handleCloseModal}
+      />
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           gap: "27px",
           padding: "20px 27px",
-        }}
-      >
+        }}>
         <Input
           label="아이디"
+          btnContent2={"asd"}
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
           isError={!!invalidIdInfo}
@@ -400,16 +390,14 @@ const Signup = () => {
               paddingLeft: "16px",
               position: "absolute",
               top: "-14px",
-            }}
-          >
+            }}>
             성별
           </div>
           <div
             style={{
               display: "flex",
               textAlign: "center",
-            }}
-          >
+            }}>
             <ToggleButton contents="남자" item={gender} setter={setGender} />
             <ToggleButton contents="여자" item={gender} setter={setGender} />
           </div>
@@ -442,8 +430,7 @@ const Signup = () => {
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
                 setIsPhoneNumVerficationButtonClickClick(true);
-              }}
-            >
+              }}>
               {time ? "진행 중" : "전송"}
             </Button>
           }
@@ -487,15 +474,15 @@ const Signup = () => {
                   console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    alert("인증에 성공하였습니다.");
+                    setToastMessage("인증에 성공하였습니다.");
+                    setToastTheme(ToastTheme.SUCCESS);
+                    setShowToast(true);
                   } else {
                     setToastMessage("인증번호가 일치하지 않습니다.");
                     setToastTheme(ToastTheme.ERROR);
                     setShowToast(true);
-                    alert("인증에 실패하였습니다.");
                   }
-                }}
-              >
+                }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
               </Button>
             </div>
@@ -531,16 +518,19 @@ const Signup = () => {
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
             signup();
-          }}
-        >
+          }}>
           회원가입
         </Button>
 
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
         {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
-    </div>
+    </SignupPageWrapper>
   );
 };
 
 export default Signup;
+
+const SignupPageWrapper = styled.div`
+  width: 100%;
+`;
