@@ -148,13 +148,17 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        alert("인증번호가 전송되었습니다.");
+        setToastMessage("인증번호가 전송되었습니다.");
+        setToastTheme(ToastTheme.SUCCESS);
+        setShowToast(true);
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      alert("error occured");
+      setToastMessage("error occured");
+      setToastTheme(ToastTheme.ERROR);
+      setShowToast(true);
     }
   };
 
@@ -171,8 +175,8 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
         setToastTheme(ToastTheme.SUCCESS);
+        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
         setShowToast(true);
         setTimeout(() => {
           navigate("/");
@@ -180,8 +184,11 @@ const Signup = () => {
       }
     } catch (e) {
       console.log(e);
-      if (e.response.data.dev_message === "SignUpFail error")
-        alert(e.response.data.message);
+      if (e.response.data.dev_message === "SignUpFail error") {
+        setToastMessage(e.response.data.message);
+        setToastTheme(ToastTheme.ERROR);
+        setShowToast(true);
+      }
     }
   };
 
@@ -467,12 +474,13 @@ const Signup = () => {
                   console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    alert("인증에 성공하였습니다.");
+                    setToastMessage("인증에 성공하였습니다.");
+                    setToastTheme(ToastTheme.SUCCESS);
+                    setShowToast(true);
                   } else {
                     setToastMessage("인증번호가 일치하지 않습니다.");
                     setToastTheme(ToastTheme.ERROR);
                     setShowToast(true);
-                    alert("인증에 실패하였습니다.");
                   }
                 }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
