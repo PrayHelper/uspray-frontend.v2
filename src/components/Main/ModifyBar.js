@@ -95,12 +95,11 @@ const DatePickerHeaderDate = styled.div`
 `;
 
 
-const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,setUpdateDate,dayToggle, setDayToggle}) =>{
+const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,setUpdateDate , dayToggle, setDayToggle}) =>{
     const [value , setValue] = useState("");
     const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-
     useEffect(()=>{
       setValue(clickData.text);
       setName(clickData.name);
@@ -190,9 +189,9 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
             onChange={onChangeValue}></textarea>
         </div>
         <DateSet>
-        {(dayToggle && updateDate != null) ?<div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
+        {(updateDate) ? <div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
         fontSize:"16px", lineHeight:"23px", color:" #75BD62"}} onClick={onToggle}>{"~"+ updateDate}</div> : ""}
-        <div><DayCalender src={dayToggle ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
+        <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
         <ModifyBtn onClick={() => valueChange(id, value, name, updateDate)}>수정 완료하기</ModifyBtn>}
