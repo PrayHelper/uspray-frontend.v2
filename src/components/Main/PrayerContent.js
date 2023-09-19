@@ -48,6 +48,7 @@ const ClickImg = styled(HeartImage)`
     width: 24px;
     height: 24px;
     transition: all 0.3s;
+    flex-shrink : 0;
     path{
         fill: none;
         stroke: #FF8989;
