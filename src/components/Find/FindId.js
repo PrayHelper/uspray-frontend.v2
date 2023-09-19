@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Input from "../Input/Input";
@@ -17,6 +17,22 @@ const SubLink = styled.a`
 `;
 
 const FindId = () => {
+  const openKakaoChannel = () => {
+    // 카카오 채널 홈 URL
+    const kakaoChannelURL = 'http://pf.kakao.com/_UgxhYxj';
+  
+    // 카카오톡 앱을 열기 위한 URL 스킴
+    const kakaoAppURL = 'kakaoplus://plusfriend/home/@_UgxhYx';
+  
+    // 카카오톡 앱이 설치되어 있는지 확인
+    if (window.Kakao.isKakaoTalkAvailable) {
+      // 카카오톡 앱이 설치되어 있다면 앱을 열고 채널 홈으로 이동
+      window.location.href = kakaoAppURL;
+    } else {
+      // 카카오톡 앱이 설치되어 있지 않다면 웹 브라우저에서 채널 홈으로 이동
+      window.location.href = kakaoChannelURL;
+    }
+  };
   const [userInfo, setUserInfo] = useState({
     name: "",
     phoneNumber: "",
@@ -262,7 +278,7 @@ const FindId = () => {
           }}
         >
           <div style={{ textAlign: "center", marginBottom: "16px" }}>
-            <SubLink href="http://pf.kakao.com/_UgxhYxj">
+            <SubLink onClick={openKakaoChannel}>
               전화번호를 변경하셨나요?
             </SubLink>
           </div>
