@@ -3,7 +3,7 @@ import { ToastTheme } from "../components/Toast/Toast";
 
 export const toastMessageState = atom({
   key: "toastMessage",
-  default: "",
+  default: "Plaese Initialize toastMessage!!!",
 });
 
 export const toastThemeState = atom({

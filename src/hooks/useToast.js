@@ -33,9 +33,9 @@ const useToast = ({ initialMessage, initialTheme }) => {
   }, [toastVisible]);
 
   return {
-    setToastMessage,
-    setToastTheme,
-    showToast: () => {
+    showToast: ({ message, theme }) => {
+      if (!!message) setToastMessage(message);
+      if (!!theme) setToastTheme(theme);
       setToastVisible(true);
     },
     renderToast: () =>

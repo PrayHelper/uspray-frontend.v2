@@ -4,7 +4,7 @@ import { ToastTheme } from "../components/Toast/Toast";
 import { useNavigate } from "react-router-dom";
 
 const Temp1 = () => {
-  const { setToastMessage, setToastTheme, showToast } = useToast({});
+  const { showToast } = useToast({});
 
   const navigate = useNavigate();
 
@@ -13,8 +13,10 @@ const Temp1 = () => {
       Temp1
       <button
         onClick={() => {
-          setToastMessage("Temp1");
-          showToast();
+          showToast({
+            theme: ToastTheme.ERROR,
+            message: "페이지 전환 + showToast 수행",
+          });
           navigate("/temp2");
         }}>
         Click Me!
