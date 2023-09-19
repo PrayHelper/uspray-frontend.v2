@@ -126,7 +126,6 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     }
 
     const fetchData = async (top, pray) =>{
-        // refetchPrayList() 함수가 완료될 때까지 대기
         pray ? await refetch_cnt_PrayList() : await refetchPrayList();
         getPrayList(top, pray);
         if(top == false && pray == false){

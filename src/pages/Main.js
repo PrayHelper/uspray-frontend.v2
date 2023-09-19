@@ -9,7 +9,7 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
-import { set } from "date-fns";
+import { set, setDay } from "date-fns";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -142,16 +142,22 @@ const Main = () => {
   const { mutate: mutateSendPrayItem } = useSendPrayItem();
 
 
+  const calculateDate = (date) =>{
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성  
+    setUpdateDate(formattedDate);
+  }
+
   // 기도를 입력하는 코드
   const onInsert = async (name, Dday, text) => {
-    console.log(name);
     if (text === "") {
       return alert("기도제목이 입력이 되지 않았습니다.");
     } 
     if(name == ""){
       return alert("이름이 입력되지 않았습니다!");
     }
-    
     else {
       var date = new Date();
       var day = addDay(date, Dday);
@@ -170,12 +176,10 @@ const Main = () => {
         },
         {
           onSuccess: () => {
-            console.log("sendPraryList");
             setUpPosition(true);
             setDownPosition(false);
             dayToggleTopDay && refetchPrayList();
             dayToggleTopPrayer && refetch_PrayList();
-            console.log(dayToggleTopPrayer);
           },
         }
       );
@@ -186,7 +190,6 @@ const Main = () => {
   const addDay = (today, Dday) => {
     var day = new Date(today);
     day.setDate(day.getDate() + Dday);
-    console.log(day);
     return day;
   };
 
@@ -271,9 +274,15 @@ const Main = () => {
     });
     if(returnValue){
       var data = returnValue
+      const date = new Date();
+      var changeDate = addDay(date, data.dday);
+      calculateDate(changeDate)
       setModifyToggle(true);
     }else{
       var data = returnValue_
+      const date = new Date();
+      var changeDate = addDay(date, data.dday);
+      calculateDate(changeDate)
       setModifyToggle(false);
     }
     var temp = {
@@ -285,10 +294,9 @@ const Main = () => {
 
   // modify를 바꾸는 함수
   const onModify = () => {
-    console.log("이거 실행");
     setIsModify(!isModify);
     setUpdateDate("");
-    setDayToggle(!dayToggle);
+    setDayToggle(false);
   };
 
   // BottomMene에서 삭제하기를 눌렀을 때 실행되는 함수 
@@ -321,16 +329,15 @@ const Main = () => {
   };
 
   // 궁극적으로 수정하기를 눌렀을 때, 실행되는 함수
-  const valueChange = async (id, value, name, updateDate) => {
-    console.log(value)
-    console.log(updateDate)
+  const valueChange = async (id, value, name, newUpdateDate) => {
+    setDayToggle(!dayToggle);
     if (value == "") {
       console.log(clickData);
     } else {
       mutateChangeValue(
         {
           id: id,
-          data: { target: name, title: value, deadline : updateDate},
+          data: { target: name, title: value, deadline : newUpdateDate},
         },
         {
           onSuccess: () => {
