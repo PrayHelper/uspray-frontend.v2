@@ -1,8 +1,8 @@
 import { ToastStyle } from "./style";
 
 export const ToastTheme = {
-  SUCCESS: 0,
-  ERROR: 1,
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
 };
 
 Object.freeze(ToastTheme);
