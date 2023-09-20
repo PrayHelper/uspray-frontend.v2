@@ -33,8 +33,8 @@ const DayCalender = styled(Logo)`
 
 const DatePickerContainer = styled.div`
   position: absolute;
-  top: 50%;
-  left: 30%;
+  top: 60%;
+  left: 31%;
   z-index: 400;
 `;
 
@@ -137,6 +137,16 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
 
     const onToggle = () =>{
       setShowDatePicker(!showDatePicker);
+      setDayToggle(true);
+      setColorThree('white');
+      setColorSeven('white');
+      setColorThirty('white');
+      setColorHundred('white');
+      setFontThree('#75BD62');
+      setFontSeven('#75BD62');
+      setFontThirty('#75BD62');
+      setFontHundred('#75BD62');
+
     }
 
     const onChangeDatePicker = (date) => {
