@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import LockerContent from "../components/Locker/LockerContent";
 import LockerHeader from "../components/Locker/L_Header";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { ToastTheme } from "../components/Toast/Toast";
 import { useDeleteSharedList } from "../hooks/useDeleteSharedList";
 import { useFetchSharedList } from "../hooks/useFetchSharedList";
 import { useUpdateSharedList } from "../hooks/useUpdateSharedList";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
+import useToast from "../hooks/useToast";
 
 const Locker = () => {
   const [data, setData] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
   const [selectedID, setSelectedID] = useState([]);
-  const [showSaveToast, setShowSaveToast] = useState(false);
-  const [showDeleteToast, setShowDeleteToast] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { showToast } = useToast({});
 
   const defaultOptions = {
     //예제1
@@ -26,25 +27,6 @@ const Locker = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
-  // Toast 창 띄우기
-  useEffect(() => {
-    if (showSaveToast) {
-      const timer = setTimeout(() => {
-        setShowSaveToast(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [showSaveToast]);
-
-  useEffect(() => {
-    if (showDeleteToast) {
-      const timer = setTimeout(() => {
-        setShowDeleteToast(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [showDeleteToast]);
 
   // DDay 계산
   const calculateDday = (startDate) => {
@@ -123,7 +105,10 @@ const Locker = () => {
       },
       {
         onSuccess: () => {
-          setShowDeleteToast(true);
+          showToast({
+            message: "기도제목이 삭제되었습니다.",
+            theme: ToastTheme.SUCCESS,
+          });
           refetchSharedListData();
         },
       }
@@ -150,7 +135,10 @@ const Locker = () => {
       },
       {
         onSuccess: () => {
-          setShowSaveToast(true);
+          showToast({
+            message: "기도제목이 저장되었습니다.",
+            theme: ToastTheme.SUCCESS,
+          });
           refetchSharedListData();
         },
       }
@@ -200,8 +188,7 @@ const Locker = () => {
             {data.map((item, index) => (
               <div
                 // style={{ width: "100%" }}
-                onClick={() => onClickContent(index, item.pray_id)}
-              >
+                onClick={() => onClickContent(index, item.pray_id)}>
                 <LockerContent
                   isClicked={isClicked[index]}
                   name={item.share_name}
@@ -216,18 +203,6 @@ const Locker = () => {
         </LockerList>
       )}
       <div style={{ marginTop: "20px", color: "var(--color-white)" }}>.</div>
-      <ToastWrapper>
-        {showSaveToast && (
-          <Toast toastTheme={ToastTheme.SUCCESS}>
-            기도제목이 저장되었습니다.
-          </Toast>
-        )}
-        {showDeleteToast && (
-          <Toast toastTheme={ToastTheme.SUCCESS}>
-            기도제목이 삭제되었습니다.
-          </Toast>
-        )}
-      </ToastWrapper>
     </LockerWrapper>
   );
 };
@@ -274,8 +249,3 @@ const LockerList = styled.div`
   overflow: auto;
 `;
 
-const ToastWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
