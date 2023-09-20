@@ -103,6 +103,8 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const [Toggle, setToggle] = useState(true);
+    const [updateDate, setUpdateDate] = useState(null);
+    const [dayToggle, setDayToggle] = useState(false);
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -134,6 +136,8 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setValue("");
         onInsert(name, day, value);
         setDay(7);
+        setDayToggle(false);
+        setUpdateDate(null);
     }
     const changeCheckTop = () =>{
         setVisible(!visible);
@@ -162,7 +166,8 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
                         : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}
                     </div>
                 </BackgroundInput>
-                <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
+                <DayButton dayInfo = {dayInfo} visible={visible} dayToggle = {dayToggle} setDayToggle = {setDayToggle}
+                updateDate = {updateDate} setUpdateDate = {setUpdateDate}/>
             </div>
             <BackgroundBright onClick={changeCheckTop} style={{opacity : visible ? "1" : "0", pointerEvents: visible ? "auto" : "none"}}/>
             {children}
