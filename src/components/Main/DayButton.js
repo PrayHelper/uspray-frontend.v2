@@ -61,11 +61,8 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
     const [fontSeven ,setFontSeven] = useState('white');
     const [fontThirty ,setFontThirty] = useState('#75BD62');
     const [fontHundred ,setFontHundred] = useState('#75BD62');
-    // const [dayToggle, setDayToggle] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
-    // const [updateDate, setUpdateDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
-    // const [showDatePicker, setShowDatePicker] = useState(false);
     var nextDay = new Date();
 
 
