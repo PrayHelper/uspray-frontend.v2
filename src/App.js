@@ -41,8 +41,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import useAuthorized from "./hooks/useAuthorized";
 import GlobalStyle from "./styles/GlobalStyle";
 import useToast from "./hooks/useToast";
-import Temp1 from "./pages/Temp1";
-import Temp2 from "./pages/Temp2";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -114,8 +112,6 @@ function App() {
               </Route>
               <Route element={<Outlet />}>
                 <Route path="/" element={<Login />} />
-                <Route path="/temp1" element={<Temp1 />} />
-                <Route path="/temp2" element={<Temp2 />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/findAccount" element={<Find />} />
                 <Route path="/findID" element={<FindId />}></Route>
