@@ -4,10 +4,9 @@ import serverapi from "../../api/serverapi";
 import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
-import { ToastTheme } from "../Toast/Toast";
+import Toast, { ToastTheme } from "../Toast/Toast";
 import PwResult from "./PwResult";
 import PwError from "./PwError";
-import useToast from "../../hooks/useToast";
 let init = 0;
 
 const SubLink = styled.a`
@@ -66,6 +65,7 @@ const FindPassword = () => {
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
+  const [showToast, setShowToast] = useState(false);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
@@ -73,8 +73,7 @@ const FindPassword = () => {
     isPhoneNumVerficationButtonClicked,
     setIsPhoneNumVerficationButtonClickClick,
   ] = useState(false);
-
-  const { showToast } = useToast({});
+  const [toastMessage, setToastMessage] = useState("");
 
   const isAllValid = isCetrificated && isCertificateButtonClicked;
 
@@ -118,19 +117,13 @@ const FindPassword = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        showToast({
-          message: "인증번호가 전송되었습니다.",
-          theme: ToastTheme.SUCCESS,
-        });
+        alert("인증번호가 전송되었습니다.");
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      showToast({
-        message: "error occured",
-        theme: ToastTheme.ERROR,
-      });
+      alert("error occured");
     }
   };
 
@@ -236,6 +229,15 @@ const FindPassword = () => {
     return () => clearInterval(id);
   }, [time]);
 
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
   return (
     <div
       style={{
@@ -244,9 +246,10 @@ const FindPassword = () => {
         display: "flex",
         position: "relative",
         flexDirection: "column",
-      }}>
+      }}
+    >
       {showResultPage && <PwResult pwToken={pwToken} />}
-      {showErrorPage && <PwError />}
+      {showErrorPage && <PwError/>}
       <UserHeader children={"비밀번호 찾기"} />
       <div
         style={{
@@ -254,7 +257,8 @@ const FindPassword = () => {
           flexDirection: "column",
           gap: "27px",
           padding: "20px 27px",
-        }}>
+        }}
+      >
         <Input
           label="아이디"
           onChangeHandler={idChangeHandler}
@@ -288,7 +292,8 @@ const FindPassword = () => {
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
                 setIsPhoneNumVerficationButtonClickClick(true);
-              }}>
+              }}
+            >
               {time ? "진행 중" : "전송"}
             </Button>
           }
@@ -332,11 +337,14 @@ const FindPassword = () => {
                   console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    showToast({message: "인증에 성공하였습니다.", theme: ToastTheme.SUCCESS})
+                    alert("인증에 성공하였습니다.");
                   } else {
-                    showToast({message: "인증에 실패하였습니다.", theme: ToastTheme.ERROR})
+                    setToastMessage("인증번호가 일치하지 않습니다.");
+                    setShowToast(true);
+                    alert("인증에 실패하였습니다.");
                   }
-                }}>
+                }}
+              >
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
               </Button>
             </div>
@@ -350,7 +358,8 @@ const FindPassword = () => {
             width: "calc(100% - 48px)",
             display: "flex",
             flexDirection: "column",
-          }}>
+          }}
+        >
           <div style={{ textAlign: "center", marginBottom: "16px" }}>
             <SubLink href="http://pf.kakao.com/_UgxhYxj">
               전화번호를 변경하셨나요?
@@ -362,10 +371,14 @@ const FindPassword = () => {
             buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
             handler={() => {
               findPassword();
-            }}>
+            }}
+          >
             비밀번호 찾기
           </Button>
         </div>
+        {showToast && (
+          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
+        )}
       </div>
     </div>
   );
