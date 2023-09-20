@@ -141,6 +141,17 @@ const FindId = () => {
     return result;
   };
 
+  let buttonText = "";
+  
+  if (time) {
+    buttonText = "진행 중";
+  } else {
+    if (isCetrificated && isCertificateButtonClicked) {
+      buttonText = "완료";
+    } else {
+      buttonText = "전송";
+    }
+  }
   useEffect(() => {
     if (time === "") return;
     if (isCetrificated && isCertificateButtonClicked) {
@@ -204,7 +215,12 @@ const FindId = () => {
                 setUserInfo({ ...userInfo, certificateNumber: "" });
               }}
             >
-              {time ? "진행 중" : "전송"}
+              {buttonText}
+              {/* {time 
+              ? "진행 중" 
+              :isCertificationNumberValid(userInfo.certificateNumber) 
+              ? "완료" 
+              : " 전송"}  */}
             </Button>
           }
         />
@@ -256,7 +272,7 @@ const FindId = () => {
                     }
                   }}
                 >
-                  {isCetrificated || isCertificateButtonClicked
+                  {isCetrificated && isCertificateButtonClicked
                     ? "완료"
                     : "확인"}
                 </Button>

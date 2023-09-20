@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { ToastTheme } from "./Toast";
 
 export const ToastStyle = styled.div`
+  z-index: 100;
   position: fixed;
   left: 0;
   right: 0;
