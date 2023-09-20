@@ -40,6 +40,7 @@ import SplashScreen from "./pages/SplashScreen";
 import { useRecoilState, useRecoilValue } from "recoil";
 import useAuthorized from "./hooks/useAuthorized";
 import GlobalStyle from "./styles/GlobalStyle";
+import useToast from "./hooks/useToast";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -55,7 +56,6 @@ const Container = styled.div`
   padding: 0px;
 `;
 
-
 const PrivateRoute = () => {
   const { isUnauthorized } = useAuthorized();
 
@@ -63,8 +63,7 @@ const PrivateRoute = () => {
     return <Navigate to="/" replace />;
   }
   return <Outlet />;
-}
-
+};
 
 const CommonRoute = () => {
   const { isUndefined } = useAuthorized();
@@ -84,6 +83,8 @@ const CommonRoute = () => {
 };
 
 function App() {
+  const { renderToast } = useToast({});
+
   return (
     <BrowserRouter>
       <ContainerWrapper>
@@ -102,7 +103,10 @@ function App() {
                 <Route path="/checkInfo" element={<CheckInfo />} />
                 <Route path="/changeInfo" element={<ChangeInfo />} />
                 <Route path="/changePw" element={<ChangePw />} />
-                <Route path="/changePhoneNumber" element={<ChangePhoneNumber />} />
+                <Route
+                  path="/changePhoneNumber"
+                  element={<ChangePhoneNumber />}
+                />
                 <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
                 <Route path="/social" element={<SocialLogin />} />
               </Route>
@@ -113,7 +117,9 @@ function App() {
                 <Route path="/findID" element={<FindId />}></Route>
                 <Route path="/findIDResult" element={<FindIdResult />}></Route>
                 <Route path="/findPW" element={<FindPassword />}></Route>
-                <Route path="/findPWResult" element={<FindPasswordResult />}></Route>
+                <Route
+                  path="/findPWResult"
+                  element={<FindPasswordResult />}></Route>
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/loading" element={<SplashScreen />} />
                 <Route path="*" element={<NotFound />} />
@@ -125,6 +131,8 @@ function App() {
               </Route>
             </Route>
           </Routes>
+          {/* Toast 출력 */}
+          {renderToast()}
         </Container>
       </ContainerWrapper>
     </BrowserRouter>
