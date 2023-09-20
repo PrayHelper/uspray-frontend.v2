@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import UserHeader from "../UserHeader";
+import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
+import Input from "../Input/Input";
 import styled from "styled-components";
 import serverapi from "../../api/serverapi";
-import UserHeader from "../UserHeader";
-import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
-import Input from "../Input/Input";
-import { ToastTheme } from "../Toast/Toast";
-import PwResult from "./PwResult";
-import PwError from "./PwError";
+import IdResult from "./IdResult";
 import useToast from "../../hooks/useToast";
+import { ToastTheme } from "../Toast/Toast";
+
 let init = 0;
 
 const SubLink = styled.a`
@@ -17,78 +17,32 @@ const SubLink = styled.a`
   cursor: pointer;
 `;
 
-const ModalContent = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: calc(100vw - 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  gap: 8px;
-  border-radius: 16px;
-  padding: 16px;
-  color: #7bab6e;
-  z-index: 500;
-`;
-
-const ModalButton = styled.button`
-  width: 100%;
-  height: 66px;
-  background-color: #7bab6e;
-  border-style: none;
-  border-radius: 16px;
-  padding: 20px 0;
-  color: #ffffff;
-  font-size: 18px;
-`;
-
-const FindPassword = () => {
-  const [useToken, setUseToken] = useState("");
-  const [showResultPage, setShowRestultPage] = useState(false);
-  const [showErrorPage, setShowErrorPage] = useState(false);
+const FindId = () => {
   const [userInfo, setUserInfo] = useState({
-    id: "",
-    pwd: "",
-    matchingPwd: "",
     name: "",
-    year: "",
-    month: "",
-    day: "",
     phoneNumber: "",
-    certificateNumber: "",
   });
-  const [invalidIdInfo, setInvalidIdInfo] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
+  const [showResultPage, setShowRestultPage] = useState(false);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
-  const [
-    isPhoneNumVerficationButtonClicked,
-    setIsPhoneNumVerficationButtonClickClick,
-  ] = useState(false);
-
   const { showToast } = useToast({});
+
+  const moveToResult = () => {
+    setShowRestultPage(true);
+  };
+  const userData = {
+    name: userInfo.name,
+    phoneNumber: userInfo.phoneNumber.replace(/-/g, ""),
+  };
 
   const isAllValid = isCetrificated && isCertificateButtonClicked;
 
-  const idRegEx = /^[a-z0-9]{6,15}$/;
   const phoneNumberRegEx = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const certificateNumberRegEx = /^[0-9]{6}$/;
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const idCheck = (userInfo) => {
-    return idRegEx.test(userInfo);
-  };
 
   const phoneNumberCheck = (userInfo) => {
     return phoneNumberRegEx.test(userInfo);
@@ -96,18 +50,6 @@ const FindPassword = () => {
 
   const certificateNumberCheck = (userInfo) => {
     return certificateNumberRegEx.test(userInfo);
-  };
-
-  const isIdDuplicated = async (uid) => {
-    const api = `/user/dup_check/${uid}`;
-    try {
-      const res = await serverapi.get(api);
-      if (res.status === 200) {
-        return res.data.dup;
-      }
-    } catch (e) {
-      console.log(e.response);
-    }
   };
 
   const phoneNumVerfication = async (phoneNumber) => {
@@ -118,58 +60,14 @@ const FindPassword = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        showToast({
-          message: "인증번호가 전송되었습니다.",
-          theme: ToastTheme.SUCCESS,
-        });
+        showToast({ message: "인증번호가 전송되었습니다.", theme: ToastTheme.SUCCESS });
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      showToast({
-        message: "error occured",
-        theme: ToastTheme.ERROR,
-      });
+      showToast({ message: "error occured", theme: ToastTheme.ERROR });
     }
-  };
-
-  const findPassword = async () => {
-    const api = "/user/check/inform";
-    const data = {
-      id: userInfo.id,
-      phone: userInfo.phoneNumber.replace(/-/g, ""),
-    };
-    try {
-      const res = await serverapi.post(api, data);
-      if (res.status === 200) {
-        if (res.data.message === true) {
-          console.log(res.data);
-          setUseToken(res.data.token);
-          setShowRestultPage(true);
-        } else {
-          setShowErrorPage(true);
-        }
-      }
-    } catch (e) {
-      showToast({
-        message: "error occured",
-        theme: ToastTheme.ERROR,
-      });
-    }
-  };
-  const pwToken = useToken;
-  const idChangeHandler = async (e) => {
-    setUserInfo({ ...userInfo, id: e.target.value });
-    if (!idCheck(e.target.value)) {
-      setInvalidIdInfo("6-15자의 영문 소문자, 숫자만 사용 가능");
-      return;
-    }
-    if (await isIdDuplicated(e.target.value)) {
-      setInvalidIdInfo("아이디가 중복되었습니다.");
-      return;
-    }
-    setInvalidIdInfo("");
   };
 
   const nameChangeHandler = (e) => {
@@ -240,17 +138,9 @@ const FindPassword = () => {
   }, [time]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        display: "flex",
-        position: "relative",
-        flexDirection: "column",
-      }}>
-      {showResultPage && <PwResult pwToken={pwToken} />}
-      {showErrorPage && <PwError />}
-      <UserHeader children={"비밀번호 찾기"} />
+    <div style={{ width: "100%", height: "100vh", position: "relative" }}>
+      {showResultPage && <IdResult userData={userData} />}
+      <UserHeader children={"아이디 찾기"} />
       <div
         style={{
           display: "flex",
@@ -258,11 +148,6 @@ const FindPassword = () => {
           gap: "27px",
           padding: "20px 27px",
         }}>
-        <Input
-          label="아이디"
-          onChangeHandler={idChangeHandler}
-          value={userInfo.id}
-        />
         <Input
           label="이름"
           onChangeHandler={nameChangeHandler}
@@ -290,7 +175,6 @@ const FindPassword = () => {
                 setIsCertificated(false);
                 setIsCertificateButtonClicked(false);
                 setUserInfo({ ...userInfo, certificateNumber: "" });
-                setIsPhoneNumVerficationButtonClickClick(true);
               }}>
               {time ? "진행 중" : "전송"}
             </Button>
@@ -326,18 +210,20 @@ const FindPassword = () => {
                     : ButtonTheme.GRAY
                 }
                 disabled={
-                  (isCetrificated && isCertificateButtonClicked) ||
-                  time === 0 ||
-                  !isPhoneNumVerficationButtonClicked
+                  (isCetrificated && isCertificateButtonClicked) || time === 0
                 }
                 handler={() => {
-                  console.log(isCetrificated && isCertificateButtonClicked);
-                  console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    showToast({message: "인증에 성공하였습니다.", theme: ToastTheme.SUCCESS})
+                    showToast({
+                      message: "인증에 성공하였습니다.",
+                      theme: ToastTheme.SUCCESS,
+                    });
                   } else {
-                    showToast({message: "인증에 실패하였습니다.", theme: ToastTheme.ERROR})
+                    showToast({
+                      message: "인증번호가 일치하지 않습니다.",
+                      theme: ToastTheme.ERROR,
+                    });
                   }
                 }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
@@ -345,7 +231,6 @@ const FindPassword = () => {
             </div>
           }
         />
-
         <div
           style={{
             position: "absolute",
@@ -360,13 +245,13 @@ const FindPassword = () => {
             </SubLink>
           </div>
           <Button
-            disabled={!isAllValid}
+            // disabled={!isAllValid}
             buttonSize={ButtonSize.LARGE}
             buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
             handler={() => {
-              findPassword();
+              moveToResult();
             }}>
-            비밀번호 찾기
+            아이디 찾기
           </Button>
         </div>
       </div>
@@ -374,4 +259,4 @@ const FindPassword = () => {
   );
 };
 
-export default FindPassword;
+export default FindId;
