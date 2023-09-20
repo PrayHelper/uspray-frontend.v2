@@ -33,7 +33,8 @@ const DayCalender = styled(Logo)`
 
 const DatePickerContainer = styled.div`
   position: absolute;
-  top: -150%;
+  top: 50%;
+  left: 30%;
   z-index: 400;
 `;
 
@@ -167,17 +168,14 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
     }
     
     return(
-        !showDatePicker ? <DayBtnSet style={{opacity : visible ? "1" : "0" , top: visible ? "100%" : "50%"}}>
+          <DayBtnSet style={{opacity : visible ? "1" : "0" , top: visible ? "100%" : "50%"}}>
             <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
             <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
             <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
             <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
             {updateDate != null ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}} onClick={onToggle}>{"~" + updateDate}</div> : ""}
-        </DayBtnSet> 
-        : 
-        <DayBtnSet style={{paddingBottom : "0px"}}>
-         <DatePickerContainer>
+            {!showDatePicker ? <></> : <DatePickerContainer>
                 <DatePicker
                   renderCustomHeader={({
                     date,
@@ -221,9 +219,57 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
                   locale={ko}
                   inline
                 />
-              </DatePickerContainer>
-        {!showDatePicker ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + updateDate}</div> : ""}
+              </DatePickerContainer>}
         </DayBtnSet> 
+        // : 
+        // <DayBtnSet style={{paddingBottom : "0px"}}>
+        //  <DatePickerContainer>
+        //         <DatePicker
+        //           renderCustomHeader={({
+        //             date,
+        //             decreaseMonth,
+        //             increaseMonth,
+        //             prevMonthButtonDisabled,
+        //             nextMonthButtonDisabled,
+        //           }) => (
+        //             <DatePickerHeader>
+        //               <DatePickerHeaderDate>
+        //                 {date.getFullYear()}년 {date.getMonth() + 1}월
+        //               </DatePickerHeaderDate>
+        //               <div style={{ gap: "12px", display: "flex" }}>
+        //                 {!prevMonthButtonDisabled && (
+        //                   <img
+        //                     onClick={
+        //                       !prevMonthButtonDisabled
+        //                         ? decreaseMonth
+        //                         : undefined
+        //                     }
+        //                     disabled={prevMonthButtonDisabled}
+        //                     src="../images/ic_left_arrow.svg"
+        //                     alt="icon_left_arrow"
+        //                   />
+        //                 )}
+        //                 <img
+        //                   onClick={increaseMonth}
+        //                   disabled={nextMonthButtonDisabled}
+        //                   src="../images/ic_right_arrow.svg"
+        //                   alt="icon_right_arrow"
+        //                 />
+        //               </div>
+        //             </DatePickerHeader>
+        //           )}
+        //           selected={selectedDate}
+        //           onChange={(date) => onChangeDatePicker(date)}
+        //           minDate={new Date()}
+        //           dateFormat="yyyy-MM-dd"
+        //           popperPlacement="bottom-start"
+        //           onClickOutside={() => setShowDatePicker(false)}
+        //           locale={ko}
+        //           inline
+        //         />
+        //       </DatePickerContainer>
+        /* {!showDatePicker ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + updateDate}</div> : ""} */
+        /* </DayBtnSet>  */
     )
 }
 
