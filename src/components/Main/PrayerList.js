@@ -114,6 +114,7 @@ function PrayerList({prayerContent, setPrayerContent, prayerMoreContent, setPray
     const { shareLink, isMobile } = useFlutterWebview();
     const WEB_ORIGIN = process.env.REACT_APP_WEB_ORIGIN;
 
+    
     const getPrayList = (bool, pray) =>{ // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭 
         if(!bool){
             sortUpPosition(true);
