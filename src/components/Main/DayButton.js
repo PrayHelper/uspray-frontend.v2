@@ -14,14 +14,15 @@ const DayBtnSet = styled.div`
     background-color: white;
     width: 100%;
     border-top: 1px solid white;
-    padding-bottom: 26px;
+    padding : 0px 0px 26px 24px;
     transition: all 0.5s ease-in-out;
     z-index: 102;
+    gap: 8px;
     box-shadow : 0 2px 4px rgba(0, 0, 0, 0.2);
 `
 const DayBtn = styled.button`
     font-size: 10px;
-    margin-right : 8px;
+    // margin-right : 8px;
     border: 1px solid #75BD62;
     border-radius: 8px;
     padding: 4px 15px;
@@ -179,10 +180,10 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
     
     return(
           <DayBtnSet style={{opacity : visible ? "1" : "0" , top: visible ? "100%" : "50%"}}>
-            <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, marginLeft:'24px', color: fontThree}}>3일</DayBtn>
+            <DayBtn className="three" onClick={colorChange} style={{backgroundColor: colorThree, color: fontThree}}>3일</DayBtn>
             <DayBtn className="seven" onClick={colorChange} style={{backgroundColor: colorSeven, color:  fontSeven}}>7일</DayBtn>
-            <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty}}>30일</DayBtn>
-            <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred}}>100일</DayBtn>
+            <DayBtn className="thirty" onClick={colorChange} style={{backgroundColor: colorThirty, color: fontThirty, padding:"4px 12px 4px 11px"}}>30일</DayBtn>
+            <DayBtn className="hundred" onClick={colorChange} style={{backgroundColor: colorHundred, color: fontHundred, padding:"4px 8px 4px 8px"}}>100일</DayBtn>
             <DayCalender src ={!dayToggle ? Day_Calender : Day_Calender_hover} onClick={onToggle}/>
             {updateDate != null ? <div style={{marginLeft: "4px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}} onClick={onToggle}>{"~" + updateDate}</div> : ""}
             {!showDatePicker ? <></> : <DatePickerContainer>
