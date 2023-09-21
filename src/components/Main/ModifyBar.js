@@ -75,7 +75,7 @@ const StyleName = styled.input`
 const DatePickerContainer = styled.div`
   position: absolute;
   top: calc(-32% - 4px);
-  left: calc(38% - 8px);
+  left: calc(27% - 8px);
   z-index: 400;
 `;
 
