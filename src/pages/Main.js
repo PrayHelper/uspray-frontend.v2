@@ -9,7 +9,6 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
-import { set, setDay } from "date-fns";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -38,6 +37,7 @@ const Main = () => {
   const [Sharelist, setShareList] = useState([]);
   const [updateDate, setUpdateDate] = useState(null);
   const [dayToggle, setDayToggle] = useState(false);
+
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -294,7 +294,7 @@ const Main = () => {
 
   // modify를 바꾸는 함수
   const onModify = () => {
-    setIsModify(!isModify);
+    setIsModify(!isModify);;
     setUpdateDate("");
     setDayToggle(false);
   };

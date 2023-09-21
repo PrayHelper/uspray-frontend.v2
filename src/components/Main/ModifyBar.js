@@ -100,6 +100,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
     const [name, setName] = useState("");
     const [selectedDate, setSelectedDate] = useState(null);
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [storedData, setStoredData] = useState(null);
     useEffect(()=>{
       setValue(clickData.text);
       setName(clickData.name);
@@ -109,7 +110,10 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
     }
     const onToggle = () =>{
         setShowDatePicker(!showDatePicker);
-        setUpdateDate(null);
+        setStoredData(updateDate);
+        // setUpdateDate(null);
+        setSelectedDate(new Date(updateDate));
+        setDayToggle(true);
     }
 
     const onName = (e) =>{
@@ -131,6 +135,11 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
         setUpdateDate(formattedDate);   
     }
 
+    const onClickOut = () =>{
+      setShowDatePicker(false);
+      setDayToggle(true);
+      setUpdateDate(storedData);
+    }
     return(
         <ModifyStyle style={{opacity : isModify ? "1" : "0" , transform : isModify ? "translateY(0%)" : "translateY(100%)"}}>
         {showDatePicker ? 
@@ -174,7 +183,7 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
           minDate={new Date()}
           dateFormat="yyyy-MM-dd"
           popperPlacement="bottom-start"
-          onClickOutside={() => setShowDatePicker(false)}
+          onClickOutside={() => onClickOut()}
           locale={ko}
           inline
         />
