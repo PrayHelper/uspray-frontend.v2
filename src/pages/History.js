@@ -292,7 +292,8 @@ const History = () => {
         </SubModalWrapper>
         {/* )} */}
       </div>
-      <div style={{ paddingTop: "65px" }}>
+      <div style={{ paddingTop: "115px" }}>
+        {/* <div> */}
         {data.map((el) => (
           <div onClick={onClickHistory} key={el.id} id={el.id}>
             <HisContent
