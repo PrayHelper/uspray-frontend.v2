@@ -20,6 +20,7 @@ const History = () => {
   const [showSubModal, setShowSubModal] = useState(false);
   const [page, setPage] = useState(1);
   const [data, setData] = useState([]);
+  const [sortBy, setSortBy] = useState("date");
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
   const [updateDate, setUpdateDate] = useState(null);
@@ -100,19 +101,19 @@ const History = () => {
     onClickUpdateDate(7);
   };
 
-  const {
-    data: historyData,
-    // isLoading: historyLoading,
-    refetch: refetchHistory,
-  } = useFetchHistory({
+  const onClickToggle = (e) => {
+    console.log(e.currentTarget.id);
+    setSortBy(e.currentTarget.id);
+  };
+
+  const { data: historyData, refetch: refetchHistory } = useFetchHistory({
     page: page,
     per_page: 15,
-    sort_by: "date",
+    sort_by: "cnt",
   });
 
   const [deletedItemIds, setDeletedItemIds] = useState([]);
   const fetchHistory = async () => {
-    // setLoading(historyLoading);
     console.log(data);
     const newData = await historyData.data.res;
     const filteredData = newData.filter(
@@ -183,10 +184,12 @@ const History = () => {
 
   return (
     <HistoryWrapper>
-      <Header>히스토리</Header>
+      <Header sortBy={sortBy} onClickToggle={onClickToggle}>
+        히스토리
+      </Header>
       {loading && (
         <Lottie
-          style={{ scale: "0.5" }}
+          style={{ scale: "0.5", marginTop: "50px" }}
           options={defaultOptions}
           height={300}
           width={300}

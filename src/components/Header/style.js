@@ -31,13 +31,25 @@ export const BtnWrapper = styled.div`
 export const MyBtn = styled.div`
   flex-grow: 1;
   padding: 14px;
-  background-color: var(--color-green);
-  color: var(--color-white);
+  transition: all 0.3s;
+  background-color: ${(props) =>
+    props.sortBy === "date" ? `var(--color-green)` : `var(--color-white)`};
+  color: ${(props) =>
+    props.sortBy === "date"
+      ? `var(--color-white)`
+      : `var(--color-secondary-grey)`};
+  cursor: pointer;
 `;
 
 export const SharedBtn = styled.div`
   flex-grow: 1;
   padding: 14px;
-  background-color: var(--color-white);
-  color: var(--color-secondary-grey);
+  transition: all 0.3s;
+  background-color: ${(props) =>
+    props.sortBy === "date" ? `var(--color-white)` : `var(--color-green)`};
+  color: ${(props) =>
+    props.sortBy === "date"
+      ? `var(--color-secondary-grey)`
+      : `var(--color-white)`};
+  cursor: pointer;
 `;
