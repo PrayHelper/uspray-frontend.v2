@@ -103,13 +103,18 @@ const History = () => {
 
   const onClickToggle = (e) => {
     console.log(e.currentTarget.id);
-    setSortBy(e.currentTarget.id);
+    if (e.currentTarget.id !== sortBy) {
+      setSortBy(e.currentTarget.id);
+      setData([]);
+      setPage(1);
+      window.scrollTo(0, 0);
+    }
   };
 
   const { data: historyData, refetch: refetchHistory } = useFetchHistory({
     page: page,
     per_page: 15,
-    sort_by: "cnt",
+    sort_by: sortBy,
   });
 
   const [deletedItemIds, setDeletedItemIds] = useState([]);
