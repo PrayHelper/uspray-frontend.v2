@@ -1,16 +1,15 @@
 import { ToastStyle } from "./style";
 
 export const ToastTheme = {
-  SUCCESS: "SUCCESS",
-  ERROR: "ERROR",
+  SUCCESS: 0,
+  ERROR: 1,
 };
 
 Object.freeze(ToastTheme);
 
 const Toast = ({ toastTheme, children }) => {
-  if (!toastTheme) {
-    toastTheme = ToastTheme.SUCCESS;
-  }
+  // toastTheme이 null / undefined일 경우 SUCCESS 사용
+  toastTheme ??= ToastTheme.SUCCESS;
 
   return (
     <ToastStyle toastTheme={toastTheme}>
