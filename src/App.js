@@ -41,6 +41,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import useAuthorized from "./hooks/useAuthorized";
 import GlobalStyle from "./styles/GlobalStyle";
 import useToast from "./hooks/useToast";
+import DeleteUser from "./pages/DeleteUser";
 import HistorySearch from "./pages/HistorySearch";
 
 const ContainerWrapper = styled.div`
@@ -110,6 +111,7 @@ function App() {
                 />
                 <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
                 <Route path="/social" element={<SocialLogin />} />
+                <Route path="deleteUser" element={<DeleteUser />} />
                 <Route path="/historySearch" element={<HistorySearch />} />
               </Route>
               <Route element={<Outlet />}>
