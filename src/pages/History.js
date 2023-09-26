@@ -7,12 +7,12 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 // import { ko } from "date-fns/esm/locale";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import Calender from "../components/Calender/Calender";
+import useToast from "../hooks/useToast";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -26,12 +26,15 @@ const History = () => {
   const [selectedBtn, setSelectedBtn] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showToast, setShowToast] = useState(false);
   const [isClickedDay, setIsClickedDay] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
     // triggerOnce: true, // 한 번만 트리거되도록 설정
+  });
+
+  const { showToast } = useToast({
+    initialMessage: "기도제목이 오늘의 기도에 추가되었어요.",
   });
 
   const defaultOptions = {
@@ -43,15 +46,6 @@ const History = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
 
   const onClickUpdateDate = (days) => {
     const today = new Date();
@@ -143,7 +137,7 @@ const History = () => {
       },
       {
         onSuccess: (res) => {
-          setShowToast(true);
+          showToast({});
           setShowModal(false);
           setShowSubModal(false);
           setDeletedItemIds((prev) => [...prev, res.data.id]);
@@ -224,8 +218,7 @@ const History = () => {
               <ModalButtonWrapper>
                 <ModalButton1
                   showSubModal={showSubModal}
-                  onClick={onClickSubModal}
-                >
+                  onClick={onClickSubModal}>
                   또 기도하기
                 </ModalButton1>
                 <ModalButton2 onClick={onClickExitModal}>닫기</ModalButton2>
@@ -238,26 +231,22 @@ const History = () => {
           <SubModalTop>
             <SubModalBtn
               isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}
-            >
+              onClick={() => onClickUpdateDate(3)}>
               3일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}
-            >
+              onClick={() => onClickUpdateDate(7)}>
               7일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}
-            >
+              onClick={() => onClickUpdateDate(30)}>
               30일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}
-            >
+              onClick={() => onClickUpdateDate(100)}>
               100일
             </SubModalBtn>
             {showDatePicker ? (
@@ -306,13 +295,6 @@ const History = () => {
         ))}
       </div>
       <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
-      <ToastWrapper>
-        {showToast && (
-          <Toast toastTheme={ToastTheme.SUCCESS}>
-            기도제목이 오늘의 기도에 추가되었어요.
-          </Toast>
-        )}
-      </ToastWrapper>
     </HistoryWrapper>
   );
 };

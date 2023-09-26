@@ -13,37 +13,39 @@ import { useMutation } from "react-query";
 import useAuthorized from "../../hooks/useAuthorized";
 
 import LogoSVG from "../../images/logo_image.svg";
-
+import useToast from "../../hooks/useToast";
 
 const sendDeviceTokenFunc = async (getAccessToken, data) => {
   return await postFetcher("/user/device/token", data, {
     Authorization: getAccessToken(),
   });
 };
-  
+
 const useSendDeviceToken = () => {
-    const { getAccessToken } = useAuthToken();
-    const { refresh } = useRefresh();
-    return useMutation((data) => {
-      return sendDeviceTokenFunc(getAccessToken, data)}, {
-        onError: async (e) => {
-          if (e.status === 403) {
-            await refresh();
-          }
-          console.log(e);
-        },
-        onSuccess: (res) => {
-          console.log(res);
-        },
-        retry: (cnt) => {
-          return cnt < 3;
-        },
-        retryDelay: 300,
-        refetchOnWindowFocus: false,
-      }
-    );
-  };
-  
+  const { getAccessToken } = useAuthToken();
+  const { refresh } = useRefresh();
+  return useMutation(
+    (data) => {
+      return sendDeviceTokenFunc(getAccessToken, data);
+    },
+    {
+      onError: async (e) => {
+        if (e.status === 403) {
+          await refresh();
+        }
+        console.log(e);
+      },
+      onSuccess: (res) => {
+        console.log(res);
+      },
+      retry: (cnt) => {
+        return cnt < 3;
+      },
+      retryDelay: 300,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
 
 const LoginPage = () => {
   const [idValue, setIdValue] = useState("");
@@ -52,10 +54,10 @@ const LoginPage = () => {
     useAuthToken();
 
   const navigate = useNavigate();
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
 
   const { isMobile, getDeviceToken, storeAuthToken } = useFlutterWebview();
+
+  const { showToast } = useToast({});
 
   const onChangeId = (event) => {
     setIdValue(event.target.value);
@@ -64,17 +66,8 @@ const LoginPage = () => {
     setPwdValue(event.target.value);
   };
 
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
-
   const { mutate: sendDeviceToken } = useSendDeviceToken();
-  const { setAutorized } = useAuthorized()
+  const { setAutorized } = useAuthorized();
 
   const login = async () => {
     const api = `/user/login`;
@@ -96,15 +89,16 @@ const LoginPage = () => {
               onSuccess: (res) => alert(res.status),
               onError: (e) => alert(e.status),
             }
-          )
-
+          );
         } else {
-          setToastMessage("푸쉬 알림은 모바일에서만 받을 수 있습니다.");
-          setShowToast(true);
+          showToast({
+            message: "푸쉬 알림은 모바일에서만 받을 수 있습니다.",
+            theme: ToastTheme.ERROR,
+          });
         }
 
         navigate("/main");
-        setAutorized()
+        setAutorized();
 
         setAccessToken(res.data.access_token);
         await setRefreshToken(res.data.refresh_token);
@@ -114,8 +108,10 @@ const LoginPage = () => {
       }
     } catch (e) {
       if (e.response.status === 400) {
-        setToastMessage("회원정보가 일치하지 않습니다.");
-        setShowToast(true);
+        showToast({
+          message: "회원정보가 일치하지 않습니다.",
+          theme: ToastTheme.ERROR,
+        });
       }
     }
   };
@@ -161,8 +157,7 @@ const LoginPage = () => {
               }
               handler={() => {
                 login();
-              }}
-            >
+              }}>
               로그인
             </Button>
           </div>
@@ -173,7 +168,6 @@ const LoginPage = () => {
           </div>
         </div>
       </BottomBtnWrapper>
-      {showToast && <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>}
     </LoginWrapper>
   );
 };
