@@ -11,6 +11,7 @@ import serverapi from "../api/serverapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal/Modal";
+import useToast from "../hooks/useToast";
 
 let init = 0;
 
@@ -72,8 +73,6 @@ const Signup = () => {
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
-  const [showToast, setShowToast] = useState(false);
-  const [toastTheme, setToastTheme] = useState(ToastTheme.SUCCESS);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
@@ -81,13 +80,14 @@ const Signup = () => {
     isPhoneNumVerficationButtonClicked,
     setIsPhoneNumVerficationButtonClickClick,
   ] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
   const [tos1Checked, setTos1Checked] = useState(false);
   const [tos2Checked, setTos2Checked] = useState(false);
   const [tos3Checked, setTos3Checked] = useState(false);
   const checkEmptyUserInfoValue = Object.values(userInfo).some(
     (data) => data === ""
   );
+
+  const { showToast } = useToast({});
 
   const navigate = useNavigate();
 
@@ -148,17 +148,19 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        setToastMessage("인증번호가 전송되었습니다.");
-        setToastTheme(ToastTheme.SUCCESS);
-        setShowToast(true);
+        showToast({
+          message: "인증번호가 전송되었습니다.",
+          theme: ToastTheme.SUCCESS,
+        });
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      setToastMessage("error occured");
-      setToastTheme(ToastTheme.ERROR);
-      setShowToast(true);
+      showToast({
+        message: "error occured",
+        theme: ToastTheme.ERROR,
+      });
     }
   };
 
@@ -175,19 +177,19 @@ const Signup = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        setToastTheme(ToastTheme.SUCCESS);
-        setToastMessage("회원가입이 성공적으로 완료되었습니다.");
-        setShowToast(true);
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        showToast({
+          message: "회원가입이 성공적으로 완료되었습니다.",
+          theme: ToastTheme.SUCCESS,
+        });
+        navigate("/");
       }
     } catch (e) {
       console.log(e);
       if (e.response.data.dev_message === "SignUpFail error") {
-        setToastMessage(e.response.data.message);
-        setToastTheme(ToastTheme.ERROR);
-        setShowToast(true);
+        showToast({
+          message: e.response.data.message,
+          theme: ToastTheme.ERROR,
+        });
       }
     }
   };
@@ -308,15 +310,6 @@ const Signup = () => {
     }, 1000);
     return () => clearInterval(id);
   }, [time]);
-
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
 
   function handleTos1Change(event) {
     setTos1Checked(event.target.checked);
@@ -474,13 +467,15 @@ const Signup = () => {
                   console.log(time === 0);
                   setIsCertificateButtonClicked(true);
                   if (isCertificationNumberValid(userInfo.certificateNumber)) {
-                    setToastMessage("인증에 성공하였습니다.");
-                    setToastTheme(ToastTheme.SUCCESS);
-                    setShowToast(true);
+                    showToast({
+                      message: "인증에 성공하였습니다.",
+                      theme: ToastTheme.SUCCESS,
+                    });
                   } else {
-                    setToastMessage("인증번호가 일치하지 않습니다.");
-                    setToastTheme(ToastTheme.ERROR);
-                    setShowToast(true);
+                    showToast({
+                      message: "인증번호가 일치하지 않습니다.",
+                      theme: ToastTheme.ERROR,
+                    });
                   }
                 }}>
                 {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
@@ -521,9 +516,6 @@ const Signup = () => {
           }}>
           회원가입
         </Button>
-
-        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
-        {showToast && <Toast toastTheme={toastTheme}>{toastMessage}</Toast>}
       </div>
     </SignupPageWrapper>
   );
