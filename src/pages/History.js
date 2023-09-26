@@ -1,15 +1,15 @@
 import Header from "../components/Header/Header";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import HisContent from "../components/History/HisContent";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
-import Calender from "../components/Calender/Calender";
+import useToast from "../hooks/useToast";
+import SelectDate from "../components/SelectDate/selectDate";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -21,8 +21,6 @@ const History = () => {
   const [selectedBtn, setSelectedBtn] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [isClickedDay, setIsClickedDay] = useState(false);
   const [pageMy, setPageMy] = useState(1);
   const [pageShared, setPageShared] = useState(1);
   const [dataMy, setDataMy] = useState([]);
@@ -30,58 +28,20 @@ const History = () => {
   const [myScrollPos, setMyScrollPos] = useState(0);
   const [sharedScrollPos, setSharedScrollPos] = useState(0);
   const [sortBy, setSortBy] = useState("date");
-  const modalDate = [3, 7, 100, 300];
-
   const [hasMore, setHasMore] = useState(true);
-  const [ref, inView] = useInView({
-    // triggerOnce: true, // 한 번만 트리거되도록 설정
+  const [ref, inView] = useInView({});
+
+  const { showToast } = useToast({
+    initialMessage: "기도제목이 오늘의 기도에 추가되었어요.",
   });
 
   const defaultOptions = {
-    //예제1
     loop: true,
     autoplay: true,
     animationData: LottieData,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
-  };
-
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
-
-  const formatDate = (date) => {
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`;
-    return formattedDate;
-  };
-
-  const onClickUpdateDate = (days) => {
-    const today = new Date();
-    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
-    setUpdateDate(formatDate(targetDate));
-    setSelectedBtn(days); // css 변경용
-    setIsClickedDay(true);
-  };
-
-  const onChangeDatePicker = (date) => {
-    setSelectedDate(date); // 선택된 날짜 업데이트
-    setUpdateDate(formatDate(date)); // formattedDate를 업데이트
-    setShowDatePicker(false); // DatePicker 닫기
-    setIsClickedDay(true);
-  };
-
-  const onClickCalendar = () => {
-    setShowDatePicker(!showDatePicker);
-    onClickUpdateDate("");
   };
 
   const isEmptyData = (data) => {
@@ -92,18 +52,15 @@ const History = () => {
     setSelectedBtn("");
     setSelectedDate(null);
     setShowDatePicker(false);
-    setIsClickedDay(false);
     setShowModal(false);
     setShowSubModal(false);
   };
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
-    onClickUpdateDate(7);
   };
 
   const onClickToggle = (e) => {
-    console.log(e.currentTarget.id);
     sortBy === "date"
       ? setMyScrollPos(window.scrollY)
       : setSharedScrollPos(window.scrollY);
@@ -141,8 +98,6 @@ const History = () => {
       (newItem) =>
         !dataMy.some((existingItem) => existingItem.id === newItem.id)
     );
-    console.log(filteredData);
-    console.log(deletedItemIds);
     const dData = [...dataMy, ...filteredData].filter(
       (item) => !deletedItemIds.some((dItem) => dItem === item.id)
     );
@@ -158,8 +113,6 @@ const History = () => {
       (newItem) =>
         !dataShared.some((existingItem) => existingItem.id === newItem.id)
     );
-    console.log(filteredData);
-    console.log(deletedItemIds);
     const dData = [...dataShared, ...filteredData].filter(
       (item) => !deletedItemIds.some((dItem) => dItem === item.id)
     );
@@ -179,7 +132,7 @@ const History = () => {
       },
       {
         onSuccess: (res) => {
-          setShowToast(true);
+          showToast({});
           setDeletedItemIds((prev) => [...prev, res.data.id]);
           onClickExitModal();
           sortBy === "Date" ? refetchMyData() : refetchSharedData();
@@ -195,7 +148,6 @@ const History = () => {
       sortBy === "date"
         ? dataMy.find((item) => item.id === Number(id))
         : dataShared.find((item) => item.id === Number(id));
-    console.log(currentData);
     setCurrentData(currentData);
     setCurrentId(Number(id));
   };
@@ -230,13 +182,15 @@ const History = () => {
         히스토리
       </Header>
       {loading && (
-        <Lottie
-          style={{ scale: "0.5", marginTop: "50px" }}
-          options={defaultOptions}
-          height={300}
-          width={300}
-          isClickToPauseDisabled={true}
-        />
+        <LottieWrapper>
+          <Lottie
+            style={{ scale: "0.5", marginTop: "50px" }}
+            options={defaultOptions}
+            height={300}
+            width={300}
+            isClickToPauseDisabled={true}
+          />
+        </LottieWrapper>
       )}
       {!loading && isEmptyData(dataMy) && (
         <NoDataWrapper>
@@ -280,40 +234,18 @@ const History = () => {
         )}
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
-            {modalDate.map((el) => (
-              <SubModalBtn
-                isSelected={selectedBtn === el}
-                onClick={() => onClickUpdateDate(el)}
-              >
-                {`${el}일`}
-              </SubModalBtn>
-            ))}
-            {showDatePicker ? (
-              <img
-                src="../images/icon_calender_filled.svg"
-                alt="icon_calender"
-                onClick={onClickCalendar}
-              />
-            ) : (
-              <img
-                src="../images/icon_calender.svg"
-                alt="icon_calender"
-                onClick={onClickCalendar}
-              />
-            )}
-            {showDatePicker && (
-              <DatePickerContainer>
-                <Calender
-                  selectedDate={selectedDate}
-                  onChangeDatePicker={onChangeDatePicker}
-                  setShowDatePicker={setShowDatePicker}
-                  minDate={new Date()}
-                />
-              </DatePickerContainer>
-            )}
-            {isClickedDay && (
-              <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
-            )}
+            <SelectDate
+              {...{
+                selectedBtn,
+                setSelectedBtn,
+                selectedDate,
+                setSelectedDate,
+                showDatePicker,
+                setShowDatePicker,
+                setUpdateDate,
+                showSubModal,
+              }}
+            />
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify(sortBy)}>
             오늘의 기도에 추가하기
@@ -342,7 +274,6 @@ const History = () => {
       )}
       {sortBy === "cnt" && (
         <div style={{ paddingTop: "115px" }}>
-          {/* <div> */}
           {dataShared.map((el) => (
             <div
               onClick={(e) => onClickHistoryItem(e, sortBy)}
@@ -360,16 +291,7 @@ const History = () => {
           ))}
         </div>
       )}
-      <div style={{ marginTop: "20px", color: `var(--color-light-green)` }}>
-        .
-      </div>
-      <ToastWrapper>
-        {showToast && (
-          <Toast toastTheme={ToastTheme.SUCCESS}>
-            기도제목이 오늘의 기도에 추가되었어요.
-          </Toast>
-        )}
-      </ToastWrapper>
+      <div style={{ marginTop: "20px", color: `#D0E8CB` }}>.</div>
     </HistoryWrapper>
   );
 };
@@ -383,6 +305,13 @@ const HistoryWrapper = styled.div`
   width: 100%;
   position: relative;
   /* padding-top: 65px; */
+`;
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataWrapper = styled.div`
@@ -476,24 +405,28 @@ const ModalButtonWrapper = styled.div`
 const ModalButton1 = styled.button`
   width: 100%;
   background-color: var(
-    ${(props) => (props.showSubModal ? "--color-light-green" : "--color-white")}
+    ${(props) =>
+      props.showSubModal ? "--color-light-green" : "--color-dark-green"}
   );
-  border: ${(props) =>
-    props.showSubModal ? "none" : `1px solid var(--color-dark-green)`};
+  border: none;
   border-radius: 16px;
   padding: 16px 0;
-  color: var(--color-dark-green);
+  color: var(
+    ${(props) => (props.showSubModal ? "--color-dark-green" : "--color-white")}
+  );
   font-size: 18px;
   cursor: pointer;
 `;
 
 const ModalButton2 = styled.button`
   width: 100%;
-  background-color: var(--color-dark-green);
+  background-color: var(--color-white);
   border-style: none;
   border-radius: 16px;
+  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
+  // border: 1px solid var(--color-dark-green);
   padding: 16px 0;
-  color: var(--color-white);
+  color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;
   &:active {
@@ -529,39 +462,10 @@ const SubModalTop = styled.div`
   gap: 8px;
 `;
 
-const SubModalBtn = styled.div`
-  border: 1px solid var(--color-green);
-  border-radius: 8px;
-  padding: 4px 8px;
-  word-break: keep-all;
-  font-size: 12px;
-  line-height: 17px;
-  color: var(--color-green);
-  cursor: pointer;
-  ${(props) =>
-    props.isSelected &&
-    css`
-      background-color: var(--color-green);
-      color: var(--color-white);
-    `}
-  &:active {
-    transition: all 0.2s ease-in-out;
-    filter: ${(props) =>
-      props.disabled ? "brightness(1)" : "brightness(0.9)"};
-    scale: ${(props) => (props.disabled ? "1" : "0.90")};
-  }
-`;
-
-const SubModalDate = styled.div`
-  font-size: 12px;
-  color: var(--color-green);
-  transform: translateX(-4px);
-`;
-
 const SubModalBottom = styled.div`
   background: var(--color-dark-green);
   border-radius: 0px 0px 16px 16px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 16px;
   text-align: center;
   color: var(--color-white);
@@ -571,17 +475,4 @@ const SubModalBottom = styled.div`
     filter: ${(props) =>
       props.disabled ? "brightness(1)" : "brightness(0.9)"};
   }
-`;
-
-const DatePickerContainer = styled.div`
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 400;
-`;
-
-const ToastWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
