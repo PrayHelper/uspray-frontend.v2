@@ -54,7 +54,7 @@ const DatePickerHeaderDate = styled.div`
   font-weight: 700;
 `;
 
-const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setUpdateDate}) =>{
+const DayButton = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setUpdateDate}) =>{
     const [colorThree ,setColorThree] = useState('white');
     const [colorSeven ,setColorSeven] = useState('#75BD62');
     const [colorThirty ,setColorThirty] = useState('white');
@@ -232,56 +232,7 @@ const Day_Button = ({dayInfo, visible, dayToggle, setDayToggle, updateDate, setU
                 />
               </DatePickerContainer>}
         </DayBtnSet> 
-        // : 
-        // <DayBtnSet style={{paddingBottom : "0px"}}>
-        //  <DatePickerContainer>
-        //         <DatePicker
-        //           renderCustomHeader={({
-        //             date,
-        //             decreaseMonth,
-        //             increaseMonth,
-        //             prevMonthButtonDisabled,
-        //             nextMonthButtonDisabled,
-        //           }) => (
-        //             <DatePickerHeader>
-        //               <DatePickerHeaderDate>
-        //                 {date.getFullYear()}년 {date.getMonth() + 1}월
-        //               </DatePickerHeaderDate>
-        //               <div style={{ gap: "12px", display: "flex" }}>
-        //                 {!prevMonthButtonDisabled && (
-        //                   <img
-        //                     onClick={
-        //                       !prevMonthButtonDisabled
-        //                         ? decreaseMonth
-        //                         : undefined
-        //                     }
-        //                     disabled={prevMonthButtonDisabled}
-        //                     src="../images/ic_left_arrow.svg"
-        //                     alt="icon_left_arrow"
-        //                   />
-        //                 )}
-        //                 <img
-        //                   onClick={increaseMonth}
-        //                   disabled={nextMonthButtonDisabled}
-        //                   src="../images/ic_right_arrow.svg"
-        //                   alt="icon_right_arrow"
-        //                 />
-        //               </div>
-        //             </DatePickerHeader>
-        //           )}
-        //           selected={selectedDate}
-        //           onChange={(date) => onChangeDatePicker(date)}
-        //           minDate={new Date()}
-        //           dateFormat="yyyy-MM-dd"
-        //           popperPlacement="bottom-start"
-        //           onClickOutside={() => setShowDatePicker(false)}
-        //           locale={ko}
-        //           inline
-        //         />
-        //       </DatePickerContainer>
-        /* {!showDatePicker ? <div style={{marginLeft: "8px",color: "#75BD62", fontSize:'12px', paddingTop:'4px'}}>{"~" + updateDate}</div> : ""} */
-        /* </DayBtnSet>  */
     )
 }
 
-export default Day_Button;
+export default DayButton;

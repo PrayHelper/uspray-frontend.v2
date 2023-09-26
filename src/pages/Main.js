@@ -294,7 +294,7 @@ const Main = () => {
 
   // modify를 바꾸는 함수
   const onModify = () => {
-    setIsModify(!isModify);;
+    setIsModify(!isModify);
     setUpdateDate("");
     setDayToggle(false);
   };
