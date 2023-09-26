@@ -111,7 +111,6 @@ const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,se
     const onToggle = () =>{
         setShowDatePicker(!showDatePicker);
         setStoredData(updateDate);
-        // setUpdateDate(null);
         setSelectedDate(new Date(updateDate));
         setDayToggle(true);
     }
