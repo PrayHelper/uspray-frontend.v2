@@ -161,7 +161,7 @@ function PrayerList({
       sortDownPosition(true);
     }
   };
-
+  
   const fetchData = async (top, pray) => {
     pray ? await refetch_cnt_PrayList() : await refetchPrayList();
     getPrayList(top, pray);
