@@ -161,18 +161,7 @@ function PrayerList({
       sortDownPosition(true);
     }
   };
-
-    
-    const getPrayList = (bool, pray) =>{ // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭 
-        if(!bool){
-            sortUpPosition(true);
-            sortDownPosition(false);
-        }
-        else{
-            sortUpPosition(false);
-            sortDownPosition(true);
-        }
-      
+  
   const fetchData = async (top, pray) => {
     pray ? await refetch_cnt_PrayList() : await refetchPrayList();
     getPrayList(top, pray);
