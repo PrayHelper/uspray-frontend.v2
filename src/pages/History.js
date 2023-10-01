@@ -4,9 +4,6 @@ import HisContent from "../components/History/HisContent";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-// import { ko } from "date-fns/esm/locale";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import { useFetchHistory } from "../hooks/useFetchHistory";
 import { useHistoryModify } from "../hooks/useHistoryModify";
@@ -18,8 +15,10 @@ const History = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
-  const [page, setPage] = useState(1);
-  const [data, setData] = useState([]);
+  const [pageByDate, setPageByDate] = useState(1);
+  const [pageByCnt, setPageByCnt] = useState(1);
+  const [dataByDate, setDataByDate] = useState([]);
+  const [dataByCnt, setDataByCnt] = useState([]);
   const [sortBy, setSortBy] = useState("date");
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
@@ -29,6 +28,7 @@ const History = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [isClickedDay, setIsClickedDay] = useState(false);
+  const modalDate = [3, 7, 100, 300];
 
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({
@@ -105,33 +105,61 @@ const History = () => {
     console.log(e.currentTarget.id);
     if (e.currentTarget.id !== sortBy) {
       setSortBy(e.currentTarget.id);
-      setData([]);
-      setPage(1);
-      window.scrollTo(0, 0);
+      // setDataByDate([]);
+      // setPage(1);
+      // window.scrollTo(0, 0);
     }
   };
 
-  const { data: historyData, refetch: refetchHistory } = useFetchHistory({
-    page: page,
+  const { data: historyDataByDate, refetch: refetchHistory } = useFetchHistory({
+    page: pageByDate,
     per_page: 15,
-    sort_by: sortBy,
+    sort_by: "date",
+  });
+
+  const { data: historyDataByCnt, refetch: refetchHistoryy } = useFetchHistory({
+    page: pageByDate,
+    per_page: 15,
+    sort_by: "cnt",
   });
 
   const [deletedItemIds, setDeletedItemIds] = useState([]);
-  const fetchHistory = async () => {
-    console.log(data);
-    const newData = await historyData.data.res;
+
+  const fetchHistoryByDate = async () => {
+    const newData = await historyDataByDate.data.res;
     const filteredData = newData.filter(
-      (newItem) => !data.some((existingItem) => existingItem.id === newItem.id)
+      (newItem) =>
+        !dataByDate.some((existingItem) => existingItem.id === newItem.id)
     );
     console.log(filteredData);
     console.log(deletedItemIds);
-    const dData = [...data, ...filteredData].filter(
+    const dData = [...dataByDate, ...filteredData].filter(
       (item) => !deletedItemIds.some((dItem) => dItem === item.id)
     );
-    setData(dData);
+    setDataByDate(dData);
     console.log("리스트 읽기");
-    console.log("페이지 :" + page);
+    console.log("페이지 :" + pageByDate);
+    console.log("hasmore? :" + hasMore);
+    console.log("inview? :" + inView);
+    if (newData.length === 0) {
+      setHasMore(false);
+    }
+  };
+
+  const fetchHistoryByCnt = async () => {
+    const newData = await historyDataByCnt.data.res;
+    const filteredData = newData.filter(
+      (newItem) =>
+        !dataByCnt.some((existingItem) => existingItem.id === newItem.id)
+    );
+    console.log(filteredData);
+    console.log(deletedItemIds);
+    const dData = [...dataByCnt, ...filteredData].filter(
+      (item) => !deletedItemIds.some((dItem) => dItem === item.id)
+    );
+    setDataByCnt(dData);
+    console.log("리스트 읽기");
+    // console.log("페이지 :" + page);
     console.log("hasmore? :" + hasMore);
     console.log("inview? :" + inView);
     if (newData.length === 0) {
@@ -166,7 +194,7 @@ const History = () => {
   const onClickHistory = async (e) => {
     setShowModal(true);
     const id = e.currentTarget.id;
-    const currentData = data.find((item) => item.id === Number(id));
+    const currentData = dataByDate.find((item) => item.id === Number(id));
     console.log(currentData);
     setCurrentData(currentData);
     setCurrentId(Number(id));
@@ -174,16 +202,25 @@ const History = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (historyData) {
-      fetchHistory();
+    if (historyDataByDate) {
+      fetchHistoryByDate();
       setLoading(false);
-      console.log(historyData);
+      console.log(historyDataByDate);
     }
-  }, [historyData]);
+  }, [historyDataByDate]);
+
+  useEffect(() => {
+    setLoading(true);
+    if (historyDataByCnt) {
+      fetchHistoryByCnt();
+      setLoading(false);
+      console.log(historyDataByCnt);
+    }
+  }, [historyDataByCnt]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
-      setPage((prev) => prev + 1);
+      setPageByDate((prev) => prev + 1);
     }
   }, [hasMore, inView]);
 
@@ -201,7 +238,7 @@ const History = () => {
           isClickToPauseDisabled={true}
         />
       )}
-      {!loading && isEmptyData(data) && (
+      {!loading && isEmptyData(dataByDate) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
@@ -209,7 +246,7 @@ const History = () => {
       )}
       <div>
         <BlackScreen isModalOn={showModal} />
-        {!isEmptyData(data) && showModal && (
+        {!isEmptyData(dataByDate) && showModal && (
           <>
             <ModalWrapper showSubModal={showSubModal}>
               <ModalHeader>
@@ -244,30 +281,14 @@ const History = () => {
         {/* {showSubModal && ( */}
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
-            <SubModalBtn
-              isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}
-            >
-              3일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}
-            >
-              7일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}
-            >
-              30일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}
-            >
-              100일
-            </SubModalBtn>
+            {modalDate.map((el) => (
+              <SubModalBtn
+                isSelected={selectedBtn === el}
+                onClick={() => onClickUpdateDate(el)}
+              >
+                {`${el}일`}
+              </SubModalBtn>
+            ))}
             {showDatePicker ? (
               <img
                 src="../images/icon_calender_filled.svg"
@@ -300,20 +321,38 @@ const History = () => {
         </SubModalWrapper>
         {/* )} */}
       </div>
-      <div style={{ paddingTop: "115px" }}>
-        {/* <div> */}
-        {data.map((el) => (
-          <div onClick={onClickHistory} key={el.id} id={el.id}>
-            <HisContent
-              name={el.target}
-              content={el.title}
-              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
-              pray_cnt={el.pray_cnt}
-            />
-            <div ref={ref}></div>
-          </div>
-        ))}
-      </div>
+      {sortBy === "date" ? (
+        <div style={{ paddingTop: "115px" }}>
+          {/* <div> */}
+          {dataByDate.map((el) => (
+            <div onClick={onClickHistory} key={el.id} id={el.id}>
+              <HisContent
+                name={el.target}
+                content={el.title}
+                date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+                pray_cnt={el.pray_cnt}
+              />
+              <div ref={ref}></div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ paddingTop: "115px" }}>
+          {/* <div> */}
+          {dataByCnt.map((el) => (
+            <div onClick={onClickHistory} key={el.id} id={el.id}>
+              <HisContent
+                name={el.target}
+                content={el.title}
+                date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+                pray_cnt={el.pray_cnt}
+              />
+              <div ref={ref}></div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div style={{ marginTop: "20px", color: `var(--color-light-green)` }}>
         .
       </div>

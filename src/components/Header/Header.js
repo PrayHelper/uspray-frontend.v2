@@ -27,7 +27,6 @@ const Header = (props) => {
           </SharedBtn>
         </BtnWrapper>
       </HeaderWrapper>
-      {/* <div style={{ color: "red", paddingTop: "65px" }}>asdsasd</div> */}
     </div>
   );
 };
