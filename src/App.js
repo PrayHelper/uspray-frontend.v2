@@ -41,6 +41,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import useAuthorized from "./hooks/useAuthorized";
 import GlobalStyle from "./styles/GlobalStyle";
 import useToast from "./hooks/useToast";
+import HistorySearch from "./pages/HistorySearch";
 
 const ContainerWrapper = styled.div`
   max-width: 430px;
@@ -109,6 +110,7 @@ function App() {
                 />
                 <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
                 <Route path="/social" element={<SocialLogin />} />
+                <Route path="/historySearch" element={<HistorySearch />} />
               </Route>
               <Route element={<Outlet />}>
                 <Route path="/" element={<Login />} />
@@ -119,7 +121,8 @@ function App() {
                 <Route path="/findPW" element={<FindPassword />}></Route>
                 <Route
                   path="/findPWResult"
-                  element={<FindPasswordResult />}></Route>
+                  element={<FindPasswordResult />}
+                ></Route>
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/loading" element={<SplashScreen />} />
                 <Route path="*" element={<NotFound />} />

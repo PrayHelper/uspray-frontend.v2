@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   HeaderWrapper,
   HeaderCont,
@@ -12,7 +13,9 @@ const Header = (props) => {
       <HeaderWrapper>
         <HeaderCont>
           <div>{props.children}</div>
-          <img src="../images/ic_search_grey.svg" alt="icon_search" />
+          <Link to={"/historySearch"} style={{ textDecoration: "none" }}>
+            <img src="../images/ic_search_grey.svg" alt="icon_search" />
+          </Link>
         </HeaderCont>
         <BtnWrapper>
           <MyBtn id="date" onClick={props.onClickToggle} sortBy={props.sortBy}>

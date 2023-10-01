@@ -15,6 +15,7 @@ export const HeaderWrapper = styled.div`
 export const HeaderCont = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--color-black);
   font-size: 20px;
   font-weight: bold;
   padding: 18px 16px 19px 16px;
