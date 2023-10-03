@@ -6,8 +6,8 @@ import {
 } from "./style";
 
 export const CheckboxTheme = {
-  GRAY: 0,
-  WHITE: 1,
+  GRAY: 111,
+  WHITE: 222,
 };
 
 Object.freeze(CheckboxTheme);
@@ -30,7 +30,11 @@ const Checkbox = ({
   }
 
   return (
-    <CheckboxWrapper>
+    <CheckboxWrapper
+      onClick={() => {
+        console.log(theme);
+      }}
+    >
       <CheckboxStyle
         theme={theme}
         type="checkbox"

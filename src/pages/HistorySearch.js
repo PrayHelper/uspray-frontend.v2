@@ -1,18 +1,74 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+import CalendarPast from "../components/Calender/CalendarPast";
 import Checkbox, { CheckboxTheme } from "../components/Checkbox/Checkbox";
 
 const HistorySearch = () => {
   const [isClickedCalender, setIsClickedCalender] = useState(false);
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const navigate = useNavigate();
 
   const onClickBackArrow = () => {
     navigate("/history");
   };
 
+  const onClickStartDateBox = () => {
+    setShowStartDatePicker(!showStartDatePicker);
+  };
+
+  const onClickEndDateBox = () => {
+    setShowEndDatePicker(!showEndDatePicker);
+  };
+
   const onClickCalender = () => {
     setIsClickedCalender(!isClickedCalender);
+    setStartDate(updateDate(-30));
+    setEndDate(updateDate(0));
+  };
+
+  const updateDate = (days) => {
+    const today = new Date();
+    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+    const options = { weekday: "long" };
+    const koreanWeekday = new Intl.DateTimeFormat("ko-KR", options).format(
+      targetDate
+    );
+    const yyyy = targetDate.getFullYear();
+    const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(targetDate.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`;
+    return formattedDate;
+  };
+
+  const updateDatePicker = (date) => {
+    setSelectedDate(date); // 선택된 날짜 업데이트
+    const options = { weekday: "long" };
+    const koreanWeekday = new Intl.DateTimeFormat("ko-KR", options).format(
+      date
+    );
+    console.log(koreanWeekday[0]);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`; // 포맷된 날짜 생성
+    return formattedDate;
+  };
+
+  const onChangeStartDatePicker = (date) => {
+    setStartDate(updateDatePicker(date)); // formattedDate를 업데이트
+    setShowStartDatePicker(false); // DatePicker 닫기
+  };
+
+  const onChangeEndDatePicker = (date) => {
+    setEndDate(updateDatePicker(date)); // formattedDate를 업데이트
+    setShowEndDatePicker(false); // DatePicker 닫기
+    console.log(endDate - startDate);
   };
 
   return (
@@ -26,7 +82,11 @@ const HistorySearch = () => {
               alt="icon_backArrow"
             />
             <div>히스토리 검색</div>
-            <div onClick={onClickCalender}>
+            <div
+              onClick={() => {
+                onClickCalender();
+              }}
+            >
               {isClickedCalender ? (
                 <img src="../images/ic_calender_gray.svg" alt="icon_calender" />
               ) : (
@@ -42,10 +102,33 @@ const HistorySearch = () => {
               </SearchBtn>
             </SearchBarWrapper>
             {isClickedCalender && (
-              <DateWrapper>
-                <DateBox>2023.08.27 (월)</DateBox>
+              <DateWrapper isClickedCalender={isClickedCalender}>
+                <DateBox onClick={onClickStartDateBox}>
+                  {startDate.replace(/-/g, ".")}
+                </DateBox>
+                {showStartDatePicker && (
+                  <StartDatePickerContainer>
+                    <CalendarPast
+                      selectedDate={selectedDate}
+                      onChangeDatePicker={onChangeStartDatePicker}
+                      setShowDatePicker={setShowStartDatePicker}
+                    />
+                  </StartDatePickerContainer>
+                )}
                 <img src="../images/ic_thin_arrow.svg" alt="icon_rightArrow" />
-                <DateBox>2023.08.27 (수)</DateBox>
+                <DateBox onClick={onClickEndDateBox}>
+                  {endDate.replace(/-/g, ".")}
+                </DateBox>
+                {showEndDatePicker && (
+                  <EndDatePickerContainer>
+                    <CalendarPast
+                      minDate={selectedDate}
+                      selectedDate={selectedDate}
+                      onChangeDatePicker={onChangeEndDatePicker}
+                      setShowDatePicker={setShowEndDatePicker}
+                    />
+                  </EndDatePickerContainer>
+                )}
               </DateWrapper>
             )}
             <CheckboxWrapper>
@@ -65,11 +148,23 @@ const HistorySearch = () => {
           </MainWrapper>
         </SearchWrapper>
       </Wrapper>
+      <div>asd</div>
     </>
   );
 };
 
 export default HistorySearch;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -81,6 +176,7 @@ const SearchWrapper = styled.div`
   width: 100%;
   flex-direction: column;
   border-radius: 0px 0px 16px 16px;
+  transition: all 0.3s;
 `;
 
 const Header = styled.div`
@@ -120,12 +216,33 @@ const SearchBtn = styled.div`
   align-items: center;
 `;
 
+const StartDatePickerContainer = styled.div`
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 0;
+  z-index: 400;
+`;
+
+const EndDatePickerContainer = styled.div`
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  z-index: 400;
+`;
+
 const DateWrapper = styled.div`
+  position: relative;
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
   font-size: 16px;
   color: var(--color-grey-50);
+  animation: ${(props) =>
+    props.isClickedCalender
+      ? css`
+          ${fadeIn} 0.5s ease
+        `
+      : `none`};
 `;
 
 const DateBox = styled.div`
@@ -134,4 +251,8 @@ const DateBox = styled.div`
   padding: 8px 36px;
 `;
 
-const CheckboxWrapper = styled.div``;
+const CheckboxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+`;

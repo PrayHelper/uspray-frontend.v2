@@ -34,7 +34,7 @@ export const CheckboxStyle = styled.input`
   background-repeat: no-repeat;
   background-position: 50%;
   flex-shrink: 0;
-  margin-right: 8px;
+  margin: 0px 8px 0px 0px;
 
   &:checked {
     transition: all 0.2s;

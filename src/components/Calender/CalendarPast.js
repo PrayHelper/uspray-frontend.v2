@@ -10,7 +10,7 @@ import "./Calender.css";
 // History.js 파일 참고하기
 // Calendar를 Calender라고 했네..ㅎ
 
-const Calender = (props) => {
+const CalendarPast = (props) => {
   return (
     <DatePicker
       renderCustomHeader={({
@@ -33,18 +33,21 @@ const Calender = (props) => {
                 alt="icon_left_arrow"
               />
             )}
-            <img
-              onClick={increaseMonth}
-              disabled={nextMonthButtonDisabled}
-              src="../images/ic_right_arrow.svg"
-              alt="icon_right_arrow"
-            />
+            {!nextMonthButtonDisabled && (
+              <img
+                onClick={!nextMonthButtonDisabled ? increaseMonth : undefined}
+                disabled={nextMonthButtonDisabled}
+                src="../images/ic_right_arrow.svg"
+                alt="icon_right_arrow"
+              />
+            )}
           </div>
         </DatePickerHeader>
       )}
       selected={props.selectedDate}
       onChange={(date) => props.onChangeDatePicker(date)}
-      minDate={new Date()}
+      minDate={props.minDate}
+      maxDate={new Date()}
       dateFormat="yyyy-MM-dd"
       popperPlacement="bottom-start"
       onClickOutside={() => props.setShowDatePicker(false)}
@@ -54,7 +57,7 @@ const Calender = (props) => {
   );
 };
 
-export default Calender;
+export default CalendarPast;
 
 const DatePickerHeader = styled.div`
   display: flex;
