@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
+import BlackScreen from "../components/BlackScreen/BlackScreen";
 import CalendarPast from "../components/Calender/CalendarPast";
 import Checkbox, { CheckboxTheme } from "../components/Checkbox/Checkbox";
 
@@ -52,7 +53,6 @@ const HistorySearch = () => {
     const koreanWeekday = new Intl.DateTimeFormat("ko-KR", options).format(
       date
     );
-    console.log(koreanWeekday[0]);
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     const dd = String(date.getDate()).padStart(2, "0");
@@ -63,16 +63,17 @@ const HistorySearch = () => {
   const onChangeStartDatePicker = (date) => {
     setStartDate(updateDatePicker(date)); // formattedDate를 업데이트
     setShowStartDatePicker(false); // DatePicker 닫기
+    setShowEndDatePicker(true); // DatePicker 닫기
   };
 
   const onChangeEndDatePicker = (date) => {
     setEndDate(updateDatePicker(date)); // formattedDate를 업데이트
     setShowEndDatePicker(false); // DatePicker 닫기
-    console.log(endDate - startDate);
   };
 
   return (
     <>
+      <BlackScreen isModalOn={showStartDatePicker || showEndDatePicker} />
       <Wrapper>
         <SearchWrapper>
           <Header>
@@ -103,7 +104,10 @@ const HistorySearch = () => {
             </SearchBarWrapper>
             {isClickedCalender && (
               <DateWrapper isClickedCalender={isClickedCalender}>
-                <DateBox onClick={onClickStartDateBox}>
+                <DateBox
+                  isClicked={showStartDatePicker}
+                  onClick={onClickStartDateBox}
+                >
                   {startDate.replace(/-/g, ".")}
                 </DateBox>
                 {showStartDatePicker && (
@@ -116,7 +120,10 @@ const HistorySearch = () => {
                   </StartDatePickerContainer>
                 )}
                 <img src="../images/ic_thin_arrow.svg" alt="icon_rightArrow" />
-                <DateBox onClick={onClickEndDateBox}>
+                <DateBox
+                  isClicked={showEndDatePicker}
+                  onClick={onClickEndDateBox}
+                >
                   {endDate.replace(/-/g, ".")}
                 </DateBox>
                 {showEndDatePicker && (
@@ -208,6 +215,7 @@ const SearchBar = styled.input`
   ::placeholder {
     color: var(--color-grey-50);
   }
+  color: var(--color-grey);
 `;
 
 const SearchBtn = styled.div`
@@ -231,12 +239,12 @@ const EndDatePickerContainer = styled.div`
 `;
 
 const DateWrapper = styled.div`
+  z-index: 400;
   position: relative;
   margin-bottom: 16px;
   display: flex;
   justify-content: space-between;
   font-size: 16px;
-  color: var(--color-grey-50);
   animation: ${(props) =>
     props.isClickedCalender
       ? css`
@@ -247,6 +255,8 @@ const DateWrapper = styled.div`
 
 const DateBox = styled.div`
   border-radius: 8px;
+  color: ${(props) =>
+    props.isClicked ? `var(--color-green)` : `var(--color-grey-50)`};
   background-color: var(--color-white);
   padding: 8px 36px;
 `;
