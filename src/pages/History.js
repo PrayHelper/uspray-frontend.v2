@@ -308,6 +308,7 @@ const History = () => {
                   selectedDate={selectedDate}
                   onChangeDatePicker={onChangeDatePicker}
                   setShowDatePicker={setShowDatePicker}
+                  minDate={new Date()}
                 />
               </DatePickerContainer>
             )}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css, keyframes } from "styled-components";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
-import CalendarPast from "../components/Calender/CalendarPast";
+import Calender from "../components/Calender/Calender";
 import Checkbox, { CheckboxTheme } from "../components/Checkbox/Checkbox";
 
 const HistorySearch = () => {
@@ -112,7 +112,8 @@ const HistorySearch = () => {
                 </DateBox>
                 {showStartDatePicker && (
                   <StartDatePickerContainer>
-                    <CalendarPast
+                    <Calender
+                      maxDate={new Date()}
                       selectedDate={selectedDate}
                       onChangeDatePicker={onChangeStartDatePicker}
                       setShowDatePicker={setShowStartDatePicker}
@@ -128,7 +129,8 @@ const HistorySearch = () => {
                 </DateBox>
                 {showEndDatePicker && (
                   <EndDatePickerContainer>
-                    <CalendarPast
+                    <Calender
+                      maxDate={new Date()}
                       minDate={selectedDate}
                       selectedDate={selectedDate}
                       onChangeDatePicker={onChangeEndDatePicker}
