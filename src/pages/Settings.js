@@ -207,14 +207,16 @@ const Settings = () => {
             <SettingToggle
               refetchIsNotifiedData={refetchIsNotifiedData}
               isAbledData={isAbledData[0]}
-              id={1}></SettingToggle>
+              id={1}
+            ></SettingToggle>
           </StyledItem>
           <StyledItem noActive={true}>
             <div>다른 사람이 내 기도제목을 공유 받았을 때</div>
             <SettingToggle
               refetchIsNotifiedData={refetchIsNotifiedData}
               isAbledData={isAbledData[1]}
-              id={2}></SettingToggle>
+              id={2}
+            ></SettingToggle>
           </StyledItem>
         </WhiteBox>
         <WhiteBox>
@@ -241,7 +243,8 @@ const Settings = () => {
           <StyledItem noActive={true}>
             <div>현재 서비스 버전 확인</div>
             <div
-              style={{ color: "#7BAB6E", fontWeight: "700", fontSize: "15px" }}>
+              style={{ color: "#7BAB6E", fontWeight: "700", fontSize: "15px" }}
+            >
               0.1.2
             </div>
           </StyledItem>
