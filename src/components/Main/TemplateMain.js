@@ -9,12 +9,13 @@ import { useGetInfo } from "../../hooks/useGetInfo";
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    padding: 0px 24px 12px 35px;
+    padding: 0px 24px 24px 35px;
     background: white;
     border-bottom: 1px solid white;
     box-sizing: border-box;
     align-items : center;
     z-index: 103;
+    transition: all 0.5s ease-in-out;
 `;
 const BtnSend = styled.button`
     marginTop: 65px;
@@ -24,10 +25,22 @@ const BtnSend = styled.button`
     border-radius: 6.261px;
     transform: matrix(-1, 0, 0, 1, 0, 0);
     background-color : white;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.5s ease-in-out;
     &:active{
+        transition: all 0.5s ease-in-out;
         background-color: #75BD62;
     }
+`;
+
+const BlankBtnSend = styled.button`
+    marginTop: 65px;
+    width: 31px;
+    height : 31px;
+    border: 1px solid #EBF7E8;
+    border-radius: 6.261px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    background-color : white;
+    transition: all 0.5s ease-in-out;
 `;
 
 const SendImg = styled(Logo)`
@@ -37,10 +50,21 @@ const SendImg = styled(Logo)`
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease-in-out;
     &:active{
+        transition: all 0.5s ease-in-out; 
         filter: brightness(5);
     }
+`;
+
+const BlankSendImg = styled(Logo)`
+    width: 16.21px;
+    height: 16.94px;
+    transform: scaleX(-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
 `;
 
 const StyleInput = styled.input`
@@ -79,6 +103,8 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [value , setValue] = useState("");
     const [day , setDay] = useState(7);
     const [Toggle, setToggle] = useState(true);
+    const [updateDate, setUpdateDate] = useState(null);
+    const [dayToggle, setDayToggle] = useState(false);
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -86,7 +112,6 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
             setshareToggle(!shareToggle)
             setIsShare(!isShare)
         }
-        // setDoubleToggle(!doubleToggle);
     }
     const dayInfo = (e) =>{
         setDay(e);
@@ -109,9 +134,10 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const submit = () =>{
         setVisible(!visible);
         setValue("");
-        console.log(day);
         onInsert(name, day, value);
         setDay(7);
+        setDayToggle(false);
+        setUpdateDate(null);
     }
     const changeCheckTop = () =>{
         setVisible(!visible);
@@ -131,18 +157,19 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     return(
         <div style={{width:"100%"}}>
             <div style={{position:"relative"}}>
-                <BackgroundInput style={{paddingBottom: (!visible) ? "24px" : "12px", boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
+                <BackgroundInput style={{boxShadow : (!visible) ? "0 2px 4px rgba(0, 0, 0, 0.2)" : ""}}>
                     <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value = {value} onChange={onChange}
                     onClick={(!visible) ? ()=> widthChange() : onSubmit()}></StyleInput>
                     <div style={{marginTop:'65px',minHeight:'31px', minWidth:'31px'}}>
-                        {(value === "") ? <BtnSend><SendImg src={DisableImage}/></BtnSend>
+                        {(value === "") ? <BlankBtnSend><BlankSendImg src={DisableImage}/></BlankBtnSend>
                         : <BtnSend onClick={() => submit()}><SendImg src={noClickImage}/></BtnSend>}
                     </div>
                 </BackgroundInput>
-                <DayButton dayInfo = {dayInfo} visible={visible} Toggle={Toggle} setToggle={setToggle} setVisible={setVisible}/>
+                <DayButton dayInfo = {dayInfo} visible={visible} dayToggle = {dayToggle} setDayToggle = {setDayToggle}
+                updateDate = {updateDate} setUpdateDate = {setUpdateDate}/>
             </div>
-            {visible && <BackgroundBright onClick={changeCheckTop}/>}
+            <BackgroundBright onClick={changeCheckTop} style={{opacity : visible ? "1" : "0", pointerEvents: visible ? "auto" : "none"}}/>
             {children}
         </div>
     )

@@ -3,9 +3,10 @@ import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Input from "../Input/Input";
 import styled from "styled-components";
-import Toast, { ToastTheme } from "../Toast/Toast";
 import serverapi from "../../api/serverapi";
 import IdResult from "./IdResult";
+import useToast from "../../hooks/useToast";
+import { ToastTheme } from "../Toast/Toast";
 
 let init = 0;
 
@@ -40,13 +41,12 @@ const FindId = () => {
   const [showModal, setShowModal] = useState(false);
   const [verficationNumber, setVerficationNumber] = useState("");
   const [time, setTime] = useState("");
-  const [showToast, setShowToast] = useState(false);
   const [showResultPage, setShowRestultPage] = useState(false);
   const [isCetrificated, setIsCertificated] = useState(false);
   const [isCertificateButtonClicked, setIsCertificateButtonClicked] =
     useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const [showCertificatedInput, setShowCertificatedInput] = useState(false);
+ const { showToast } = useToast({});
+
   const moveToResult = () => {
     setShowRestultPage(true);
   };
@@ -76,13 +76,13 @@ const FindId = () => {
     try {
       const res = await serverapi.post(api, data);
       if (res.status === 200) {
-        alert("인증번호가 전송되었습니다.");
+        showToast({ message: "인증번호가 전송되었습니다.", theme: ToastTheme.SUCCESS });
         console.log(res.data.code);
         setVerficationNumber(res.data.code);
         setTime("180");
       }
     } catch (e) {
-      alert("error occured");
+      showToast({ message: "error occured", theme: ToastTheme.ERROR });
     }
   };
 
@@ -164,15 +164,6 @@ const FindId = () => {
     return () => clearInterval(id);
   }, [time]);
 
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
-
   return (
     <div style={{ width: "100%", height: "100vh", position: "relative" }}>
       {showResultPage && <IdResult userData={userData} />}
@@ -183,8 +174,7 @@ const FindId = () => {
           flexDirection: "column",
           gap: "27px",
           padding: "20px 27px",
-        }}
-      >
+        }}>
         <Input
           label="이름"
           onChangeHandler={nameChangeHandler}
@@ -216,11 +206,6 @@ const FindId = () => {
               }}
             >
               {buttonText}
-              {/* {time 
-              ? "진행 중" 
-              :isCertificationNumberValid(userInfo.certificateNumber) 
-              ? "완료" 
-              : " 전송"}  */}
             </Button>
           }
         />
@@ -253,37 +238,31 @@ const FindId = () => {
                           : ButtonTheme.RED
                         : time === 0
                         ? ButtonTheme.GRAY
-                        : ButtonTheme.GREEN
-                      : ButtonTheme.GRAY
+                      : ButtonTheme.GREEN
+                    : ButtonTheme.GRAY
+                }
+                disabled={
+                  (isCetrificated && isCertificateButtonClicked) || time === 0
+                }
+                handler={() => {
+                  setIsCertificateButtonClicked(true);
+                  if (isCertificationNumberValid(userInfo.certificateNumber)) {
+                    showToast({
+                      message: "인증에 성공하였습니다.",
+                      theme: ToastTheme.SUCCESS,
+                    });
+                  } else {
+                    showToast({
+                      message: "인증번호가 일치하지 않습니다.",
+                      theme: ToastTheme.ERROR,
+                    });
                   }
-                  disabled={
-                    (isCetrificated && isCertificateButtonClicked) || time === 0
-                  }
-                  handler={() => {
-                    setIsCertificateButtonClicked(true);
-                    if (
-                      isCertificationNumberValid(userInfo.certificateNumber)
-                    ) {
-                      alert("인증에 성공하였습니다.");
-                    } else {
-                      setToastMessage("인증번호가 일치하지 않습니다.");
-                      setShowToast(true);
-                      alert("인증에 실패하였습니다.");
-                    }
-                  }}
-                >
-                  {isCetrificated && isCertificateButtonClicked
-                    ? "완료"
-                    : "확인"}
-                </Button>
-              </div>
-            }
-          />
-        ) : null}
-        {showToast && (
-          <Toast toastTheme={ToastTheme.ERROR}>{toastMessage}</Toast>
-        )}
-
+                }}>
+                {isCetrificated || isCertificateButtonClicked ? "완료" : "확인"}
+              </Button>
+            </div>
+          }
+        />
         <div
           style={{
             position: "absolute",
@@ -291,8 +270,7 @@ const FindId = () => {
             width: "calc(100% - 48px)",
             display: "flex",
             flexDirection: "column",
-          }}
-        >
+          }}>
           <div style={{ textAlign: "center", marginBottom: "16px" }}>
             <SubLink onClick={openKakaoChannel}>
               전화번호를 변경하셨나요?
@@ -304,8 +282,7 @@ const FindId = () => {
             buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
             handler={() => {
               moveToResult();
-            }}
-          >
+            }}>
             아이디 찾기
           </Button>
         </div>

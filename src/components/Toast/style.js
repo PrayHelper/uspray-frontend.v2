@@ -11,22 +11,33 @@ export const ToastStyle = styled.div`
   max-width: 344px;
   display: flex;
   align-items: center;
-  background-color: ${props => (props.toastTheme == ToastTheme.SUCCESS) ? "#7BAB6E" : "#FF6B6B"};
+  background-color: var(
+    ${(props) =>
+      props.toastTheme === ToastTheme.SUCCESS
+        ? "--color-dark-green"
+        : "--color-red"}
+  );
   padding: 16px;
   gap: 8px;
   font-size: 16px;
   font-weight: bold;
   border-radius: 16px;
-  color: white;
+  color: var(--color-white);
   opacity: 0;
   transform: translateY(20px);
   animation: toastAnimation 3s ease forwards;
   @keyframes toastAnimation {
-    0% {opacity: 0;
-      transform: translateY(20px);}
-    50% {opacity: 1;
-      transform: translateY(0);}
-    100% {opacity: 0;
-      transform: translateY(20px);}
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
   }
 `;
