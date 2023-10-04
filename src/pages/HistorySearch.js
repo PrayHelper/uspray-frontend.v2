@@ -154,8 +154,8 @@ const HistorySearch = () => {
             </CheckboxWrapper>
           </MainWrapper>
         </SearchWrapper>
+        <div>asd</div>
       </Wrapper>
-      <div>asd</div>
     </>
   );
 };

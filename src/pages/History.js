@@ -15,11 +15,6 @@ const History = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [showSubModal, setShowSubModal] = useState(false);
-  const [pageByDate, setPageByDate] = useState(1);
-  const [pageByCnt, setPageByCnt] = useState(1);
-  const [dataByDate, setDataByDate] = useState([]);
-  const [dataByCnt, setDataByCnt] = useState([]);
-  const [sortBy, setSortBy] = useState("date");
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
   const [updateDate, setUpdateDate] = useState(null);
@@ -28,6 +23,13 @@ const History = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [isClickedDay, setIsClickedDay] = useState(false);
+  const [pageMy, setPageMy] = useState(1);
+  const [pageShared, setPageShared] = useState(1);
+  const [dataMy, setDataMy] = useState([]);
+  const [dataShared, setDataShared] = useState([]);
+  const [myScrollPos, setMyScrollPos] = useState(0);
+  const [sharedScrollPos, setSharedScrollPos] = useState(0);
+  const [sortBy, setSortBy] = useState("date");
   const modalDate = [3, 7, 100, 300];
 
   const [hasMore, setHasMore] = useState(true);
@@ -49,38 +51,37 @@ const History = () => {
     if (showToast) {
       const timer = setTimeout(() => {
         setShowToast(false);
-      }, 5000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [showToast]);
 
+  const formatDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`;
+    return formattedDate;
+  };
+
   const onClickUpdateDate = (days) => {
     const today = new Date();
     const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
-    const yyyy = targetDate.getFullYear();
-    const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(targetDate.getDate()).padStart(2, "0");
-    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
-    setUpdateDate(formattedDate1);
+    setUpdateDate(formatDate(targetDate));
     setSelectedBtn(days); // css 변경용
     setIsClickedDay(true);
   };
 
   const onChangeDatePicker = (date) => {
     setSelectedDate(date); // 선택된 날짜 업데이트
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
-    setUpdateDate(formattedDate); // formattedDate를 업데이트
+    setUpdateDate(formatDate(date)); // formattedDate를 업데이트
     setShowDatePicker(false); // DatePicker 닫기
     setIsClickedDay(true);
   };
 
-  const handleButtonClick = () => {
+  const onClickCalendar = () => {
     setShowDatePicker(!showDatePicker);
     onClickUpdateDate("");
-    console.log("asd");
   };
 
   const isEmptyData = (data) => {
@@ -103,65 +104,62 @@ const History = () => {
 
   const onClickToggle = (e) => {
     console.log(e.currentTarget.id);
-    if (e.currentTarget.id !== sortBy) {
-      setSortBy(e.currentTarget.id);
-      // setDataByDate([]);
-      // setPage(1);
-      // window.scrollTo(0, 0);
-    }
+    sortBy === "date"
+      ? setMyScrollPos(window.scrollY)
+      : setSharedScrollPos(window.scrollY);
+    setSortBy(e.currentTarget.id);
   };
 
-  const { data: historyDataByDate, refetch: refetchHistory } = useFetchHistory({
-    page: pageByDate,
+  useEffect(() => {
+    // 카테고리가 변경될 때 스크롤 위치를 복원합니다.
+    sortBy === "date"
+      ? window.scrollTo(0, myScrollPos)
+      : window.scrollTo(0, sharedScrollPos);
+  }, [sortBy, myScrollPos, sharedScrollPos]);
+
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
+
+  const { data: myPrayData, refetch: refetchMyData } = useFetchHistory({
+    page: pageMy,
     per_page: 15,
     sort_by: "date",
   });
 
-  const { data: historyDataByCnt, refetch: refetchHistoryy } = useFetchHistory({
-    page: pageByDate,
+  const { data: sharedPrayData, refetch: refetchSharedData } = useFetchHistory({
+    page: pageShared,
     per_page: 15,
     sort_by: "cnt",
   });
 
-  const [deletedItemIds, setDeletedItemIds] = useState([]);
-
-  const fetchHistoryByDate = async () => {
-    const newData = await historyDataByDate.data.res;
+  const fetchMyData = async () => {
+    const newData = await myPrayData.data.res;
     const filteredData = newData.filter(
       (newItem) =>
-        !dataByDate.some((existingItem) => existingItem.id === newItem.id)
+        !dataMy.some((existingItem) => existingItem.id === newItem.id)
     );
     console.log(filteredData);
     console.log(deletedItemIds);
-    const dData = [...dataByDate, ...filteredData].filter(
+    const dData = [...dataMy, ...filteredData].filter(
       (item) => !deletedItemIds.some((dItem) => dItem === item.id)
     );
-    setDataByDate(dData);
-    console.log("리스트 읽기");
-    console.log("페이지 :" + pageByDate);
-    console.log("hasmore? :" + hasMore);
-    console.log("inview? :" + inView);
+    setDataMy(dData);
     if (newData.length === 0) {
       setHasMore(false);
     }
   };
 
-  const fetchHistoryByCnt = async () => {
-    const newData = await historyDataByCnt.data.res;
+  const fetchSharedData = async () => {
+    const newData = await sharedPrayData.data.res;
     const filteredData = newData.filter(
       (newItem) =>
-        !dataByCnt.some((existingItem) => existingItem.id === newItem.id)
+        !dataShared.some((existingItem) => existingItem.id === newItem.id)
     );
     console.log(filteredData);
     console.log(deletedItemIds);
-    const dData = [...dataByCnt, ...filteredData].filter(
+    const dData = [...dataShared, ...filteredData].filter(
       (item) => !deletedItemIds.some((dItem) => dItem === item.id)
     );
-    setDataByCnt(dData);
-    console.log("리스트 읽기");
-    // console.log("페이지 :" + page);
-    console.log("hasmore? :" + hasMore);
-    console.log("inview? :" + inView);
+    setDataShared(dData);
     if (newData.length === 0) {
       setHasMore(false);
     }
@@ -169,7 +167,7 @@ const History = () => {
 
   const { mutate: mutateHistoryModify } = useHistoryModify();
 
-  const onClickModify = () => {
+  const onClickModify = (sortBy) => {
     mutateHistoryModify(
       {
         pray_id: currentId,
@@ -178,23 +176,21 @@ const History = () => {
       {
         onSuccess: (res) => {
           setShowToast(true);
-          setShowModal(false);
-          setShowSubModal(false);
           setDeletedItemIds((prev) => [...prev, res.data.id]);
-          setSelectedBtn("");
-          setSelectedDate(null);
-          setShowDatePicker(false);
-          setIsClickedDay(false);
-          refetchHistory();
+          onClickExitModal();
+          sortBy === "Date" ? refetchMyData() : refetchSharedData();
         },
       }
     );
   };
 
-  const onClickHistory = async (e) => {
+  const onClickHistoryItem = async (e, sortBy) => {
     setShowModal(true);
     const id = e.currentTarget.id;
-    const currentData = dataByDate.find((item) => item.id === Number(id));
+    const currentData =
+      sortBy === "date"
+        ? dataMy.find((item) => item.id === Number(id))
+        : dataShared.find((item) => item.id === Number(id));
     console.log(currentData);
     setCurrentData(currentData);
     setCurrentId(Number(id));
@@ -202,25 +198,25 @@ const History = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (historyDataByDate) {
-      fetchHistoryByDate();
+    if (myPrayData) {
+      fetchMyData();
       setLoading(false);
-      console.log(historyDataByDate);
     }
-  }, [historyDataByDate]);
+  }, [myPrayData]);
 
   useEffect(() => {
     setLoading(true);
-    if (historyDataByCnt) {
-      fetchHistoryByCnt();
+    if (sharedPrayData) {
+      fetchSharedData();
       setLoading(false);
-      console.log(historyDataByCnt);
     }
-  }, [historyDataByCnt]);
+  }, [sharedPrayData]);
 
   useEffect(() => {
     if (inView && hasMore && !loading) {
-      setPageByDate((prev) => prev + 1);
+      sortBy === "date"
+        ? setPageMy((prev) => prev + 1)
+        : setPageShared((prev) => prev + 1);
     }
   }, [hasMore, inView]);
 
@@ -238,7 +234,7 @@ const History = () => {
           isClickToPauseDisabled={true}
         />
       )}
-      {!loading && isEmptyData(dataByDate) && (
+      {!loading && isEmptyData(dataMy) && (
         <NoDataWrapper>
           <NoDataTitle>완료된 기도제목이 없네요.</NoDataTitle>
           <NoDataContent>기간이 지나면 히스토리에 저장됩니다!</NoDataContent>
@@ -246,7 +242,7 @@ const History = () => {
       )}
       <div>
         <BlackScreen isModalOn={showModal} />
-        {!isEmptyData(dataByDate) && showModal && (
+        {!isEmptyData(dataMy) && showModal && (
           <>
             <ModalWrapper showSubModal={showSubModal}>
               <ModalHeader>
@@ -278,7 +274,6 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        {/* {showSubModal && ( */}
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
             {modalDate.map((el) => (
@@ -293,13 +288,13 @@ const History = () => {
               <img
                 src="../images/icon_calender_filled.svg"
                 alt="icon_calender"
-                onClick={handleButtonClick}
+                onClick={onClickCalendar}
               />
             ) : (
               <img
                 src="../images/icon_calender.svg"
                 alt="icon_calender"
-                onClick={handleButtonClick}
+                onClick={onClickCalendar}
               />
             )}
             {showDatePicker && (
@@ -316,17 +311,20 @@ const History = () => {
               <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
             )}
           </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify()}>
+          <SubModalBottom onClick={() => onClickModify(sortBy)}>
             오늘의 기도에 추가하기
           </SubModalBottom>
         </SubModalWrapper>
-        {/* )} */}
       </div>
-      {sortBy === "date" ? (
+      {sortBy === "date" && (
         <div style={{ paddingTop: "115px" }}>
           {/* <div> */}
-          {dataByDate.map((el) => (
-            <div onClick={onClickHistory} key={el.id} id={el.id}>
+          {dataMy.map((el) => (
+            <div
+              onClick={(e) => onClickHistoryItem(e, sortBy)}
+              key={el.id}
+              id={el.id}
+            >
               <HisContent
                 name={el.target}
                 content={el.title}
@@ -337,11 +335,16 @@ const History = () => {
             </div>
           ))}
         </div>
-      ) : (
+      )}
+      {sortBy === "cnt" && (
         <div style={{ paddingTop: "115px" }}>
           {/* <div> */}
-          {dataByCnt.map((el) => (
-            <div onClick={onClickHistory} key={el.id} id={el.id}>
+          {dataShared.map((el) => (
+            <div
+              onClick={(e) => onClickHistoryItem(e, sortBy)}
+              key={el.id}
+              id={el.id}
+            >
               <HisContent
                 name={el.target}
                 content={el.title}
