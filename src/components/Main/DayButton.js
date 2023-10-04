@@ -19,6 +19,7 @@ const DayBtnSet = styled.div`
     z-index: 102;
     gap: 8px;
     box-shadow : 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 `
 const DayBtn = styled.button`
     font-size: 12px;
