@@ -50,10 +50,14 @@ const History = () => {
   const onClickUpdateDate = (days) => {
     const today = new Date();
     const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+    const options = { weekday: "long" };
+    const koreanWeekday = new Intl.DateTimeFormat("ko-KR", options).format(
+      targetDate
+    );
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
     const dd = String(targetDate.getDate()).padStart(2, "0");
-    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
+    const formattedDate1 = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`;
     setUpdateDate(formattedDate1);
     setSelectedBtn(days); // css 변경용
     setIsClickedDay(true);
@@ -218,7 +222,8 @@ const History = () => {
               <ModalButtonWrapper>
                 <ModalButton1
                   showSubModal={showSubModal}
-                  onClick={onClickSubModal}>
+                  onClick={onClickSubModal}
+                >
                   또 기도하기
                 </ModalButton1>
                 <ModalButton2 onClick={onClickExitModal}>닫기</ModalButton2>
@@ -231,22 +236,26 @@ const History = () => {
           <SubModalTop>
             <SubModalBtn
               isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}>
+              onClick={() => onClickUpdateDate(3)}
+            >
               3일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}>
+              onClick={() => onClickUpdateDate(7)}
+            >
               7일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}>
+              onClick={() => onClickUpdateDate(30)}
+            >
               30일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}>
+              onClick={() => onClickUpdateDate(100)}
+            >
               100일
             </SubModalBtn>
             {showDatePicker ? (
@@ -272,7 +281,7 @@ const History = () => {
               </DatePickerContainer>
             )}
             {isClickedDay && (
-              <SubModalDate>~{updateDate.replace(/-/g, "/")}</SubModalDate>
+              <SubModalDate>~{updateDate.replace(/-/g, ".")}</SubModalDate>
             )}
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify()}>
@@ -399,23 +408,26 @@ const ModalButtonWrapper = styled.div`
 const ModalButton1 = styled.button`
   width: 100%;
   background-color: var(
-    ${(props) => (props.showSubModal ? "--color-light-green" : "--color-white")}
+    ${(props) =>
+      props.showSubModal ? "--color-light-green" : "--color-dark-green"}
   );
-  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
+  border: none;
   border-radius: 16px;
   padding: 16px 0;
-  color: var(--color-dark-green);
+  color: var(
+    ${(props) => (props.showSubModal ? "--color-dark-green" : "--color-white")}
+  );
   font-size: 18px;
   cursor: pointer;
 `;
 
 const ModalButton2 = styled.button`
   width: 100%;
-  background-color: var(--color-dark-green);
-  border-style: none;
+  background-color: var(--color-white);
   border-radius: 16px;
   padding: 16px 0;
-  color: var(--color-white);
+  border: 1px solid var(--color-dark-green);
+  color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;
   &:active {
@@ -483,7 +495,7 @@ const SubModalDate = styled.div`
 const SubModalBottom = styled.div`
   background: var(--color-dark-green);
   border-radius: 0px 0px 16px 16px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 16px;
   text-align: center;
   color: var(--color-white);
