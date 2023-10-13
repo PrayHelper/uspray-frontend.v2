@@ -107,11 +107,15 @@ const History = () => {
     sortBy === "date"
       ? setMyScrollPos(window.scrollY)
       : setSharedScrollPos(window.scrollY);
-    setSortBy(e.currentTarget.id);
+    handleCategoryChange(e.currentTarget.id);
+  };
+
+  const handleCategoryChange = (newCategory) => {
+    setSortBy(newCategory);
   };
 
   useEffect(() => {
-    // 카테고리가 변경될 때 스크롤 위치를 복원합니다.
+    // 카테고리가 변경될 때 스크롤 위치 복원
     sortBy === "date"
       ? window.scrollTo(0, myScrollPos)
       : window.scrollTo(0, sharedScrollPos);
@@ -356,7 +360,6 @@ const History = () => {
           ))}
         </div>
       )}
-
       <div style={{ marginTop: "20px", color: `var(--color-light-green)` }}>
         .
       </div>
