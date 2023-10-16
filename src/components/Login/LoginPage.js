@@ -7,32 +7,21 @@ import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import useAuthToken from "../../hooks/useAuthToken";
-import { postFetcher } from "../../hooks/api";
-import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
 import useAuthorized from "../../hooks/useAuthorized";
+import useApi from "./useApi";
 
 import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
 
-const sendDeviceTokenFunc = async (getAccessToken, data) => {
-  return await postFetcher("/user/device/token", data, {
-    Authorization: getAccessToken(),
-  });
-};
-
 const useSendDeviceToken = () => {
-  const { getAccessToken } = useAuthToken();
-  const { refresh } = useRefresh();
+  const { postFetcher } = useApi();
   return useMutation(
-    (data) => {
-      return sendDeviceTokenFunc(getAccessToken, data);
+    async (data) => {
+      return await postFetcher("/user/device/token", data);
     },
     {
-      onError: async (e) => {
-        if (e.status === 403) {
-          await refresh();
-        }
+      onError: (e) => {
         console.log(e);
       },
       onSuccess: (res) => {
