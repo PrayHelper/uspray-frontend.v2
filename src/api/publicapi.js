@@ -1,6 +1,4 @@
-//이제 쓰이지 않음.. 혹시 몰라서 삭제 안함
 import axios from "axios";
-
 
 // ErrorInterceptor
 const onErrorResponse = async (error) => {
@@ -50,6 +48,7 @@ const instance = axios.create();
 
 instance.defaults.baseURL = baseURL
 
-const serverapi = setupInterceptors(instance);
+// 토큰을 포함하지 않는 경우의 instance
+const publicapi = setupInterceptors(instance);
 
-export default serverapi;
+export default publicapi;

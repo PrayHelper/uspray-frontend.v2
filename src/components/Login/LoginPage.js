@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import serverapi from "../../api/serverapi";
+import publicapi from "../../api/publicapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Toast, { ToastTheme } from "../Toast/Toast";
@@ -9,10 +9,10 @@ import useFlutterWebview from "../../hooks/useFlutterWebview";
 import useAuthToken from "../../hooks/useAuthToken";
 import { useMutation } from "react-query";
 import useAuthorized from "../../hooks/useAuthorized";
-import useApi from "./useApi";
 
 import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
+import useApi from '../../hooks/useApi';
 
 const useSendDeviceToken = () => {
   const { postFetcher } = useApi();
@@ -65,7 +65,7 @@ const LoginPage = () => {
       password: pwdValue,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         if (isMobile()) {
           const deviceToken = await getDeviceToken();

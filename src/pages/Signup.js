@@ -7,7 +7,7 @@ import Input from "../components/Input/Input";
 import styled from "styled-components";
 import Toast, { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
-import serverapi from "../api/serverapi";
+import publicapi from "../api/publicapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal/Modal";
@@ -131,7 +131,7 @@ const Signup = () => {
   const isIdDuplicated = async (uid) => {
     const api = `/user/dup_check/${uid}`;
     try {
-      const res = await serverapi.get(api);
+      const res = await publicapi.get(api);
       if (res.status === 200) {
         return res.data.dup;
       }
@@ -146,7 +146,7 @@ const Signup = () => {
       phone: phoneNumber,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         showToast({
           message: "인증번호가 전송되었습니다.",
@@ -175,7 +175,7 @@ const Signup = () => {
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         showToast({
           message: "회원가입이 성공적으로 완료되었습니다.",

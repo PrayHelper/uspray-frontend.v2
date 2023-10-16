@@ -3,7 +3,7 @@ import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Input from "../Input/Input";
 import styled from "styled-components";
-import serverapi from "../../api/serverapi";
+import publicapi from "../../api/publicapi";
 import IdResult from "./IdResult";
 import useToast from "../../hooks/useToast";
 import { ToastTheme } from "../Toast/Toast";
@@ -58,7 +58,7 @@ const FindId = () => {
       phone: phoneNumber,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         showToast({ message: "인증번호가 전송되었습니다.", theme: ToastTheme.SUCCESS });
         console.log(res.data.code);
