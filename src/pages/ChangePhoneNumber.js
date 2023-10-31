@@ -8,6 +8,10 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useResetPhoneNumber } from "../hooks/useResetPhoneNumber";
 import useToast from "../hooks/useToast";
 import { ToastTheme } from "../components/Toast/Toast";
+import { ReactComponent as NextArrow_gray } from "../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrow_white } from "../images/ic_next_arrow_white.svg";
+
+
 
 const ModalContent = styled.div`
   position: fixed;
@@ -319,6 +323,7 @@ const ChangePhoneNumber = () => {
                 resetPhoneNumber();
               }}>
               재설정하기
+              {isAllValid ? <NextArrow_white/> : <NextArrow_gray/>}
             </Button>
           </div>
         </div>
