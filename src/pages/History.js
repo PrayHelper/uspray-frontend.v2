@@ -324,7 +324,11 @@ const NoDataWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataTitle = styled.div`
