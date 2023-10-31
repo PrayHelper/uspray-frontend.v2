@@ -44,7 +44,6 @@ import useToast from "./hooks/useToast";
 import DeleteUser from "./pages/DeleteUser";
 
 const ContainerWrapper = styled.div`
-  max-width: 430px;
   margin: 0 auto;
 `;
 
