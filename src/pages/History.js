@@ -399,23 +399,24 @@ const ModalButtonWrapper = styled.div`
 const ModalButton1 = styled.button`
   width: 100%;
   background-color: var(
-    ${(props) => (props.showSubModal ? "--color-light-green" : "--color-white")}
+    ${(props) => (props.showSubModal ? "--color-light-green" : "--color-dark-green")}
   );
   border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
   border-radius: 16px;
   padding: 16px 0;
-  color: var(--color-dark-green);
+  color: var(${(props) => (props.showSubModal ? "--color-dark-green" : "--color-white")});
   font-size: 18px;
   cursor: pointer;
 `;
 
 const ModalButton2 = styled.button`
   width: 100%;
-  background-color: var(--color-dark-green);
+  background-color: var(--color-white);
   border-style: none;
   border-radius: 16px;
+  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
   padding: 16px 0;
-  color: var(--color-white);
+  color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;
   &:active {

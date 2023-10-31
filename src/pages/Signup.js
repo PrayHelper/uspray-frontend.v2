@@ -12,6 +12,9 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useNavigate } from "react-router-dom";
 import Modal from "../components/Modal/Modal";
 import useToast from "../hooks/useToast";
+import { ReactComponent as NextArrow_gray } from "../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrow_white } from "../images/ic_next_arrow_white.svg";
+
 
 let init = 0;
 
@@ -515,6 +518,7 @@ const Signup = () => {
             signup();
           }}>
           회원가입
+          {isAllValid ? <NextArrow_white/> : <NextArrow_gray/>}
         </Button>
       </div>
     </SignupPageWrapper>
