@@ -6,6 +6,10 @@ import LoginButton from "../components/Login/LoginButton/LoginButton";
 import UserHeader from "../components/UserHeader";
 import styled from 'styled-components';
 import { useDeleteUser } from "../hooks/useDeleteUser";
+import { ReactComponent as NextArrowWhite } from "../images/ic_next_arrow_white.svg";
+
+
+
 
 const ModalContent = styled.div`
   position: fixed;
@@ -138,11 +142,13 @@ const ChangeInfo = () => {
             }}
           >
             비밀번호 변경
+            <NextArrowWhite/>
           </Button>
           <Button buttonSize={ButtonSize.LARGE} buttonTheme={ButtonTheme.GREEN}  handler={() => {
               navigate("/changePhoneNumber");
             }}>
             전화번호 변경
+            <NextArrowWhite/>
           </Button>
           <LoginButton
             background={"#ffffff"}

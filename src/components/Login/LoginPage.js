@@ -12,7 +12,11 @@ import useAuthorized from "../../hooks/useAuthorized";
 
 import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
+import { ReactComponent as NextArrowGray } from "../../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrowWhite } from "../../images/ic_next_arrow_white.svg";
 import useApi from '../../hooks/useApi';
+
+
 
 const useSendDeviceToken = () => {
   const { postFetcher } = useApi();
@@ -140,14 +144,15 @@ const LoginPage = () => {
           <div style={{ margin: "0px 24px 12px 24px" }}>
             <Button
               buttonSize={ButtonSize.LARGE}
-              ButtonTheme={ButtonTheme.GREEN}
+              buttonTheme={idValue.length > 0 && pwdValue.length > 0 ? ButtonTheme.GREEN : ButtonTheme.GRAY}
               disabled={
                 idValue.length > 0 && pwdValue.length > 0 ? false : true
-              }
+                }
               handler={() => {
                 login();
               }}>
               로그인
+              {idValue.length > 0 && pwdValue.length > 0 ? <NextArrowWhite/> : <NextArrowGray/>}
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>
