@@ -85,13 +85,6 @@ const ToastWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 8px;
-  margin-top: 40px;
-  margin-right: 32px;
-  background-color: #7bab6e;
-  border: none;
-  border-radius: 4px;
-  padding: 4px;
 `;
 
 function PrayerList({
@@ -306,86 +299,78 @@ function PrayerList({
         onClick={changeCheck}
       ></BackgroundBright>
       <Background style={{ paddingBottom: padding }}>
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          <div style={{ flex: 1, flexGrow: 1, flexShrink: 0, flexBasis: "500px" }}>
-            <TopContent>
-              <TodayPrayer>기도할게요</TodayPrayer>
-              <PrayerSortToggle
-                colorFirst={colorFirstTop}
-                colorSecond={colorSecondTop}
-                dayFucPrayer={dayFucTopPrayer}
-                dayFucDay={dayFucTopDay}
+        <TopContent>
+          <TodayPrayer>기도할게요</TodayPrayer>
+          <PrayerSortToggle
+            colorFirst={colorFirstTop}
+            colorSecond={colorSecondTop}
+            dayFucPrayer={dayFucTopPrayer}
+            dayFucDay={dayFucTopDay}
+          />
+        </TopContent>
+        <PrayerContentStyle>
+          {loading ? (
+            <Lottie
+              style={{ scale: "0.5" }}
+              options={defaultOptions}
+              height={300}
+              width={300}
+              isClickToPauseDisabled={true}
+            />
+          ) : prayerContent.length === 0 ? (
+            <EmptySpace color={true} />
+          ) : (
+            prayerContent.map((content, index) => (
+              <PrayerContent
+                key={index}
+                content={content}
+                dayToggle={dayToggleTopDay}
+                countUpdate={countUpdate}
+                contentClick={contentClick}
+                isShared={isShare}
+                shareList={shareList}
+                clickOff={clickOff}
+                bottom={false}
               />
-            </TopContent>
-            <PrayerContentStyle>
-              {loading ? (
-                <Lottie
-                  style={{ scale: "0.5" }}
-                  options={defaultOptions}
-                  height={300}
-                  width={300}
-                  isClickToPauseDisabled={true}
-                />
-              ) : prayerContent.length === 0 ? (
-                <EmptySpace color={true} />
-              ) : (
-                prayerContent.map((content, index) => (
-                  <PrayerContent
-                    key={index}
-                    content={content}
-                    dayToggle={dayToggleTopDay}
-                    countUpdate={countUpdate}
-                    contentClick={contentClick}
-                    isShared={isShare}
-                    shareList={shareList}
-                    clickOff={clickOff}
-                    bottom={false}
-                  />
-                ))
-              )}
-            </PrayerContentStyle>
-          </div>
-          <div style={{ flex: 1, flexGrow: 1, flexShrink: 0, flexBasis: "500px" }}>
-            <TopContent>
-              <TodayPrayer style={{ marginTop: "46px" }}>
-                기도했어요
-              </TodayPrayer>
-              <PrayerSortToggle
-                colorFirst={colorFirstBottom}
-                colorSecond={colorSecondBottom}
-                dayFucPrayer={dayFucBottomPrayer}
-                dayFucDay={dayFucBottomDay}
+            ))
+          )}
+        </PrayerContentStyle>
+        <TopContent>
+          <TodayPrayer style={{ marginTop: "46px" }}>기도했어요</TodayPrayer>
+          <PrayerSortToggle
+            colorFirst={colorFirstBottom}
+            colorSecond={colorSecondBottom}
+            dayFucPrayer={dayFucBottomPrayer}
+            dayFucDay={dayFucBottomDay}
+          />
+        </TopContent>
+        <PrayerContentStyle style={{ background: "#7BAB6E" }}>
+          {loading ? (
+            <Lottie
+              style={{ scale: "0.5" }}
+              options={defaultOptions}
+              height={300}
+              width={300}
+              isClickToPauseDisabled={true}
+            />
+          ) : prayerMoreContent.length === 0 ? (
+            <EmptySpace color={false} />
+          ) : (
+            prayerMoreContent.map((content, index) => (
+              <PrayerContent
+                key={index}
+                content={content}
+                dayToggle={dayToggleBottomDay}
+                countUpdate={countUpdate}
+                contentClick={contentClick}
+                isShared={isShare}
+                shareList={shareList}
+                clickOff={clickOff}
+                bottom={true}
               />
-            </TopContent>
-            <PrayerContentStyle style={{ background: "#7BAB6E" }}>
-              {loading ? (
-                <Lottie
-                  style={{ scale: "0.5" }}
-                  options={defaultOptions}
-                  height={300}
-                  width={300}
-                  isClickToPauseDisabled={true}
-                />
-              ) : prayerMoreContent.length === 0 ? (
-                <EmptySpace color={false} />
-              ) : (
-                prayerMoreContent.map((content, index) => (
-                  <PrayerContent
-                    key={index}
-                    content={content}
-                    dayToggle={dayToggleBottomDay}
-                    countUpdate={countUpdate}
-                    contentClick={contentClick}
-                    isShared={isShare}
-                    shareList={shareList}
-                    clickOff={clickOff}
-                    bottom={true}
-                  />
-                ))
-              )}
-            </PrayerContentStyle>
-          </div>
-        </div>
+            ))
+          )}
+        </PrayerContentStyle>
         <Share
           onShare={onShare}
           onMove={onMove}
