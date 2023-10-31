@@ -12,9 +12,10 @@ import useAuthorized from "../../hooks/useAuthorized";
 
 import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
-import { ReactComponent as NextArrow_gray } from "../../images/ic_next_arrow_gray.svg";
-import { ReactComponent as NextArrow_white } from "../../images/ic_next_arrow_white.svg";
+import { ReactComponent as NextArrowGray } from "../../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrowWhite } from "../../images/ic_next_arrow_white.svg";
 import useApi from '../../hooks/useApi';
+
 
 
 const useSendDeviceToken = () => {
@@ -151,7 +152,7 @@ const LoginPage = () => {
                 login();
               }}>
               로그인
-              {idValue.length > 0 && pwdValue.length > 0 ? <NextArrow_white/> : <NextArrow_gray/>}
+              {idValue.length > 0 && pwdValue.length > 0 ? <NextArrowWhite/> : <NextArrowGray/>}
             </Button>
           </div>
           <div style={{ marginTop: "16px", marginBottom: "45px" }}>

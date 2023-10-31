@@ -7,8 +7,8 @@ import publicapi from "../../api/publicapi";
 import IdResult from "./IdResult";
 import useToast from "../../hooks/useToast";
 import { ToastTheme } from "../Toast/Toast";
-import { ReactComponent as NextArrow_gray } from "../../images/ic_next_arrow_gray.svg";
-import { ReactComponent as NextArrow_white } from "../../images/ic_next_arrow_white.svg";
+import { ReactComponent as NextArrowGray } from "../../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrowWhite } from "../../images/ic_next_arrow_white.svg";
 let init = 0;
 
 const SubLink = styled.a`
@@ -253,7 +253,7 @@ const FindId = () => {
               moveToResult();
             }}>
             아이디 찾기
-            {isAllValid ? <NextArrow_white/> : <NextArrow_gray/>}
+            {isAllValid ? <NextArrowWhite/> : <NextArrowGray/>}
           </Button>
         </div>
       </div>
