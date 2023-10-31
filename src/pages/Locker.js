@@ -188,7 +188,8 @@ const Locker = () => {
             {data.map((item, index) => (
               <div
                 // style={{ width: "100%" }}
-                onClick={() => onClickContent(index, item.pray_id)}>
+                onClick={() => onClickContent(index, item.pray_id)}
+              >
                 <LockerContent
                   isClicked={isClicked[index]}
                   name={item.share_name}
@@ -223,7 +224,11 @@ const NoDataWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataTitle = styled.div`
@@ -248,4 +253,3 @@ const LockerList = styled.div`
   width: 100%;
   overflow: auto;
 `;
-
