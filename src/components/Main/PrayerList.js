@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PrayerContent from "./PrayerContent";
-import styled from 'styled-components';
+import styled from "styled-components";
 import BottomMenu from "./BottomMenu";
 import Share from "./Share";
 import ModifyBar from "./ModifyBar";
@@ -11,8 +11,8 @@ import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
-import { ToastTheme } from "../../components/Toast/Toast";
-import useToast from "../../hooks/useToast";
+import Toast, { ToastTheme } from "../../components/Toast/Toast";
+import PrayerSortToggle from "./PrayerSortToggle";
 
 const Background = styled.div`
   width: 100%;
@@ -79,6 +79,12 @@ const PrayerContentStyle = styled.div`
   border: 1px solid #7bab6f;
   min-height: 244px;
   padding-bottom: 20px;
+`;
+
+const ToastWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 function PrayerList({
@@ -149,8 +155,6 @@ function PrayerList({
   const { shareLink, isMobile } = useFlutterWebview();
   const WEB_ORIGIN = process.env.REACT_APP_WEB_ORIGIN;
 
-  const { showToast } = useToast({});
-
   const getPrayList = (bool, pray) => {
     // bool이 true일 때 밑에 ,bool이 false이면 위에 pray가 true이면 기도순 클릭
     if (!bool) {
@@ -161,7 +165,7 @@ function PrayerList({
       sortDownPosition(true);
     }
   };
-  
+
   const fetchData = async (top, pray) => {
     pray ? await refetch_cnt_PrayList() : await refetchPrayList();
     getPrayList(top, pray);
@@ -231,10 +235,7 @@ function PrayerList({
             url: `${WEB_ORIGIN}/main?share=` + listJoin,
           });
         } else {
-            showToast({
-              message: "공유하기가 지원되지 않는 환경 입니다.",
-              theme: ToastTheme.ERROR,
-            });
+          alert("공유하기가 지원되지 않는 환경 입니다.");
         }
       }
 
@@ -271,11 +272,6 @@ function PrayerList({
     );
   };
 
-  useEffect(() => {
-    if (modalToggle)
-      showToast({ theme: ToastTheme.SUCCESS, message: modalText });
-  }, [modalToggle]);
-
   return (
     <div>
       <BackgroundBright
@@ -302,26 +298,12 @@ function PrayerList({
       <Background style={{ paddingBottom: padding }}>
         <TopContent>
           <TodayPrayer>기도할게요</TodayPrayer>
-          <BtnSet>
-            <BtnElementDay
-              onClick={dayFucTopDay}
-              style={{
-                transition: "all 0.2s",
-                backgroundColor: colorFirstTop,
-                color: colorSecondTop,
-              }}>
-              날짜순
-            </BtnElementDay>
-            <BtnElementPrayer
-              onClick={dayFucTopPrayer}
-              style={{
-                transition: "all 0.2s",
-                backgroundColor: colorSecondTop,
-                color: colorFirstTop,
-              }}>
-              기도순
-            </BtnElementPrayer>
-          </BtnSet>
+          <PrayerSortToggle
+            colorFirst={colorFirstTop}
+            colorSecond={colorSecondTop}
+            dayFucPrayer={dayFucTopPrayer}
+            dayFucDay={dayFucTopDay}
+          />
         </TopContent>
         <PrayerContentStyle>
           {loading ? (
@@ -352,26 +334,12 @@ function PrayerList({
         </PrayerContentStyle>
         <TopContent>
           <TodayPrayer style={{ marginTop: "46px" }}>기도했어요</TodayPrayer>
-          <BtnSet>
-            <BtnElementDay
-              onClick={dayFucBottomDay}
-              style={{
-                transition: "all 0.2s",
-                backgroundColor: colorFirstBottom,
-                color: colorSecondBottom,
-              }}>
-              날짜순
-            </BtnElementDay>
-            <BtnElementPrayer
-              onClick={dayFucBottomPrayer}
-              style={{
-                transition: "all 0.2s",
-                backgroundColor: colorSecondBottom,
-                color: colorFirstBottom,
-              }}>
-              기도순
-            </BtnElementPrayer>
-          </BtnSet>
+          <PrayerSortToggle
+            colorFirst={colorFirstBottom}
+            colorSecond={colorSecondBottom}
+            dayFucPrayer={dayFucBottomPrayer}
+            dayFucDay={dayFucBottomDay}
+          />
         </TopContent>
         <PrayerContentStyle style={{ background: "#7BAB6E" }}>
           {loading ? (
@@ -410,6 +378,7 @@ function PrayerList({
           setshareToggle={setshareToggle}
           isModify={isModify}
           isChecked={isChecked}></Share>
+        <ToastWrapper>{modalToggle && <Toast>{modalText}</Toast>}</ToastWrapper>
         <BottomMenu
           completeBtnClick={completeBtnClick}
           modifyBtnClick={modifyBtnClick}
@@ -441,7 +410,4 @@ function PrayerList({
   );
 }
 
-
-export default PrayerList; 
-
-
+export default PrayerList;
