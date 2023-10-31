@@ -13,6 +13,7 @@ const fadeIn = keyframes`
 
 export const Wrapper = styled.div`
   width: 100%;
+  height: 100%;
 `;
 
 export const SearchWrapper = styled.div`
@@ -103,4 +104,30 @@ export const CheckboxWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 9px;
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+// export const NoDataIcon = styled.img`
+//   font-weight: 700;
+//   font-size: 28px;
+//   line-height: 41px;
+//   color: var(--color-grey);
+// `;
+
+export const NoDataContent = styled.div`
+  font-weight: 500;
+  font-size: 24px;
+  margin-top: 16px;
+  color: var(--color-secondary-grey);
 `;

@@ -4,7 +4,7 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 import Calender from "../components/Calender/Calender";
 import Checkbox, { CheckboxTheme } from "../components/Checkbox/Checkbox";
 // prettier-ignore
-import { CheckboxWrapper, DateBox, DateWrapper, EndDatePickerContainer, Header, MainWrapper, SearchBar, SearchBarWrapper, SearchBtn, SearchWrapper, StartDatePickerContainer, Wrapper } from "../components/HistorySearch/style";
+import { CheckboxWrapper, ContentWrapper, DateBox, DateWrapper, EndDatePickerContainer, Header, MainWrapper, NoDataContent, SearchBar, SearchBarWrapper, SearchBtn, SearchWrapper, StartDatePickerContainer, Wrapper } from "../components/HistorySearch/style";
 
 const HistorySearch = () => {
   const [isClickedCalender, setIsClickedCalender] = useState(false);
@@ -154,7 +154,12 @@ const HistorySearch = () => {
             </CheckboxWrapper>
           </MainWrapper>
         </SearchWrapper>
-        <div>asd</div>
+        <ContentWrapper>
+          <div>
+            <img src="../images/ic_search_history.svg" alt="icon_searchbar" />
+          </div>
+          <NoDataContent>히스토리를 검색해보세요</NoDataContent>
+        </ContentWrapper>
       </Wrapper>
     </>
   );

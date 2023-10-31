@@ -390,19 +390,21 @@ const NoDataWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataTitle = styled.div`
-  font-weight: 700;
+  font-weight: 500;
   font-size: 28px;
-  line-height: 41px;
   color: var(--color-grey);
 `;
 const NoDataContent = styled.div`
   font-weight: 400;
   font-size: 20px;
-  line-height: 29px;
   color: var(--color-secondary-grey);
 `;
 
