@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import serverapi from "../api/serverapi";
+import publicapi from "../api/publicapi";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import UserHeader from "../components/UserHeader";
@@ -131,7 +131,7 @@ const ChangePhoneNumber = () => {
       phone: phoneNumber,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         showToast({
           message: "인증번호가 전송되었습니다.",
