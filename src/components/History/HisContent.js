@@ -8,9 +8,7 @@ const HisContent = (props) => {
           <Name>{props.name}</Name>
         </NameWrapper>
         <Vline />
-        <div style={{ width: "358px" }}>
-          <Content>{props.content}</Content>
-        </div>
+        <Content>{props.content}</Content>
       </TopContentWrapper>
       <Date>{props.date.replace(/-/g, "/")}</Date>
       <Hline />
