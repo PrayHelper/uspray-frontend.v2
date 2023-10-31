@@ -301,7 +301,7 @@ function PrayerList({
       <Background style={{ paddingBottom: padding }}>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <div
-            style={{ flex: 1, flexGrow: 1, flexShrink: 0, flexBasis: "500px" }}>
+            style={{ flex: 1, flexGrow: 1, flexBasis: "500px" }}>
             <TopContent>
               <TodayPrayer>기도할게요</TodayPrayer>
               <PrayerSortToggle
@@ -340,7 +340,7 @@ function PrayerList({
             </PrayerContentStyle>
           </div>
           <div
-            style={{ flex: 1, flexGrow: 1, flexShrink: 0, flexBasis: "500px" }}>
+            style={{ flex: 1, flexGrow: 1, flexBasis: "500px" }}>
             <TopContent>
               <TodayPrayer style={{ marginTop: "46px" }}>
                 기도했어요
