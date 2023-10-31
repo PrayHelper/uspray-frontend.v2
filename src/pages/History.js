@@ -183,13 +183,15 @@ const History = () => {
     <HistoryWrapper>
       <Header>히스토리</Header>
       {loading && (
-        <Lottie
-          style={{ scale: "0.5" }}
-          options={defaultOptions}
-          height={300}
-          width={300}
-          isClickToPauseDisabled={true}
-        />
+        <LottieWrapper>
+          <Lottie
+            style={{ scale: "0.5" }}
+            options={defaultOptions}
+            height={300}
+            width={300}
+            isClickToPauseDisabled={true}
+          />
+        </LottieWrapper>
       )}
       {!loading && isEmptyData(data) && (
         <NoDataWrapper>
@@ -317,6 +319,14 @@ const HistoryWrapper = styled.div`
   width: 100%;
   position: relative;
   /* padding-top: 65px; */
+`;
+
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataWrapper = styled.div`
