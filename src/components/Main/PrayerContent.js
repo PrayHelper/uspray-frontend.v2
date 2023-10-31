@@ -25,19 +25,19 @@ const NameContent = styled.div`
 `;
 
 const TextContent = styled.div`
-    margin: 0px 8px;
-    flex-grow : 1;
-    font-family: 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 17px;
+  margin: 0px 8px;
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 17px;
+  word-break: break-all;
+  flex: 1;
 `;
 
 const DdayContent = styled.div`
     flex-shrink: 0;
     font-size : 12px;
-    text-align : right;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
