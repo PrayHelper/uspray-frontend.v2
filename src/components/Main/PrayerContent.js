@@ -32,6 +32,7 @@ const TextContent = styled.div`
     font-weight: 400;
     font-size: 12px;
     line-height: 17px;
+    word-break : break-all;
 `;
 
 const DdayContent = styled.div`

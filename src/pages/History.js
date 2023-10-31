@@ -428,9 +428,11 @@ const ModalButton1 = styled.button`
 const ModalButton2 = styled.button`
   width: 100%;
   background-color: var(--color-white);
+  border-style: none;
   border-radius: 16px;
+  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
+  // border: 1px solid var(--color-dark-green);
   padding: 16px 0;
-  border: 1px solid var(--color-dark-green);
   color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;
