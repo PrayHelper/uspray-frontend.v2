@@ -12,6 +12,8 @@ import useAuthorized from "../../hooks/useAuthorized";
 
 import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
+import { ReactComponent as NextArrow_gray } from "../../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrow_white } from "../../images/ic_next_arrow_white.svg";
 import useApi from "../../hooks/useApi";
 
 const useSendDeviceToken = () => {
