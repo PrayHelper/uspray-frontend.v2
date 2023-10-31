@@ -5,7 +5,6 @@ import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import LoginButton from "../components/Login/LoginButton/LoginButton";
 import UserHeader from "../components/UserHeader";
 import styled from 'styled-components';
-import serverapi from "../api/serverapi";
 import { useDeleteUser } from "../hooks/useDeleteUser";
 import { ReactComponent as NextArrow_white } from "../images/ic_next_arrow_white.svg";
 

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import serverapi from "../../api/serverapi";
+import publicapi from "../../api/publicapi";
 import Input from "../Input/Input";
 import Button, { ButtonSize, ButtonTheme } from "../Button/Button";
 import Toast, { ToastTheme } from "../Toast/Toast";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import useAuthToken from "../../hooks/useAuthToken";
-import { postFetcher } from "../../hooks/api";
-import useRefresh from "../../hooks/useRefresh";
 import { useMutation } from "react-query";
 import useAuthorized from "../../hooks/useAuthorized";
 
@@ -16,26 +14,17 @@ import LogoSVG from "../../images/logo_image.svg";
 import useToast from "../../hooks/useToast";
 import { ReactComponent as NextArrow_gray } from "../../images/ic_next_arrow_gray.svg";
 import { ReactComponent as NextArrow_white } from "../../images/ic_next_arrow_white.svg";
+import useApi from '../../hooks/useApi';
 
-
-const sendDeviceTokenFunc = async (getAccessToken, data) => {
-  return await postFetcher("/user/device/token", data, {
-    Authorization: getAccessToken(),
-  });
-};
 
 const useSendDeviceToken = () => {
-  const { getAccessToken } = useAuthToken();
-  const { refresh } = useRefresh();
+  const { postFetcher } = useApi();
   return useMutation(
-    (data) => {
-      return sendDeviceTokenFunc(getAccessToken, data);
+    async (data) => {
+      return await postFetcher("/user/device/token", data);
     },
     {
-      onError: async (e) => {
-        if (e.status === 403) {
-          await refresh();
-        }
+      onError: (e) => {
         console.log(e);
       },
       onSuccess: (res) => {
@@ -79,7 +68,7 @@ const LoginPage = () => {
       password: pwdValue,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         if (isMobile()) {
           const deviceToken = await getDeviceToken();

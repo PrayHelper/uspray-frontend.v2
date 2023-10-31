@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import serverapi from "../../api/serverapi";
+import publicapi from "../../api/publicapi";
 import UserHeader from "../UserHeader";
 import Button, { ButtonSize, ButtonTheme } from "..//Button/Button";
 import Input from "../Input/Input";
@@ -104,7 +104,7 @@ const FindPassword = () => {
   const isIdDuplicated = async (uid) => {
     const api = `/user/dup_check/${uid}`;
     try {
-      const res = await serverapi.get(api);
+      const res = await publicapi.get(api);
       if (res.status === 200) {
         return res.data.dup;
       }
@@ -119,7 +119,7 @@ const FindPassword = () => {
       phone: phoneNumber,
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         showToast({
           message: "인증번호가 전송되었습니다.",
@@ -144,7 +144,7 @@ const FindPassword = () => {
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
     try {
-      const res = await serverapi.post(api, data);
+      const res = await publicapi.post(api, data);
       if (res.status === 200) {
         if (res.data.message === true) {
           console.log(res.data);
