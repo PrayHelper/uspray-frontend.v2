@@ -45,7 +45,6 @@ import DeleteUser from "./pages/DeleteUser";
 import HistorySearch from "./pages/HistorySearch";
 
 const ContainerWrapper = styled.div`
-  max-width: 430px;
   margin: 0 auto;
 `;
 
