@@ -183,13 +183,15 @@ const History = () => {
     <HistoryWrapper>
       <Header>히스토리</Header>
       {loading && (
-        <Lottie
-          style={{ scale: "0.5" }}
-          options={defaultOptions}
-          height={300}
-          width={300}
-          isClickToPauseDisabled={true}
-        />
+        <LottieWrapper>
+          <Lottie
+            style={{ scale: "0.5" }}
+            options={defaultOptions}
+            height={300}
+            width={300}
+            isClickToPauseDisabled={true}
+          />
+        </LottieWrapper>
       )}
       {!loading && isEmptyData(data) && (
         <NoDataWrapper>
@@ -319,6 +321,14 @@ const HistoryWrapper = styled.div`
   /* padding-top: 65px; */
 `;
 
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const NoDataWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -428,9 +438,11 @@ const ModalButton1 = styled.button`
 const ModalButton2 = styled.button`
   width: 100%;
   background-color: var(--color-white);
+  border-style: none;
   border-radius: 16px;
+  border: ${(props) => (props.showSubModal ? "none" : "1px solid #7bab6e")};
+  // border: 1px solid var(--color-dark-green);
   padding: 16px 0;
-  border: 1px solid var(--color-dark-green);
   color: var(--color-dark-green);
   font-size: 18px;
   cursor: pointer;

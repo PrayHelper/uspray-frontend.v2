@@ -8,6 +8,9 @@ import { ToastTheme } from "../Toast/Toast";
 import PwResult from "./PwResult";
 import PwError from "./PwError";
 import useToast from "../../hooks/useToast";
+import { ReactComponent as NextArrowGray } from "../../images/ic_next_arrow_gray.svg";
+import { ReactComponent as NextArrowWhite } from "../../images/ic_next_arrow_white.svg";
+
 let init = 0;
 
 const SubLink = styled.a`
@@ -373,6 +376,7 @@ const FindPassword = () => {
               findPassword();
             }}>
             비밀번호 찾기
+            {isAllValid ? <NextArrowWhite/> : <NextArrowGray/>}
           </Button>
         </div>
       </div>
