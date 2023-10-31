@@ -184,7 +184,7 @@ const History = () => {
       {loading && (
         <LottieWrapper>
           <Lottie
-            style={{ scale: "0.5", marginTop: "50px" }}
+            style={{ scale: "0.5" }}
             options={defaultOptions}
             height={300}
             width={300}
@@ -306,6 +306,14 @@ const HistoryWrapper = styled.div`
   position: relative;
   /* padding-top: 65px; */
 `;
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const LottieWrapper = styled.div`
   position: fixed;
   width: 100%;
