@@ -43,7 +43,7 @@ import GlobalStyle from "./styles/GlobalStyle";
 import useToast from "./hooks/useToast";
 
 const ContainerWrapper = styled.div`
-  max-width: 430px;
+  /* max-width: 430px; */
   margin: 0 auto;
 `;
 
