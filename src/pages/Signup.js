@@ -1,11 +1,11 @@
 import ToggleButton from "../components/ToggleButton";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from "styled-components";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 import publicapi from "../api/publicapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
@@ -17,45 +17,6 @@ import { ReactComponent as NextArrowWhite } from "../images/ic_next_arrow_white.
 
 
 let init = 0;
-
-const ModalContent = styled.div`
-  transition: all 0.3s ease-in-out;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: ${(props) =>
-    props.isModalOn ? "translate(-50%, -50%)" : "translate(-50%, -40%)"};
-  width: calc(100vw - 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 16px;
-  padding: 16px;
-  color: #7bab6e;
-  z-index: 500;
-
-  opacity: ${(props) => (props.isModalOn ? "1" : "0")};
-  pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
-`;
-
-const ModalButton = styled.button`
-  transition: 0.2s all ease-in-out;
-  width: 100%;
-  background-color: #7bab6e;
-  border-style: none;
-  border-radius: 16px;
-  padding: 20px 0;
-  color: #ffffff;
-  font-size: 18px;
-
-  &:active {
-    transition: 0.2s all ease-in-out;
-    transform: scale(0.98);
-    filter: brightness(0.9);
-  }
-`;
 
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
@@ -348,7 +309,6 @@ const Signup = () => {
         }}>
         <Input
           label="아이디"
-          btnContent2={"asd"}
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
           isError={!!invalidIdInfo}
