@@ -22,9 +22,10 @@ const History = () => {
   const [data, setData] = useState([]);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
-  const [updateDate, setUpdateDate] = useState(null);
   const [selectedBtn, setSelectedBtn] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜
+  const [updateDate, setUpdateDate] = useState(null); // yyyy.mm.dd (api 호출용)
+  const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [isClickedDay, setIsClickedDay] = useState(false);
 
@@ -57,10 +58,13 @@ const History = () => {
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
     const dd = String(targetDate.getDate()).padStart(2, "0");
-    const formattedDate1 = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`;
+    // const formattedDate1 = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`;
+    setDesignedDate(`${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`);
+    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
     setUpdateDate(formattedDate1);
     setSelectedBtn(days); // css 변경용
     setIsClickedDay(true);
+    console.log(updateDate);
   };
 
   const onChangeDatePicker = (date) => {
@@ -68,7 +72,12 @@ const History = () => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     const dd = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
+    const options = { weekday: "short" };
+    const formattedDayOfWeek = new Intl.DateTimeFormat("ko-KR", options).format(
+      date
+    );
+    setDesignedDate(`${yyyy}-${mm}-${dd} (${formattedDayOfWeek})`);
     setUpdateDate(formattedDate); // formattedDate를 업데이트
     setShowDatePicker(false); // DatePicker 닫기
     setIsClickedDay(true);
@@ -77,7 +86,6 @@ const History = () => {
   const handleButtonClick = () => {
     setShowDatePicker(!showDatePicker);
     onClickUpdateDate("");
-    console.log("asd");
   };
 
   const isEmptyData = (data) => {
@@ -159,7 +167,6 @@ const History = () => {
     setShowModal(true);
     const id = e.currentTarget.id;
     const currentData = data.find((item) => item.id === Number(id));
-    console.log(currentData);
     setCurrentData(currentData);
     setCurrentId(Number(id));
   };
@@ -283,7 +290,7 @@ const History = () => {
               </DatePickerContainer>
             )}
             {isClickedDay && (
-              <SubModalDate>~{updateDate.replace(/-/g, ".")}</SubModalDate>
+              <SubModalDate>~{designedDate.replace(/-/g, ".")}</SubModalDate>
             )}
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify()}>
