@@ -1,11 +1,11 @@
 import ToggleButton from "../components/ToggleButton";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import UserHeader from "../components/UserHeader";
 import InputBirth from "../components/InputBirth";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import Input from "../components/Input/Input";
 import styled from "styled-components";
-import Toast, { ToastTheme } from "../components/Toast/Toast";
+import { ToastTheme } from "../components/Toast/Toast";
 import Checkbox from "../components/Checkbox/Checkbox";
 import publicapi from "../api/publicapi";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
@@ -17,45 +17,6 @@ import { ReactComponent as NextArrowWhite } from "../images/ic_next_arrow_white.
 
 
 let init = 0;
-
-const ModalContent = styled.div`
-  transition: all 0.3s ease-in-out;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: ${(props) =>
-    props.isModalOn ? "translate(-50%, -50%)" : "translate(-50%, -40%)"};
-  width: calc(100vw - 64px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 16px;
-  padding: 16px;
-  color: #7bab6e;
-  z-index: 500;
-
-  opacity: ${(props) => (props.isModalOn ? "1" : "0")};
-  pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
-`;
-
-const ModalButton = styled.button`
-  transition: 0.2s all ease-in-out;
-  width: 100%;
-  background-color: #7bab6e;
-  border-style: none;
-  border-radius: 16px;
-  padding: 20px 0;
-  color: #ffffff;
-  font-size: 18px;
-
-  &:active {
-    transition: 0.2s all ease-in-out;
-    transform: scale(0.98);
-    filter: brightness(0.9);
-  }
-`;
 
 const Signup = () => {
   const [userInfo, setUserInfo] = useState({
@@ -86,7 +47,12 @@ const Signup = () => {
   const [tos1Checked, setTos1Checked] = useState(false);
   const [tos2Checked, setTos2Checked] = useState(false);
   const [tos3Checked, setTos3Checked] = useState(false);
-  const checkEmptyUserInfoValue = Object.values(userInfo).some(
+  const userInfoForCheck = { ...userInfo };
+  delete userInfoForCheck.year;
+  delete userInfoForCheck.month;
+  delete userInfoForCheck.day;
+
+  const checkEmptyUserInfoValue = Object.values(userInfoForCheck).some(
     (data) => data === ""
   );
 
@@ -103,7 +69,6 @@ const Signup = () => {
     tos1Checked &&
     tos2Checked &&
     tos3Checked &&
-    gender &&
     !checkEmptyUserInfoValue;
 
   const idRegEx = /^[a-z0-9]{6,15}$/;
@@ -173,10 +138,15 @@ const Signup = () => {
       id: userInfo.id,
       password: userInfo.pwd,
       name: userInfo.name,
-      gender: gender,
-      birth: userInfo.year + "-" + userInfo.month + "-" + userInfo.day,
       phone: userInfo.phoneNumber.replace(/-/g, ""),
     };
+
+    if (gender)
+      data.gender = gender;
+    if (userInfo.year && userInfo.month && userInfo.day)
+      data.birth = userInfo.year + "-" + userInfo.month + "-" + userInfo.day;
+
+
     try {
       const res = await publicapi.post(api, data);
       if (res.status === 200) {
@@ -347,15 +317,14 @@ const Signup = () => {
           padding: "20px 27px",
         }}>
         <Input
-          label="아이디"
-          btnContent2={"asd"}
+          label="아이디*"
           onChangeHandler={idChangeHandler}
           value={userInfo.id}
           isError={!!invalidIdInfo}
           description={invalidIdInfo}
         />
         <Input
-          label="비밀번호"
+          label="비밀번호*"
           type="password"
           onChangeHandler={pwdChangeHandler}
           value={userInfo.pwd}
@@ -363,7 +332,7 @@ const Signup = () => {
           description={invalidPwdInfo}
         />
         <Input
-          label="비밀번호 확인"
+          label="비밀번호 확인*"
           type="password"
           onChangeHandler={matchingPwdChangeHandler}
           value={userInfo.matchingPwd}
@@ -371,7 +340,7 @@ const Signup = () => {
           description={invalidMatchingPwdInfo}
         />
         <Input
-          label="이름"
+          label="이름*"
           onChangeHandler={nameChangeHandler}
           value={userInfo.name}
           isError={false}
@@ -407,7 +376,7 @@ const Signup = () => {
           dayChangeHandler={dayChangeHandler}
         />
         <Input
-          label="전화번호"
+          label="전화번호*"
           onChangeHandler={phoneNumberChangeHandler}
           value={userInfo.phoneNumber}
           isError={false}
@@ -432,7 +401,7 @@ const Signup = () => {
           }
         />
         <Input
-          label="인증번호"
+          label="인증번호*"
           onChangeHandler={certificateNumberChangeHandler}
           value={
             isCetrificated && isCertificateButtonClicked
@@ -511,7 +480,7 @@ const Signup = () => {
           />
         </div>
         <Button
-          disabled={!isAllValid}
+          // disabled={!isAllValid}
           buttonSize={ButtonSize.LARGE}
           buttonTheme={isAllValid ? ButtonTheme.GREEN : ButtonTheme.GRAY}
           handler={() => {
