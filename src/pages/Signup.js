@@ -164,6 +164,12 @@ const Signup = () => {
           theme: ToastTheme.ERROR,
         });
       }
+      if (e.response.data.message) {
+        showToast({
+          message: e.response.data.message,
+          theme: ToastTheme.ERROR,
+        });
+      }
     }
   };
 
