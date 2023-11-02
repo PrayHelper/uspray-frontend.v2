@@ -158,7 +158,7 @@ const Signup = () => {
       }
     } catch (e) {
       console.log(e);
-      if (e.response.data.dev_message === "SignUpFail error") {
+      if (e.response.data.message) {
         showToast({
           message: e.response.data.message,
           theme: ToastTheme.ERROR,
