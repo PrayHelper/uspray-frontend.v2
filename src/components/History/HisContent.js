@@ -53,16 +53,13 @@ const Name = styled.div`
   text-align: center;
   width: 71px;
   font-weight: 500;
-  line-height: 20px;
 `;
 
 const Content = styled.div`
   color: var(--color-dark-grey);
   font-size: 14px;
   margin-left: 8px;
-  line-height: 20px;
   word-break: keep-all;
-  width: 258px;
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
