@@ -268,13 +268,13 @@ const History = () => {
               100일
             </SubModalBtn>
             {showDatePicker ? (
-              <img
+              <CalenderIcon
                 src="../images/icon_calender_filled.svg"
                 alt="icon_calender"
                 onClick={handleButtonClick}
               />
             ) : (
-              <img
+              <CalenderIcon
                 src="../images/icon_calender.svg"
                 alt="icon_calender"
                 onClick={handleButtonClick}
@@ -535,6 +535,14 @@ const DatePickerContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 400;
+`;
+
+const CalenderIcon = styled.img`
+  transition: all 0.2s ease-in-out;
+  :active {
+    filter: brightness(0.9);
+    transform: scale(0.9);
+  }
 `;
 
 const ToastWrapper = styled.div`
