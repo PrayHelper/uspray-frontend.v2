@@ -354,7 +354,7 @@ const Signup = () => {
               color: "#7BAB6E",
               paddingLeft: "16px",
               position: "absolute",
-              top: "-14px",
+              top: "-18px",
             }}>
             성별
           </div>
