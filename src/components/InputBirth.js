@@ -18,9 +18,11 @@ const InputBirthStyle = styled.input`
   };
   width: fit-content;
   width: 20px;
+  height: 23px;
+  box-sizing: border-box;
   color: #7BAB6E;
   font-size: 16px;
-  padding: 0px 2px;
+  padding: 0px 1px;
 `
 
 const InputBirth = ({yearValue, monthValue, dayValue, yearChangeHandler, monthChangeHandler, dayChangeHandler}) => {
