@@ -6,5 +6,5 @@ services:
       dockerfile: ./deploy/Dockerfile
     image: prayhelper-client-dev
     ports:
-      - "4005:3000"
+      - "4007:3000"
     command: ["serve", "-s", "build"]
