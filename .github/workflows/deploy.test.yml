@@ -39,6 +39,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: github.ref == format('refs/heads/{0}', vars.INTG_BRANCH)
     steps:
       - name: Checkout
