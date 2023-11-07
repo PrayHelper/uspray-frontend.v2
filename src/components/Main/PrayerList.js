@@ -13,6 +13,7 @@ import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import { ToastTheme } from "../../components/Toast/Toast";
 import useToast from "../../hooks/useToast";
+import { encrypt } from "./Encrypt";
 
 const Background = styled.div`
   width: 100%;
@@ -215,6 +216,11 @@ function PrayerList({
     if (isShare) {
       setshareToggle(!shareToggle);
       setIsShare(!isShare);
+      for(let i=0;i<Sharelist.length;i++){
+        let temp = Sharelist[i];
+        Sharelist[i] = encrypt(temp); 
+      }
+      console.log(Sharelist);
       const listJoin = Sharelist.join("&share=");
       if (isMobile()) {
         if (/android/i.test(navigator.userAgent)) {

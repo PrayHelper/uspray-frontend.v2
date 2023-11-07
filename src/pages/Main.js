@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PrayerList from "../components/Main/PrayerList";
 import TemplateMain from "../components/Main/TemplateMain";
 import { usePrayList } from "../hooks/usePrayList";
@@ -9,6 +9,7 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
+import { decrypt } from "../components/Main/Encrypt";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -41,10 +42,11 @@ const Main = () => {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const shareData = query.getAll('share');
-
-  const { data: shareSocialList, refetch: refetch_shareSocialList} 
-  = useShareSocial(shareData);
+  // const shareData = query.getAll('share');
+  const [sendData, setSendData] = useState([]);
+  const { current: shareData } = useRef(query.getAll('share'));
+  // const { data: shareSocialList, refetch: refetch_shareSocialList} 
+  // = useShareSocial(shareData);
 
   const renderingData = async (result, sticker) => {
     setisloading(true);
@@ -119,8 +121,13 @@ const Main = () => {
 
 
   useEffect(() =>{
+    console.log(shareData);
     if(Array.isArray(shareData) && shareData.length !== 0){
-        refetch_shareSocialList();
+      for(let i=0;i<shareData.length;i++){
+        let string = shareData[i];
+        sendData[i] = parseInt(decrypt(string));
+      }
+      postShare(sendData);
     }
   }, [shareData]);
 
@@ -140,7 +147,7 @@ const Main = () => {
   const { mutate: mutateDeletePrayItem } = usePrayDelete();
   const { mutate: mutateChangeValue } = useChangeValue();
   const { mutate: mutateSendPrayItem } = useSendPrayItem();
-
+  const { mutate: mutateShareSocialList} = useShareSocial();
 
   const calculateDate = (date) =>{
     const yyyy = date.getFullYear();
@@ -414,6 +421,21 @@ const Main = () => {
     setShareList(filtered);
 }
 
+  const postShare = (sendData) =>{
+    for(let i = 0;i<sendData.length;i++){
+      if(sendData[i] !== parseInt(decrypt(shareData[i]))){
+        return;
+      }
+    }
+    mutateShareSocialList({
+      pray_id_list : sendData
+    },
+    {
+      onSuccess: () => {},
+    }
+    );
+
+  }
 
   return (
     <TemplateMain
