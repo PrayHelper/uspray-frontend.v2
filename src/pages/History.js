@@ -45,44 +45,33 @@ const History = () => {
     },
   };
 
-  const onClickUpdateDate = (days) => {
-    const today = new Date();
-    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
-    const options = { weekday: "long" };
-    const koreanWeekday = new Intl.DateTimeFormat("ko-KR", options).format(
-      targetDate
-    );
-    const yyyy = targetDate.getFullYear();
-    const mm = String(targetDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(targetDate.getDate()).padStart(2, "0");
-    // const formattedDate1 = `${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`;
-    setDesignedDate(`${yyyy}-${mm}-${dd} (${koreanWeekday[0]})`);
-    const formattedDate1 = `${yyyy}-${mm}-${dd}`;
-    setUpdateDate(formattedDate1);
-    setSelectedBtn(days); // css 변경용
-    setIsClickedDay(true);
-    console.log(updateDate);
-  };
-
-  const onChangeDatePicker = (date) => {
-    setSelectedDate(date); // 선택된 날짜 업데이트
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
+  const onChangeDate = (date) => {
     const options = { weekday: "short" };
     const formattedDayOfWeek = new Intl.DateTimeFormat("ko-KR", options).format(
       date
     );
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
     setDesignedDate(`${yyyy}-${mm}-${dd} (${formattedDayOfWeek})`);
-    setUpdateDate(formattedDate); // formattedDate를 업데이트
-    setShowDatePicker(false); // DatePicker 닫기
+    setUpdateDate(formattedDate);
     setIsClickedDay(true);
   };
 
-  const handleButtonClick = () => {
-    setShowDatePicker(!showDatePicker);
-    onClickUpdateDate("");
+  const onClickUpdateDate = (days) => {
+    console.log("days:", days);
+    const today = new Date();
+    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+    onChangeDate(targetDate);
+    setSelectedBtn(days); // css 변경용
+  };
+
+  const onChangeDatePicker = (date) => {
+    console.log("date:", date);
+    setSelectedDate(date); // 선택된 날짜 업데이트
+    onChangeDate(date);
+    setShowDatePicker(false); // DatePicker 닫기
   };
 
   const isEmptyData = (data) => {
@@ -101,40 +90,16 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
-  const onClickToggle = (e) => {
-    sortBy === "date"
-      ? setMyScrollPos(window.scrollY)
-      : setSharedScrollPos(window.scrollY);
-    handleCategoryChange(e.currentTarget.id);
-  };
-
-  const handleCategoryChange = (newCategory) => {
-    setSortBy(newCategory);
-  };
-
-  useEffect(() => {
-    // 카테고리가 변경될 때 스크롤 위치 복원
-    sortBy === "date"
-      ? window.scrollTo(0, myScrollPos)
-      : window.scrollTo(0, sharedScrollPos);
-  }, [sortBy, myScrollPos, sharedScrollPos]);
-
-  const [deletedItemIds, setDeletedItemIds] = useState([]);
-
-  const { data: myPrayData, refetch: refetchMyData } = useFetchHistory({
-    page: pageMy,
+  const { data: historyData, refetch: refetchHistory } = useFetchHistory({
+    page: page,
     per_page: 15,
     sort_by: "date",
   });
 
-  const { data: sharedPrayData, refetch: refetchSharedData } = useFetchHistory({
-    page: pageShared,
-    per_page: 15,
-    sort_by: "cnt",
-  });
-
-  const fetchMyData = async () => {
-    const newData = await myPrayData.data.res;
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
+  const fetchHistory = async () => {
+    console.log(data);
+    const newData = await historyData.data.res;
     const filteredData = newData.filter(
       (newItem) =>
         !dataMy.some((existingItem) => existingItem.id === newItem.id)
@@ -273,55 +238,16 @@ const History = () => {
         )}
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
-            <SubModalBtn
-              isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}
-            >
-              3일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}
-            >
-              7일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}
-            >
-              30일
-            </SubModalBtn>
-            <SubModalBtn
-              isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}
-            >
-              100일
-            </SubModalBtn>
-            {showDatePicker ? (
-              <CalenderIcon
-                src="../images/icon_calender_filled.svg"
-                alt="icon_calender"
-                onClick={handleButtonClick}
-              />
-            ) : (
-              <CalenderIcon
-                src="../images/icon_calender.svg"
-                alt="icon_calender"
-                onClick={handleButtonClick}
-              />
-            )}
-            {showDatePicker && (
-              <DatePickerContainer>
-                <Calender
-                  selectedDate={selectedDate}
-                  onChangeDatePicker={onChangeDatePicker}
-                  setShowDatePicker={setShowDatePicker}
-                />
-              </DatePickerContainer>
-            )}
-            {isClickedDay && (
-              <SubModalDate>~{updateDate.replace(/-/g, ".")}</SubModalDate>
-            )}
+            <SelectDate
+              onClickUpdateDate={onClickUpdateDate}
+              showDatePicker={showDatePicker}
+              selectedBtn={selectedBtn}
+              isClickedDay={isClickedDay}
+              designedDate={designedDate}
+              selectedDate={selectedDate}
+              onChangeDatePicker={onChangeDatePicker}
+              setShowDatePicker={setShowDatePicker}
+            />
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify(sortBy)}>
             오늘의 기도에 추가하기
@@ -559,25 +485,4 @@ const SubModalBottom = styled.div`
     filter: ${(props) =>
       props.disabled ? "brightness(1)" : "brightness(0.9)"};
   }
-`;
-
-const DatePickerContainer = styled.div`
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 400;
-`;
-
-const CalenderIcon = styled.img`
-  transition: all 0.2s ease-in-out;
-  :active {
-    filter: brightness(0.9);
-    transform: scale(0.9);
-  }
-`;
-
-const ToastWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
