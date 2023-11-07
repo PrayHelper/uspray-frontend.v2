@@ -16,6 +16,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Locker from "./pages/Locker";
+import Group from "./pages/Group";
 import LoginPage from "./components/Login/LoginPage";
 import Settings from "./pages/Settings";
 import History from "./pages/History";
@@ -97,9 +98,10 @@ function App() {
                 <Route element={<BottomNav />}>
                   <Route path="/main" element={<Main />} />
                   <Route path="/history" element={<History />} />
-                  <Route path="/locker" element={<Locker />} />
+                  <Route path="/group" element={<Group />} />
                   <Route path="/settings" element={<Settings />} />
                 </Route>
+                <Route path="/locker" element={<Locker />} />
                 <Route path="/checkInfo" element={<CheckInfo />} />
                 <Route path="/changeInfo" element={<ChangeInfo />} />
                 <Route path="/changePw" element={<ChangePw />} />
