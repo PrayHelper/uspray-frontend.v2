@@ -1,4 +1,4 @@
-name: Deploy Frontend on Integration Server
+name: Deploy Frontend on Hotfix Server
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  INSTANCE_PATH: ./frontend-intg
+  INSTANCE_PATH: ./frontend-hotfix
 
 jobs:
   test:
@@ -62,4 +62,4 @@ jobs:
           port: ${{ env.PORT }}
           script: |
             cd ${{ env.INSTANCE_PATH }}
-            make build-intg
+            make build-hotfix
