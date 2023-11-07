@@ -125,8 +125,9 @@ const Main = () => {
     if(Array.isArray(shareData) && shareData.length !== 0){
       for(let i=0;i<shareData.length;i++){
         let string = shareData[i];
-        sendData[i] = parseInt(decrypt(string));
+        sendData[i] = atob(string);
       }
+      console.log(sendData);
       postShare(sendData);
     }
   }, [shareData]);
@@ -237,7 +238,6 @@ const Main = () => {
       } else {
         setIsChecked(!isChecked);
         setClickIsShare(shareCheck);
-
       }
     } else {
       if (isChecked === true && isModify === false) {
@@ -273,6 +273,7 @@ const Main = () => {
     // 수정하기 관련 코드
     setIsModify(!isModify);
     setIsChecked(!isChecked);
+    console.log(clickIsShare);
     var returnValue = uncompletedList.find(function (data) {
       return data.id === id;
     });
@@ -422,11 +423,6 @@ const Main = () => {
 }
 
   const postShare = (sendData) =>{
-    for(let i = 0;i<sendData.length;i++){
-      if(sendData[i] !== parseInt(decrypt(shareData[i]))){
-        return;
-      }
-    }
     mutateShareSocialList({
       pray_id_list : sendData
     },

@@ -124,7 +124,12 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         
     }
     const onChange = (e) =>{
-        setValue(e.target.value);
+        console.log(e.target.value.length);
+        if(e.target.value.length < 75){        
+            setValue(e.target.value);
+        }else{
+            // 토스트 메세지
+        }
     }
     const onName = (e) =>{
         if(e.target.value.length < 5){

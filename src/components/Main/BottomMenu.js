@@ -78,10 +78,11 @@ const BottomMenu = ({completeBtnClick, modifyBtnClick, bottom_delete_click, clic
             onClick={changeCheck}></div></div>
             <SubContainer>
                 <BoxContainer style={{color: '#27CD2F'}} onClick = {() => completeBtnClick(clickId)}><ImgContainer src ={check_img}/><TextContainer>완료하기</TextContainer></BoxContainer>
-                {!clickIsShare && <BoxContainer style={{color: '#408CFF'}} onClick = {() => modifyBtnClick(clickId)}><ImgContainer src={modify_img}/><TextContainer>수정하기</TextContainer></BoxContainer>}
+                {/* {!clickIsShare && <BoxContainer style={{color: '#408CFF'}} onClick = {() => modifyBtnClick(clickId)}><ImgContainer src={modify_img}/><TextContainer>수정하기</TextContainer></BoxContainer>} */}
+                <BoxContainer style={{color: '#408CFF'}} onClick = {() => modifyBtnClick(clickId)}><ImgContainer src={modify_img}/><TextContainer>수정하기</TextContainer></BoxContainer>
                 <BoxContainer style={{color: '#FF4F4F'}} onClick = {() => bottom_delete_click()}><ImgContainer src={delete_img}/><TextContainer>삭제하기</TextContainer></BoxContainer>
             </SubContainer>
-            {clickIsShare && <BottomText>공유된 기도제목은 수정할 수 없습니다</BottomText>}
+            {/* {clickIsShare && <BottomText>공유된 기도제목은 수정할 수 없습니다</BottomText>} */}
         </MainContainer>
     )
 }

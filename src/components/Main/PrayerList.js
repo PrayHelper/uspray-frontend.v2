@@ -286,11 +286,15 @@ function PrayerList({
     <div>
       <BackgroundBright
         style={{
+          display: "flex",
           zIndex: "103",
           opacity: isModify ? "1" : "0",
           pointerEvents: isModify ? "auto" : "none",
+          color : "#75BD62",
+          justifyContent: "center",
+          alignItems : "center"
         }}
-        onClick={onModify}></BackgroundBright>
+        onClick={onModify}>{!setIsShare ? <div>공유된 기도제목의 내용은 수정할 수 없습니다.</div> : ""}</BackgroundBright>
       <BackgroundBright
         style={{
           zIndex: "103",
@@ -435,6 +439,7 @@ function PrayerList({
           setUpdateDate={setUpdateDate}
           dayToggle={dayToggle}
           setDayToggle={setDayToggle}
+          clickIsShare={clickIsShare}
         />
         <DeleteBar
           deleteBtnClick={deleteBtnClick}
