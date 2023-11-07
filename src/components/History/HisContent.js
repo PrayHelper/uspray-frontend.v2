@@ -59,8 +59,9 @@ const Content = styled.div`
   color: var(--color-dark-grey);
   font-size: 14px;
   margin-left: 8px;
+  margin-right: 8px;
   word-break: keep-all;
-
+  word-wrap: break-word;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
