@@ -231,8 +231,7 @@ const History = () => {
               <ModalButtonWrapper>
                 <ModalButton1
                   showSubModal={showSubModal}
-                  onClick={onClickSubModal}
-                >
+                  onClick={onClickSubModal}>
                   또 기도하기
                 </ModalButton1>
                 <ModalButton2 onClick={onClickExitModal}>닫기</ModalButton2>
@@ -245,26 +244,22 @@ const History = () => {
           <SubModalTop>
             <SubModalBtn
               isSelected={selectedBtn === 3}
-              onClick={() => onClickUpdateDate(3)}
-            >
+              onClick={() => onClickUpdateDate(3)}>
               3일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 7}
-              onClick={() => onClickUpdateDate(7)}
-            >
+              onClick={() => onClickUpdateDate(7)}>
               7일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 30}
-              onClick={() => onClickUpdateDate(30)}
-            >
+              onClick={() => onClickUpdateDate(30)}>
               30일
             </SubModalBtn>
             <SubModalBtn
               isSelected={selectedBtn === 100}
-              onClick={() => onClickUpdateDate(100)}
-            >
+              onClick={() => onClickUpdateDate(100)}>
               100일
             </SubModalBtn>
             {showDatePicker ? (
@@ -363,10 +358,13 @@ const NoDataContent = styled.div`
 
 const ModalWrapper = styled.div`
   position: fixed;
-  /* top: ${(props) => (props.showSubModal ? `40%` : `50%`)}; */
-  bottom: ${(props) => (props.showSubModal ? `32%` : `25%`)};
+  top: ${(props) => (props.showSubModal ? `40%` : `50%`)};
+  /* top: ${(props) => (props.showSubModal ? `68%` : `75%`)}; */
+  /* bottom: ${(props) => (props.showSubModal ? `32%` : `25%`)}; */
+  /* top: 40%; */
   left: 50%;
   transform: translate(-50%, -50%);
+
   width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
@@ -461,10 +459,14 @@ const ModalButton2 = styled.button`
   }
 `;
 
+const ModalRootContainer = styled.div``;
+
 const SubModalWrapper = styled.div`
   position: fixed;
   left: 50%;
-  transform: translate(-50%, -40%);
+  top: calc(40% + 200px);
+  transform: translate(-50%, -50%);
+
   width: calc(100vw - 64px);
   display: flex;
   flex-direction: column;
@@ -472,7 +474,6 @@ const SubModalWrapper = styled.div`
   background-color: white;
   border-radius: 16px;
   z-index: 300;
-  top: 63%;
   opacity: ${(props) => (props.showSubModal ? "1" : "0")};
   transition: all 0.3s ease-in-out;
   visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
