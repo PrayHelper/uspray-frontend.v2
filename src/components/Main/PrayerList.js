@@ -18,8 +18,7 @@ const Background = styled.div`
   width: 100%;
   background-color: #d0e8cb;
   height: auto;
-  min-height: 812px;
-  height: 100vh;
+  min-height: 100vh;
   //   margin-top: 24px;
 `;
 
