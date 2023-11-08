@@ -58,6 +58,8 @@ const History = () => {
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
+    const today = new Date();
+    setSelectedDate(today);
   };
 
   const onClickToggle = (e) => {

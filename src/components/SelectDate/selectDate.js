@@ -17,19 +17,17 @@ const SelectDate = (props) => {
   const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
 
   const onClickCalendar = () => {
-    onChangeDate("");
+    props.setSelectedBtn("calendar");
     props.setShowDatePicker(!props.showDatePicker);
   };
 
   const onChangeDate = (date) => {
     if (typeof date == "number" || date === "") {
-      console.log(date);
       const today = new Date();
       const targetDate = new Date(today.getTime() + date * 24 * 60 * 60 * 1000);
       changeDate(targetDate);
       props.setSelectedBtn(date); // css 변경용
     } else {
-      console.log(date);
       props.setSelectedDate(date); // 선택된 날짜 업데이트
       changeDate(date);
       props.setShowDatePicker(false); // DatePicker 닫기
@@ -66,7 +64,7 @@ const SelectDate = (props) => {
       ))}
       <CalenderIcon
         src={
-          props.showDatePicker
+          props.selectedBtn === "calendar"
             ? "../images/icon_calender_filled.svg"
             : "../images/icon_calender.svg"
         }
