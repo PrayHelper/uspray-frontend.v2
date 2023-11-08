@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
@@ -45,9 +45,8 @@ const Calender = (props) => {
         </DatePickerHeader>
       )}
       selected={props.selectedDate}
-      onChange={(date) => props.onChangeDatePicker(date)}
-      minDate={props.minDate}
-      maxDate={props.maxDate}
+      onChange={(date) => props.onChangeDate(date)}
+      minDate={new Date()}
       dateFormat="yyyy-MM-dd"
       popperPlacement="bottom-start"
       onClickOutside={() => props.setShowDatePicker(false)}

@@ -1,26 +1,57 @@
+import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Calender from "../Calender/Calender";
 
 /*
   props 넘겨받을 목록 (History.js 파일 참고하기)
-  1. onClickUpdateDate 함수 (각각의 날짜 아이콘 선택 시)
-  2. showDatePicker 변수 (달력 show 유무 상태)
-  3. selectedBtn 변수 (각 날짜 버튼 클릭 유무 상태)
-  4. isClickedDay 변수
-  5. designedDate 변수
+  1. selectedBtn, setSelectedBtn 변수 (각 날짜 버튼 클릭 유무)
+  2. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
+  3. showSubModal 변수 (현재 컴포넌트 창 켜져있는지)
   ------ Calender 관련 ------
-  1. selectedDate 변수 (현재 선택된 날짜)
-  2. onChangeDatePicker 함수 (날짜 선택 시 반영)
-  3. setShowDatePicker 변수 (달력 show 유무 수정)
+  1. selectedDate, setSelectedDate 변수 (현재 선택된 날짜)
+  2. showDatePicker, setShowDatePicker 변수 (달력 show 유무)
 */
 
 const SelectDate = (props) => {
   const dateOptions = [3, 7, 30, 100];
+  const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
 
-  const handleButtonClick = () => {
+  const onClickCalendar = () => {
+    onChangeDate("");
     props.setShowDatePicker(!props.showDatePicker);
-    props.onClickUpdateDate("");
   };
+
+  const onChangeDate = (date) => {
+    if (typeof date == "number" || date === "") {
+      console.log(date);
+      const today = new Date();
+      const targetDate = new Date(today.getTime() + date * 24 * 60 * 60 * 1000);
+      changeDate(targetDate);
+      props.setSelectedBtn(date); // css 변경용
+    } else {
+      console.log(date);
+      props.setSelectedDate(date); // 선택된 날짜 업데이트
+      changeDate(date);
+      props.setShowDatePicker(false); // DatePicker 닫기
+    }
+  };
+
+  const changeDate = (date) => {
+    const options = { weekday: "short" };
+    const formattedDayOfWeek = new Intl.DateTimeFormat("ko-KR", options).format(
+      date
+    );
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
+    setDesignedDate(`${yyyy}-${mm}-${dd} (${formattedDayOfWeek})`);
+    props.setUpdateDate(formattedDate);
+  };
+
+  useEffect(() => {
+    if (props.showSubModal) onChangeDate(7);
+  }, [props.showSubModal]);
 
   return (
     <>
@@ -28,7 +59,7 @@ const SelectDate = (props) => {
         <SubModalBtn
           key={option}
           isSelected={props.selectedBtn === option}
-          onClick={() => props.onClickUpdateDate(option)}
+          onClick={() => onChangeDate(option)}
         >
           {`${option}일`}
         </SubModalBtn>
@@ -40,20 +71,20 @@ const SelectDate = (props) => {
             : "../images/icon_calender.svg"
         }
         alt="icon_calender"
-        onClick={handleButtonClick}
+        onClick={onClickCalendar}
       />
 
       {props.showDatePicker && (
         <DatePickerContainer>
           <Calender
             selectedDate={props.selectedDate}
-            onChangeDatePicker={props.onChangeDatePicker}
+            onChangeDate={onChangeDate}
             setShowDatePicker={props.setShowDatePicker}
           />
         </DatePickerContainer>
       )}
-      {props.isClickedDay && (
-        <SubModalDate>~{props.designedDate.replace(/-/g, ".")}</SubModalDate>
+      {designedDate && (
+        <SubModalDate>~{designedDate.replace(/-/g, ".")}</SubModalDate>
       )}
     </>
   );
