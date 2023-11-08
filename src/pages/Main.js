@@ -10,6 +10,8 @@ import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
 import { decrypt } from "../components/Main/Encrypt";
+import { useChangeShareValue } from "../hooks/useChangeShareValue";
+
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -149,6 +151,8 @@ const Main = () => {
   const { mutate: mutateChangeValue } = useChangeValue();
   const { mutate: mutateSendPrayItem } = useSendPrayItem();
   const { mutate: mutateShareSocialList} = useShareSocial();
+  const { mutate: mutateChangeShareValue } = useChangeShareValue();
+
 
   const calculateDate = (date) =>{
     const yyyy = date.getFullYear();
@@ -337,31 +341,56 @@ const Main = () => {
   };
 
   // 궁극적으로 수정하기를 눌렀을 때, 실행되는 함수
-  const valueChange = async (id, value, name, newUpdateDate) => {
+  const valueChange = async (id, value, name, newUpdateDate, clickIsShare) => {
     setDayToggle(!dayToggle);
     if (value == "") {
       console.log(clickData);
-    } else {
-      mutateChangeValue(
-        {
-          id: id,
-          data: { target: name, title: value, deadline : newUpdateDate},
-        },
-        {
-          onSuccess: () => {
-            if(modifyToggle){
-              dayToggleTopDay && refetchPrayList();
-              dayToggleTopPrayer && refetch_PrayList();
-            }else{
-              dayToggleBottomDay && refetchPrayList();
-              dayToggleBottomPrayer && refetch_PrayList();
+    } 
+    else {
+      if(clickIsShare){
+        console.log(id);
+          mutateChangeShareValue(
+            {
+              id: id,
+              data: { deadline : newUpdateDate},
+            },
+            {
+              onSuccess: () => {
+                if(modifyToggle){
+                  dayToggleTopDay && refetchPrayList();
+                  dayToggleTopPrayer && refetch_PrayList();
+                }else{
+                  dayToggleBottomDay && refetchPrayList();
+                  dayToggleBottomPrayer && refetch_PrayList();
+                }
+                setmodalToggle(true);
+                setModalText("기도제목이 수정되었어요.")
+              },
             }
-            setmodalToggle(true);
-            setModalText("기도제목이 수정되었어요.")
-          },
+          );
+        }else{
+        console.log(id);
+          mutateChangeValue(
+            {
+              id: id,
+              data: { target: name, title: value, deadline : newUpdateDate},
+            },
+            {
+              onSuccess: () => {
+                if(modifyToggle){
+                  dayToggleTopDay && refetchPrayList();
+                  dayToggleTopPrayer && refetch_PrayList();
+                }else{
+                  dayToggleBottomDay && refetchPrayList();
+                  dayToggleBottomPrayer && refetch_PrayList();
+                }
+                setmodalToggle(true);
+                setModalText("기도제목이 수정되었어요.")
+              },
+            }
+          );
         }
-      );
-    }
+      }
     setIsModify(!isModify);
   };
 

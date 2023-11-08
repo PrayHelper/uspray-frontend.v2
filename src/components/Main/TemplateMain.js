@@ -6,6 +6,9 @@ import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
 import noClickImage from "../../images/no_click_image.svg";
 import { useGetInfo } from "../../hooks/useGetInfo";
+import { ToastTheme } from "../../components/Toast/Toast";
+import useToast from "../../hooks/useToast";
+
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
@@ -105,6 +108,9 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
     const [Toggle, setToggle] = useState(true);
     const [updateDate, setUpdateDate] = useState(null);
     const [dayToggle, setDayToggle] = useState(false);
+    const [modalText, setmodalText] = useState("");
+    const [modalToggle, setmodalToggle] = useState(false);
+    const { showToast } = useToast({});
 
     const widthChange = () =>{
         setVisible(!visible);
@@ -124,11 +130,11 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         
     }
     const onChange = (e) =>{
-        console.log(e.target.value.length);
         if(e.target.value.length < 75){        
             setValue(e.target.value);
         }else{
-            // 토스트 메세지
+            setmodalText("75자까지 입력이 가능합니다.")
+            setmodalToggle(!modalToggle);
         }
     }
     const onName = (e) =>{
@@ -158,6 +164,22 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         }
         setName(userInfo.data.name)
     },[userInfo])
+    
+    useEffect(() => {
+        if (modalText) {
+          const timer = setTimeout(() => {
+            setmodalToggle(false);
+            setmodalText("");
+          }, 5000);
+          return () => clearTimeout(timer);
+        }
+      }, [modalText]);
+    
+      useEffect(() => {
+        if (modalToggle){
+          showToast({ theme: ToastTheme.SUCCESS, message: modalText });
+        }
+      }, [modalToggle]);
     
     return(
         <div style={{width:"100%"}}>

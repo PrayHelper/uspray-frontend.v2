@@ -236,7 +236,7 @@ clickIsShare}) =>{
         <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
-        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate)}>수정 완료하기</ModifyBtn>}
+        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
       </div>
       : 
       <div>
@@ -257,7 +257,7 @@ clickIsShare}) =>{
         <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
         </DateSet>
         {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
-        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate)}>수정 완료하기</ModifyBtn>}
+        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
       </div>}
       </ModifyStyle>
         <div></div>
