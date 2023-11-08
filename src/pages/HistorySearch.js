@@ -58,7 +58,7 @@ const HistorySearch = () => {
     return formatDate(date);
   };
 
-  const onChangeDatePicker = (date, pickerType) => {
+  const onChangeDate = (date, pickerType) => {
     if (pickerType === "start") {
       setStartDate(updateDatePicker(date));
       setShowStartDatePicker(false);
@@ -109,9 +109,7 @@ const HistorySearch = () => {
                     <Calender
                       maxDate={today}
                       selectedDate={selectedDate}
-                      onChangeDatePicker={(date) =>
-                        onChangeDatePicker(date, "start")
-                      }
+                      onChangeDate={(date) => onChangeDate(date, "start")}
                       setShowDatePicker={setShowStartDatePicker}
                     />
                   </StartDatePickerContainer>
@@ -129,9 +127,7 @@ const HistorySearch = () => {
                       maxDate={today}
                       minDate={selectedDate}
                       selectedDate={selectedDate}
-                      onChangeDatePicker={(date) =>
-                        onChangeDatePicker(date, "end")
-                      }
+                      onChangeDate={(date) => onChangeDate(date, "end")}
                       setShowDatePicker={setShowEndDatePicker}
                     />
                   </EndDatePickerContainer>

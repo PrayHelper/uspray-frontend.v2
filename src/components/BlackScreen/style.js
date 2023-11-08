@@ -14,5 +14,5 @@ export const BlackScreenStyle = styled.div`
   z-index: 200;
   opacity: ${(props) => (props.isModalOn ? "1" : "0")};
   pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
-  backdrop-filter: blur(5spx);
+  backdrop-filter: blur(8px);
 `;
