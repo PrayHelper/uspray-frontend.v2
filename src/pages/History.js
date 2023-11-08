@@ -100,10 +100,10 @@ const History = () => {
       (newItem) =>
         !dataMy.some((existingItem) => existingItem.id === newItem.id)
     );
-    const dData = [...dataMy, ...filteredData].filter(
-      (item) => !deletedItemIds.some((dItem) => dItem === item.id)
+    const reNewData = [...dataMy, ...filteredData].filter(
+      (item) => !deletedItemIds.some((setItem) => setItem === item.id)
     );
-    setDataMy(dData);
+    setDataMy(reNewData);
     if (newData.length === 0) {
       setHasMore(false);
     }
@@ -115,10 +115,10 @@ const History = () => {
       (newItem) =>
         !dataShared.some((existingItem) => existingItem.id === newItem.id)
     );
-    const dData = [...dataShared, ...filteredData].filter(
-      (item) => !deletedItemIds.some((dItem) => dItem === item.id)
+    const reNewData = [...dataShared, ...filteredData].filter(
+      (item) => !deletedItemIds.some((setItem) => setItem === item.id)
     );
-    setDataShared(dData);
+    setDataShared(reNewData);
     if (newData.length === 0) {
       setHasMore(false);
     }

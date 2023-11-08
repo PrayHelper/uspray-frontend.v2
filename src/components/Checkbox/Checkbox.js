@@ -6,8 +6,8 @@ import {
 } from "./style";
 
 export const CheckboxTheme = {
-  GRAY: 111,
-  WHITE: 222,
+  GRAY: 1,
+  WHITE: 2,
 };
 
 Object.freeze(CheckboxTheme);

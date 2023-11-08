@@ -118,13 +118,6 @@ export const ContentWrapper = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-// export const NoDataIcon = styled.img`
-//   font-weight: 700;
-//   font-size: 28px;
-//   line-height: 41px;
-//   color: var(--color-grey);
-// `;
-
 export const NoDataContent = styled.div`
   font-weight: 500;
   font-size: 24px;
