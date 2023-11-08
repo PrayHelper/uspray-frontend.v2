@@ -1,5 +1,5 @@
 import Header from "../components/Header/Header";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import HisContent from "../components/History/HisContent";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -22,56 +22,22 @@ const History = () => {
   const [selectedBtn, setSelectedBtn] = useState("");
   const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜
   const [updateDate, setUpdateDate] = useState(null); // yyyy.mm.dd (api 호출용)
-  const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [isClickedDay, setIsClickedDay] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
-  const [ref, inView] = useInView({
-    // triggerOnce: true, // 한 번만 트리거되도록 설정
-  });
+  const [ref, inView] = useInView({});
 
   const { showToast } = useToast({
     initialMessage: "기도제목이 오늘의 기도에 추가되었어요.",
   });
 
   const defaultOptions = {
-    //예제1
     loop: true,
     autoplay: true,
     animationData: LottieData,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
-  };
-
-  const onChangeDate = (date) => {
-    const options = { weekday: "short" };
-    const formattedDayOfWeek = new Intl.DateTimeFormat("ko-KR", options).format(
-      date
-    );
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const dd = String(date.getDate()).padStart(2, "0");
-    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
-    setDesignedDate(`${yyyy}-${mm}-${dd} (${formattedDayOfWeek})`);
-    setUpdateDate(formattedDate);
-    setIsClickedDay(true);
-  };
-
-  const onClickUpdateDate = (days) => {
-    console.log("days:", days);
-    const today = new Date();
-    const targetDate = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
-    onChangeDate(targetDate);
-    setSelectedBtn(days); // css 변경용
-  };
-
-  const onChangeDatePicker = (date) => {
-    console.log("date:", date);
-    setSelectedDate(date); // 선택된 날짜 업데이트
-    onChangeDate(date);
-    setShowDatePicker(false); // DatePicker 닫기
   };
 
   const isEmptyData = (data) => {
@@ -82,14 +48,12 @@ const History = () => {
     setSelectedBtn("");
     setSelectedDate(null);
     setShowDatePicker(false);
-    setIsClickedDay(false);
     setShowModal(false);
     setShowSubModal(false);
   };
 
   const onClickSubModal = () => {
     setShowSubModal(!showSubModal);
-    onClickUpdateDate(7);
   };
 
   const { data: historyData, refetch: refetchHistory } = useFetchHistory({
@@ -137,7 +101,6 @@ const History = () => {
           setSelectedBtn("");
           setSelectedDate(null);
           setShowDatePicker(false);
-          setIsClickedDay(false);
           refetchHistory();
         },
       }
@@ -225,14 +188,16 @@ const History = () => {
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
             <SelectDate
-              onClickUpdateDate={onClickUpdateDate}
-              showDatePicker={showDatePicker}
-              selectedBtn={selectedBtn}
-              isClickedDay={isClickedDay}
-              designedDate={designedDate}
-              selectedDate={selectedDate}
-              onChangeDatePicker={onChangeDatePicker}
-              setShowDatePicker={setShowDatePicker}
+              {...{
+                selectedBtn,
+                setSelectedBtn,
+                selectedDate,
+                setSelectedDate,
+                showDatePicker,
+                setShowDatePicker,
+                setUpdateDate,
+                showSubModal,
+              }}
             />
           </SubModalTop>
           <SubModalBottom onClick={() => onClickModify()}>
