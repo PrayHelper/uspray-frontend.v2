@@ -92,20 +92,32 @@ function PrayerContent({
         ))}
       <NameContent
         style={{ color: bottom ? "#FFFFFF" : "#7BAB6F" }}
+<<<<<<< HEAD
         onClick={() => contentClick(id, checked, isShare)}
       >
+=======
+        onClick={() => contentClick(id, checked, isShare)}>
+>>>>>>> origin
         {name}
       </NameContent>
       <TextContent
         style={{ color: bottom ? "#D0E8CB" : "#496143" }}
+<<<<<<< HEAD
         onClick={() => contentClick(id, checked, isShare)}
       >
+=======
+        onClick={() => contentClick(id, checked, isShare)}>
+>>>>>>> origin
         {text}
       </TextContent>
       {dayToggle ? (
         <DdayContent
+<<<<<<< HEAD
           style={{ color: bottom ? "#FFFFFF" : "#A1B398", fontSize: "12px" }}
         >
+=======
+          style={{ color: bottom ? "#FFFFFF" : "#A1B398", fontSize: "12px" }}>
+>>>>>>> origin
           {dday !== 0 ? "D-" + dday : "D-Day"}
         </DdayContent>
       ) : (

@@ -280,24 +280,36 @@ function PrayerList({
           opacity: isModify ? "1" : "0",
           pointerEvents: isModify ? "auto" : "none",
         }}
+<<<<<<< HEAD
         onClick={onModify}
       ></BackgroundBright>
+=======
+        onClick={onModify}></BackgroundBright>
+>>>>>>> origin
       <BackgroundBright
         style={{
           zIndex: "103",
           opacity: isDeleted ? "1" : "0",
           pointerEvents: isDeleted ? "auto" : "none",
         }}
+<<<<<<< HEAD
         onClick={onDeleted}
       ></BackgroundBright>
+=======
+        onClick={onDeleted}></BackgroundBright>
+>>>>>>> origin
       <BackgroundBright
         style={{
           zIndex: "103",
           opacity: isChecked ? "1" : "0",
           pointerEvents: isChecked ? "auto" : "none",
         }}
+<<<<<<< HEAD
         onClick={changeCheck}
       ></BackgroundBright>
+=======
+        onClick={changeCheck}></BackgroundBright>
+>>>>>>> origin
       <Background style={{ paddingBottom: padding }}>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <div
@@ -390,8 +402,12 @@ function PrayerList({
           shareLength={shareLength}
           setshareToggle={setshareToggle}
           isModify={isModify}
+<<<<<<< HEAD
           isChecked={isChecked}
         ></Share>
+=======
+          isChecked={isChecked}></Share>
+>>>>>>> origin
         <ToastWrapper>{modalToggle && <Toast>{modalText}</Toast>}</ToastWrapper>
         <BottomMenu
           completeBtnClick={completeBtnClick}

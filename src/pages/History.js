@@ -17,10 +17,11 @@ const History = () => {
   const [showSubModal, setShowSubModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
-  const [updateDate, setUpdateDate] = useState(null);
   const [selectedBtn, setSelectedBtn] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜
+  const [updateDate, setUpdateDate] = useState(null); // yyyy.mm.dd (api 호출용)
   const [showDatePicker, setShowDatePicker] = useState(false);
+<<<<<<< HEAD
   const [pageMy, setPageMy] = useState(1);
   const [pageShared, setPageShared] = useState(1);
   const [dataMy, setDataMy] = useState([]);
@@ -28,6 +29,9 @@ const History = () => {
   const [myScrollPos, setMyScrollPos] = useState(0);
   const [sharedScrollPos, setSharedScrollPos] = useState(0);
   const [sortBy, setSortBy] = useState("date");
+=======
+
+>>>>>>> origin
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({});
 
@@ -60,6 +64,7 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
+<<<<<<< HEAD
   const onClickToggle = (e) => {
     sortBy === "date"
       ? setMyScrollPos(window.scrollY)
@@ -82,10 +87,15 @@ const History = () => {
 
   const { data: myPrayData, refetch: refetchMyData } = useFetchHistory({
     page: pageMy,
+=======
+  const { data: historyData, refetch: refetchHistory } = useFetchHistory({
+    page: page,
+>>>>>>> origin
     per_page: 15,
     sort_by: "date",
   });
 
+<<<<<<< HEAD
   const { data: sharedPrayData, refetch: refetchSharedData } = useFetchHistory({
     page: pageShared,
     per_page: 15,
@@ -94,6 +104,12 @@ const History = () => {
 
   const fetchMyData = async () => {
     const newData = await myPrayData.data.res;
+=======
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
+  const fetchHistory = async () => {
+    console.log(data);
+    const newData = await historyData.data.res;
+>>>>>>> origin
     const filteredData = newData.filter(
       (newItem) =>
         !dataMy.some((existingItem) => existingItem.id === newItem.id)
@@ -133,9 +149,19 @@ const History = () => {
       {
         onSuccess: (res) => {
           showToast({});
+<<<<<<< HEAD
           setDeletedItemIds((prev) => [...prev, res.data.id]);
           onClickExitModal();
           sortBy === "Date" ? refetchMyData() : refetchSharedData();
+=======
+          setShowModal(false);
+          setShowSubModal(false);
+          setDeletedItemIds((prev) => [...prev, res.data.id]);
+          setSelectedBtn("");
+          setSelectedDate(null);
+          setShowDatePicker(false);
+          refetchHistory();
+>>>>>>> origin
         },
       }
     );
@@ -144,10 +170,14 @@ const History = () => {
   const onClickHistoryItem = async (e, sortBy) => {
     setShowModal(true);
     const id = e.currentTarget.id;
+<<<<<<< HEAD
     const currentData =
       sortBy === "date"
         ? dataMy.find((item) => item.id === Number(id))
         : dataShared.find((item) => item.id === Number(id));
+=======
+    const currentData = data.find((item) => item.id === Number(id));
+>>>>>>> origin
     setCurrentData(currentData);
     setCurrentId(Number(id));
   };
@@ -184,7 +214,11 @@ const History = () => {
       {loading && (
         <LottieWrapper>
           <Lottie
+<<<<<<< HEAD
             style={{ scale: "0.5", marginTop: "50px" }}
+=======
+            style={{ scale: "0.5" }}
+>>>>>>> origin
             options={defaultOptions}
             height={300}
             width={300}
@@ -252,6 +286,7 @@ const History = () => {
           </SubModalBottom>
         </SubModalWrapper>
       </div>
+<<<<<<< HEAD
       {sortBy === "date" && (
         <div style={{ paddingTop: "115px" }}>
           {/* <div> */}
@@ -292,6 +327,22 @@ const History = () => {
         </div>
       )}
       <div style={{ marginTop: "20px", color: `#D0E8CB` }}>.</div>
+=======
+      <div style={{ paddingTop: "65px" }}>
+        {data.map((el) => (
+          <div onClick={onClickHistory} key={el.id} id={el.id}>
+            <HisContent
+              name={el.target}
+              content={el.title}
+              date={`${el.created_at.split(" ")[0]} ~ ${el.deadline}`}
+              pray_cnt={el.pray_cnt}
+            />
+            <div ref={ref}></div>
+          </div>
+        ))}
+      </div>
+      <div style={{ marginTop: "20px", color: "#D0E8CB" }}>.</div>
+>>>>>>> origin
     </HistoryWrapper>
   );
 };
@@ -306,6 +357,14 @@ const HistoryWrapper = styled.div`
   position: relative;
   /* padding-top: 65px; */
 `;
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const LottieWrapper = styled.div`
   position: fixed;
   width: 100%;

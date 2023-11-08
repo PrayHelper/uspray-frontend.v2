@@ -4,10 +4,19 @@ import BlackScreen from "../components/BlackScreen/BlackScreen";
 import Button, { ButtonSize, ButtonTheme } from "../components/Button/Button";
 import LoginButton from "../components/Login/LoginButton/LoginButton";
 import UserHeader from "../components/UserHeader";
+<<<<<<< HEAD
 import styled from "styled-components";
 import serverapi from "../api/serverapi";
 import { useDeleteUser } from "../hooks/useDeleteUser";
 import { ReactComponent as NextArrowWhite } from "../images/ic_next_arrow_white.svg";
+=======
+import styled from 'styled-components';
+import { useDeleteUser } from "../hooks/useDeleteUser";
+import { ReactComponent as NextArrowWhite } from "../images/ic_next_arrow_white.svg";
+
+
+
+>>>>>>> origin
 
 const ModalContent = styled.div`
   position: fixed;
@@ -152,7 +161,11 @@ const ChangeInfo = () => {
             }}
           >
             비밀번호 변경
+<<<<<<< HEAD
             <NextArrowWhite />
+=======
+            <NextArrowWhite/>
+>>>>>>> origin
           </Button>
           <Button
             buttonSize={ButtonSize.LARGE}
@@ -162,7 +175,11 @@ const ChangeInfo = () => {
             }}
           >
             전화번호 변경
+<<<<<<< HEAD
             <NextArrowWhite />
+=======
+            <NextArrowWhite/>
+>>>>>>> origin
           </Button>
           <LoginButton
             background={"#ffffff"}
