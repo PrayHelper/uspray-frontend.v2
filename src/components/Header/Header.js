@@ -13,9 +13,11 @@ const Header = (props) => {
       <HeaderWrapper>
         <HeaderCont>
           <div>{props.children}</div>
-          <Link to={"/historySearch"} style={{ textDecoration: "none" }}>
-            <img src="../images/ic_search_grey.svg" alt="icon_search" />
-          </Link>
+          {props.children === "히스토리" && (
+            <Link to={"/historySearch"} style={{ textDecoration: "none" }}>
+              <img src="../images/ic_search_grey.svg" alt="icon_search" />
+            </Link>
+          )}
         </HeaderCont>
         <BtnWrapper>
           <MyBtn id="date" onClick={props.onClickToggle} sortBy={props.sortBy}>
