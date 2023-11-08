@@ -17,10 +17,17 @@ const History = () => {
   const [showSubModal, setShowSubModal] = useState(false);
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
+  const [updateDate, setUpdateDate] = useState(null);
   const [selectedBtn, setSelectedBtn] = useState("");
-  const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜
-  const [updateDate, setUpdateDate] = useState(null); // yyyy.mm.dd (api 호출용)
+  const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [pageMy, setPageMy] = useState(1);
+  const [pageShared, setPageShared] = useState(1);
+  const [dataMy, setDataMy] = useState([]);
+  const [dataShared, setDataShared] = useState([]);
+  const [myScrollPos, setMyScrollPos] = useState(0);
+  const [sharedScrollPos, setSharedScrollPos] = useState(0);
+  const [sortBy, setSortBy] = useState("date");
   const [hasMore, setHasMore] = useState(true);
   const [ref, inView] = useInView({});
 
@@ -53,16 +60,40 @@ const History = () => {
     setShowSubModal(!showSubModal);
   };
 
-  const { data: historyData, refetch: refetchHistory } = useFetchHistory({
-    page: page,
+  const onClickToggle = (e) => {
+    sortBy === "date"
+      ? setMyScrollPos(window.scrollY)
+      : setSharedScrollPos(window.scrollY);
+    handleCategoryChange(e.currentTarget.id);
+  };
+
+  const handleCategoryChange = (newCategory) => {
+    setSortBy(newCategory);
+  };
+
+  useEffect(() => {
+    // 카테고리가 변경될 때 스크롤 위치 복원
+    sortBy === "date"
+      ? window.scrollTo(0, myScrollPos)
+      : window.scrollTo(0, sharedScrollPos);
+  }, [sortBy, myScrollPos, sharedScrollPos]);
+
+  const [deletedItemIds, setDeletedItemIds] = useState([]);
+
+  const { data: myPrayData, refetch: refetchMyData } = useFetchHistory({
+    page: pageMy,
     per_page: 15,
     sort_by: "date",
   });
 
-  const [deletedItemIds, setDeletedItemIds] = useState([]);
-  const fetchHistory = async () => {
-    console.log(data);
-    const newData = await historyData.data.res;
+  const { data: sharedPrayData, refetch: refetchSharedData } = useFetchHistory({
+    page: pageShared,
+    per_page: 15,
+    sort_by: "cnt",
+  });
+
+  const fetchMyData = async () => {
+    const newData = await myPrayData.data.res;
     const filteredData = newData.filter(
       (newItem) =>
         !dataMy.some((existingItem) => existingItem.id === newItem.id)
@@ -103,10 +134,8 @@ const History = () => {
         onSuccess: (res) => {
           showToast({});
           setDeletedItemIds((prev) => [...prev, res.data.id]);
-          setSelectedBtn("");
-          setSelectedDate(null);
-          setShowDatePicker(false);
-          refetchHistory();
+          onClickExitModal();
+          sortBy === "Date" ? refetchMyData() : refetchSharedData();
         },
       }
     );
@@ -115,8 +144,10 @@ const History = () => {
   const onClickHistoryItem = async (e, sortBy) => {
     setShowModal(true);
     const id = e.currentTarget.id;
-    const currentData = data.find((item) => item.id === Number(id));
-    console.log(currentData);
+    const currentData =
+      sortBy === "date"
+        ? dataMy.find((item) => item.id === Number(id))
+        : dataShared.find((item) => item.id === Number(id));
     setCurrentData(currentData);
     setCurrentId(Number(id));
   };
@@ -153,7 +184,7 @@ const History = () => {
       {loading && (
         <LottieWrapper>
           <Lottie
-            style={{ scale: "0.5" }}
+            style={{ scale: "0.5", marginTop: "50px" }}
             options={defaultOptions}
             height={300}
             width={300}
@@ -275,14 +306,6 @@ const HistoryWrapper = styled.div`
   position: relative;
   /* padding-top: 65px; */
 `;
-const LottieWrapper = styled.div`
-  position: fixed;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
 const LottieWrapper = styled.div`
   position: fixed;
   width: 100%;
