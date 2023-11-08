@@ -219,7 +219,7 @@ clickIsShare}) =>{
           inline
         />
       </DatePickerContainer> : ""}
-      {clickIsShare ? 
+      {!clickIsShare ? 
       <div>
         <TopContainer>
             <X_Image src={X_image} onClick={onModify}></X_Image>

@@ -294,7 +294,7 @@ function PrayerList({
           justifyContent: "center",
           alignItems : "center"
         }}
-        onClick={onModify}>{!setIsShare ? <div>공유된 기도제목의 내용은 수정할 수 없습니다.</div> : ""}</BackgroundBright>
+        onClick={onModify}>{clickIsShare ? <div>공유된 기도제목의 내용은 수정할 수 없습니다.</div> : ""}</BackgroundBright>
       <BackgroundBright
         style={{
           zIndex: "103",
