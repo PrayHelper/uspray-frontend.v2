@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/esm/locale";
@@ -32,18 +32,21 @@ const Calender = (props) => {
                 alt="icon_left_arrow"
               />
             )}
-            <img
-              onClick={increaseMonth}
-              disabled={nextMonthButtonDisabled}
-              src="../images/ic_right_arrow.svg"
-              alt="icon_right_arrow"
-            />
+            {!nextMonthButtonDisabled && (
+              <img
+                onClick={!nextMonthButtonDisabled ? increaseMonth : undefined}
+                disabled={nextMonthButtonDisabled}
+                src="../images/ic_right_arrow.svg"
+                alt="icon_right_arrow"
+              />
+            )}
           </div>
         </DatePickerHeader>
       )}
       selected={props.selectedDate}
-      onChange={(date) => props.onChangeDate(date)}
-      minDate={new Date()}
+      onChange={(date) => props.onChangeDatePicker(date)}
+      minDate={props.minDate}
+      maxDate={props.maxDate}
       dateFormat="yyyy-MM-dd"
       popperPlacement="bottom-start"
       onClickOutside={() => props.setShowDatePicker(false)}
@@ -51,6 +54,11 @@ const Calender = (props) => {
       inline
     />
   );
+};
+
+Calender.defaultProps = {
+  minDate: "",
+  maxDate: "",
 };
 
 export default Calender;
@@ -63,7 +71,7 @@ const DatePickerHeader = styled.div`
 `;
 
 const DatePickerHeaderDate = styled.div`
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 16px;
   font-weight: 700;
 `;
