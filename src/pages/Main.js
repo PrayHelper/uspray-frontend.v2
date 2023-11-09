@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import PrayerList from "../components/Main/PrayerList";
+import PrayerList_1 from "../components/Main/PrayerList_1";
 import TemplateMain from "../components/Main/TemplateMain";
 import { usePrayList } from "../hooks/usePrayList";
 import { useCountUpdate } from "../hooks/useCountUpdate";
@@ -469,7 +469,7 @@ const Main = () => {
       isShare={isShare}
       setIsShare={setIsShare}
     >
-      <PrayerList
+      <PrayerList_1
         prayerContent={uncompletedList}
         setPrayerContent={setUncompletedList}
         prayerMoreContent={completedList}
