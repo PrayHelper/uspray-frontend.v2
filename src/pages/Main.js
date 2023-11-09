@@ -9,9 +9,8 @@ import { useChangeValue } from "../hooks/useChangeValue";
 import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
-import { decrypt } from "../components/Main/Encrypt";
 import { useChangeShareValue } from "../hooks/useChangeShareValue";
-
+import TemplateMain_1 from "../components/Main/TemplateMain_1";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -463,7 +462,7 @@ const Main = () => {
   }
 
   return (
-    <TemplateMain
+    <TemplateMain_1
       onInsert={onInsert}
       setshareToggle={setshareToggle}
       shareToggle={shareToggle}
@@ -521,7 +520,7 @@ const Main = () => {
         dayToggle={dayToggle} 
         setDayToggle={setDayToggle}
       />
-    </TemplateMain>
+    </TemplateMain_1>
   );
 };
 
