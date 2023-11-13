@@ -19,18 +19,24 @@ const Header = (props) => {
             </Link>
           )}
         </HeaderCont>
-        <BtnWrapper>
-          <MyBtn id="date" onClick={props.onClickToggle} sortBy={props.sortBy}>
-            내가 쓴 기도
-          </MyBtn>
-          <SharedBtn
-            id="cnt"
-            onClick={props.onClickToggle}
-            sortBy={props.sortBy}
-          >
-            공유받은 기도
-          </SharedBtn>
-        </BtnWrapper>
+        {props.children === "히스토리" && (
+          <BtnWrapper>
+            <MyBtn
+              id="date"
+              onClick={props.onClickToggle}
+              sortBy={props.sortBy}
+            >
+              내가 쓴 기도
+            </MyBtn>
+            <SharedBtn
+              id="cnt"
+              onClick={props.onClickToggle}
+              sortBy={props.sortBy}
+            >
+              공유받은 기도
+            </SharedBtn>
+          </BtnWrapper>
+        )}
       </HeaderWrapper>
     </div>
   );
