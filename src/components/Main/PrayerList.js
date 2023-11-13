@@ -11,16 +11,16 @@ import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
-import { ToastTheme } from "../../components/Toast/Toast";
+import { ToastTheme } from "../Toast/Toast";
 import useToast from "../../hooks/useToast";
 import { encrypt } from "./Encrypt";
 
 const Background = styled.div`
   width: 100%;
-  background-color: #d0e8cb;
+  background-color: #FFF;
   height: auto;
   min-height: 812px;
-  //   margin-top: 24px;
+  border-radius: 24px;
 `;
 
 const TopContent = styled.div`
@@ -82,7 +82,7 @@ const PrayerContentStyle = styled.div`
   padding-bottom: 20px;
 `;
 
-function PrayerList({
+function PrayerList_1({
   prayerContent,
   setPrayerContent,
   prayerMoreContent,
@@ -453,6 +453,6 @@ function PrayerList({
 }
 
 
-export default PrayerList; 
+export default PrayerList_1; 
 
 

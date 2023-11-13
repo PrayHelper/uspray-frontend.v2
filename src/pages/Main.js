@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import PrayerList_1 from "../components/Main/PrayerList_1";
+import PrayerList from "../components/Main/PrayerList";
 import TemplateMain from "../components/Main/TemplateMain";
 import { usePrayList } from "../hooks/usePrayList";
 import { useCountUpdate } from "../hooks/useCountUpdate";
@@ -10,7 +10,6 @@ import { useSendPrayItem } from "../hooks/useSendPrayItem";
 import { useLocation } from "react-router";
 import { useShareSocial } from "../hooks/useShareSocial";
 import { useChangeShareValue } from "../hooks/useChangeShareValue";
-import TemplateMain_1 from "../components/Main/TemplateMain_1";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
@@ -78,7 +77,7 @@ const Main = () => {
           count: uncompletedItem.pray_cnt,
           isShare: uncompletedItem.is_shared
         });
-      });     
+      });
       result.data.completed.map((completedItem) => {
         let dDay = dDayCalculate(completedItem.deadline);
         completedList.push({
@@ -121,10 +120,10 @@ const Main = () => {
   }, [pray_List]);
 
 
-  useEffect(() =>{
+  useEffect(() => {
     console.log(shareData);
-    if(Array.isArray(shareData) && shareData.length !== 0){
-      for(let i=0;i<shareData.length;i++){
+    if (Array.isArray(shareData) && shareData.length !== 0) {
+      for (let i = 0; i < shareData.length; i++) {
         let string = shareData[i];
         sendData[i] = atob(string);
       }
@@ -149,11 +148,11 @@ const Main = () => {
   const { mutate: mutateDeletePrayItem } = usePrayDelete();
   const { mutate: mutateChangeValue } = useChangeValue();
   const { mutate: mutateSendPrayItem } = useSendPrayItem();
-  const { mutate: mutateShareSocialList} = useShareSocial();
+  const { mutate: mutateShareSocialList } = useShareSocial();
   const { mutate: mutateChangeShareValue } = useChangeShareValue();
 
 
-  const calculateDate = (date) =>{
+  const calculateDate = (date) => {
     const yyyy = date.getFullYear();
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     const dd = String(date.getDate()).padStart(2, "0");
@@ -165,8 +164,8 @@ const Main = () => {
   const onInsert = async (name, Dday, text) => {
     if (text === "") {
       return alert("기도제목이 입력이 되지 않았습니다.");
-    } 
-    if(name == ""){
+    }
+    if (name == "") {
       return alert("이름이 입력되지 않았습니다!");
     }
     else {
@@ -197,7 +196,7 @@ const Main = () => {
     }
   };
 
-// 날짜를 넣는데에 있어서 도와주는 함수(onInsert에서 쓰임)
+  // 날짜를 넣는데에 있어서 도와주는 함수(onInsert에서 쓰임)
   const addDay = (today, Dday) => {
     var day = new Date(today);
     day.setDate(day.getDate() + Dday);
@@ -232,12 +231,12 @@ const Main = () => {
   const contentClick = (id, checked, shareCheck) => {
     if (isChecked === isModify) {
       if (isShare) {
-        if(checked){
+        if (checked) {
           clickOff(id);
-        }else{
-        shareList(id, !checked);
+        } else {
+          shareList(id, !checked);
         }
-        
+
       } else {
         setIsChecked(!isChecked);
         setClickIsShare(shareCheck);
@@ -283,13 +282,13 @@ const Main = () => {
     var returnValue_ = completedList.find(function (data) {
       return data.id === id;
     });
-    if(returnValue){
+    if (returnValue) {
       var data = returnValue
       const date = new Date();
       var changeDate = addDay(date, data.dday);
       calculateDate(changeDate)
       setModifyToggle(true);
-    }else{
+    } else {
       var data = returnValue_
       const date = new Date();
       var changeDate = addDay(date, data.dday);
@@ -333,7 +332,7 @@ const Main = () => {
     );
     setIsDeleted(!isDeleted);
   };
-  
+
   // isDelete를 바꾸는 함수
   const onDeleted = () => {
     setIsDeleted(!isDeleted);
@@ -344,52 +343,52 @@ const Main = () => {
     setDayToggle(!dayToggle);
     if (value == "") {
       console.log(clickData);
-    } 
+    }
     else {
-      if(clickIsShare){
+      if (clickIsShare) {
         console.log(id);
-          mutateChangeShareValue(
-            {
-              id: id,
-              data: { deadline : newUpdateDate},
+        mutateChangeShareValue(
+          {
+            id: id,
+            data: { deadline: newUpdateDate },
+          },
+          {
+            onSuccess: () => {
+              if (modifyToggle) {
+                dayToggleTopDay && refetchPrayList();
+                dayToggleTopPrayer && refetch_PrayList();
+              } else {
+                dayToggleBottomDay && refetchPrayList();
+                dayToggleBottomPrayer && refetch_PrayList();
+              }
+              setmodalToggle(true);
+              setModalText("기도제목이 수정되었어요.")
             },
-            {
-              onSuccess: () => {
-                if(modifyToggle){
-                  dayToggleTopDay && refetchPrayList();
-                  dayToggleTopPrayer && refetch_PrayList();
-                }else{
-                  dayToggleBottomDay && refetchPrayList();
-                  dayToggleBottomPrayer && refetch_PrayList();
-                }
-                setmodalToggle(true);
-                setModalText("기도제목이 수정되었어요.")
-              },
-            }
-          );
-        }else{
+          }
+        );
+      } else {
         console.log(id);
-          mutateChangeValue(
-            {
-              id: id,
-              data: { target: name, title: value, deadline : newUpdateDate},
+        mutateChangeValue(
+          {
+            id: id,
+            data: { target: name, title: value, deadline: newUpdateDate },
+          },
+          {
+            onSuccess: () => {
+              if (modifyToggle) {
+                dayToggleTopDay && refetchPrayList();
+                dayToggleTopPrayer && refetch_PrayList();
+              } else {
+                dayToggleBottomDay && refetchPrayList();
+                dayToggleBottomPrayer && refetch_PrayList();
+              }
+              setmodalToggle(true);
+              setModalText("기도제목이 수정되었어요.")
             },
-            {
-              onSuccess: () => {
-                if(modifyToggle){
-                  dayToggleTopDay && refetchPrayList();
-                  dayToggleTopPrayer && refetch_PrayList();
-                }else{
-                  dayToggleBottomDay && refetchPrayList();
-                  dayToggleBottomPrayer && refetch_PrayList();
-                }
-                setmodalToggle(true);
-                setModalText("기도제목이 수정되었어요.")
-              },
-            }
-          );
-        }
+          }
+        );
       }
+    }
     setIsModify(!isModify);
   };
 
@@ -397,9 +396,9 @@ const Main = () => {
   const dDayCalculate = (res_data) => {
     var today = new Date();
     var dday = new Date(res_data);
-    dday.setHours(23,59,59);
+    dday.setHours(23, 59, 59);
     var diff = dday.getTime() - today.getTime();
-    var result = Math.floor(diff/ (1000 * 60 * 60 * 24));
+    var result = Math.floor(diff / (1000 * 60 * 60 * 24));
     return result;
   };
 
@@ -440,36 +439,36 @@ const Main = () => {
   };
 
   // 공유모드에서 체크를 누르고 다시 체크를 눌렀을 때
-  const clickOff = (id) =>{
-    setShareLength(shareLength-1);
-    setUncompletedList(prayerContent => prayerContent.map(PrayerContent => 
-        (Number(PrayerContent.id) === Number(id) ? {...PrayerContent, checked:false}: PrayerContent)));
-    setCompletedList(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent => 
-        (Number(PrayerMoreContent.id) === Number(id) ? {...PrayerMoreContent, checked:false}: PrayerMoreContent)));
+  const clickOff = (id) => {
+    setShareLength(shareLength - 1);
+    setUncompletedList(prayerContent => prayerContent.map(PrayerContent =>
+      (Number(PrayerContent.id) === Number(id) ? { ...PrayerContent, checked: false } : PrayerContent)));
+    setCompletedList(prayerMoreContent => prayerMoreContent.map(PrayerMoreContent =>
+      (Number(PrayerMoreContent.id) === Number(id) ? { ...PrayerMoreContent, checked: false } : PrayerMoreContent)));
     let filtered = Sharelist.filter((element) => Number(element) !== Number(id));
     setShareList(filtered);
-}
+  }
 
-  const postShare = (sendData) =>{
+  const postShare = (sendData) => {
     mutateShareSocialList({
-      pray_id_list : sendData
+      pray_id_list: sendData
     },
-    {
-      onSuccess: () => {},
-    }
+      {
+        onSuccess: () => { },
+      }
     );
 
   }
 
   return (
-    <TemplateMain_1
+    <TemplateMain
       onInsert={onInsert}
       setshareToggle={setshareToggle}
       shareToggle={shareToggle}
       isShare={isShare}
       setIsShare={setIsShare}
     >
-      <PrayerList_1
+      <PrayerList
         prayerContent={uncompletedList}
         setPrayerContent={setUncompletedList}
         prayerMoreContent={completedList}
@@ -514,13 +513,13 @@ const Main = () => {
         Sharelist={Sharelist}
         setShareList={setShareList}
         clickIsShare={clickIsShare}
-        clickOff = {clickOff}
+        clickOff={clickOff}
         updateDate={updateDate}
         setUpdateDate={setUpdateDate}
-        dayToggle={dayToggle} 
+        dayToggle={dayToggle}
         setDayToggle={setDayToggle}
       />
-    </TemplateMain_1>
+    </TemplateMain>
   );
 };
 
