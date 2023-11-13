@@ -5,7 +5,7 @@ import GroupInfo from '../components/Group/GroupDetail/GroupInfo';
 import GroupPrayList from '../components/Group/GroupDetail/GroupPrayList';
 
 const GroupDetail = () => {
-  const isData = false;
+  const isData = true;
   return (
     <Wrapper>
       <UserHeader>북동1팀</UserHeader>
