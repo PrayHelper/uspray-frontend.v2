@@ -6,7 +6,7 @@ export const BlackScreenStyle = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--color-black-70);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,4 +14,5 @@ export const BlackScreenStyle = styled.div`
   z-index: 200;
   opacity: ${(props) => (props.isModalOn ? "1" : "0")};
   pointer-events: ${(props) => (props.isModalOn ? "auto" : "none")};
+  backdrop-filter: blur(8px);
 `;
