@@ -13,7 +13,7 @@ import { useChangeShareValue } from "../hooks/useChangeShareValue";
 
 const Main = () => {
   const { data: prayList, refetch: refetchPrayList } = usePrayList("date");
-  const { data: pray_List, refetch: refetch_PrayList } = usePrayList("cnt");
+  const { data: pray_List, refetch: refetchPrayListCnt } = usePrayList("cnt");
   const [uncompletedList, setUncompletedList] = useState([]);
   const [completedList, setCompletedList] = useState([]);
   const [clickId, setClickId] = useState(0);
@@ -184,7 +184,7 @@ const Main = () => {
             setUpPosition(true);
             setDownPosition(false);
             dayToggleTopDay && refetchPrayList();
-            dayToggleTopPrayer && refetch_PrayList();
+            dayToggleTopPrayer && refetchPrayListCnt();
           },
         }
       );
@@ -212,7 +212,7 @@ const Main = () => {
       {
         onSuccess: (res) => {
           dayToggleBottomDay && refetchPrayList();
-          dayToggleBottomPrayer && refetch_PrayList();
+          dayToggleBottomPrayer && refetchPrayListCnt();
           renderingData(res, true);
           setUncompletedList(
             uncompletedList.filter((prayer) => prayer.id !== id)
@@ -348,10 +348,10 @@ const Main = () => {
             onSuccess: () => {
               if (modifyToggle) {
                 dayToggleTopDay && refetchPrayList();
-                dayToggleTopPrayer && refetch_PrayList();
+                dayToggleTopPrayer && refetchPrayListCnt();
               } else {
                 dayToggleBottomDay && refetchPrayList();
-                dayToggleBottomPrayer && refetch_PrayList();
+                dayToggleBottomPrayer && refetchPrayListCnt();
               }
               setmodalToggle(true);
               setModalText("기도제목이 수정되었어요.")
@@ -368,10 +368,10 @@ const Main = () => {
             onSuccess: () => {
               if (modifyToggle) {
                 dayToggleTopDay && refetchPrayList();
-                dayToggleTopPrayer && refetch_PrayList();
+                dayToggleTopPrayer && refetchPrayListCnt();
               } else {
                 dayToggleBottomDay && refetchPrayList();
-                dayToggleBottomPrayer && refetch_PrayList();
+                dayToggleBottomPrayer && refetchPrayListCnt();
               }
               setmodalToggle(true);
               setModalText("기도제목이 수정되었어요.")
@@ -444,9 +444,6 @@ const Main = () => {
     mutateShareSocialList({
       pray_id_list: sendData
     },
-      {
-        onSuccess: () => { },
-      }
     );
 
   }
