@@ -1,17 +1,16 @@
-name: Deploy Frontend on Integration Server
+name: Deploy Frontend on Hotfix Server
 
 on:
   push:
     branches:
-      - feature/**
-      - feat/**
+      - hotfix
 
 env:
   HOST:     ${{ secrets.HOST }}
   USERNAME: ${{ secrets.USERNAME }}
   KEY:      ${{ secrets.SSH_KEY }}
   PORT:     ${{ secrets.PORT }}
-  INSTANCE_PATH: ./frontend-intg
+  INSTANCE_PATH: ./frontend-hotfix
 
 jobs:
   test:
@@ -40,7 +39,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    if: github.ref == format('refs/heads/{0}', vars.INTG_BRANCH)
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -64,4 +62,4 @@ jobs:
           port: ${{ env.PORT }}
           script: |
             cd ${{ env.INSTANCE_PATH }}
-            make build-intg
+            make build-hotfix

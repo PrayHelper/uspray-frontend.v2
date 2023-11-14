@@ -168,13 +168,15 @@ const Locker = () => {
         saveSharedList={saveSharedList}
       />
       {isLoading && (
-        <Lottie
-          style={{ scale: "0.5" }}
-          options={defaultOptions}
-          height={300}
-          width={300}
-          isClickToPauseDisabled={true}
-        />
+        <LottieWrapper>
+          <Lottie
+            style={{ scale: "0.5" }}
+            options={defaultOptions}
+            height={300}
+            width={300}
+            isClickToPauseDisabled={true}
+          />
+        </LottieWrapper>
       )}
       {!isLoading && isEmptyData(data) && (
         <NoDataWrapper>
@@ -217,6 +219,14 @@ const LockerWrapper = styled.div`
   height: 100vh;
   width: 100%;
   background-color: var(--color-light-green);
+`;
+
+const LottieWrapper = styled.div`
+  position: fixed;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const NoDataWrapper = styled.div`
