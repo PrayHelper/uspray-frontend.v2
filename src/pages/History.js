@@ -181,6 +181,14 @@ const History = () => {
 
   const outside = useRef();
 
+  const [inputCount, setInputCount] = useState(0);
+
+  const onInputHandler = (e) => {
+    if (e.target.value.length > e.maxLength)
+      setInputCount(e.value.slice(0, e.maxLength));
+    setInputCount(e.target.value.length);
+  };
+
   return (
     <HistoryWrapper>
       <Header sortBy={sortBy} onClickToggle={onClickToggle}>
@@ -246,12 +254,19 @@ const History = () => {
           }}
         >
           <SubModalTop>
-            <ModalInput
-              placeholder="기도제목을 입력해주세요"
-              maxRows={3}
-              minRows={1}
-              cacheMeasurements
-            />
+            <ModalInputWrapper>
+              <ModalInput
+                placeholder="기도제목을 입력해주세요"
+                maxRows={3}
+                minRows={1}
+                cacheMeasurements
+                maxlength={75}
+                onChange={onInputHandler}
+              />
+              <Countwords>
+                <p>{inputCount}자 / 75자</p>
+              </Countwords>
+            </ModalInputWrapper>
             <SelectDate
               {...{
                 selectedBtn,
@@ -472,12 +487,15 @@ const SubModalWrapper = styled.div`
 `;
 
 const SubModalTop = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 16px;
   padding: 16px 16px;
   background-color: var(--color-white);
 `;
+
+const ModalInputWrapper = styled.div``;
 
 const ModalInput = styled(TextareaAutosize)`
   width: 100%;
@@ -490,7 +508,18 @@ const ModalInput = styled(TextareaAutosize)`
   ::placeholder {
     color: #b7ceb0; // 원하는 색상으로 변경
   }
+  :focus {
+    border-bottom: 1px solid var(--color-dark-green);
+  }
   font-weight: 400;
+`;
+
+const Countwords = styled.span`
+  position: absolute;
+  bottom: 66px;
+  right: 16px;
+  font-size: 10px;
+  color: var(--color-secondary-grey);
 `;
 
 const SubModalBottom = styled.div`

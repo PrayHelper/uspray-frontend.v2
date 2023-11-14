@@ -43,7 +43,7 @@ const SelectDate = (props) => {
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     const dd = String(date.getDate()).padStart(2, "0");
     const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜
-    setDesignedDate(`${yyyy}-${mm}-${dd} (${formattedDayOfWeek})`);
+    setDesignedDate(`${yyyy}-${mm}-${dd} ${formattedDayOfWeek}`);
     props.setUpdateDate(formattedDate);
   };
 
@@ -100,8 +100,10 @@ const SelectDateWrapper = styled.div`
 const SubModalBtn = styled.div`
   border: 1px solid var(--color-green);
   border-radius: 8px;
-  padding: 4px 15px;
+  padding: 4px 0px;
+  width: 48px;
   word-break: keep-all;
+  text-align: center;
   font-size: 12px;
   color: var(--color-green);
   cursor: pointer;
@@ -124,6 +126,7 @@ const SubModalDate = styled.div`
   color: var(--color-green);
   transform: translateX(-4px);
   margin-left: 4px;
+  white-space: nowrap;
 `;
 
 const DatePickerContainer = styled.div`
