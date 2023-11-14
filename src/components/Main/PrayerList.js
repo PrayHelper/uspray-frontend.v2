@@ -13,7 +13,9 @@ import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
 import { ToastTheme } from "../Toast/Toast";
 import useToast from "../../hooks/useToast";
+import Toast from "../Toast/Toast";
 import { encrypt } from "./Encrypt";
+import PrayerSortToggle from "./PrayerSortToggle";
 
 const Background = styled.div`
   width: 100%;
@@ -241,10 +243,10 @@ function PrayerList({
             url: `${WEB_ORIGIN}/main?share=` + listJoin,
           });
         } else {
-//           showToast({
-//             message: "공유하기가 지원되지 않는 환경 입니다.",
-//             theme: ToastTheme.ERROR,
-//           });
+          //           showToast({
+          //             message: "공유하기가 지원되지 않는 환경 입니다.",
+          //             theme: ToastTheme.ERROR,
+          //           });
           alert("공유하기가 지원되지 않는 환경 입니다.");
         }
       }

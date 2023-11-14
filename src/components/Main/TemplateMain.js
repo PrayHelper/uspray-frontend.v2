@@ -5,6 +5,8 @@ import BackgroundBright from "./BackgroundBright";
 import { useGetInfo } from "../../hooks/useGetInfo";
 import { ToastTheme } from "../Toast/Toast";
 import useToast from "../../hooks/useToast";
+import Logo from "./Logo";
+
 
 const BackgroundInput = styled.div`
   display: flex;
@@ -95,73 +97,73 @@ const StyleName = styled.input`
 `;
 
 const TemplateMain = ({
-  children,
-  onInsert,
-  shareToggle,
-  setshareToggle,
-  isShare,
-  setIsShare,
+    children,
+    onInsert,
+    shareToggle,
+    setshareToggle,
+    isShare,
+    setIsShare,
 }) => {
-  const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
-  const [name, setName] = useState("");
-  const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState("");
-  const [day, setDay] = useState(7);
-  const [Toggle, setToggle] = useState(true);
-  const [updateDate, setUpdateDate] = useState(null);
-  const [dayToggle, setDayToggle] = useState(false);
+    const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
+    const [name, setName] = useState("");
+    const [visible, setVisible] = useState(false);
+    const [value, setValue] = useState("");
+    const [day, setDay] = useState(7);
+    const [Toggle, setToggle] = useState(true);
+    const [updateDate, setUpdateDate] = useState(null);
+    const [dayToggle, setDayToggle] = useState(false);
 
-  const widthChange = () => {
-    setVisible(!visible);
-    if (shareToggle) {
-      setshareToggle(!shareToggle);
-      setIsShare(!isShare);
-    }
-  };
-  const dayInfo = (e) => {
-    setDay(e);
-  };
+    const widthChange = () => {
+        setVisible(!visible);
+        if (shareToggle) {
+            setshareToggle(!shareToggle);
+            setIsShare(!isShare);
+        }
+    };
+    const dayInfo = (e) => {
+        setDay(e);
+    };
 
-  const onSubmit = () => {
-    if (day === 0) {
-      setVisible(!visible);
-    }
-  };
-  const onChange = (e) => {
-    if(e.target.value.length < 75) {
+    const onSubmit = () => {
+        if (day === 0) {
+            setVisible(!visible);
+        }
+    };
+    const onChange = (e) => {
+        // if (e.target.value.length < 75) {
         setValue(e.target.value);
-    } else {
-        setmodalText("75자까지 입력이 가능합니다.")
-        setmodalToggle(!modalToggle);
-    }
-  };
-  const onName = (e) => {
-    if (e.target.value.length < 5) {
-      setName(e.target.value);
-    }
-  };
-  const submit = () => {
-    setVisible(!visible);
-    setValue("");
-    onInsert(name, day, value);
-    setDay(7);
-    setDayToggle(false);
-    setUpdateDate(null);
-  };
-  const changeCheckTop = () => {
-    setVisible(!visible);
-    if (Toggle == false) {
-      setToggle(!Toggle);
-    }
-  };
+        // } else {
+        //     setmodalText("75자까지 입력이 가능합니다.")
+        //     setmodalToggle(!modalToggle);
+        // }
+    };
+    const onName = (e) => {
+        if (e.target.value.length < 5) {
+            setName(e.target.value);
+        }
+    };
+    const submit = () => {
+        setVisible(!visible);
+        setValue("");
+        onInsert(name, day, value);
+        setDay(7);
+        setDayToggle(false);
+        setUpdateDate(null);
+    };
+    const changeCheckTop = () => {
+        setVisible(!visible);
+        if (Toggle == false) {
+            setToggle(!Toggle);
+        }
+    };
 
-  useEffect(() => {
-    if (!userInfo) {
-      refetch_userInfo();
-      return;
-    }
-    setName(userInfo.data.name);
-  }, [userInfo]);
+    useEffect(() => {
+        if (!userInfo) {
+            refetch_userInfo();
+            return;
+        }
+        setName(userInfo.data.name);
+    }, [userInfo]);
 
     useEffect(() => {
         if (!userInfo) {
@@ -187,54 +189,42 @@ const TemplateMain = ({
     //     }
     // }, [modalToggle]);
 
-  return (
-    <div style={{ width: "100%" }}>
-      <div style={{ position: "relative" }}>
-        <BackgroundInput
-          style={{ boxShadow: !visible ? "0 2px 4px rgba(0, 0, 0, 0.2)" : "" }}>
-          <StyleName
-            placeholder={name}
-            type="text"
-            value={name}
-            onChange={onName}></StyleName>
-          <StyleInput
-            placeholder="기도제목을 입력해주세요"
-            type="text"
-            value={value}
-            onChange={onChange}
-            onClick={!visible ? () => widthChange() : onSubmit()}></StyleInput>
-          <div
-            style={{ marginTop: "65px", minHeight: "31px", minWidth: "31px" }}>
-            {value === "" ? (
-              <BlankBtnSend>
-                <BlankSendImg src={DisableImage} />
-              </BlankBtnSend>
-            ) : (
-              <BtnSend onClick={() => submit()}>
-                <SendImg src={noClickImage} />
-              </BtnSend>
-            )}
-          </div>
-        </BackgroundInput>
-        <DayButton
-          dayInfo={dayInfo}
-          visible={visible}
-          dayToggle={dayToggle}
-          setDayToggle={setDayToggle}
-          updateDate={updateDate}
-          setUpdateDate={setUpdateDate}
-        />
-      </div>
-      <BackgroundBright
-        onClick={changeCheckTop}
-        style={{
-          opacity: visible ? "1" : "0",
-          pointerEvents: visible ? "auto" : "none",
-        }}
-      />
-      {children}
-    </div>
-  );
+    return (
+        <div style={{ width: "100%" }}>
+            <div style={{ position: "relative" }}>
+                <BackgroundInput
+                    style={{ boxShadow: !visible ? "0 2px 4px rgba(0, 0, 0, 0.2)" : "" }}>
+                    <StyleName
+                        placeholder={name}
+                        type="text"
+                        value={name}
+                        onChange={onName}></StyleName>
+                    <StyleInput
+                        placeholder="기도제목을 입력해주세요"
+                        type="text"
+                        value={value}
+                        onChange={onChange}
+                        onClick={!visible ? () => widthChange() : onSubmit()}></StyleInput>
+                </BackgroundInput>
+                <DayButton
+                    dayInfo={dayInfo}
+                    visible={visible}
+                    dayToggle={dayToggle}
+                    setDayToggle={setDayToggle}
+                    updateDate={updateDate}
+                    setUpdateDate={setUpdateDate}
+                />
+            </div>
+            <BackgroundBright
+                onClick={changeCheckTop}
+                style={{
+                    opacity: visible ? "1" : "0",
+                    pointerEvents: visible ? "auto" : "none",
+                }}
+            />
+            {children}
+        </div>
+    );
 }
 
 
