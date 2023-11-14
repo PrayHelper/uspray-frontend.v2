@@ -9,8 +9,7 @@ import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import useToast from "../hooks/useToast";
-import SelectDate from "../components/SelectDate/selectDate";
-import TextareaAutosize from "react-textarea-autosize";
+import SelectDateInput from "../components/SelectDateInput/selectDateInput";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -179,16 +178,9 @@ const History = () => {
     }
   }, [hasMore, inView]);
 
-  const outside = useRef();
-
-  const [inputCount, setInputCount] = useState(0);
-
-  const onInputHandler = (e) => {
-    if (e.target.value.length > e.maxLength)
-      setInputCount(e.value.slice(0, e.maxLength));
-    setInputCount(e.target.value.length);
+  const onClickFunc = () => {
+    console.log("gg");
   };
-
   return (
     <HistoryWrapper>
       <Header sortBy={sortBy} onClickToggle={onClickToggle}>
@@ -245,45 +237,24 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        <BlackScreen isModalOn={showSubModal} zindex={400} />
-        <SubModalWrapper
-          showSubModal={showSubModal}
-          ref={outside}
-          onClick={(e) => {
-            if (e.target === outside.current) setShowSubModal(false);
+        <SelectDateInput
+          {...{
+            setShowSubModal,
+            selectedBtn,
+            setSelectedBtn,
+            selectedDate,
+            setSelectedDate,
+            showDatePicker,
+            setShowDatePicker,
+            setUpdateDate,
+            showSubModal,
+            onClickFunc,
           }}
-        >
-          <SubModalTop>
-            <ModalInputWrapper>
-              <ModalInput
-                placeholder="기도제목을 입력해주세요"
-                maxRows={3}
-                minRows={1}
-                cacheMeasurements
-                maxlength={75}
-                onChange={onInputHandler}
-              />
-              <Countwords>
-                <p>{inputCount}자 / 75자</p>
-              </Countwords>
-            </ModalInputWrapper>
-            <SelectDate
-              {...{
-                selectedBtn,
-                setSelectedBtn,
-                selectedDate,
-                setSelectedDate,
-                showDatePicker,
-                setShowDatePicker,
-                setUpdateDate,
-                showSubModal,
-              }}
-            />
-          </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify(sortBy)}>
-            오늘의 기도에 추가하기
-          </SubModalBottom>
-        </SubModalWrapper>
+          onClickFunc={() => onClickModify(sortBy)}
+          inputPlaceHolder={"기도제목을 입력해주세요"}
+          maxlen={75}
+          maxrow={3}
+        />
       </div>
       {sortBy === "date" && (
         <div style={{ paddingTop: "115px" }}>
@@ -467,72 +438,5 @@ const ModalButton2 = styled.button`
     filter: ${(props) =>
       props.disabled ? "brightness(1)" : "brightness(0.9)"};
     scale: ${(props) => (props.disabled ? "1" : "0.98")};
-  }
-`;
-
-const SubModalWrapper = styled.div`
-  position: fixed;
-  justify-content: space-between;
-  left: 50%;
-  top: 50%;
-  height: calc(100vh - 32px);
-  transform: translate(-50%, -50%);
-  width: calc(100vw - 32px);
-  display: flex;
-  flex-direction: column;
-  z-index: 500;
-  opacity: ${(props) => (props.showSubModal ? "1" : "0")};
-  transition: all 0.3s ease-in-out;
-  visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
-`;
-
-const SubModalTop = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border-radius: 16px;
-  padding: 16px 16px;
-  background-color: var(--color-white);
-`;
-
-const ModalInputWrapper = styled.div``;
-
-const ModalInput = styled(TextareaAutosize)`
-  width: 100%;
-  margin-bottom: 12px;
-  border: none;
-  font-size: 16px;
-  color: #606060;
-  outline: none;
-  border-bottom: 1px solid var(--color-white-green);
-  ::placeholder {
-    color: #b7ceb0; // 원하는 색상으로 변경
-  }
-  :focus {
-    border-bottom: 1px solid var(--color-dark-green);
-  }
-  font-weight: 400;
-`;
-
-const Countwords = styled.span`
-  position: absolute;
-  bottom: 66px;
-  right: 16px;
-  font-size: 10px;
-  color: var(--color-secondary-grey);
-`;
-
-const SubModalBottom = styled.div`
-  background: var(--color-dark-green);
-  border-radius: 16px;
-  font-weight: 500;
-  font-size: 16px;
-  text-align: center;
-  color: var(--color-white);
-  padding: 20px 0px;
-  &:active {
-    transition: all 0.2s ease-in-out;
-    filter: ${(props) =>
-      props.disabled ? "brightness(1)" : "brightness(0.9)"};
   }
 `;
