@@ -17,10 +17,11 @@ import { encrypt } from "./Encrypt";
 
 const Background = styled.div`
   width: 100%;
-  background-color: #FFF;
-  height: auto;
-  min-height: 812px;
-  border-radius: 24px;
+  background-color: var(--White_Green, #EBF6E8);
+  height: calc( 100vh - 143px );
+  min-height: 500px;
+  border-radius: 32px 32px 0 0;
+  overflow-y: scroll;
 `;
 
 const TopContent = styled.div`

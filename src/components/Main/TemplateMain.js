@@ -9,7 +9,6 @@ import useToast from "../../hooks/useToast";
 const BackgroundInput = styled.div`
     display : flex;
     position : relative;
-    padding: 24px 16px 22px 0px;
     box-sizing: border-box;
     align-items : center;
     z-index: 103;
@@ -32,6 +31,21 @@ const StyleInput = styled.input`
     font-weight: 400;
     line-height: normal;
 `
+
+const LogoTitle = styled.div`
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+`;
+
+const MainComponent = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 24px 16px;
+    gap: 16px;
+`;
+
 
 const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare, setIsShare }) => {
     const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
@@ -99,7 +113,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setName(userInfo.data.name)
     }, [userInfo])
 
-    // useEffect(() => { 이부분 또한 토스트 메세지가 어떻게 될지 몰라 임시로 주석처리
+    // useEffect(() => {이부분 또한 토스트 메세지가 어떻게 될지 몰라 임시로 주석처리
     //     if (modalText) {
     //       const timer = setTimeout(() => {
     //         setmodalToggle(false);
@@ -111,31 +125,29 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
 
     // useEffect(() => {
     //     if (modalToggle) {
-    //         showToast({ theme: ToastTheme.SUCCESS, message: modalText });
+    //         showToast({theme: ToastTheme.SUCCESS, message: modalText });
     //     }
     // }, [modalToggle]);
 
     return (
         <div style={{ width: "100%", backgroundColor: "#7BAB6E" }}>
-            <div style={{
-                position: "relative", padding: "40px 0px 0px 16px", fontFamily: "Noto Sans KR",
-                fontStyle: "normal", fontWeight: "700", lineHeight: "normal"
-            }}>
-                <div style={{ display: "flex", fontSize: "24px" }}>
+            <MainComponent>
+                {/* <div style={{ display: "flex", fontSize: "24px" }}>
                     <div style={{ color: "#7BD962" }}>{name}</div>
                     <div style={{ color: "#FFF" }}>님이</div>
                 </div>
                 <div style={{ display: "flex" }}>
                     <div style={{ color: "#7BD962" }}>시립대학교 모임</div>
                     <div style={{ color: "#FFF" }}>에 참여했습니다</div>
-                </div>
+                </div> */}
+                <LogoTitle>
+                    Uspray
+                </LogoTitle>
                 <BackgroundInput>
                     <StyleInput placeholder="기도제목을 입력해주세요" type="text" value={value} onChange={onChange}
                         onClick={(!visible) ? () => widthChange() : onSubmit()}></StyleInput>
                 </BackgroundInput>
-                <DayButton dayInfo={dayInfo} visible={visible} dayToggle={dayToggle} setDayToggle={setDayToggle}
-                    updateDate={updateDate} setUpdateDate={setUpdateDate} />
-            </div>
+            </MainComponent>
             <BackgroundBright onClick={changeCheckTop} style={{ opacity: visible ? "1" : "0", pointerEvents: visible ? "auto" : "none" }} />
             {children}
         </div>
