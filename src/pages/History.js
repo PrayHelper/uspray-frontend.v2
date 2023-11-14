@@ -1,7 +1,7 @@
 import Header from "../components/Header/Header";
 import styled from "styled-components";
 import HisContent from "../components/History/HisContent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useFetchHistory } from "../hooks/useFetchHistory";
@@ -179,6 +179,8 @@ const History = () => {
     }
   }, [hasMore, inView]);
 
+  const outside = useRef();
+
   return (
     <HistoryWrapper>
       <Header sortBy={sortBy} onClickToggle={onClickToggle}>
@@ -235,7 +237,14 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        <SubModalWrapper showSubModal={showSubModal}>
+        <BlackScreen isModalOn={showSubModal} zindex={400} />
+        <SubModalWrapper
+          showSubModal={showSubModal}
+          ref={outside}
+          onClick={(e) => {
+            if (e.target === outside.current) setShowSubModal(false);
+          }}
+        >
           <SubModalTop>
             <ModalInput
               placeholder="기도제목을 입력해주세요"
@@ -456,7 +465,7 @@ const SubModalWrapper = styled.div`
   width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
-  z-index: 300;
+  z-index: 500;
   opacity: ${(props) => (props.showSubModal ? "1" : "0")};
   transition: all 0.3s ease-in-out;
   visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
