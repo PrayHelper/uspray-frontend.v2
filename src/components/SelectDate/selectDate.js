@@ -17,8 +17,12 @@ const SelectDate = (props) => {
   const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
 
   const onClickCalendar = () => {
-    props.setSelectedBtn("calendar");
-    props.setShowDatePicker(!props.showDatePicker);
+    if (props.selectedBtn === "calendar") {
+      props.setSelectedBtn();
+    } else {
+      props.setSelectedBtn("calendar");
+      props.setShowDatePicker(!props.showDatePicker);
+    }
   };
 
   const onChangeDate = (date) => {
@@ -106,6 +110,8 @@ const SubModalBtn = styled.div`
   text-align: center;
   font-size: 12px;
   color: var(--color-green);
+  transition: all 0.2s ease-in-out;
+
   cursor: pointer;
   ${(props) =>
     props.isSelected &&
@@ -114,10 +120,10 @@ const SubModalBtn = styled.div`
       color: var(--color-white);
     `}
   &:active {
-    transition: all 0.2s ease-in-out;
     filter: ${(props) =>
       props.disabled ? "brightness(1)" : "brightness(0.9)"};
     scale: ${(props) => (props.disabled ? "1" : "0.90")};
+    transition: all 0.1s ease-in-out;
   }
 `;
 
@@ -130,9 +136,9 @@ const SubModalDate = styled.div`
 `;
 
 const DatePickerContainer = styled.div`
-  position: fixed;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
+  right: 0;
+  top: calc(100% + 16px);
   z-index: 400;
 `;
 
@@ -141,5 +147,6 @@ const CalenderIcon = styled.img`
   :active {
     filter: brightness(0.9);
     transform: scale(0.9);
+    transition: all 0.1s ease-in-out;
   }
 `;
