@@ -11,14 +11,29 @@ import Logo from "./Logo";
 const BackgroundInput = styled.div`
   display: flex;
   position: relative;
-  padding: 0px 24px 24px 35px;
   background: white;
   border-bottom: 1px solid white;
   box-sizing: border-box;
   align-items: center;
+  border-radius: 16px;
   z-index: 103;
   transition: all 0.5s ease-in-out;
 `;
+
+const LogoTitle = styled.div`
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+`;
+
+const MainComponent = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 24px 16px;
+    gap: 16px;
+`;
+
 const BtnSend = styled.button`
   width: 31px;
   height: 31px;
@@ -68,21 +83,20 @@ const BlankSendImg = styled(Logo)`
 `;
 
 const StyleInput = styled.input`
-  width: 100%;
-  margin-top: 69px;
-  margin: 69px 12px 0px 12px;
-  border-radius: 4px;
-  border: none;
-  font-size: 16px;
-  color: #a0a0a0;
-  outline: none;
-  border-bottom: 1px solid #ebf7e8;
-  ::placeholder {
-    color: #b7ceb0; // 원하는 색상으로 변경
-  }
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+    border : none;
+    width : 100%;
+    font-size: 16px;    
+    padding : 16px 0px 12px 16px;
+    border-radius : 12px;           
+    color: #A0A0A0; 
+    outline: none;
+    border-bottom: 1px solid #EBF7E8;
+    ::placeholder {
+        color: #B7CEB0; // 원하는 색상으로 변경
+    }
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 `;
 const StyleName = styled.input`
   width: 48px;
@@ -190,31 +204,16 @@ const TemplateMain = ({
     // }, [modalToggle]);
 
     return (
-        <div style={{ width: "100%" }}>
-            <div style={{ position: "relative" }}>
-                <BackgroundInput
-                    style={{ boxShadow: !visible ? "0 2px 4px rgba(0, 0, 0, 0.2)" : "" }}>
-                    <StyleName
-                        placeholder={name}
-                        type="text"
-                        value={name}
-                        onChange={onName}></StyleName>
-                    <StyleInput
-                        placeholder="기도제목을 입력해주세요"
-                        type="text"
-                        value={value}
-                        onChange={onChange}
-                        onClick={!visible ? () => widthChange() : onSubmit()}></StyleInput>
+        <div style={{ width: "100%", backgroundColor: "#7BAB6E" }}>
+            <MainComponent>
+                <LogoTitle>
+                    Uspray
+                </LogoTitle>
+                <BackgroundInput>
+                    <StyleInput placeholder="기도제목을 입력해주세요" type="text" value={value} onChange={onChange}
+                        onClick={(!visible) ? () => widthChange() : onSubmit()}></StyleInput>
                 </BackgroundInput>
-                <DayButton
-                    dayInfo={dayInfo}
-                    visible={visible}
-                    dayToggle={dayToggle}
-                    setDayToggle={setDayToggle}
-                    updateDate={updateDate}
-                    setUpdateDate={setUpdateDate}
-                />
-            </div>
+            </MainComponent>
             <BackgroundBright
                 onClick={changeCheckTop}
                 style={{
