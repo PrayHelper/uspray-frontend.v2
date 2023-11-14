@@ -113,7 +113,7 @@ const ModifyBar = ({ id, valueChange, onModify, clickData, isModify, updateDate,
     setName(clickData.name);
   }, [clickData]);
 
-  // 모달 메세지 띄우는 거 하는 useEffect
+  // 모달 메세지 띄우는 거 하는 useEffect 토스트 메세지 관련 내용이 아직 정해지지 않아 임시로 주석처리
   // useEffect(() => {
   //   if (modalText) {
   //     const timer = setTimeout(() => {

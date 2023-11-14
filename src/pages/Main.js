@@ -42,11 +42,8 @@ const Main = () => {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  // const shareData = query.getAll('share');
   const [sendData, setSendData] = useState([]);
   const { current: shareData } = useRef(query.getAll('share'));
-  // const { data: shareSocialList, refetch: refetch_shareSocialList} 
-  // = useShareSocial(shareData);
 
   const renderingData = async (result, sticker) => {
     setisloading(true);
@@ -121,13 +118,11 @@ const Main = () => {
 
 
   useEffect(() => {
-    console.log(shareData);
     if (Array.isArray(shareData) && shareData.length !== 0) {
       for (let i = 0; i < shareData.length; i++) {
         let string = shareData[i];
         sendData[i] = atob(string);
       }
-      console.log(sendData);
       postShare(sendData);
     }
   }, [shareData]);
@@ -275,7 +270,6 @@ const Main = () => {
     // 수정하기 관련 코드
     setIsModify(!isModify);
     setIsChecked(!isChecked);
-    console.log(clickIsShare);
     var returnValue = uncompletedList.find(function (data) {
       return data.id === id;
     });
@@ -342,11 +336,9 @@ const Main = () => {
   const valueChange = async (id, value, name, newUpdateDate, clickIsShare) => {
     setDayToggle(!dayToggle);
     if (value == "") {
-      console.log(clickData);
     }
     else {
       if (clickIsShare) {
-        console.log(id);
         mutateChangeShareValue(
           {
             id: id,
@@ -367,7 +359,6 @@ const Main = () => {
           }
         );
       } else {
-        console.log(id);
         mutateChangeValue(
           {
             id: id,

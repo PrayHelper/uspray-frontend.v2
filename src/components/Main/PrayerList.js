@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PrayerContent from "./PrayerContent";
 import styled from 'styled-components';
 import BottomMenu from "./BottomMenu";
@@ -82,7 +82,7 @@ const PrayerContentStyle = styled.div`
   padding-bottom: 20px;
 `;
 
-function PrayerList_1({
+function PrayerList({
   prayerContent,
   setPrayerContent,
   prayerMoreContent,
@@ -162,7 +162,7 @@ function PrayerList_1({
       sortDownPosition(true);
     }
   };
-  
+
   const fetchData = async (top, pray) => {
     pray ? await refetch_cnt_PrayList() : await refetchPrayList();
     getPrayList(top, pray);
@@ -216,11 +216,10 @@ function PrayerList_1({
     if (isShare) {
       setshareToggle(!shareToggle);
       setIsShare(!isShare);
-      for(let i=0;i<Sharelist.length;i++){
+      for (let i = 0; i < Sharelist.length; i++) {
         let temp = Sharelist[i];
-        Sharelist[i] = encrypt(temp); 
+        Sharelist[i] = encrypt(temp);
       }
-      console.log(Sharelist);
       const listJoin = Sharelist.join("&share=");
       if (isMobile()) {
         if (/android/i.test(navigator.userAgent)) {
@@ -237,14 +236,12 @@ function PrayerList_1({
             url: `${WEB_ORIGIN}/main?share=` + listJoin,
           });
         } else {
-            showToast({
-              message: "공유하기가 지원되지 않는 환경 입니다.",
-              theme: ToastTheme.ERROR,
-            });
+          showToast({
+            message: "공유하기가 지원되지 않는 환경 입니다.",
+            theme: ToastTheme.ERROR,
+          });
         }
       }
-
-      console.log(`${WEB_ORIGIN}/main?share=` + listJoin);
       setShareList([]);
       setPrayerContent((prayerContent) =>
         prayerContent.map((prayerContent) => ({
@@ -290,9 +287,9 @@ function PrayerList_1({
           zIndex: "103",
           opacity: isModify ? "1" : "0",
           pointerEvents: isModify ? "auto" : "none",
-          color : "#75BD62",
+          color: "#75BD62",
           justifyContent: "center",
-          alignItems : "center"
+          alignItems: "center"
         }}
         onClick={onModify}>{clickIsShare ? <div>공유된 기도제목의 내용은 수정할 수 없습니다.</div> : ""}</BackgroundBright>
       <BackgroundBright
@@ -453,6 +450,6 @@ function PrayerList_1({
 }
 
 
-export default PrayerList_1; 
+export default PrayerList;
 
 

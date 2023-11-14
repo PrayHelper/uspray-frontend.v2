@@ -99,7 +99,7 @@ const TemplateMain = ({ children, onInsert, shareToggle, setshareToggle, isShare
         setName(userInfo.data.name)
     }, [userInfo])
 
-    // useEffect(() => {
+    // useEffect(() => { 이부분 또한 토스트 메세지가 어떻게 될지 몰라 임시로 주석처리
     //     if (modalText) {
     //       const timer = setTimeout(() => {
     //         setmodalToggle(false);
