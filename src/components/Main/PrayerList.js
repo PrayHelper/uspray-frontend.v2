@@ -17,6 +17,7 @@ import Toast from "../Toast/Toast";
 import { encrypt } from "./Encrypt";
 import PrayerSortToggle from "./PrayerSortToggle";
 
+
 const Background = styled.div`
   width: 100%;
   background-color: var(--White_Green, #EBF6E8);

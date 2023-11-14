@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
-import Day_Calender from '../../images/day_calender.svg';
-import Day_Calender_hover from "../../images/DayCalender_hover.svg";
+import DayCalenderImage from '../../images/day_calender.svg';
+import DayCalenderhoverImage from "../../images/DayCalender_hover.svg";
 import { ko } from "date-fns/esm/locale";
 import DatePicker from "react-datepicker";
 import { ToastTheme } from "../../components/Toast/Toast";
@@ -236,7 +236,7 @@ const ModifyBar = ({ id, valueChange, onModify, clickData, isModify, updateDate,
                 marginLeft: "4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight: "400",
                 fontSize: "16px", lineHeight: "23px", color: " #75BD62"
               }} onClick={onToggle}>{"~" + updateDate}</div> : ""}
-              <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle} /></div>
+              <div><DayCalender src={(dayToggle) ? DayCalenderhoverImage : DayCalenderImage} onClick={onToggle} /></div>
             </DateSet>
             {value === "" ? <ModifyBtn style={{ backgroundColor: "#EEEEEE" }}>수정 완료하기</ModifyBtn> :
               <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
@@ -263,7 +263,7 @@ const ModifyBar = ({ id, valueChange, onModify, clickData, isModify, updateDate,
                 marginLeft: "4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight: "400",
                 fontSize: "16px", lineHeight: "23px", color: " #75BD62"
               }} onClick={onToggle}>{"~" + updateDate}</div> : ""}
-              <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle} /></div>
+              <div><DayCalender src={(dayToggle) ? DayCalenderhoverImage : DayCalenderImage} onClick={onToggle} /></div>
             </DateSet>
             {value === "" ? <ModifyBtn style={{ backgroundColor: "#EEEEEE" }}>수정 완료하기</ModifyBtn> :
               <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
