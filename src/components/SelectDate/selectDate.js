@@ -52,7 +52,7 @@ const SelectDate = (props) => {
   }, [props.showSubModal]);
 
   return (
-    <>
+    <SelectDateWrapper>
       {dateOptions.map((option) => (
         <SubModalBtn
           key={option}
@@ -84,19 +84,25 @@ const SelectDate = (props) => {
       {designedDate && (
         <SubModalDate>~{designedDate.replace(/-/g, ".")}</SubModalDate>
       )}
-    </>
+    </SelectDateWrapper>
   );
 };
 
 export default SelectDate;
 
+const SelectDateWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+`;
+
 const SubModalBtn = styled.div`
   border: 1px solid var(--color-green);
   border-radius: 8px;
-  padding: 4px 8px;
+  padding: 4px 15px;
   word-break: keep-all;
   font-size: 12px;
-  line-height: 17px;
   color: var(--color-green);
   cursor: pointer;
   ${(props) =>
@@ -117,6 +123,7 @@ const SubModalDate = styled.div`
   font-size: 12px;
   color: var(--color-green);
   transform: translateX(-4px);
+  margin-left: 4px;
 `;
 
 const DatePickerContainer = styled.div`

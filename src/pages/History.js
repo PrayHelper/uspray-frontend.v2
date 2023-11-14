@@ -10,6 +10,7 @@ import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import useToast from "../hooks/useToast";
 import SelectDate from "../components/SelectDate/selectDate";
+import TextareaAutosize from "react-textarea-autosize";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -236,6 +237,12 @@ const History = () => {
         )}
         <SubModalWrapper showSubModal={showSubModal}>
           <SubModalTop>
+            <ModalInput
+              placeholder="기도제목을 입력해주세요"
+              maxRows={3}
+              minRows={1}
+              cacheMeasurements
+            />
             <SelectDate
               {...{
                 selectedBtn,
@@ -342,10 +349,10 @@ const NoDataContent = styled.div`
 const ModalWrapper = styled.div`
   position: fixed;
   /* top: ${(props) => (props.showSubModal ? `40%` : `50%`)}; */
-  bottom: ${(props) => (props.showSubModal ? `32%` : `25%`)};
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100vw - 64px);
+  width: calc(100vw - 48px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -441,16 +448,15 @@ const ModalButton2 = styled.button`
 
 const SubModalWrapper = styled.div`
   position: fixed;
+  justify-content: space-between;
   left: 50%;
-  transform: translate(-50%, -40%);
-  width: calc(100vw - 64px);
+  top: 50%;
+  height: calc(100vh - 32px);
+  transform: translate(-50%, -50%);
+  width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  background-color: var(--color-white);
-  border-radius: 16px;
   z-index: 300;
-  top: 63%;
   opacity: ${(props) => (props.showSubModal ? "1" : "0")};
   transition: all 0.3s ease-in-out;
   visibility: ${(props) => (props.showSubModal ? "visible" : "hidden")};
@@ -458,15 +464,29 @@ const SubModalWrapper = styled.div`
 
 const SubModalTop = styled.div`
   display: flex;
-  justify-content: flex-start;
-  padding: 24px 16px;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  border-radius: 16px;
+  padding: 16px 16px;
+  background-color: var(--color-white);
+`;
+
+const ModalInput = styled(TextareaAutosize)`
+  width: 100%;
+  margin-bottom: 12px;
+  border: none;
+  font-size: 16px;
+  color: #606060;
+  outline: none;
+  border-bottom: 1px solid var(--color-white-green);
+  ::placeholder {
+    color: #b7ceb0; // 원하는 색상으로 변경
+  }
+  font-weight: 400;
 `;
 
 const SubModalBottom = styled.div`
   background: var(--color-dark-green);
-  border-radius: 0px 0px 16px 16px;
+  border-radius: 16px;
   font-weight: 500;
   font-size: 16px;
   text-align: center;
