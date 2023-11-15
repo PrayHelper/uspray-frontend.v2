@@ -11,20 +11,15 @@ import { usePrayList } from "../../hooks/usePrayList";
 import Lottie from "react-lottie";
 import LottieData from "./json/uspray.json";
 import useFlutterWebview from "../../hooks/useFlutterWebview";
-import { ToastTheme } from "../Toast/Toast";
-import useToast from "../../hooks/useToast";
-import Toast from "../Toast/Toast";
-import { encrypt } from "./Encrypt";
+import Toast, { ToastTheme } from "../../components/Toast/Toast";
 import PrayerSortToggle from "./PrayerSortToggle";
-
 
 const Background = styled.div`
   width: 100%;
-  background-color: var(--White_Green, #EBF6E8);
-  height: calc( 100vh - 143px );
-  min-height: 500px;
-  border-radius: 32px 32px 0 0;
-  overflow-y: scroll;
+  background-color: #d0e8cb;
+  height: auto;
+  min-height: 812px;
+  //   margin-top: 24px;
 `;
 
 const TopContent = styled.div`
@@ -224,10 +219,6 @@ function PrayerList({
     if (isShare) {
       setshareToggle(!shareToggle);
       setIsShare(!isShare);
-      for (let i = 0; i < Sharelist.length; i++) {
-        let temp = Sharelist[i];
-        Sharelist[i] = encrypt(temp);
-      }
       const listJoin = Sharelist.join("&share=");
       if (isMobile()) {
         if (/android/i.test(navigator.userAgent)) {
@@ -244,13 +235,11 @@ function PrayerList({
             url: `${WEB_ORIGIN}/main?share=` + listJoin,
           });
         } else {
-          //           showToast({
-          //             message: "공유하기가 지원되지 않는 환경 입니다.",
-          //             theme: ToastTheme.ERROR,
-          //           });
           alert("공유하기가 지원되지 않는 환경 입니다.");
         }
       }
+
+      console.log(`${WEB_ORIGIN}/main?share=` + listJoin);
       setShareList([]);
       setPrayerContent((prayerContent) =>
         prayerContent.map((prayerContent) => ({
@@ -287,15 +276,11 @@ function PrayerList({
     <div>
       <BackgroundBright
         style={{
-          display: "flex",
           zIndex: "103",
           opacity: isModify ? "1" : "0",
           pointerEvents: isModify ? "auto" : "none",
-          color: "#75BD62",
-          justifyContent: "center",
-          alignItems: "center"
         }}
-        onClick={onModify}>{clickIsShare ? <div>공유된 기도제목의 내용은 수정할 수 없습니다.</div> : ""}</BackgroundBright>
+        onClick={onModify}></BackgroundBright>
       <BackgroundBright
         style={{
           zIndex: "103",
@@ -423,7 +408,6 @@ function PrayerList({
           setUpdateDate={setUpdateDate}
           dayToggle={dayToggle}
           setDayToggle={setDayToggle}
-          clickIsShare={clickIsShare}
         />
         <DeleteBar
           deleteBtnClick={deleteBtnClick}
