@@ -2,10 +2,12 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "./Logo";
 import X_image from "../../images/ic_modify_cancel.svg";
-import Day_Calender from '../../images/day_calender.svg';
-import Day_Calender_hover from "../../images/DayCalender_hover.svg";
+import DayCalenderImage from '../../images/day_calender.svg';
+import DayCalenderhoverImage from "../../images/DayCalender_hover.svg";
 import { ko } from "date-fns/esm/locale";
 import DatePicker from "react-datepicker";
+import { ToastTheme } from "../../components/Toast/Toast";
+import useToast from "../../hooks/useToast";
 
 const ModifyStyle = styled.div`
     position: fixed;
@@ -95,116 +97,181 @@ const DatePickerHeaderDate = styled.div`
 `;
 
 
-const ModifyBar = ({id, valueChange, onModify, clickData, isModify,updateDate,setUpdateDate , dayToggle, setDayToggle}) =>{
-    const [value , setValue] = useState("");
-    const [name, setName] = useState("");
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [storedData, setStoredData] = useState(null);
-    useEffect(()=>{
-      setValue(clickData.text);
-      setName(clickData.name);
-    },[clickData]);
-    const onChangeValue = (e) =>{
-        setValue(e.target.value);
-    }
-    const onToggle = () =>{
-        setShowDatePicker(!showDatePicker);
-        setStoredData(updateDate);
-        setSelectedDate(new Date(updateDate));
-        setDayToggle(true);
-    }
+const ModifyBar = ({ id, valueChange, onModify, clickData, isModify, updateDate, setUpdateDate, dayToggle, setDayToggle,
+  clickIsShare }) => {
+  const [value, setValue] = useState("");
+  const [name, setName] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [storedData, setStoredData] = useState(null);
+  const [modalText, setmodalText] = useState("");
+  const [modalToggle, setmodalToggle] = useState(false);
+  const { showToast } = useToast({});
 
-    const onName = (e) =>{
-        setName(e.target.value)
-    }
+  useEffect(() => {
+    setValue(clickData.text);
+    setName(clickData.name);
+  }, [clickData]);
 
-    const onChangeDatePicker = (date) => {
-        setSelectedDate(date); // 선택된 날짜 업데이트
-        calculateDate(date);
-        setShowDatePicker(false); // DatePicker 닫기
-        setDayToggle(true);
-      };
+  // 모달 메세지 띄우는 거 하는 useEffect 토스트 메세지 관련 내용이 아직 정해지지 않아 임시로 주석처리
+  // useEffect(() => {
+  //   if (modalText) {
+  //     const timer = setTimeout(() => {
+  //       setmodalToggle(false);
+  //       setmodalText("");
+  //     }, 5000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [modalText]);
 
-    const calculateDate = (date) =>{
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, "0");
-        const dd = String(date.getDate()).padStart(2, "0");
-        const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
-        setUpdateDate(formattedDate);   
-    }
+  // useEffect(() => {
+  //   if (modalToggle){
+  //     showToast({ theme: ToastTheme.SUCCESS, message: modalText });
+  //   }
+  // }, [modalToggle]);
 
-    const onClickOut = () =>{
-      setShowDatePicker(false);
-      setDayToggle(true);
-      setUpdateDate(storedData);
+  const onChangeValue = (e) => {
+    if (e.target.value.length < 75) {
+      setValue(e.target.value);
+    } else {
+      setmodalText("75자까지 입력이 가능합니다.")
+      setmodalToggle(!modalToggle);
     }
-    return(
-        <ModifyStyle style={{opacity : isModify ? "1" : "0" , transform : isModify ? "translateY(0%)" : "translateY(100%)"}}>
-        {showDatePicker ? 
-        <DatePickerContainer>
-        <DatePicker
-          renderCustomHeader={({
-            date,
-            decreaseMonth,
-            increaseMonth,
-            prevMonthButtonDisabled,
-            nextMonthButtonDisabled,
-          }) => (
-            <DatePickerHeader>
-              <DatePickerHeaderDate>
-                {date.getFullYear()}년 {date.getMonth() + 1}월
-              </DatePickerHeaderDate>
-              <div style={{ gap: "12px", display: "flex" }}>
-                {!prevMonthButtonDisabled && (
-                  <img
-                    onClick={
-                      !prevMonthButtonDisabled
-                        ? decreaseMonth
-                        : undefined
-                    }
-                    disabled={prevMonthButtonDisabled}
-                    src="../images/ic_left_arrow.svg"
-                    alt="icon_left_arrow"
-                  />
-                )}
-                <img
-                  onClick={increaseMonth}
-                  disabled={nextMonthButtonDisabled}
-                  src="../images/ic_right_arrow.svg"
-                  alt="icon_right_arrow"
-                />
+  }
+  const onToggle = () => {
+    setShowDatePicker(!showDatePicker);
+    setStoredData(updateDate);
+    setSelectedDate(new Date(updateDate));
+    setDayToggle(true);
+  }
+
+  const onName = (e) => {
+    setName(e.target.value)
+  }
+
+  const onChangeDatePicker = (date) => {
+    setSelectedDate(date); // 선택된 날짜 업데이트
+    calculateDate(date);
+    setShowDatePicker(false); // DatePicker 닫기
+    setDayToggle(true);
+  };
+
+  const calculateDate = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${yyyy}-${mm}-${dd}`; // 포맷된 날짜 생성
+    setUpdateDate(formattedDate);
+  }
+
+  const onClickOut = () => {
+    setShowDatePicker(false);
+    setDayToggle(true);
+    setUpdateDate(storedData);
+  }
+  return (
+    <div>
+      <ModifyStyle style={{ opacity: isModify ? "1" : "0", transform: isModify ? "translateY(0%)" : "translateY(100%)" }}>
+        {showDatePicker ?
+          <DatePickerContainer>
+            <DatePicker
+              renderCustomHeader={({
+                date,
+                decreaseMonth,
+                increaseMonth,
+                prevMonthButtonDisabled,
+                nextMonthButtonDisabled,
+              }) => (
+                <DatePickerHeader>
+                  <DatePickerHeaderDate>
+                    {date.getFullYear()}년 {date.getMonth() + 1}월
+                  </DatePickerHeaderDate>
+                  <div style={{ gap: "12px", display: "flex" }}>
+                    {!prevMonthButtonDisabled && (
+                      <img
+                        onClick={
+                          !prevMonthButtonDisabled
+                            ? decreaseMonth
+                            : undefined
+                        }
+                        disabled={prevMonthButtonDisabled}
+                        src="../images/ic_left_arrow.svg"
+                        alt="icon_left_arrow"
+                      />
+                    )}
+                    <img
+                      onClick={increaseMonth}
+                      disabled={nextMonthButtonDisabled}
+                      src="../images/ic_right_arrow.svg"
+                      alt="icon_right_arrow"
+                    />
+                  </div>
+                </DatePickerHeader>
+              )}
+              selected={selectedDate}
+              onChange={(date) => onChangeDatePicker(date)}
+              minDate={new Date()}
+              dateFormat="yyyy-MM-dd"
+              popperPlacement="bottom-start"
+              onClickOutside={() => onClickOut()}
+              locale={ko}
+              inline
+            />
+          </DatePickerContainer> : ""}
+        {!clickIsShare ?
+          <div>
+            <TopContainer>
+              <X_Image src={X_image} onClick={onModify}></X_Image>
+            </TopContainer>
+            <div style={{ width: '100%', display: 'flex', padding: "16px 11px 0px 12px", boxSizing: "border-box" }}>
+              <StyleName placeholder={name} type="text" value={name} onChange={onName}></StyleName>
+              <textarea style={{
+                display: "flex", flexGrow: "1", minHeight: '85px', marginLeft: "20px", border: 'none', borderBottom: '1px solid #EEEEEE', outline: 'none',
+                fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight: '400', fontSize: '16px', lineHeight: '23px', color: '#808080'
+              }} value={value}
+                onChange={onChangeValue}></textarea>
+            </div>
+            <DateSet>
+              {(updateDate) ? <div style={{
+                marginLeft: "4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight: "400",
+                fontSize: "16px", lineHeight: "23px", color: " #75BD62"
+              }} onClick={onToggle}>{"~" + updateDate}</div> : ""}
+              <div><DayCalender src={(dayToggle) ? DayCalenderhoverImage : DayCalenderImage} onClick={onToggle} /></div>
+            </DateSet>
+            {value === "" ? <ModifyBtn style={{ backgroundColor: "#EEEEEE" }}>수정 완료하기</ModifyBtn> :
+              <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
+          </div>
+          :
+          <div>
+            <TopContainer>
+              <X_Image src={X_image} onClick={onModify}></X_Image>
+            </TopContainer>
+            <div style={{ width: '100%', display: 'flex', padding: "16px 11px 0px 12px", boxSizing: "border-box" }}>
+              <div style={{
+                width: "60px", height: "23px", fontSize: "16px", textAlign: "center", fontFamily: "Noto Sans KR",
+                fontWeight: "400", color: "#75BD62", outline: "none", border: "none", borderBottom: "1px solid #EEEEEE", opacity: "0.5"
+              }}>{name}</div>
+              <div style={{
+                display: "flex", flexGrow: "1", minHeight: '85px', marginLeft: "20px", border: 'none', borderBottom: '1px solid #EEEEEE', outline: 'none',
+                fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight: '400', fontSize: '16px', lineHeight: '23px', color: '#808080', opacity: "0.5"
+              }}>
+                {value}
               </div>
-            </DatePickerHeader>
-          )}
-          selected={selectedDate}
-          onChange={(date) => onChangeDatePicker(date)}
-          minDate={new Date()}
-          dateFormat="yyyy-MM-dd"
-          popperPlacement="bottom-start"
-          onClickOutside={() => onClickOut()}
-          locale={ko}
-          inline
-        />
-      </DatePickerContainer> : ""}
-        <TopContainer>
-            <X_Image src={X_image} onClick={onModify}></X_Image>
-        </TopContainer>
-        <div style={{width: '100%', display: 'flex',padding: "16px 11px 0px 12px", boxSizing:"border-box"}}>
-        <StyleName placeholder = {name} type="text" value = {name} onChange={onName}></StyleName>
-            <textarea style={{display:"flex",flexGrow:"1", minHeight:'85px',marginLeft:"20px",border:'none',borderBottom: '1px solid #EEEEEE', outline: 'none',
-            fontFamily: 'Noto Sans KR', fontStyle: "normal", fontWeight:'400', fontSize:'16px',lineHeight:'23px', color:'#808080'}} value={value}
-            onChange={onChangeValue}></textarea>
-        </div>
-        <DateSet>
-        {(updateDate) ? <div style={{marginLeft:"4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight:"400", 
-        fontSize:"16px", lineHeight:"23px", color:" #75BD62"}} onClick={onToggle}>{"~"+ updateDate}</div> : ""}
-        <div><DayCalender src={(dayToggle) ? Day_Calender_hover : Day_Calender} onClick={onToggle}/></div>
-        </DateSet>
-        {value === "" ? <ModifyBtn style={{backgroundColor: "#EEEEEE"}}>수정 완료하기</ModifyBtn>: 
-        <ModifyBtn onClick={() => valueChange(id, value, name, updateDate)}>수정 완료하기</ModifyBtn>}
-        </ModifyStyle>
-    )
+            </div>
+            <DateSet>
+              {(updateDate) ? <div style={{
+                marginLeft: "4px", fontFamily: "Noto Sans KR", fontStyle: "normal", fontWeight: "400",
+                fontSize: "16px", lineHeight: "23px", color: " #75BD62"
+              }} onClick={onToggle}>{"~" + updateDate}</div> : ""}
+              <div><DayCalender src={(dayToggle) ? DayCalenderhoverImage : DayCalenderImage} onClick={onToggle} /></div>
+            </DateSet>
+            {value === "" ? <ModifyBtn style={{ backgroundColor: "#EEEEEE" }}>수정 완료하기</ModifyBtn> :
+              <ModifyBtn onClick={() => valueChange(id, value, name, updateDate, clickIsShare)}>수정 완료하기</ModifyBtn>}
+          </div>}
+      </ModifyStyle>
+      <div></div>
+    </div>
+  )
 }
 
 export default ModifyBar;

@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Share_Logo from "./ShareLogo";
-import share_img from "../../images/share_img.svg";
 import ShareMode from "./ShareMode";
+import ImgShare from "../../images/ic_share_img.svg";
+
 
 const ShareImg = styled(Share_Logo)`
     position: fixed;
@@ -28,7 +29,7 @@ const Container = styled.div`
 function Share({onShare, onMove , shareToggle, onCheck, isShare, shareLength, setshareToggle,isModify, isChecked}){
     return(
         <Container style={{zIndex : shareToggle ? "10000" : "4"}}>
-            <ShareImg style={{bottom : (!shareToggle) ? "72px" : "0px"}} onClick={onMove} src={share_img}/>
+            <ShareImg style={{bottom : (!shareToggle) ? "72px" : "0px"}} onClick={onMove} src={ImgShare}/>
             <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare} 
             shareLength = {shareLength} shareToggle ={shareToggle} setshareToggle ={setshareToggle}/>
         </Container>
