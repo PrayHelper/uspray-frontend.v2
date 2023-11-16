@@ -6,19 +6,19 @@ import useSleep from './useSleep';
 const nil = {isnil: true}
 
 let deviceToken = {
-    current: null
+    current: ""
 }
 
 let authToken = {
-    current: null
+    current: ""
 }
 
 let deviceLock = {
-    current: null
+    current: ""
 }
 
 let authLock = {
-    current: null
+    current: ""
 }
 
 
@@ -27,7 +27,7 @@ const useDeviceToken = () => {
   const { sleepWithCondition } = useSleep();
 
   const getDeviceToken = async () => {
-    if (deviceToken.current != null) {
+    if (deviceToken.current !== "") {
       return deviceToken.current
     }
     //eslint-disable-next-line
@@ -63,7 +63,7 @@ const useAuthToken = () => {
 
   // Return nullstring if there is no auth token stored in device.
   const getAuthToken = async () => {
-    if (authToken.current != null) {
+    if (authToken.current !== "") {
       return authToken.current
     }
     //eslint-disable-next-line
@@ -72,7 +72,7 @@ const useAuthToken = () => {
     authLock.current = true;
     await sleepWithCondition(() => authLock.current === false)
 
-    console.log(`getAuthToken() returned ${authToken.current}`)
+    console.log(`getAuthToken() returned ${authToken.current ? authToken.current : "null"}`)
     return authToken.current;
   }
 
