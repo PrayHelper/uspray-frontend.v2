@@ -142,7 +142,7 @@ const TemplateMain = ({
         }
     };
     const onChange = (e) => {
-        // if (e.target.value.length < 75) {
+        // if (e.target.value.length < 75) { // 이 또한 modal로 인해 잠시 주석처리
         setValue(e.target.value);
         // } else {
         //     setmodalText("75자까지 입력이 가능합니다.")
