@@ -11,7 +11,8 @@ import { useGetInfo } from "../../hooks/useGetInfo";
 const BackgroundInput = styled.div`
   display: flex;
   position: relative;
-  padding: 0px 24px 24px 35px;
+  padding: 16px 12px 8px 12px;
+  border-radius : 16px;
   background: white;
   border-bottom: 1px solid white;
   box-sizing: border-box;
@@ -83,10 +84,6 @@ const BlankSendImg = styled(Logo)`
 `;
 
 const StyleInput = styled.input`
-  width: 100%;
-  margin-top: 69px;
-  margin: 69px 12px 0px 12px;
-  border-radius: 4px;
   border: none;
   font-size: 16px;
   color: #a0a0a0;
@@ -112,12 +109,12 @@ const StyleName = styled.input`
 `;
 
 const TemplateMain = ({
-  children,
-  onInsert,
-  shareToggle,
-  setshareToggle,
-  isShare,
-  setIsShare,
+    children,
+    onInsert,
+    shareToggle,
+    setshareToggle,
+    isShare,
+    setIsShare,
 }) => {
     const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
     const [name, setName] = useState("");

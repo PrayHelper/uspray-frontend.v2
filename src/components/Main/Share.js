@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Share_Logo from "./ShareLogo";
 import share_img from "../../images/share_img.svg";
 import ShareMode from "./ShareMode";
-
+import ShareImage from "../../images/ShareImg.svg";
 const ShareImg = styled(Share_Logo)`
     position: fixed;
     right: 24px;
@@ -25,12 +25,12 @@ const Container = styled.div`
     z-index: 6;
     transition : all 0.3s ease-in-out;
 `
-function Share({onShare, onMove , shareToggle, onCheck, isShare, shareLength, setshareToggle,isModify, isChecked}){
-    return(
-        <Container style={{zIndex : shareToggle ? "10000" : "4"}}>
-            <ShareImg style={{bottom : (!shareToggle) ? "72px" : "0px"}} onClick={onMove} src={share_img}/>
-            <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare} 
-            shareLength = {shareLength} shareToggle ={shareToggle} setshareToggle ={setshareToggle}/>
+function Share({ onShare, onMove, shareToggle, onCheck, isShare, shareLength, setshareToggle, isModify, isChecked }) {
+    return (
+        <Container style={{ zIndex: shareToggle ? "10000" : "4" }}>
+            <ShareImg style={{ bottom: (!shareToggle) ? "72px" : "0px" }} onClick={onMove} src={ShareImage} />
+            <ShareMode onMove={onMove} onShare={onShare} onCheck={onCheck} isShare={isShare}
+                shareLength={shareLength} shareToggle={shareToggle} setshareToggle={setshareToggle} />
         </Container>
     )
 }
