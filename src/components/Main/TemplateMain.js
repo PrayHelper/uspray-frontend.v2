@@ -6,10 +6,13 @@ import BackgroundBright from "./BackgroundBright";
 import DisableImage from "../../images/ic_disable_image.svg";
 import noClickImage from "../../images/no_click_image.svg";
 import { useGetInfo } from "../../hooks/useGetInfo";
+
+
 const BackgroundInput = styled.div`
   display: flex;
   position: relative;
-  padding: 0px 24px 24px 35px;
+  padding: 16px 12px 8px 12px;
+  border-radius : 16px;
   background: white;
   border-bottom: 1px solid white;
   box-sizing: border-box;
@@ -17,6 +20,21 @@ const BackgroundInput = styled.div`
   z-index: 103;
   transition: all 0.5s ease-in-out;
 `;
+
+const LogoTitle = styled.div`
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+`;
+
+const MainComponent = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 24px 16px;
+    gap: 16px;
+`;
+
 const BtnSend = styled.button`
   width: 31px;
   height: 31px;
@@ -66,10 +84,6 @@ const BlankSendImg = styled(Logo)`
 `;
 
 const StyleInput = styled.input`
-  width: 100%;
-  margin-top: 69px;
-  margin: 69px 12px 0px 12px;
-  border-radius: 4px;
   border: none;
   font-size: 16px;
   color: #a0a0a0;
@@ -95,117 +109,119 @@ const StyleName = styled.input`
 `;
 
 const TemplateMain = ({
-  children,
-  onInsert,
-  shareToggle,
-  setshareToggle,
-  isShare,
-  setIsShare,
+    children,
+    onInsert,
+    shareToggle,
+    setshareToggle,
+    isShare,
+    setIsShare,
 }) => {
-  const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
-  const [name, setName] = useState("");
-  const [visible, setVisible] = useState(false);
-  const [value, setValue] = useState("");
-  const [day, setDay] = useState(7);
-  const [Toggle, setToggle] = useState(true);
-  const [updateDate, setUpdateDate] = useState(null);
-  const [dayToggle, setDayToggle] = useState(false);
+    const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
+    const [name, setName] = useState("");
+    const [visible, setVisible] = useState(false);
+    const [value, setValue] = useState("");
+    const [day, setDay] = useState(7);
+    const [Toggle, setToggle] = useState(true);
+    const [updateDate, setUpdateDate] = useState(null); // 잠시 안쓰는 상태
+    const [dayToggle, setDayToggle] = useState(false); // 잠시 안쓰는 상태
 
-  const widthChange = () => {
-    setVisible(!visible);
-    if (shareToggle) {
-      setshareToggle(!shareToggle);
-      setIsShare(!isShare);
-    }
-  };
-  const dayInfo = (e) => {
-    setDay(e);
-  };
+    const widthChange = () => {
+        setVisible(!visible);
+        if (shareToggle) {
+            setshareToggle(!shareToggle);
+            setIsShare(!isShare);
+        }
+    };
+    const dayInfo = (e) => {
+        setDay(e);
+    };
 
-  const onSubmit = () => {
-    if (day === 0) {
-      setVisible(!visible);
-    }
-  };
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-  const onName = (e) => {
-    if (e.target.value.length < 5) {
-      setName(e.target.value);
-    }
-  };
-  const submit = () => {
-    setVisible(!visible);
-    setValue("");
-    onInsert(name, day, value);
-    setDay(7);
-    setDayToggle(false);
-    setUpdateDate(null);
-  };
-  const changeCheckTop = () => {
-    setVisible(!visible);
-    if (Toggle == false) {
-      setToggle(!Toggle);
-    }
-  };
+    const onSubmit = () => {
+        if (day === 0) {
+            setVisible(!visible);
+        }
+    };
+    const onChange = (e) => {
+        // if (e.target.value.length < 75) { // 이 또한 modal로 인해 잠시 주석처리
+        setValue(e.target.value);
+        // } else {
+        //     setmodalText("75자까지 입력이 가능합니다.")
+        //     setmodalToggle(!modalToggle);
+        // }
+    };
+    const onName = (e) => {
+        if (e.target.value.length < 5) {
+            setName(e.target.value);
+        }
+    };
+    const submit = () => {
+        setVisible(!visible);
+        setValue("");
+        onInsert(name, day, value);
+        setDay(7);
+        setDayToggle(false);
+        setUpdateDate(null);
+    };
+    const changeCheckTop = () => {
+        setVisible(!visible);
+        if (Toggle == false) {
+            setToggle(!Toggle);
+        }
+    };
 
-  useEffect(() => {
-    if (!userInfo) {
-      refetch_userInfo();
-      return;
-    }
-    setName(userInfo.data.name);
-  }, [userInfo]);
+    useEffect(() => {
+        if (!userInfo) {
+            refetch_userInfo();
+            return;
+        }
+        setName(userInfo.data.name);
+    }, [userInfo]);
 
-  return (
-    <div style={{ width: "100%" }}>
-      <div style={{ position: "relative" }}>
-        <BackgroundInput
-          style={{ boxShadow: !visible ? "0 2px 4px rgba(0, 0, 0, 0.2)" : "" }}>
-          <StyleName
-            placeholder={name}
-            type="text"
-            value={name}
-            onChange={onName}></StyleName>
-          <StyleInput
-            placeholder="기도제목을 입력해주세요"
-            type="text"
-            value={value}
-            onChange={onChange}
-            onClick={!visible ? () => widthChange() : onSubmit()}></StyleInput>
-          <div
-            style={{ marginTop: "65px", minHeight: "31px", minWidth: "31px" }}>
-            {value === "" ? (
-              <BlankBtnSend>
-                <BlankSendImg src={DisableImage} />
-              </BlankBtnSend>
-            ) : (
-              <BtnSend onClick={() => submit()}>
-                <SendImg src={noClickImage} />
-              </BtnSend>
-            )}
-          </div>
-        </BackgroundInput>
-        <DayButton
-          dayInfo={dayInfo}
-          visible={visible}
-          dayToggle={dayToggle}
-          setDayToggle={setDayToggle}
-          updateDate={updateDate}
-          setUpdateDate={setUpdateDate}
-        />
-      </div>
-      <BackgroundBright
-        onClick={changeCheckTop}
-        style={{
-          opacity: visible ? "1" : "0",
-          pointerEvents: visible ? "auto" : "none",
-        }}
-      />
-      {children}
-    </div>
-  );
-};
+    useEffect(() => {
+        if (!userInfo) {
+            refetch_userInfo();
+            return;
+        }
+        setName(userInfo.data.name)
+    }, [userInfo])
+
+    // useEffect(() => {이부분 또한 토스트 메세지가 어떻게 될지 몰라 임시로 주석처리
+    //     if (modalText) {
+    //       const timer = setTimeout(() => {
+    //         setmodalToggle(false);
+    //         setmodalText("");
+    //       }, 5000);
+    //       return () => clearTimeout(timer);
+    //     }
+    //   }, [modalText]);
+
+    // useEffect(() => {
+    //     if (modalToggle) {
+    //         showToast({theme: ToastTheme.SUCCESS, message: modalText });
+    //     }
+    // }, [modalToggle]);
+
+    return (
+        <div style={{ width: "100%", backgroundColor: "#7BAB6E" }}>
+            <MainComponent>
+                <LogoTitle>
+                    Uspray
+                </LogoTitle>
+                <BackgroundInput>
+                    <StyleInput placeholder="기도제목을 입력해주세요" type="text" value={value} onChange={onChange}
+                        onClick={(!visible) ? () => widthChange() : onSubmit()}></StyleInput>
+                </BackgroundInput>
+            </MainComponent>
+            <BackgroundBright
+                onClick={changeCheckTop}
+                style={{
+                    opacity: visible ? "1" : "0",
+                    pointerEvents: visible ? "auto" : "none",
+                }}
+            />
+            {children}
+        </div>
+    );
+}
 
 export default TemplateMain;

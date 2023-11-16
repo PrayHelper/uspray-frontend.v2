@@ -17,9 +17,10 @@ import PrayerSortToggle from "./PrayerSortToggle";
 const Background = styled.div`
   width: 100%;
   background-color: #d0e8cb;
-  height: auto;
+  height: calc(100vh - 150px);
+  overflow-y : scroll;
   min-height: 812px;
-  //   margin-top: 24px;
+  border-radius : 32px 32px 0px 0px;
 `;
 
 const TopContent = styled.div`
