@@ -124,8 +124,8 @@ const TemplateMain = ({
     const [value, setValue] = useState("");
     const [day, setDay] = useState(7);
     const [Toggle, setToggle] = useState(true);
-    const [updateDate, setUpdateDate] = useState(null);
-    const [dayToggle, setDayToggle] = useState(false);
+    const [updateDate, setUpdateDate] = useState(null); // 잠시 안쓰는 상태
+    const [dayToggle, setDayToggle] = useState(false); // 잠시 안쓰는 상태
 
     const widthChange = () => {
         setVisible(!visible);
