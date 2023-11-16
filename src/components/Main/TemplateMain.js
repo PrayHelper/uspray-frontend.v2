@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Logo from "./Logo";
 import DayButton from "./DayButton";
 import BackgroundBright from "./BackgroundBright";
+import DisableImage from "../../images/ic_disable_image.svg";
+import noClickImage from "../../images/no_click_image.svg";
 import { useGetInfo } from "../../hooks/useGetInfo";
-import { ToastTheme } from "../Toast/Toast";
-import useToast from "../../hooks/useToast";
-import Logo from "./Logo";
 
 
 const BackgroundInput = styled.div`
   display: flex;
   position: relative;
+  padding: 0px 24px 24px 35px;
   background: white;
   border-bottom: 1px solid white;
   box-sizing: border-box;
   align-items: center;
-  border-radius: 16px;
   z-index: 103;
   transition: all 0.5s ease-in-out;
 `;
@@ -83,20 +83,21 @@ const BlankSendImg = styled(Logo)`
 `;
 
 const StyleInput = styled.input`
-    border : none;
-    width : 100%;
-    font-size: 16px;    
-    padding : 16px 0px 12px 16px;
-    border-radius : 12px;           
-    color: #A0A0A0; 
-    outline: none;
-    border-bottom: 1px solid #EBF7E8;
-    ::placeholder {
-        color: #B7CEB0; // 원하는 색상으로 변경
-    }
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  width: 100%;
+  margin-top: 69px;
+  margin: 69px 12px 0px 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 16px;
+  color: #a0a0a0;
+  outline: none;
+  border-bottom: 1px solid #ebf7e8;
+  ::placeholder {
+    color: #b7ceb0; // 원하는 색상으로 변경
+  }
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 const StyleName = styled.input`
   width: 48px;
@@ -111,12 +112,12 @@ const StyleName = styled.input`
 `;
 
 const TemplateMain = ({
-    children,
-    onInsert,
-    shareToggle,
-    setshareToggle,
-    isShare,
-    setIsShare,
+  children,
+  onInsert,
+  shareToggle,
+  setshareToggle,
+  isShare,
+  setIsShare,
 }) => {
     const { data: userInfo, refetch: refetch_userInfo } = useGetInfo();
     const [name, setName] = useState("");
@@ -225,6 +226,5 @@ const TemplateMain = ({
         </div>
     );
 }
-
 
 export default TemplateMain;
