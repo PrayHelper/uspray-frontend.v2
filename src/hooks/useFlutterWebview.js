@@ -14,11 +14,11 @@ let authToken = {
 }
 
 let deviceLock = {
-    current: ""
+    current: false
 }
 
 let authLock = {
-    current: ""
+    current: false
 }
 
 
