@@ -44,6 +44,7 @@ import useToast from "./hooks/useToast";
 import HistorySearch from "./pages/HistorySearch";
 import GroupSettings from "./pages/GroupSettings";
 import ChangeGroupName from './pages/ChangeGroupName';
+import AssignGroupLeader from './pages/AssignGroupLeader';
 
 const ContainerWrapper = styled.div`
   /* max-width: 430px; */
@@ -105,6 +106,7 @@ function App() {
                 </Route>
                 <Route path="/groupSettings" element={<GroupSettings />} />
                 <Route path="/changeGroupName" element={<ChangeGroupName />} />
+                <Route path="/assignGroupLeader" element={<AssignGroupLeader />} /> 
                 <Route path="/checkInfo" element={<CheckInfo />} />
                 <Route path="/changeInfo" element={<ChangeInfo />} />
                 <Route path="/changePw" element={<ChangePw />} />

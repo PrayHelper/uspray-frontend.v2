@@ -35,15 +35,7 @@ const ChangeGroupName = () => {
             isError={!!invalidGroupName}
             description={invalidGroupName}
           />
-          <div
-            style={{
-              position: "absolute",
-              bottom: "40px",
-              width: "calc(100% - 32px)",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
+          <BottomButtonWrapper>
             <Button
               disabled={groupName && !invalidGroupName}
               buttonSize={ButtonSize.LARGE}
@@ -51,9 +43,8 @@ const ChangeGroupName = () => {
               isArrow={true}
             >
               모임 이름 변경하기
-              {/* {isAllValid ? <NextArrowWhite/> : <NextArrowGray/>} */}
             </Button>
-          </div>
+          </BottomButtonWrapper>
         </div>
       </ContentWrapper>
     </Wrapper>
@@ -72,6 +63,14 @@ const ContentWrapper = styled.div`
   width: 100%;
   gap: 24px;
   margin-top: 24px;
+`
+
+const BottomButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 40px;
+  width: calc(100% - 32px);
+  display: flex;
+  flex-direction: column;
 `
 
 export default ChangeGroupName;
