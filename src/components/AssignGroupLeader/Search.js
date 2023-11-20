@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 `
 
 const ContentWrapper = styled.div`
-  display: flex;;
+  display: flex;
   flex-direction: column;
   padding: 16px;
   gap: 16px
