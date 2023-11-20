@@ -32,6 +32,7 @@ const GroupSettings = () => {
             buttonSize={ButtonSize.LARGE}
             buttonTheme={ButtonTheme.WHITE}
             isArrow={true}
+            handler={() => navigate('/removeMember')}
           >
             멤버 내보내기
           </Button>

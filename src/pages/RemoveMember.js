@@ -10,7 +10,7 @@ import Modal from '../components/Modal/Modal';
 import useToast from '../hooks/useToast';
 import { ToastTheme } from '../components/Toast/Toast';
 
-const AssignGroupLeader = () => {
+const RemoveMember = () => {
   const [showModal, setShowModal] = useState(false);
   const [leader, setLeader] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -27,29 +27,29 @@ const AssignGroupLeader = () => {
           <BlackScreen isModalOn={showModal} onClick={closeModal} />
           <Modal
             isModalOn={showModal}
-            iconSrc={"images/ic_group_leader_modal.svg"}
-            iconAlt={"icon_group_leader"}
-            mainContent={"모임 리더를 맡기시겠습니까?"}
-            subContent={"맡기신 후에는 기본 멤버로 변경됩니다."}
-            btnContent={"변경하기"}
+            iconSrc={"images/ic_group_remove.svg"}
+            iconAlt={"icon_group_remove"}
+            mainContent={"모임에서 내보내겠습니까?"}
+            subContent={"내보낸 후에는 모임에 참여할 수 없습니다."}
+            btnContent={"내보내기"}
             btnContent2={"취소"}
             onClickBtn={() => {
               closeModal();
               showToast({
-                message: "리더가 변경되었어요.",
+                message: "멤버가 내보내졌어요.",
                 theme: ToastTheme.SUCCESS,
               });
             }}
             onClickBtn2={closeModal}
-            modalTheme={0}
+            modalTheme={2}
           />
         </>
       )}
-      <UserHeader>모임 리더 맡기기</UserHeader>
+      <UserHeader>멤버 내보내기</UserHeader>
       <ContentWrapper>
         <div style={{display: "flex", flexDirection: "column", height: '100%'}}>
           <Search
-            topText={"\"모임 리더 맡기기\"를 누르시면 모임리더 권한이 모두 위임되며, 나는 멤버로 변경됩니다."}
+            topText={"\"멤버 내보내기\"를 누르시면?"}
             setSearchName={setSearchName}
           />
           <SearchList data={data} searchName={searchName} leader={leader} setLeader={setLeader}/>
@@ -63,7 +63,7 @@ const AssignGroupLeader = () => {
                 setShowModal(true);
               }}
             >
-              모임 리더 맡기기
+              멤버 내보내기
             </Button>
           </BottomButtonWrapper>
         </div>
@@ -97,4 +97,4 @@ const BottomButtonWrapper = styled.div`
   padding: 0 16px;
 `
 
-export default AssignGroupLeader;
+export default RemoveMember;
