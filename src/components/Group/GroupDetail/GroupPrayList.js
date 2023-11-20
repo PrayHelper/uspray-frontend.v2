@@ -27,7 +27,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   flex: 1 0 auto;
   padding-top: 16px;
-  letter-spacing: -0.04em;
 `;
 
 const NoDataWrapper = styled.div`

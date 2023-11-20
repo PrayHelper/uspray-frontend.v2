@@ -66,7 +66,6 @@ const GroupInfoText = styled.div`
   font-size: 24px;
   font-weight: 700;
   color: #75BD6280;
-  letter-spacing: -0.04em;
 ;
 `
 export default GroupInfo;

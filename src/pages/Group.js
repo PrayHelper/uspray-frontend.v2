@@ -23,7 +23,6 @@ const Group = () => {
   );
 };
 const GroupWrapper = styled.div`
-  /* padding-top: 65px; */
   width: 100%;
   height: 100vh;
   background-color: var(--color-light-green);
