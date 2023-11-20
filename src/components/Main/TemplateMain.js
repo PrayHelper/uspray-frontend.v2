@@ -21,6 +21,10 @@ const BackgroundInput = styled.div`
   transition: all 0.5s ease-in-out;
 `;
 
+const InnerInput = styled.div`
+    width: 100%;
+    border-bottom: 1px solid #EBF6E8;
+`
 const LogoTitle = styled.div`
     color: #fff;
     font-size: 24px;
@@ -88,7 +92,6 @@ const StyleInput = styled.input`
   font-size: 16px;
   color: #a0a0a0;
   outline: none;
-  border-bottom: 1px solid #ebf7e8;
   ::placeholder {
     color: #b7ceb0; // 원하는 색상으로 변경
   }
@@ -208,10 +211,12 @@ const TemplateMain = ({
                     Uspray
                 </LogoTitle>
                 <BackgroundInput>
-                    <StyleInput placeholder="기도제목을 입력해주세요" type="text" value={value} onChange={onChange}
-                        onClick={(!visible) ? () => widthChange() : onSubmit()}></StyleInput>
+                    <InnerInput>
+                        <StyleInput placeholder="기도제목을 입력해주세요" type="text" value={value} onChange={onChange}
+                            onClick={(!visible) ? () => widthChange() : onSubmit()} />
+                    </InnerInput>
                 </BackgroundInput>
-            </MainComponent>
+            </MainComponent >
             <BackgroundBright
                 onClick={changeCheckTop}
                 style={{
@@ -220,7 +225,7 @@ const TemplateMain = ({
                 }}
             />
             {children}
-        </div>
+        </div >
     );
 }
 
