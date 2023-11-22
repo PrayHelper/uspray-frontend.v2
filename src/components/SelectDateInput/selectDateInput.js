@@ -7,10 +7,9 @@ import BlackScreen from "../BlackScreen/BlackScreen";
 /*
   props 넘겨받을 목록 (History.js 파일 참고하기)
   1. maxlen : 최대 길이, maxrow : 최대 줄바꿈, inputPlaceHolder
-  2. selectedBtn, setSelectedBtn 변수 (각 날짜 버튼 클릭 유무)
-  3. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
-  4. showSubModal setShowSubModal 변수 (현재 컴포넌트 창 켜져있는지)
-  5. onClickFunc 기도 추가 이벤트 함수
+  2. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
+  3. showSubModal setShowSubModal 변수 (현재 컴포넌트 창 켜져있는지)
+  4. onClickFunc 기도 추가 이벤트 함수
   ------ Calender 관련 ------
   1. selectedDate, setSelectedDate 변수 (현재 선택된 날짜)
   2. showDatePicker, setShowDatePicker 변수 (달력 show 유무)
@@ -54,8 +53,6 @@ const SelectDateInput = (props) => {
             </Countwords>
           </ModalInputWrapper>
           <SelectDate
-            selectedBtn={props.selectedBtn}
-            setSelectedBtn={props.setSelectedBtn}
             selectedDate={props.selectedDate}
             setSelectedDate={props.setSelectedDate}
             showDatePicker={props.showDatePicker}
@@ -70,6 +67,12 @@ const SelectDateInput = (props) => {
       </SubModalWrapper>
     </>
   );
+};
+
+SelectDateInput.defaultProps = {
+  inputPlaceHolder: "기도제목을 입력해주세요",
+  maxlen: 75,
+  maxrow: 3,
 };
 
 export default SelectDateInput;

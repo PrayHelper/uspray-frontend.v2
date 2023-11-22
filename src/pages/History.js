@@ -18,7 +18,6 @@ const History = () => {
   const [currentData, setCurrentData] = useState({});
   const [currentId, setCurrentId] = useState();
   const [updateDate, setUpdateDate] = useState(null);
-  const [selectedBtn, setSelectedBtn] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [pageMy, setPageMy] = useState(1);
@@ -49,7 +48,6 @@ const History = () => {
   };
 
   const onClickExitModal = () => {
-    setSelectedBtn("");
     setSelectedDate(null);
     setShowDatePicker(false);
     setShowModal(false);
@@ -240,8 +238,6 @@ const History = () => {
         <SelectDateInput
           {...{
             setShowSubModal,
-            selectedBtn,
-            setSelectedBtn,
             selectedDate,
             setSelectedDate,
             showDatePicker,
@@ -251,9 +247,6 @@ const History = () => {
             onClickFunc,
           }}
           onClickFunc={() => onClickModify(sortBy)}
-          inputPlaceHolder={"기도제목을 입력해주세요"}
-          maxlen={75}
-          maxrow={3}
         />
       </div>
       {sortBy === "date" && (

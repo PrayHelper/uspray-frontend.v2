@@ -14,13 +14,14 @@ import Calender from "../Calender/Calender";
 
 const SelectDate = (props) => {
   const dateOptions = [3, 7, 30, 100];
+  const [selectedBtn, setSelectedBtn] = useState("");
   const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
 
   const onClickCalendar = () => {
-    if (props.selectedBtn === "calendar") {
-      props.setSelectedBtn();
+    if (selectedBtn === "calendar") {
+      setSelectedBtn();
     } else {
-      props.setSelectedBtn("calendar");
+      setSelectedBtn("calendar");
       props.setShowDatePicker(!props.showDatePicker);
     }
   };
@@ -30,7 +31,7 @@ const SelectDate = (props) => {
       const today = new Date();
       const targetDate = new Date(today.getTime() + date * 24 * 60 * 60 * 1000);
       changeDate(targetDate);
-      props.setSelectedBtn(date); // css 변경용
+      setSelectedBtn(date); // css 변경용
     } else {
       props.setSelectedDate(date); // 선택된 날짜 업데이트
       changeDate(date);
@@ -60,7 +61,7 @@ const SelectDate = (props) => {
       {dateOptions.map((option) => (
         <SubModalBtn
           key={option}
-          isSelected={props.selectedBtn === option}
+          isSelected={selectedBtn === option}
           onClick={() => onChangeDate(option)}
         >
           {`${option}일`}
@@ -68,7 +69,7 @@ const SelectDate = (props) => {
       ))}
       <CalenderIcon
         src={
-          props.selectedBtn === "calendar"
+          selectedBtn === "calendar"
             ? "../images/icon_calender_filled.svg"
             : "../images/icon_calender.svg"
         }
