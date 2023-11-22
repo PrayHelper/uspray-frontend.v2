@@ -309,20 +309,25 @@ const ModalTarget = styled.span`
 const ModalDate = styled.div`
   color: var(--color-dark-green);
   font-size: 12px;
-  line-height: 17px;
 `;
 
 const ModalContent = styled.div`
-  padding: 0px 28px 12px 28px;
+  padding: 0px 28px 0px 28px;
   font-size: 16px;
-  line-height: 23px;
   color: var(--color-dark-grey);
+  word-break: keep-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ModalWriter = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  padding: 0px 20px 11px 0px;
+  padding: 12px 20px 11px 0px;
   font-size: 12px;
   color: var(--color-grey);
 `;
