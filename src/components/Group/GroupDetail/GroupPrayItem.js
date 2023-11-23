@@ -10,7 +10,7 @@ const GroupPrayItem = () => {
       <div style={{padding: "12px 16px", display: "flex", gap: "40px"}}>
         <PrayContent>
           <div style={{fontSize: "14px", color: "var(--color-green)"}}>김은혜</div>
-          <div style={{fontSize: "12px", color: "#496143"}}>
+          <div style={{fontSize: "12px", color: "var(--color-group-pray-content)"}}>
             현재 오랫동안 감기가 낫지 않아 일상에 제대로 집중하지 못하고 있습니다. 빠르게 회복하여 다시 열정을 가지고 시험 준비에 임할 수 있도록 기도해주세요!
           </div>
         </PrayContent>
@@ -50,7 +50,7 @@ const PrayButton = styled.div`
   gap: 8px;
   border-radius: 16px;
   height: fit-content;
-  background-color: #F8F8F8;
+  background-color: var(--color-group-pray-button-background);
 `
 
 export default GroupPrayItem;

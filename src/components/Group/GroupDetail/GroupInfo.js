@@ -65,7 +65,7 @@ const LoadButton = styled.div`
 const GroupInfoText = styled.div`
   font-size: 24px;
   font-weight: 700;
-  color: #75BD6280;
+  color: var(--color-green-80);
 ;
 `
 export default GroupInfo;
