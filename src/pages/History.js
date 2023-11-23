@@ -1,7 +1,7 @@
 import Header from "../components/Header/Header";
 import styled from "styled-components";
 import HisContent from "../components/History/HisContent";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import BlackScreen from "../components/BlackScreen/BlackScreen";
 import { useFetchHistory } from "../hooks/useFetchHistory";
@@ -9,7 +9,7 @@ import { useHistoryModify } from "../hooks/useHistoryModify";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import useToast from "../hooks/useToast";
-import SelectDate from "../components/SelectDate/selectDate";
+import SelectDateInput from "../components/SelectDateInput/selectDateInput";
 
 const History = () => {
   const [loading, setLoading] = useState(true);
@@ -178,6 +178,9 @@ const History = () => {
     }
   }, [hasMore, inView]);
 
+  const onClickFunc = () => {
+    console.log("gg");
+  };
   return (
     <HistoryWrapper>
       <Header sortBy={sortBy} onClickToggle={onClickToggle}>
@@ -233,25 +236,24 @@ const History = () => {
             </ModalWrapper>
           </>
         )}
-        <SubModalWrapper showSubModal={showSubModal}>
-          <SubModalTop>
-            <SelectDate
-              {...{
-                selectedBtn,
-                setSelectedBtn,
-                selectedDate,
-                setSelectedDate,
-                showDatePicker,
-                setShowDatePicker,
-                setUpdateDate,
-                showSubModal,
-              }}
-            />
-          </SubModalTop>
-          <SubModalBottom onClick={() => onClickModify(sortBy)}>
-            오늘의 기도에 추가하기
-          </SubModalBottom>
-        </SubModalWrapper>
+        <SelectDateInput
+          {...{
+            setShowSubModal,
+            selectedBtn,
+            setSelectedBtn,
+            selectedDate,
+            setSelectedDate,
+            showDatePicker,
+            setShowDatePicker,
+            setUpdateDate,
+            showSubModal,
+            onClickFunc,
+          }}
+          onClickFunc={() => onClickModify(sortBy)}
+          inputPlaceHolder={"기도제목을 입력해주세요"}
+          maxlen={75}
+          maxrow={3}
+        />
       </div>
       {sortBy === "date" && (
         <div style={{ paddingTop: "115px" }}>
