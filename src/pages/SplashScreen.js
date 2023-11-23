@@ -20,11 +20,22 @@ const SplashScreen = ({url}) => {
 
     const run = async () => {
 
-      const refreshToken = await getRefreshToken()
-      if (refreshToken === undefined || refreshToken === "") {
-        console.log("refresh token is empty")
+      try {
+        const refreshToken = await getRefreshToken()
+        if (refreshToken === undefined || refreshToken === "") {
+          console.log("refresh token is empty")
+          setUnAuthorized()
+          navigate(url)
+          return
+        }
+      } catch (e) {
+        alert(`토큰을 가져오는데 실패했습니다: ${e.message}`)
         setUnAuthorized()
-        navigate(url)
+        if (url === "/") {
+          navigate("/main")
+        } else {
+          navigate(url)
+        }
         return
       }
 

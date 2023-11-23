@@ -6,19 +6,19 @@ import useSleep from './useSleep';
 const nil = {isnil: true}
 
 let deviceToken = {
-    current: null
+    current: ""
 }
 
 let authToken = {
-    current: null
+    current: ""
 }
 
 let deviceLock = {
-    current: null
+    current: false
 }
 
 let authLock = {
-    current: null
+    current: false
 }
 
 
@@ -27,17 +27,31 @@ const useDeviceToken = () => {
   const { sleepWithCondition } = useSleep();
 
   const getDeviceToken = async () => {
-    if (deviceToken.current != null) {
+    if (deviceToken.current !== "") {
       return deviceToken.current
     }
+
+    let timeoutHandle;
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutHandle = setTimeout(() => reject(new Error('Timeout error')), 1000);
+    });
+
     //eslint-disable-next-line
     FlutterGetDeviceToken.postMessage(nil);
-
     deviceLock.current = true;
-    await sleepWithCondition(() => deviceLock.current === false)
 
-    console.log(`getDeviceToken() returned ${deviceToken.current}`)
-    return deviceToken.current;
+    try {
+        await Promise.race([
+            await sleepWithCondition(() => deviceLock.current === false),
+            timeoutPromise
+        ]);
+        clearTimeout(timeoutHandle);
+
+        console.log(`getDeviceToken() returned ${deviceToken.current}`)
+        return deviceToken.current;
+    } catch (error) {
+        throw error;
+    }
   }
 
   useEffect(() => {
@@ -63,17 +77,32 @@ const useAuthToken = () => {
 
   // Return nullstring if there is no auth token stored in device.
   const getAuthToken = async () => {
-    if (authToken.current != null) {
+    if (authToken.current !== "") {
       return authToken.current
     }
+
+    let timeoutHandle;
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutHandle = setTimeout(() => reject(new Error('Timeout error')), 1000);
+    });
+
     //eslint-disable-next-line
     FlutterGetAuthToken.postMessage(nil);
-
     authLock.current = true;
-    await sleepWithCondition(() => authLock.current === false)
 
-    console.log(`getAuthToken() returned ${authToken.current}`)
-    return authToken.current;
+    try {
+        await Promise.race([
+            await sleepWithCondition(() => authLock.current === false),
+            timeoutPromise
+        ]);
+        clearTimeout(timeoutHandle);
+
+        console.log(`getAuthToken() returned ${authToken.current ? authToken.current : "null"}`)
+        return authToken.current;
+
+    } catch(error) {
+        throw error;
+    }
   }
 
   const storeAuthToken = (token) => {

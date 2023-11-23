@@ -79,8 +79,8 @@ const LoginPage = () => {
               device_token: deviceToken,
             },
             {
-              onSuccess: (res) => alert(res.status),
-              onError: (e) => alert(e.status),
+              onSuccess: (res) => {},
+              onError: (e) => {},
             }
           );
         } else {
