@@ -40,7 +40,7 @@ const Title = styled.div`
   font-weight: bold;
 `;
 
-const UserHeader = ({ children, fixed, render }) => {
+const UserHeader = ({ children, fixed, rightIcons }) => {
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -57,7 +57,7 @@ const UserHeader = ({ children, fixed, render }) => {
         />
         <Title>{children}</Title>
         <RightButton>
-          {render && render()}
+          {rightIcons && rightIcons()}
         </RightButton>
       </FixedStyledHeader>
     );
@@ -71,7 +71,7 @@ const UserHeader = ({ children, fixed, render }) => {
       />
       <Title>{children}</Title>
       <RightButton>
-        {render && render()}
+        {rightIcons && rightIcons()}
       </RightButton>
     </StyledHeader>
   );
