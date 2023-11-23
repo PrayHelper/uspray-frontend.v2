@@ -44,6 +44,10 @@ import GlobalStyle from "./styles/GlobalStyle";
 import useToast from "./hooks/useToast";
 import HistorySearch from "./pages/HistorySearch";
 import GroupDetail from "./pages/GroupDetail";
+import GroupSettings from "./pages/GroupSettings";
+import ChangeGroupName from './pages/ChangeGroupName';
+import AssignGroupLeader from './pages/AssignGroupLeader';
+import RemoveMember from './pages/RemoveMember';
 
 const ContainerWrapper = styled.div`
   /* max-width: 430px; */
@@ -104,6 +108,10 @@ function App() {
                   <Route path="/settings" element={<Settings />} />
                 </Route>
                 <Route path="/locker" element={<Locker />} />
+                <Route path="/groupSettings" element={<GroupSettings />} />
+                <Route path="/changeGroupName" element={<ChangeGroupName />} />
+                <Route path="/assignGroupLeader" element={<AssignGroupLeader />} /> 
+                <Route path="/removeMember" element={<RemoveMember />} />
                 <Route path="/checkInfo" element={<CheckInfo />} />
                 <Route path="/changeInfo" element={<ChangeInfo />} />
                 <Route path="/changePw" element={<ChangePw />} />
