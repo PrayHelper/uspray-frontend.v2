@@ -10,9 +10,6 @@ import BlackScreen from "../BlackScreen/BlackScreen";
   2. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
   3. showSubModal setShowSubModal 변수 (현재 컴포넌트 창 켜져있는지)
   4. onClickFunc 기도 추가 이벤트 함수
-  ------ Calender 관련 ------
-  1. selectedDate, setSelectedDate 변수 (현재 선택된 날짜)
-  2. showDatePicker, setShowDatePicker 변수 (달력 show 유무)
 */
 
 const SelectDateInput = (props) => {
@@ -43,7 +40,7 @@ const SelectDateInput = (props) => {
               maxRows={props.maxrow}
               minRows={1}
               cacheMeasurements
-              maxlength={props.maxlen}
+              maxLength={props.maxlen}
               onChange={onInputHandler}
             />
             <Countwords>
@@ -53,10 +50,6 @@ const SelectDateInput = (props) => {
             </Countwords>
           </ModalInputWrapper>
           <SelectDate
-            selectedDate={props.selectedDate}
-            setSelectedDate={props.setSelectedDate}
-            showDatePicker={props.showDatePicker}
-            setShowDatePicker={props.setShowDatePicker}
             setUpdateDate={props.setUpdateDate}
             showSubModal={props.showSubModal}
           />

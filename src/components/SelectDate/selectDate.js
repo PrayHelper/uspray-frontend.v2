@@ -4,25 +4,23 @@ import Calender from "../Calender/Calender";
 
 /*
   props 넘겨받을 목록 (History.js 파일 참고하기)
-  1. selectedBtn, setSelectedBtn 변수 (각 날짜 버튼 클릭 유무)
-  2. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
-  3. showSubModal 변수 (현재 컴포넌트 창 켜져있는지)
-  ------ Calender 관련 ------
-  1. selectedDate, setSelectedDate 변수 (현재 선택된 날짜)
-  2. showDatePicker, setShowDatePicker 변수 (달력 show 유무)
+  1. setUpdateDate 변수 (api 호출용 날짜 데이터 저장)
+  2. showSubModal 변수 (현재 컴포넌트 창 켜져있는지)
 */
 
 const SelectDate = (props) => {
   const dateOptions = [3, 7, 30, 100];
   const [selectedBtn, setSelectedBtn] = useState("");
   const [designedDate, setDesignedDate] = useState(null); // yyyy-mm-dd (요일) 형태
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const onClickCalendar = () => {
     if (selectedBtn === "calendar") {
       setSelectedBtn();
     } else {
       setSelectedBtn("calendar");
-      props.setShowDatePicker(!props.showDatePicker);
+      setShowDatePicker(!showDatePicker);
     }
   };
 
@@ -33,9 +31,10 @@ const SelectDate = (props) => {
       changeDate(targetDate);
       setSelectedBtn(date); // css 변경용
     } else {
-      props.setSelectedDate(date); // 선택된 날짜 업데이트
+      setSelectedDate(date); // 선택된 날짜 업데이트
       changeDate(date);
-      props.setShowDatePicker(false); // DatePicker 닫기
+      setShowDatePicker(false); // DatePicker 닫기
+      setSelectedBtn();
     }
   };
 
@@ -53,7 +52,10 @@ const SelectDate = (props) => {
   };
 
   useEffect(() => {
-    if (props.showSubModal) onChangeDate(7);
+    if (props.showSubModal) {
+      onChangeDate(7);
+      setSelectedDate();
+    }
   }, [props.showSubModal]);
 
   return (
@@ -77,12 +79,12 @@ const SelectDate = (props) => {
         onClick={onClickCalendar}
       />
 
-      {props.showDatePicker && (
+      {showDatePicker && (
         <DatePickerContainer>
           <Calender
-            selectedDate={props.selectedDate}
+            selectedDate={selectedDate}
             onChangeDate={onChangeDate}
-            setShowDatePicker={props.setShowDatePicker}
+            setShowDatePicker={setShowDatePicker}
           />
         </DatePickerContainer>
       )}
