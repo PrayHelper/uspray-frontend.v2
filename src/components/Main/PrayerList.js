@@ -225,7 +225,7 @@ function PrayerList({
         if (/android/i.test(navigator.userAgent)) {
           shareLink({
             title: "Web_share",
-            url: `${WEB_ORIGIN}/main?share=` + listJoin,
+            url: `${WEB_ORIGIN}/locker?share=` + listJoin,
           });
         } else if (
           /iPad|iPhone|iPod/.test(navigator.userAgent) ||
@@ -233,14 +233,14 @@ function PrayerList({
         ) {
           navigator.share({
             title: "Web_share",
-            url: `${WEB_ORIGIN}/main?share=` + listJoin,
+            url: `${WEB_ORIGIN}/locker?share=` + listJoin,
           });
         } else {
           alert("공유하기가 지원되지 않는 환경 입니다.");
         }
       }
 
-      console.log(`${WEB_ORIGIN}/main?share=` + listJoin);
+      console.log(`${WEB_ORIGIN}/locker?share=` + listJoin);
       setShareList([]);
       setPrayerContent((prayerContent) =>
         prayerContent.map((prayerContent) => ({

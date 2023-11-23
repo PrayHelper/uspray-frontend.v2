@@ -9,12 +9,20 @@ import { useUpdateSharedList } from "../hooks/useUpdateSharedList";
 import Lottie from "react-lottie";
 import LottieData from "../components/Main/json/uspray.json";
 import useToast from "../hooks/useToast";
+import { useShareSocial } from "../hooks/useShareSocial";
+import { useLocation } from "react-router";
+
 
 const Locker = () => {
   const [data, setData] = useState([]);
   const [isClicked, setIsClicked] = useState([]);
   const [selectedID, setSelectedID] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const shareData = query.getAll('share');
+  const { data: shareSocialList, refetch: refetchShareSocialList }
+    = useShareSocial(shareData);
 
   const { showToast } = useToast({});
 
@@ -158,6 +166,11 @@ const Locker = () => {
   //   }
   // }, [sharedListData]);
 
+  useEffect(() => {
+    if (Array.isArray(shareData) && shareData.length !== 0) {
+      refetchShareSocialList();
+    }
+  }, [shareData]);
   return (
     <LockerWrapper>
       <LockerHeader
